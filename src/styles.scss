@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+/* Tema padrão (light) */
+:root {
+  --color-bg: #0f172a;
+  --color-text: #262F47;
+  --color-primary: #232C45;
+  --color-secondary: #FF592D ;
+  --color-details-yellow: #FF9E2D;
+    --color-details-yellow: #3461E0;
+  --color-border: #A2A2A3;
+  --color-border-blue: #668EFF;
+}
+
+/* Tema dark (ainda não definido)*/
+.dark-theme {
+  --color-bg: #0f172a;
+  --color-text: #262F47;
+  --color-primary: #232C45;
+  --color-secondary: #FF592D 
+  --color-details-yellow: #FF9E2D;
+    --color-details-yellow: #3461E0;
+  --color-border: #A2A2A3;
+  --color-border-blue: #668EFF;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  font-family: "Public Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 8px;
+}
