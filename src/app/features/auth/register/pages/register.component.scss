@@ -1,0 +1,126 @@
+.login-container {
+  h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    width: 80vb;
+
+    .forgot-password {
+      font-size: 0.85rem;
+      color: var(--color-secondary);
+      cursor: pointer;
+      text-align: right;
+      align-self: flex-end;
+    }
+
+    input {
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+      width: 100%;
+      transition: border-color 0.2s;
+
+      &:focus {
+        border-color: var(--color-secondary);
+        outline: none;
+      }
+    }
+
+    button.btn-primary {
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #fff;
+      background-color: var(--color-secondary);
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: var(--color-hover-secondary);
+      }
+    }
+
+    .divider {
+      position: relative;
+      border-top: 1px dashed #ccc;
+      margin: 1.5rem 0;
+      text-align: center;
+
+      &::after {
+        content: 'OU';
+        position: absolute;
+        top: -0.65rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #fff;
+        padding: 0 0.5rem;
+        font-size: 0.8rem;
+        color: #555;
+      }
+    }
+
+    .signup-text {
+      font-size: 0.85rem;
+      text-align: center;
+
+      a {
+        color: var(--color-secondary);
+        font-weight: bold;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .back-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      cursor: pointer;
+
+      .circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background-color: var(--color-primary);
+        transition: background-color 0.2s;
+
+        i {
+          font-size: 1rem;
+          color: var(--color-secondary);
+        }
+      }
+
+      p {
+        margin: 0;
+        font-weight: bold;
+        color: var(--color-secondary);
+      }
+
+      &:hover .circle {
+        background-color: #fff8e1;
+      }
+    }
+  }
+}

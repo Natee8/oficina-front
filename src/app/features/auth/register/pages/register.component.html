@@ -1,1 +1,36 @@
-<h2>teste</h2>
+<div class="login-container">
+  <h2>Entre com sua conta para acessar o sistema</h2>
+  <p>Entre com sua conta para ter acesso ao nosso sistema de gerenciamento</p>
+
+  <form class="login-form">
+    <app-input-field
+      type="text"
+      id="username"
+      label="Email"
+      placeholder="Digite seu Email aqui"
+      [maxlength]="50"
+      width="100%"
+    ></app-input-field>
+
+    <p class="forgot-password">Esqueci a senha</p>
+
+    <app-input-field
+      type="password"
+      id="password"
+      label="Senha"
+      placeholder="Digite sua senha"
+      [maxlength]="50"
+    ></app-input-field>
+
+    <button type="submit" class="btn-primary">Avançar</button>
+
+    <div class="divider">ou</div>
+
+    <p class="signup-text">Ainda não tem conta? <a href="#">Clique aqui para se cadastrar</a></p>
+
+    <div class="back-button">
+      <i class="fa fa-arrow-left"></i>
+      <p>Voltar</p>
+    </div>
+  </form>
+</div>

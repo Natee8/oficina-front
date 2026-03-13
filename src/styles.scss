@@ -2,7 +2,15 @@
 *,
 *::before,
 *::after {
+  margin: 0;
+  padding: 0;
+  border: 0;
   box-sizing: border-box;
+}
+
+:host {
+  display: block; /* garante que o host ocupe largura completa */
+  width: 100%;
 }
 
 /* Tema padrão (light) */
@@ -13,6 +21,7 @@
   --color-text: #262f47;
   --color-default: #636975;
   --color-secondary: #ff592d;
+  --color-hover-secondary: #d34620;
   --color-details-yellow: #ff9e2d;
   --color-details-yellow: #3461e0;
   --color-border: #a2a2a3;
