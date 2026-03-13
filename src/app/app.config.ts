@@ -1,11 +1,5 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './../main';
+import { App } from './app';
 
-import { routes } from './app.routes';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideRouter(routes)
-  ]
-};
+bootstrapApplication(App, appConfig).catch((err) => console.error(err));
