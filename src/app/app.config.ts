@@ -1,5 +1,7 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './../main';
-import { App } from './app';
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
 
-bootstrapApplication(App, appConfig).catch((err) => console.error(err));
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes)],
+};

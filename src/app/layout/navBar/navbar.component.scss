@@ -1,13 +1,38 @@
 .gear i {
-  font-size: 28px;
-  animation: girar 2s linear infinite;
+  font-size: 20px;
+  color: rgb(95, 95, 95);
+  cursor: pointer;
+  display: inline-block;
+  animation: girar 4s linear infinite;
 }
 
 @keyframes girar {
   from {
-    transform: rotate(0deg);
+    transform: rotate(0);
   }
   to {
     transform: rotate(360deg);
   }
+}
+
+.navContainer {
+  width: 100%;
+  height: 5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 3rem;
+
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.img {
+  cursor: pointer;
 }
