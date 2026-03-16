@@ -1,0 +1,27 @@
+<app-table-header
+  icon="fa-solid fa-store"
+  title="Lojas"
+  (search)="handleSearch($event)"
+></app-table-header>
+
+<div class="table-grid">
+  <div class="table-head">
+    <div>Nome</div>
+    <div>Cidade</div>
+    <div>Status</div>
+  </div>
+
+  <div class="table-row" *ngFor="let store of stores">
+    <div>{{ store.name }}</div>
+    <div>{{ store.city }}</div>
+    <div>{{ store.status }}</div>
+  </div>
+</div>
+
+<app-table-footer
+  [page]="page"
+  [totalPages]="15"
+  [totalItems]="75"
+  [pageSize]="5"
+  (pageChange)="changePage($event)"
+></app-table-footer>

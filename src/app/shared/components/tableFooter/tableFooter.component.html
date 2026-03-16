@@ -1,0 +1,17 @@
+<div class="pagination-container">
+  <div class="pagination-box">
+    <button (click)="prevPage()" [disabled]="page === 1">
+      <i class="fa-solid fa-angle-left"></i>
+    </button>
+
+    <button *ngFor="let p of visiblePages" (click)="goToPage(p)" [class.active]="p === page">
+      {{ p }}
+    </button>
+
+    <button (click)="nextPage()" [disabled]="page === totalPages">
+      <i class="fa-solid fa-angle-right"></i>
+    </button>
+  </div>
+
+  <span class="range"> {{ startItem }}-{{ endItem }} / {{ totalItems }} </span>
+</div>

@@ -8,6 +8,7 @@ import { SideBarComponent } from '../sideBar/sidebar.component';
   selector: 'navBar-Layout',
   standalone: true,
   templateUrl: './sideBarLayout.component.html',
+  styleUrls: ['./sideBarLayout.component.scss'],
   imports: [SideBarComponent, RouterOutlet],
 })
 export class SideBarLayout {}

@@ -1,0 +1,53 @@
+.table {
+  width: 100%;
+  height: auto;
+}
+.table-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 20px;
+  height: 80px;
+  border-radius: 10px 10px 0px 0px;
+  background-color: var(--color-blue);
+}
+
+.table-header input {
+  width: 380px;
+  border-radius: 10px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  gap: 2rem;
+  align-items: center;
+  color: white;
+}
+
+.title i {
+  font-size: 2rem;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.search i {
+  color: #7a86c2;
+  font-size: 14px;
+}
+
+.search input {
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+}
