@@ -6,33 +6,20 @@
 
 <div class="table-container">
   <div class="table table-grid">
-    <!-- Cabeçalho -->
-    <div class="table-head" [style.grid-template-columns]="'1fr 2fr 1fr 1fr 2fr 2fr 1fr 120px'">
+    <div class="table-head">
       <div *ngFor="let col of columns">{{ col.label }}</div>
     </div>
 
-    <!-- Linhas -->
-    <div
-      class="table-row"
-      *ngFor="let os of osList"
-      [style.grid-template-columns]="'1fr 2fr 1fr 1fr 2fr 2fr 1fr 120px'"
-    >
-      <div class="table-cell">{{ os.id }}</div>
-      <div class="table-cell">{{ os.loja }}</div>
-      <div class="table-cell">
-        <div class="label">{{ os.valor | currency: 'BRL' }}</div>
-      </div>
-      <div class="table-cell">{{ os.placa }}</div>
-      <div class="table-cell">{{ os.cpf }}</div>
-      <div class="table-cell">{{ os.cnpj }}</div>
-      <div class="table-cell">{{ os.telefone }}</div>
-      <div class="table-cell actions btnFlex">
-        <div class="btn btn-edit upscale">
-          <i class="fa-solid fa-pen"></i>
-        </div>
-        <div class="btn btn-delete upscale">
-          <i class="fa-solid fa-trash"></i>
-        </div>
+    <div class="table-body">
+      <div class="table-row" *ngFor="let os of osList">
+        <div class="table-cell">{{ os.id }}</div>
+        <div class="table-cell">{{ os.loja }}</div>
+        <div class="table-cell">{{ os.valor | currency: 'BRL' }}</div>
+        <div class="table-cell">{{ os.placa }}</div>
+        <div class="table-cell">{{ os.cpf }}</div>
+        <div class="table-cell">{{ os.cnpj }}</div>
+        <div class="table-cell">{{ os.telefone }}</div>
+        <div class="table-cell actions btnFlex">...</div>
       </div>
     </div>
   </div>
