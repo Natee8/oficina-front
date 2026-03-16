@@ -1,0 +1,35 @@
+@import '../../../../style/styles.scss';
+
+/* Apenas ajustes específicos da tabela de OSs */
+
+// SCSS global
+.table-head,
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 2fr 2fr 1fr 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-head {
+  background: #f7f8fc;
+  color: #555;
+  border-bottom: 1px solid #eee;
+}
+
+.table-row {
+  border-bottom: 1px solid #f1f1f1;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  > .table-cell:first-child {
+    justify-content: flex-start;
+  }
+
+  > .table-cell:last-child {
+    justify-content: flex-end;
+  }
+}

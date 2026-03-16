@@ -4,28 +4,30 @@
   (search)="handleSearch($event)"
 ></app-table-header>
 
-<div class="containerTable">
-  <div class="table-grid">
-    <div class="table-head">
-      <div *ngFor="let col of columns">
-        {{ col.label }}
-      </div>
+<div class="table-container">
+  <div class="table table-grid">
+    <div class="table-head" [style.grid-template-columns]="'2fr 2fr 2fr 1fr 2fr 2fr 120px'">
+      <div *ngFor="let col of columns">{{ col.label }}</div>
     </div>
 
-    <div class="table-row" *ngFor="let store of stores">
-      <div>{{ store.name }}</div>
-      <div class="cnpj-cell">
-        <div class="detail">{{ store.cnpj }}</div>
+    <div
+      class="table-row"
+      *ngFor="let store of stores"
+      [style.grid-template-columns]="'2fr 2fr 2fr 1fr 2fr 2fr 120px'"
+    >
+      <div class="table-cell">{{ store.name }}</div>
+      <div class="table-cell cnpj-cell">
+        <div class="label">{{ store.cnpj }}</div>
       </div>
-      <div>{{ store.street }}</div>
-      <div>{{ store.number }}</div>
-      <div>{{ store.city }}</div>
-      <div>{{ store.neighborhood }}</div>
-      <div class="actions">
-        <div class="edit upscale">
+      <div class="table-cell">{{ store.street }}</div>
+      <div class="table-cell">{{ store.number }}</div>
+      <div class="table-cell">{{ store.city }}</div>
+      <div class="table-cell">{{ store.neighborhood }}</div>
+      <div class="table-cell actions btnFlex">
+        <div class="btn btn-edit upscale">
           <i class="fa-solid fa-pen"></i>
         </div>
-        <div class="trash upscale">
+        <div class="btn btn-delete upscale">
           <i class="fa-solid fa-trash"></i>
         </div>
       </div>

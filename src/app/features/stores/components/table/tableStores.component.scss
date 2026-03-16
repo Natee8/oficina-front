@@ -1,108 +1,19 @@
-.containerTable {
-  background: white;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-}
-
-.table-grid {
-  display: grid;
-}
+@import '../../../../style/styles.scss';
 
 .table-head {
-  display: grid;
   grid-template-columns: 2fr 2fr 2fr 1fr 2fr 2fr 120px;
 
   background: #f7f8fc;
-  font-weight: 700;
-  font-size: 0.9rem;
   color: #555;
-
   border-bottom: 1px solid #eee;
 }
 
 .table-row {
-  display: grid;
   grid-template-columns: 2fr 2fr 2fr 1fr 2fr 2fr 120px;
 
   border-bottom: 1px solid #f1f1f1;
-  font-weight: 600;
-  align-items: center;
-
-  transition: background 0.15s ease;
-}
-
-.table-head div,
-.table-row div {
-  padding: 18px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.table-head > div:first-child,
-.table-row > div:first-child {
-  justify-content: flex-start;
-}
-
-.table-head > div:last-child,
-.table-row > div:last-child {
-  justify-content: flex-end;
-}
-
-.detail {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0.35rem 0.75rem;
-
-  background-color: var(--color-secondary);
-  border-radius: 999px;
-  color: white;
-  font-size: 0.8rem;
-}
-
-.actions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-.table-row:hover {
-  background: #fafafa;
 }
 
 .table-row:last-child {
   border-bottom: none;
-}
-
-.trash {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  cursor: pointer;
-
-  width: 36px;
-  height: 36px;
-
-  border-radius: 8px;
-  color: white;
-  background-color: rgb(240, 64, 64);
-}
-
-.edit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  cursor: pointer;
-
-  width: 36px;
-  height: 36px;
-
-  border-radius: 8px;
-  border: 1px solid var(--color-primary);
 }
