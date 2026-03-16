@@ -5,6 +5,17 @@ import { Component } from '@angular/core';
   standalone: true,
   templateUrl: './sideBar.component.html',
   styleUrls: ['./sideBar.component.scss'],
-  imports: [],
 })
-export class SideBarComponent {}
+export class SideBarComponent {
+  collapsed = false;
+
+  toggleSidebar() {
+    this.collapsed = !this.collapsed;
+  }
+
+  expandSidebar() {
+    if (this.collapsed) {
+      this.collapsed = false;
+    }
+  }
+}

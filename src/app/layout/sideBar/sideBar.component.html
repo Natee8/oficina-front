@@ -1,1 +1,47 @@
-<h1>teste aqui</h1>
+<nav class="sidebar" [class.collapsed]="collapsed">
+  <div class="user" (click)="expandSidebar()">
+    <div class="avatar">E</div>
+    <p class="email">testeemailgmail.com</p>
+  </div>
+
+  <ul class="menu">
+    <li (click)="expandSidebar()">
+      <img src="assets/icons/building.svg" />
+      <span>Empresa</span>
+    </li>
+
+    <li (click)="expandSidebar()">
+      <img src="assets/icons/house.svg" />
+      <span>Loja</span>
+    </li>
+
+    <li (click)="expandSidebar()">
+      <img src="assets/icons/profile-2user.svg" />
+      <span>Funcionarios</span>
+    </li>
+
+    <li (click)="expandSidebar()">
+      <img src="assets/icons/profile.svg" />
+      <span>Clientes</span>
+    </li>
+
+    <li (click)="expandSidebar()">
+      <img src="assets/icons/chart.svg" />
+      <span>OSs</span>
+    </li>
+
+    <li (click)="expandSidebar()">
+      <img src="assets/icons/car.svg" />
+      <span>Veiculos</span>
+    </li>
+  </ul>
+
+  <button class="logout">
+    <div class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+    <span>Sair</span>
+  </button>
+
+  <button class="toggle" (click)="toggleSidebar()">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+</nav>
