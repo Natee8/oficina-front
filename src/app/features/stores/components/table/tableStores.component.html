@@ -4,24 +4,39 @@
   (search)="handleSearch($event)"
 ></app-table-header>
 
-<div class="table-grid">
-  <div class="table-head">
-    <div>Nome</div>
-    <div>Cidade</div>
-    <div>Status</div>
+<div class="containerTable">
+  <div class="table-grid">
+    <div class="table-head">
+      <div *ngFor="let col of columns">
+        {{ col.label }}
+      </div>
+    </div>
+
+    <div class="table-row" *ngFor="let store of stores">
+      <div>{{ store.name }}</div>
+      <div class="cnpj-cell">
+        <div class="detail">{{ store.cnpj }}</div>
+      </div>
+      <div>{{ store.street }}</div>
+      <div>{{ store.number }}</div>
+      <div>{{ store.city }}</div>
+      <div>{{ store.neighborhood }}</div>
+      <div class="actions">
+        <div class="edit upscale">
+          <i class="fa-solid fa-pen"></i>
+        </div>
+        <div class="trash upscale">
+          <i class="fa-solid fa-trash"></i>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="table-row" *ngFor="let store of stores">
-    <div>{{ store.name }}</div>
-    <div>{{ store.city }}</div>
-    <div>{{ store.status }}</div>
-  </div>
+  <app-table-footer
+    [page]="page"
+    [totalPages]="15"
+    [totalItems]="75"
+    [pageSize]="5"
+    (pageChange)="changePage($event)"
+  ></app-table-footer>
 </div>
-
-<app-table-footer
-  [page]="page"
-  [totalPages]="15"
-  [totalItems]="75"
-  [pageSize]="5"
-  (pageChange)="changePage($event)"
-></app-table-footer>
