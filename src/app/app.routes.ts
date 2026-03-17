@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { RegisterComponent } from './features/auth/register/pages/register.component';
+import { LoginComponent } from './features/auth/login/pages/login.component';
 import { StoresComponent } from './features/stores/pages/stores.component';
 
 import { SideBarLayout } from './layout/sideBarLayout/sideBarLayout.component';
@@ -20,7 +20,7 @@ export const routes: Routes = [
       {
         path: '',
         component: MainLayoutComponent,
-        children: [{ path: '', component: RegisterComponent }],
+        children: [{ path: '', component: LoginComponent }],
       },
     ],
   },

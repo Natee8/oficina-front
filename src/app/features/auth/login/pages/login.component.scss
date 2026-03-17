@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 80vb;
+    width: 70vb;
 
     .forgot-password {
       font-size: 0.85rem;
@@ -92,34 +92,35 @@
     .back-button {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
-      margin-top: 1rem;
+      margin-top: 2rem;
       cursor: pointer;
 
       .circle {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 2rem;
-        height: 2rem;
+        width: 1.5rem;
+        height: 1.5rem;
         border-radius: 50%;
         background-color: var(--color-primary);
         transition: background-color 0.2s;
 
         i {
-          font-size: 1rem;
-          color: var(--color-secondary);
+          font-size: 10px;
+          color: white;
         }
       }
 
       p {
         margin: 0;
         font-weight: bold;
-        color: var(--color-secondary);
+        color: var(--color-primary);
       }
 
       &:hover .circle {
-        background-color: #fff8e1;
+        background-color: var(--color-secondary);
       }
     }
   }

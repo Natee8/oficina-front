@@ -1,4 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
 *,
 *::before,
 *::after {
@@ -9,7 +8,7 @@
 }
 
 :host {
-  display: block; /* garante que o host ocupe largura completa */
+  display: block;
   width: 100%;
 }
 
@@ -73,7 +72,7 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-  background: #ff5a2d4f;
+  background: #c4c4c44f;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -85,7 +84,7 @@ button {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-secondary);
+  background: var(--color-primary);
 }
 
 .upscale {
