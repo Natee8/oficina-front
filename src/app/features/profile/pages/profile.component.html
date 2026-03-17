@@ -1,0 +1,42 @@
+<div class="containerHeader">
+  <h1>Bem vindo! [nome]</h1>
+  <p>Seja bem vindo ao modulo de administrador do sistemas de Oficina mecanica</p>
+  <form class="profile-form">
+    <app-input-field
+      type="text"
+      id="profileName"
+      label="Nome"
+      placeholder="Digite seu nome completo"
+      [maxlength]="255"
+      width="100%"
+    ></app-input-field>
+
+    <app-input-field
+      type="text"
+      id="profileEmail"
+      label="Email"
+      placeholder="Digite seu email"
+      [maxlength]="100"
+      width="100%"
+    ></app-input-field>
+
+    <app-input-field
+      type="password"
+      id="profilePassword"
+      label="Senha"
+      [maxlength]="50"
+      width="100%"
+      [disabled]="true"
+    ></app-input-field>
+
+    <app-input-field
+      type="text"
+      id="profileRole"
+      label="Cargo"
+      width="100%"
+      [disabled]="true"
+    ></app-input-field>
+    <button type="submit" class="btn-primary upscale">Editar dados</button>
+  </form>
+</div>
+

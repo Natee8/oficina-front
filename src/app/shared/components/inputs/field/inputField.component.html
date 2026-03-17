@@ -7,11 +7,12 @@
     placeholder=""
     (focus)="inputFocused = true"
     (blur)="inputFocused = false"
+    [disabled]="disabled"
     required
   />
   <label [class.floating]="value || inputFocused" [for]="id">{{ label }}</label>
 
-  <span *ngIf="type === 'password'" class="toggle-password" (click)="togglePassword()">
+  <span *ngIf="type === 'password' && !disabled" class="toggle-password" (click)="togglePassword()">
     <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
   </span>
 </div>

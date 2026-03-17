@@ -10,6 +10,7 @@ import { EmployeesComponent } from './features/employees/pages/employees.compone
 import { ClientsComponent } from './features/clients/pages/clients.component';
 import { CarComponent } from './features/car/pages/car.component';
 import { TenantListComponent } from './features/tenant/pages/tenant-list.component';
+import { ProfileComponent } from './features/profile/pages/profile.component';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
@@ -55,5 +56,10 @@ export const routes: Routes = [
     path: 'tenant-list',
     component: SideBarLayout,
     children: [{ path: '', component: TenantListComponent }],
+  },
+  {
+    path: 'profile',
+    component: SideBarLayout,
+    children: [{ path: '', component: ProfileComponent}],
   },
 ];
