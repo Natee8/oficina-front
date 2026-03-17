@@ -1,3 +1,5 @@
+//retirar estilização do navegador
+
 *,
 *::before,
 *::after {
@@ -10,6 +12,24 @@
 :host {
   display: block;
   width: 100%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  font-family: 'Public Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 /* Tema padrão (light) */
@@ -43,28 +63,12 @@
   --color-border-blue: #668eff;
 }
 
-html,
-body {
-  height: 100%;
-}
-
-body {
-  background: var(--color-bg);
-  color: var(--color-text);
-  margin: 0;
-  font-family: 'Public Sans', sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
 button {
   font-family: inherit;
   cursor: pointer;
 }
+
+//scroll estilização global
 
 ::-webkit-scrollbar {
   height: 8px;
@@ -87,6 +91,7 @@ button {
   background: var(--color-primary);
 }
 
+//animação de upscaler
 .upscale {
   opacity: 1;
   transform: scale(1) translateY(0);
@@ -98,4 +103,29 @@ button {
 .upscale:hover {
   transform: scale(1.05) translateY(-2px);
   opacity: 0.9;
+}
+
+//estilo global de links
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: var(--color-details-yellow);
+  }
+
+  &.link-muted {
+    color: #777;
+
+    &:hover {
+      color: var(--color-secondary);
+    }
+  }
+
+  &.link-bold {
+    font-weight: 700;
+  }
 }

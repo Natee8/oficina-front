@@ -9,6 +9,7 @@ import { OSsComponent } from './features/osS/pages/oSs.component';
 import { EmployeesComponent } from './features/employees/pages/employees.component';
 import { ClientsComponent } from './features/clients/pages/clients.component';
 import { CarComponent } from './features/car/pages/car.component';
+import { RegisterComponent } from './features/auth/register/pages/register.component';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
@@ -20,6 +21,11 @@ export const routes: Routes = [
         path: '',
         component: MainLayoutComponent,
         children: [{ path: '', component: LoginComponent }],
+      },
+      {
+        path: 'register',
+        component: MainLayoutComponent,
+        children: [{ path: '', component: RegisterComponent }],
       },
     ],
   },

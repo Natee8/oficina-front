@@ -1,0 +1,18 @@
+<form class="login-form">
+  <app-input-field
+    type="text"
+    id="company"
+    label="Empresa"
+    placeholder="Nome da empresa"
+    [maxlength]="100"
+    width="100%"
+  ></app-input-field>
+
+  <app-input-field
+    type="text"
+    id="cnpj"
+    label="CNPJ"
+    placeholder="00.000.000/0000-00"
+    mask="00.000.000/0000-00"
+  ></app-input-field>
+</form>
