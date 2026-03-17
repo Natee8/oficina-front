@@ -140,3 +140,8 @@
 .sidebar.collapsed .menu img {
   width: 28px;
 }
+
+.active {
+  background: var(--color-primary);
+  color: white;
+}

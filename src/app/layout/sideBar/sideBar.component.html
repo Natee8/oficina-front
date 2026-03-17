@@ -5,27 +5,22 @@
   </div>
 
   <ul class="menu">
-    <li (click)="expandSidebar()">
+    <li routerLink="/stores-list" routerLinkActive="active" (click)="expandSidebar()">
       <img src="assets/icons/building.svg" />
-      <span>Empresa</span>
-    </li>
-
-    <li (click)="expandSidebar()">
-      <img src="assets/icons/house.svg" />
       <span>Loja</span>
     </li>
 
-    <li (click)="expandSidebar()">
+    <li routerLink="/employees-list" routerLinkActive="active" (click)="expandSidebar()">
       <img src="assets/icons/profile-2user.svg" />
       <span>Funcionarios</span>
     </li>
 
-    <li (click)="expandSidebar()">
+    <li routerLink="/clients-list" routerLinkActive="active" (click)="expandSidebar()">
       <img src="assets/icons/profile.svg" />
       <span>Clientes</span>
     </li>
 
-    <li (click)="expandSidebar()">
+    <li routerLink="/os-list" routerLinkActive="active" (click)="expandSidebar()">
       <img src="assets/icons/chart.svg" />
       <span>OSs</span>
     </li>
@@ -33,6 +28,10 @@
     <li (click)="expandSidebar()">
       <img src="assets/icons/car.svg" />
       <span>Veiculos</span>
+    </li>
+    <li (click)="expandSidebar()">
+      <img src="assets/icons/building.svg" />
+      <span>Empresa</span>
     </li>
   </ul>
 
