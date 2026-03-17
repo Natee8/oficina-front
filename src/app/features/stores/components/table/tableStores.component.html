@@ -1,6 +1,6 @@
 <app-table-header
-  icon="fa-solid fa-users"
-  title="Clientes"
+  icon="fa-solid fa-store"
+  title="Lojas"
   (search)="handleSearch($event)"
 ></app-table-header>
 
@@ -13,18 +13,18 @@
 
       <div
         class="table-row"
-        *ngFor="let client of stores"
+        *ngFor="let store of stores"
         [style.grid-template-columns]="'2fr 2fr 2fr 1fr 2fr 2fr 120px'"
       >
-        <div class="table-cell">{{ client.name }}</div>
-        <div class="table-cell">{{ client.cnpj }}</div>
-        <div class="table-cell">{{ client.street }}</div>
-        <div class="table-cell">{{ client.number }}</div>
-        <div class="table-cell">{{ client.city }}</div>
-        <div class="table-cell">{{ client.neighborhood }}</div>
+        <div class="table-cell">{{ store.name }}</div>
+        <div class="table-cell">{{ store.cnpj }}</div>
+        <div class="table-cell">{{ store.street }}</div>
+        <div class="table-cell">{{ store.number }}</div>
+        <div class="table-cell">{{ store.city }}</div>
+        <div class="table-cell">{{ store.neighborhood }}</div>
 
         <div class="table-cell">
-          <app-table-actions (onEdit)="handleEdit(client)" (onDelete)="handleDelete(client)" />
+          <app-table-actions (onEdit)="handleEdit(store)" (onDelete)="handleDelete(store)" />
         </div>
       </div>
     </div>
