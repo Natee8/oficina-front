@@ -1,0 +1,25 @@
+<div class="containerHeader">
+  <h1>Bem vindo! Empresa [nome]</h1>
+  <p>Seja bem vindo ao modulo de administrador do sistemas de Oficina mecanica</p>
+  <form class="login-form">
+    <app-input-field
+      type="text"
+      id="tenantName"
+      label="Nome da Empresa"
+      placeholder="Digite o nome da empresa"
+      [maxlength]="255"
+      width="100%"
+    ></app-input-field>
+
+    <app-input-field
+      type="text"
+      id="cnpj"
+      label="CNPJ"
+      placeholder="Digite o CNPJ da empresa"
+      [maxlength]="15"
+      width="100%"
+    ></app-input-field>
+  </form>
+  <button type="submit" class="btn-primary">Editar empresa</button>
+</div>
+

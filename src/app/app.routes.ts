@@ -9,6 +9,7 @@ import { OSsComponent } from './features/osS/pages/oSs.component';
 import { EmployeesComponent } from './features/employees/pages/employees.component';
 import { ClientsComponent } from './features/clients/pages/clients.component';
 import { CarComponent } from './features/car/pages/car.component';
+import { TenantListComponent } from './features/tenant/pages/tenant-list.component';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
@@ -49,5 +50,10 @@ export const routes: Routes = [
     path: 'car-list',
     component: SideBarLayout,
     children: [{ path: '', component: CarComponent }],
+  },
+  {
+    path: 'tenant-list',
+    component: SideBarLayout,
+    children: [{ path: '', component: TenantListComponent }],
   },
 ];
