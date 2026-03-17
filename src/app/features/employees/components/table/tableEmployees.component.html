@@ -5,33 +5,35 @@
 ></app-table-header>
 
 <div class="table-container">
-  <div class="table table-grid">
-    <div
-      class="table-head"
-      [style.grid-template-columns]="
-        'minmax(160px,1fr) minmax(220px,1.5fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) 120px'
-      "
-    >
-      <div *ngFor="let col of columns">{{ col.label }}</div>
-    </div>
+  <div class="table-scroll">
+    <div class="table table-grid">
+      <div
+        class="table-head"
+        [style.grid-template-columns]="
+          'minmax(160px,1fr) minmax(220px,1.5fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) 120px'
+        "
+      >
+        <div *ngFor="let col of columns">{{ col.label }}</div>
+      </div>
 
-    <div
-      class="table-row"
-      *ngFor="let user of userList"
-      [style.grid-template-columns]="
-        'minmax(160px,1fr) minmax(220px,1.5fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) 120px'
-      "
-    >
-      <div class="table-cell">{{ user.nome }}</div>
-      <div class="table-cell">{{ user.email }}</div>
-      <div class="table-cell">{{ user.cpf }}</div>
-      <div class="table-cell">{{ user.nascimento }}</div>
-      <div class="table-cell">{{ user.cidade }}</div>
-      <div class="table-cell">{{ user.bairro }}</div>
-      <div class="table-cell">{{ user.cargo }}</div>
+      <div
+        class="table-row"
+        *ngFor="let user of userList"
+        [style.grid-template-columns]="
+          'minmax(160px,1fr) minmax(220px,1.5fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) 120px'
+        "
+      >
+        <div class="table-cell">{{ user.nome }}</div>
+        <div class="table-cell">{{ user.email }}</div>
+        <div class="table-cell">{{ user.cpf }}</div>
+        <div class="table-cell">{{ user.nascimento }}</div>
+        <div class="table-cell">{{ user.cidade }}</div>
+        <div class="table-cell">{{ user.bairro }}</div>
+        <div class="table-cell">{{ user.cargo }}</div>
 
-      <div class="table-cell">
-        <app-table-actions (onEdit)="handleEdit(userList)" (onDelete)="handleDelete(userList)" />
+        <div class="table-cell">
+          <app-table-actions (onEdit)="handleEdit(user)" (onDelete)="handleDelete(user)" />
+        </div>
       </div>
     </div>
   </div>

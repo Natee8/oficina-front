@@ -5,24 +5,27 @@
 ></app-table-header>
 
 <div class="table-container">
-  <div class="table table-grid">
-    <div class="table-head" [style.grid-template-columns]="'2fr 2fr 2fr 1fr 2fr 2fr 120px'">
-      <div *ngFor="let col of columns">{{ col.label }}</div>
-    </div>
+  <div class="table-scroll">
+    <div class="table table-grid">
+      <div class="table-head" [style.grid-template-columns]="'2fr 2fr 2fr 1fr 2fr 2fr 120px'">
+        <div *ngFor="let col of columns">{{ col.label }}</div>
+      </div>
 
-    <div
-      class="table-row"
-      *ngFor="let client of stores"
-      [style.grid-template-columns]="'2fr 2fr 2fr 1fr 2fr 2fr 120px'"
-    >
-      <div class="table-cell">{{ client.name }}</div>
-      <div class="table-cell">{{ client.cnpj }}</div>
-      <div class="table-cell">{{ client.street }}</div>
-      <div class="table-cell">{{ client.number }}</div>
-      <div class="table-cell">{{ client.city }}</div>
-      <div class="table-cell">{{ client.neighborhood }}</div>
-      <div class="table-cell">
-        <app-table-actions (onEdit)="handleEdit(client)" (onDelete)="handleDelete(client)" />
+      <div
+        class="table-row"
+        *ngFor="let client of stores"
+        [style.grid-template-columns]="'2fr 2fr 2fr 1fr 2fr 2fr 120px'"
+      >
+        <div class="table-cell">{{ client.name }}</div>
+        <div class="table-cell">{{ client.cnpj }}</div>
+        <div class="table-cell">{{ client.street }}</div>
+        <div class="table-cell">{{ client.number }}</div>
+        <div class="table-cell">{{ client.city }}</div>
+        <div class="table-cell">{{ client.neighborhood }}</div>
+
+        <div class="table-cell">
+          <app-table-actions (onEdit)="handleEdit(client)" (onDelete)="handleDelete(client)" />
+        </div>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TableClients } from '../components/tableClients.component';
+import { TableClients } from '../components/table/tableClients.component';
 
 @Component({
   selector: 'app-clients',

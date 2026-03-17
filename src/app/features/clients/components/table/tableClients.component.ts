@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableHeaderComponent } from '../../../shared/components/tableHeader/tableHeader.component';
-import { TableFooterComponent } from '../../../shared/components/tableFooter/tableFooter.component';
-import { ClientColumns, ClientListMock } from '../service/mock';
-import { TableActionsComponent } from '../../../shared/components/buttonTable/buttonTable.component';
+import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
+import { TableFooterComponent } from '../../../../shared/components/tableFooter/tableFooter.component';
+import { ClientColumns, ClientListMock } from '../../service/mock';
+import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
 
 @Component({
   selector: 'app-table-clients',

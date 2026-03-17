@@ -68,12 +68,24 @@ button {
 }
 
 ::-webkit-scrollbar {
+  height: 8px;
   width: 8px;
 }
 
+::-webkit-scrollbar-track {
+  background: #ff5a2d4f;
+}
+
 ::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
-  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
 }
 
 .upscale {

@@ -1,0 +1,44 @@
+<app-table-header
+  icon="fa-solid fa-car"
+  title="Veículos"
+  (search)="handleSearch($event)"
+></app-table-header>
+
+<div class="table-container">
+  <div class="table-scroll">
+    <div class="table table-grid">
+      <div
+        class="table-head"
+        [style.grid-template-columns]="'2fr 1.5fr 1.5fr 1fr 1.5fr 2fr 2fr 120px'"
+      >
+        <div *ngFor="let col of columns">{{ col.label }}</div>
+      </div>
+
+      <div
+        class="table-row"
+        *ngFor="let vehicle of vehicles"
+        [style.grid-template-columns]="'2fr 1.5fr 1.5fr 1fr 1.5fr 2fr 2fr 120px'"
+      >
+        <div class="table-cell">{{ vehicle.store }}</div>
+        <div class="table-cell">{{ vehicle.plate }}</div>
+        <div class="table-cell">{{ vehicle.brand }}</div>
+        <div class="table-cell">{{ vehicle.year }}</div>
+        <div class="table-cell">{{ vehicle.color }}</div>
+        <div class="table-cell">{{ vehicle.renavam }}</div>
+        <div class="table-cell">{{ vehicle.document }}</div>
+
+        <div class="table-cell">
+          <app-table-actions (onEdit)="handleEdit(vehicle)" (onDelete)="handleDelete(vehicle)" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-table-footer
+    [page]="page"
+    [totalPages]="totalPages"
+    [totalItems]="vehicles.length"
+    [pageSize]="5"
+    (pageChange)="changePage($event)"
+  ></app-table-footer>
+</div>

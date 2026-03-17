@@ -8,6 +8,7 @@ import { MainLayoutComponent } from './layout/authLayout/authLayout.component';
 import { OSsComponent } from './features/osS/pages/oSs.component';
 import { EmployeesComponent } from './features/employees/pages/employees.component';
 import { ClientsComponent } from './features/clients/pages/clients.component';
+import { CarComponent } from './features/car/pages/car.component';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
@@ -43,5 +44,10 @@ export const routes: Routes = [
     path: 'clients-list',
     component: SideBarLayout,
     children: [{ path: '', component: ClientsComponent }],
+  },
+  {
+    path: 'car-list',
+    component: SideBarLayout,
+    children: [{ path: '', component: CarComponent }],
   },
 ];

@@ -5,32 +5,35 @@
 ></app-table-header>
 
 <div class="table-container">
-  <div class="table table-grid">
-    <div
-      class="table-head"
-      [style.grid-template-columns]="
-        '80px minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(160px,1fr) minmax(160px,1fr) minmax(140px,1fr) 120px'
-      "
-    >
-      <div *ngFor="let col of columns">{{ col.label }}</div>
-    </div>
+  <div class="table-scroll">
+    <div class="table table-grid">
+      <div
+        class="table-head"
+        [style.grid-template-columns]="
+          '80px minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(160px,1fr) minmax(160px,1fr) minmax(140px,1fr) 120px'
+        "
+      >
+        <div *ngFor="let col of columns">{{ col.label }}</div>
+      </div>
 
-    <div
-      class="table-row"
-      *ngFor="let os of osList"
-      [style.grid-template-columns]="
-        '80px minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(160px,1fr) minmax(160px,1fr) minmax(140px,1fr) 120px'
-      "
-    >
-      <div class="table-cell">{{ os.id }}</div>
-      <div class="table-cell">{{ os.loja }}</div>
-      <div class="table-cell">{{ os.valor | currency: 'BRL' }}</div>
-      <div class="table-cell">{{ os.placa }}</div>
-      <div class="table-cell">{{ os.cpf }}</div>
-      <div class="table-cell">{{ os.cnpj }}</div>
-      <div class="table-cell">{{ os.telefone }}</div>
-      <div class="table-cell">
-        <app-table-actions (onEdit)="handleEdit(osList)" (onDelete)="handleDelete(osList)" />
+      <div
+        class="table-row"
+        *ngFor="let os of osList"
+        [style.grid-template-columns]="
+          '80px minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(160px,1fr) minmax(160px,1fr) minmax(140px,1fr) 120px'
+        "
+      >
+        <div class="table-cell">{{ os.id }}</div>
+        <div class="table-cell">{{ os.loja }}</div>
+        <div class="table-cell">{{ os.valor | currency: 'BRL' }}</div>
+        <div class="table-cell">{{ os.placa }}</div>
+        <div class="table-cell">{{ os.cpf }}</div>
+        <div class="table-cell">{{ os.cnpj }}</div>
+        <div class="table-cell">{{ os.telefone }}</div>
+
+        <div class="table-cell">
+          <app-table-actions (onEdit)="handleEdit(os)" (onDelete)="handleDelete(os)" />
+        </div>
       </div>
     </div>
   </div>

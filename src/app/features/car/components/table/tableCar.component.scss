@@ -1,0 +1,35 @@
+@import '../../../../style/styles.scss';
+
+.table-head {
+  grid-template-columns: 2fr 1.5fr 1.5fr 1fr 1.5fr 2fr 2fr 120px;
+
+  background: #f7f8fc;
+  color: #555;
+  border-bottom: 1px solid #eee;
+}
+
+.table-row {
+  grid-template-columns: 2fr 1.5fr 1.5fr 1fr 1.5fr 2fr 2fr 120px;
+
+  border-bottom: 1px solid #f1f1f1;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  > .table-cell:first-child {
+    justify-content: flex-start;
+  }
+
+  > .table-cell:last-child {
+    justify-content: flex-end;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding-right: 8px;
+}

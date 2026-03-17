@@ -1,0 +1,48 @@
+<app-table-header
+  icon="fa-solid fa-users"
+  title="Clientes"
+  (search)="handleSearch($event)"
+></app-table-header>
+
+<div class="table-container">
+  <div class="table-scroll">
+    <div class="table table-grid">
+      <div
+        class="table-head"
+        [style.grid-template-columns]="
+          'minmax(160px,1fr) minmax(180px,1.2fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(200px,1.5fr) minmax(140px,1fr) 120px'
+        "
+      >
+        <div *ngFor="let col of columns">{{ col.label }}</div>
+      </div>
+
+      <div
+        class="table-row"
+        *ngFor="let client of clientList"
+        [style.grid-template-columns]="
+          'minmax(160px,1fr) minmax(180px,1.2fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(200px,1.5fr) minmax(140px,1fr) 120px'
+        "
+      >
+        <div class="table-cell">{{ client.nome }}</div>
+        <div class="table-cell">{{ client.cpfCnpj }}</div>
+        <div class="table-cell">{{ client.nascimento }}</div>
+        <div class="table-cell">{{ client.cidade }}</div>
+        <div class="table-cell">{{ client.bairro }}</div>
+        <div class="table-cell">{{ client.email }}</div>
+        <div class="table-cell">{{ client.telefone }}</div>
+
+        <div class="table-cell">
+          <app-table-actions (onEdit)="handleEdit(client)" (onDelete)="handleDelete(client)" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-table-footer
+    [page]="page"
+    [totalPages]="totalPages"
+    [totalItems]="clientList.length"
+    [pageSize]="5"
+    (pageChange)="changePage($event)"
+  ></app-table-footer>
+</div>
