@@ -10,6 +10,7 @@ import { EmployeesComponent } from './features/employees/pages/employees.compone
 import { ClientsComponent } from './features/clients/pages/clients.component';
 import { CarComponent } from './features/car/pages/car.component';
 import { RegisterComponent } from './features/auth/register/pages/register.component';
+import { TenantListComponent } from './features/tenant/pages/tenant-list.component';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
