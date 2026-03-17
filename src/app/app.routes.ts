@@ -56,4 +56,9 @@ export const routes: Routes = [
     component: SideBarLayout,
     children: [{ path: '', component: CarComponent }],
   },
+  {
+    path: 'tenant-list',
+    component: SideBarLayout,
+    children: [{ path: '', component: TenantListComponent }],
+  },
 ];
