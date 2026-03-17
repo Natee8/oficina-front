@@ -30,11 +30,6 @@
       Ainda não tem conta? <a routerLink="/register">Clique aqui para se cadastrar</a>
     </p>
 
-    <div class="back-button upscale">
-      <div class="circle">
-        <i class="fa fa-arrow-left"></i>
-      </div>
-      <p>Voltar</p>
-    </div>
+    <app-back-button (clickBack)="handleBack()"> Voltar </app-back-button>
   </form>
 </div>
