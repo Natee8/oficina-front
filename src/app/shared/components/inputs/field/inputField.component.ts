@@ -15,11 +15,17 @@ export class InputFieldComponent {
   @Input() label = '';
   @Input() value = '';
   @Input() maxlength?: number;
+  @Input() disabled: boolean = false;
 
   showPassword = false;
   inputFocused = false;
 
   get inputType() {
+    
+    if (this.disabled && this.type === 'password') {
+      return 'password';
+    }
+    
     return this.type === 'password' ? (this.showPassword ? 'text' : 'password') : this.type;
   }
 
