@@ -9,7 +9,6 @@ import { OSsComponent } from './features/osS/pages/oSs.component';
 import { EmployeesComponent } from './features/employees/pages/employees.component';
 import { ClientsComponent } from './features/clients/pages/clients.component';
 import { CarComponent } from './features/car/pages/car.component';
-import { TenantListComponent } from './features/tenant/pages/tenant-list.component';
 import { ProfileComponent } from './features/profile/pages/profile.component';
 import { RegisterComponent } from './features/auth/register/pages/register.component';
 import { TenantListComponent } from './features/tenant/pages/tenant-list.component';
@@ -67,6 +66,6 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: SideBarLayout,
-    children: [{ path: '', component: ProfileComponent}],
+    children: [{ path: '', component: ProfileComponent }],
   },
 ];
