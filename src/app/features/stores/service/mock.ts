@@ -11,7 +11,7 @@ export const TableStoresMock = {
 
   stores: [
     {
-      name: 'Loja A',
+      name: 'Loja Adamantina',
       cnpj: '12.345.678/0001-90',
       street: 'Rua das Flores',
       number: '120',
@@ -19,7 +19,7 @@ export const TableStoresMock = {
       neighborhood: 'Centro',
     },
     {
-      name: 'Loja B',
+      name: 'Loja São Caetano do sul',
       cnpj: '98.765.432/0001-10',
       street: 'Av Paulista',
       number: '900',
@@ -27,7 +27,7 @@ export const TableStoresMock = {
       neighborhood: 'Bela Vista',
     },
     {
-      name: 'Loja C',
+      name: 'Loja Caieiras',
       cnpj: '11.222.333/0001-55',
       street: 'Rua Azul',
       number: '45',

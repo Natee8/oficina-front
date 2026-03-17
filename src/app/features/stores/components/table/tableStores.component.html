@@ -1,6 +1,6 @@
 <app-table-header
-  icon="fa-solid fa-store"
-  title="Lojas"
+  icon="fa-solid fa-users"
+  title="Clientes"
   (search)="handleSearch($event)"
 ></app-table-header>
 
@@ -12,32 +12,25 @@
 
     <div
       class="table-row"
-      *ngFor="let store of stores"
+      *ngFor="let client of stores"
       [style.grid-template-columns]="'2fr 2fr 2fr 1fr 2fr 2fr 120px'"
     >
-      <div class="table-cell">{{ store.name }}</div>
-      <div class="table-cell cnpj-cell">
-        <div class="label">{{ store.cnpj }}</div>
-      </div>
-      <div class="table-cell">{{ store.street }}</div>
-      <div class="table-cell">{{ store.number }}</div>
-      <div class="table-cell">{{ store.city }}</div>
-      <div class="table-cell">{{ store.neighborhood }}</div>
-      <div class="table-cell actions btnFlex">
-        <div class="btn btn-edit upscale">
-          <i class="fa-solid fa-pen"></i>
-        </div>
-        <div class="btn btn-delete upscale">
-          <i class="fa-solid fa-trash"></i>
-        </div>
+      <div class="table-cell">{{ client.name }}</div>
+      <div class="table-cell">{{ client.cnpj }}</div>
+      <div class="table-cell">{{ client.street }}</div>
+      <div class="table-cell">{{ client.number }}</div>
+      <div class="table-cell">{{ client.city }}</div>
+      <div class="table-cell">{{ client.neighborhood }}</div>
+      <div class="table-cell">
+        <app-table-actions (onEdit)="handleEdit(client)" (onDelete)="handleDelete(client)" />
       </div>
     </div>
   </div>
 
   <app-table-footer
     [page]="page"
-    [totalPages]="15"
-    [totalItems]="75"
+    [totalPages]="totalPages"
+    [totalItems]="stores.length"
     [pageSize]="5"
     (pageChange)="changePage($event)"
   ></app-table-footer>

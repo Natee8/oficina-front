@@ -1,16 +1,20 @@
-@import '../../../../style/styles.scss';
+@import '../../../style/styles.scss';
+
+.table-head,
+.table-row {
+  display: grid;
+  min-height: 60px;
+  align-items: center;
+  white-space: nowrap;
+}
 
 .table-head {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1.5fr 2fr 1.5fr 120px;
-
   background: #f7f8fc;
   color: #555;
   border-bottom: 1px solid #eee;
 }
 
 .table-row {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1.5fr 2fr 1.5fr 120px;
-
   border-bottom: 1px solid #f1f1f1;
 
   &:last-child {

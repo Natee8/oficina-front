@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
 import { TableFooterComponent } from '../../../../shared/components/tableFooter/tableFooter.component';
 import { UserColumns, UserListMock } from '../../service/mock';
+import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
 
 @Component({
   selector: 'app-table-employees',
   standalone: true,
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
-  imports: [CommonModule, TableHeaderComponent, TableFooterComponent],
+  templateUrl: './tableEmployees.component.html',
+  styleUrls: ['./tableEmployees.component.scss'],
+  imports: [CommonModule, TableHeaderComponent, TableFooterComponent, TableActionsComponent],
 })
 export class TableEmployees {
   page = 1;
@@ -17,7 +18,7 @@ export class TableEmployees {
   pageSize = 5;
 
   columns = UserColumns;
-  osList = UserListMock;
+  userList = UserListMock;
 
   handleSearch(value: string) {
     console.log('buscar:', value);
@@ -25,5 +26,12 @@ export class TableEmployees {
 
   changePage(newPage: number) {
     this.page = newPage;
+  }
+  handleEdit(client: any) {
+    console.log('Editar:', client);
+  }
+
+  handleDelete(client: any) {
+    console.log('Deletar:', client);
   }
 }

@@ -7,6 +7,7 @@ import { NavBarLayout } from './layout/navBarLayout/navBarLayout';
 import { MainLayoutComponent } from './layout/authLayout/authLayout.component';
 import { OSsComponent } from './features/osS/pages/oSs.component';
 import { EmployeesComponent } from './features/employees/pages/employees.component';
+import { ClientsComponent } from './features/clients/pages/clients.component';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
@@ -29,13 +30,18 @@ export const routes: Routes = [
     children: [{ path: '', component: StoresComponent }],
   },
   {
-    path: 'OSs-list',
+    path: 'os-list',
     component: SideBarLayout,
     children: [{ path: '', component: OSsComponent }],
   },
   {
-    path: 'Employees-list',
+    path: 'employees-list',
     component: SideBarLayout,
     children: [{ path: '', component: EmployeesComponent }],
+  },
+  {
+    path: 'clients-list',
+    component: SideBarLayout,
+    children: [{ path: '', component: ClientsComponent }],
   },
 ];

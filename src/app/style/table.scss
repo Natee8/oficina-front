@@ -26,7 +26,8 @@
 
 .table {
   display: grid;
-  min-width: 800px;
+  width: max-content;
+  min-width: 1600px;
 
   &-head,
   &-row {
@@ -34,8 +35,6 @@
     grid-template-columns: 1fr 2fr 1fr 1fr 2fr 2fr 1fr 120px;
     align-items: start;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   &-head {

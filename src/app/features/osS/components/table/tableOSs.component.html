@@ -29,13 +29,8 @@
       <div class="table-cell">{{ os.cpf }}</div>
       <div class="table-cell">{{ os.cnpj }}</div>
       <div class="table-cell">{{ os.telefone }}</div>
-      <div class="table-cell actions btnFlex">
-        <div class="btn btn-edit upscale">
-          <i class="fa-solid fa-pen"></i>
-        </div>
-        <div class="btn btn-delete upscale">
-          <i class="fa-solid fa-trash"></i>
-        </div>
+      <div class="table-cell">
+        <app-table-actions (onEdit)="handleEdit(osList)" (onDelete)="handleDelete(osList)" />
       </div>
     </div>
   </div>

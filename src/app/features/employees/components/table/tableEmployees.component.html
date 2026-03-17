@@ -17,7 +17,7 @@
 
     <div
       class="table-row"
-      *ngFor="let user of osList"
+      *ngFor="let user of userList"
       [style.grid-template-columns]="
         'minmax(160px,1fr) minmax(220px,1.5fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) 120px'
       "
@@ -30,13 +30,8 @@
       <div class="table-cell">{{ user.bairro }}</div>
       <div class="table-cell">{{ user.cargo }}</div>
 
-      <div class="table-cell actions btnFlex">
-        <div class="btn btn-edit upscale">
-          <i class="fa-solid fa-pen"></i>
-        </div>
-        <div class="btn btn-delete upscale">
-          <i class="fa-solid fa-trash"></i>
-        </div>
+      <div class="table-cell">
+        <app-table-actions (onEdit)="handleEdit(userList)" (onDelete)="handleDelete(userList)" />
       </div>
     </div>
   </div>
@@ -44,7 +39,7 @@
   <app-table-footer
     [page]="page"
     [totalPages]="totalPages"
-    [totalItems]="osList.length"
+    [totalItems]="userList.length"
     [pageSize]="5"
     (pageChange)="changePage($event)"
   ></app-table-footer>
