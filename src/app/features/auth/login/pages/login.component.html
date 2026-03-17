@@ -12,7 +12,7 @@
       width="100%"
     ></app-input-field>
 
-    <p class="forgot-password">Esqueci a senha</p>
+    <a class="forgot-password">Esqueci a senha</a>
 
     <app-input-field
       type="password"
@@ -26,13 +26,10 @@
 
     <div class="divider"></div>
 
-    <p class="signup-text">Ainda não tem conta? <a href="#">Clique aqui para se cadastrar</a></p>
+    <p class="signup-text">
+      Ainda não tem conta? <a routerLink="/register">Clique aqui para se cadastrar</a>
+    </p>
 
-    <div class="back-button upscale">
-      <div class="circle">
-        <i class="fa fa-arrow-left"></i>
-      </div>
-      <p>Voltar</p>
-    </div>
+    <app-back-button (clickBack)="handleBack()"> Voltar </app-back-button>
   </form>
 </div>

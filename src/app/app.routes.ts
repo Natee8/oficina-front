@@ -11,6 +11,7 @@ import { ClientsComponent } from './features/clients/pages/clients.component';
 import { CarComponent } from './features/car/pages/car.component';
 import { TenantListComponent } from './features/tenant/pages/tenant-list.component';
 import { ProfileComponent } from './features/profile/pages/profile.component';
+import { RegisterComponent } from './features/auth/register/pages/register.component';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
@@ -22,6 +23,11 @@ export const routes: Routes = [
         path: '',
         component: MainLayoutComponent,
         children: [{ path: '', component: LoginComponent }],
+      },
+      {
+        path: 'register',
+        component: MainLayoutComponent,
+        children: [{ path: '', component: RegisterComponent }],
       },
     ],
   },
