@@ -5,13 +5,14 @@ import { RegisterCardComponent } from '../../../../shared/components/registerCar
 import { InputFieldComponent } from '../../../../shared/components/inputs/field/inputField.component';
 import { SelectFieldComponent } from '../../../../shared/components/inputs/field/selectField.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'app-create-employee',
 	standalone: true,
 	templateUrl: './employees.component.html',
 	styleUrls: ['./employees.component.scss'],
-	imports: [CommonModule, BackButtonComponent, RegisterCardComponent, InputFieldComponent, SelectFieldComponent]
+	imports: [CommonModule, FormsModule, BackButtonComponent, RegisterCardComponent, InputFieldComponent, SelectFieldComponent]
 })
 
 export class CreateEmployeeComponent {
