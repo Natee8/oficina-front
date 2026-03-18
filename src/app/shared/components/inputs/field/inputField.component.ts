@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CnpjMaskDirective } from '../../../utils/masks/CnpjMask';
@@ -16,6 +16,7 @@ export class InputFieldComponent {
   @Input() id = '';
   @Input() label = '';
   @Input() value = '';
+  @Output() valueChange = new EventEmitter<string>();
   @Input() maxlength?: number;
   @Input() disabled: boolean = false;
   @Input() mask?: 'cnpj' | 'phone';
@@ -26,6 +27,11 @@ export class InputFieldComponent {
   get inputType() {
     if (this.disabled && this.type === 'password') return 'password';
     return this.type === 'password' ? (this.showPassword ? 'text' : 'password') : this.type;
+  }
+
+  onValueChange(val: string) {
+    this.value = val;
+    this.valueChange.emit(val);
   }
 
   togglePassword() {

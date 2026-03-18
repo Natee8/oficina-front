@@ -1,0 +1,11 @@
+<div class="input-simple">
+  <select
+    [ngModel]="value"
+    (ngModelChange)="valueChange.emit($event)"
+    id="select-{{ label | lowercase }}"
+  >
+    <option value="" disabled selected hidden></option>
+    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+  </select>
+  <label [for]="'select-' + (label | lowercase)">{{ label }}</label>
+</div>
