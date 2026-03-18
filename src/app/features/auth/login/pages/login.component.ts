@@ -9,12 +9,11 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [InputFieldComponent, RouterLink, BackButtonComponent, ToggleActionsComponent],
+  imports: [InputFieldComponent, RouterLink, BackButtonComponent],
 })
 export class LoginComponent {
   step = 1;
   handleBack() {
-    // Pode navegar para outra página, fechar modal, etc.
     console.log('Botão de voltar clicado');
   }
   handleNext() {
