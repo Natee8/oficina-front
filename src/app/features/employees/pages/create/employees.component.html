@@ -1,0 +1,18 @@
+<div class="containerHeader">
+  <h1>Novo Funcionário</h1>
+  <p>Adicione um novo funcionário a sua loja</p>
+  <app-back-button (back)="goBack()"></app-back-button>
+</div>
+
+<app-register-card
+  title="Informações do Funcionário"
+  description="Adicione as informações de contato do funcionário"
+  image="assets/images/employee.svg"
+  stepInfo="Etapa 1 - 2"
+>
+  <app-input-field label="Nome" type="text"></app-input-field>
+  <app-input-field label="Email" type="text"></app-input-field>
+  <app-input-field label="Senha" type="password"></app-input-field>
+  <app-input-field label="CPF" type="text"></app-input-field>
+  <button type="submit" class="btn-primary upscale">Avançar</button>
+</app-register-card>

@@ -1,0 +1,21 @@
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #232c45;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.back-btn i {
+  font-size: 1rem;
+}
+
+.back-btn:hover {
+  color: var(--color-secondary, #ff5722);
+}

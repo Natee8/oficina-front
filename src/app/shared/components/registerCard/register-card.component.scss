@@ -1,0 +1,64 @@
+.register-card {
+  display: flex;
+  flex-direction: row;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 3rem;
+  gap: 2rem;
+  align-items: stretch;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.register-card__image {
+  background: #232c45;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 40%;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  position: relative;
+}
+
+.register-card__step {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  align-self: flex-start;
+}
+
+.register-card__image img {
+  max-width: 500px;
+  height: auto;
+  display: block;
+}
+
+.register-card__form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.register-card__form button {
+  align-self: flex-end;
+}
+
+.register-card__form h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #232c45;
+}
+
+.register-card__form p {
+  color: #232c45;
+  font-weight: 500;
+}
+

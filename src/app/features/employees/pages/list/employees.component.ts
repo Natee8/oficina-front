@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TableEmployees } from '../components/table/tableEmployees.component';
+import { TableEmployees } from '../../components/table/tableEmployees.component';
 
 @Component({
   selector: 'app-employees',

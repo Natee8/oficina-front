@@ -1,0 +1,11 @@
+<div class="register-card">
+  <div class="register-card__image">
+    <div class="register-card__step" *ngIf="stepInfo">{{ stepInfo }}</div>
+    <img *ngIf="image" [src]="image" alt="Ilustração" />
+  </div>
+  <div class="register-card__form">
+    <h2>{{ title }}</h2>
+    <p>{{ description }}</p>
+    <ng-content></ng-content>
+  </div>
+</div>
