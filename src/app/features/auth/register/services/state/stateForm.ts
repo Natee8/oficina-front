@@ -13,5 +13,10 @@ export class RegisterFormService {
     street: '',
     number: '',
   };
-  stepThreeData: StepThreeData = { address: '', phone: '' };
+  stepThreeData: StepThreeData = {
+    adminName: '',
+    adminEmail: '',
+    adminPhoneNumber: '',
+    adminPassword: '',
+  };
 }
