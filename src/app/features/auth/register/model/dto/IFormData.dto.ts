@@ -1,4 +1,5 @@
 export interface StepOneData {
+  storeName: string;
   cnpj: string;
   name: string;
 }

@@ -2,13 +2,13 @@
   <input
     [type]="inputType"
     [id]="id"
-    [(ngModel)]="value"
-    [attr.maxlength]="maxlength"
-    placeholder=""
+    [value]="value"
+    (input)="onInput($event)"
     (focus)="inputFocused = true"
-    (blur)="inputFocused = false"
+    (blur)="onBlur(); inputFocused = false"
+    [attr.maxlength]="maxlength"
     [disabled]="disabled"
-    [appMask]="mask ?? 'custom'"
+    [appMask]="mask"
     required
   />
   <label [class.floating]="value || inputFocused" [for]="id">{{ label }}</label>
