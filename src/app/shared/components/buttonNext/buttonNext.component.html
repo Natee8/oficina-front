@@ -1,0 +1,22 @@
+<div class="step-actions">
+  <div class="slider" [class.next]="activeNext"></div>
+
+  <button
+    class="btn secondary"
+    (click)="goBack()"
+    [class.text-white]="!activeNext"
+    [class.text-gray]="activeNext"
+  >
+    {{ backLabel }}
+  </button>
+
+  <button
+    class="btn primary"
+    (click)="goNext()"
+    [disabled]="disableNext"
+    [class.text-white]="activeNext"
+    [class.text-gray]="!activeNext"
+  >
+    {{ nextLabel }}
+  </button>
+</div>
