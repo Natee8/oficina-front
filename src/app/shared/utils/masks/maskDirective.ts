@@ -4,14 +4,17 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
   selector: '[appMask]',
 })
 export class MaskDirective {
-  @Input('appMask') maskType: 'cnpj' | 'phone' | 'cpf' | 'custom' = 'custom';
-  @Input() customPattern?: (value: string) => string; 
+  @Input('appMask') maskType?: 'cnpj' | 'phone' | 'cpf' | 'custom';
+  @Input() customPattern?: (value: string) => string;
 
   constructor(private el: ElementRef<HTMLInputElement>) {}
 
   @HostListener('input', ['$event'])
   onInput(event: Event) {
-    let value = this.el.nativeElement.value.replace(/\D/g, '');
+    if (!this.maskType) return;
+
+    const input = this.el.nativeElement;
+    let value = input.value.replace(/\D/g, '');
 
     switch (this.maskType) {
       case 'cnpj':
@@ -25,11 +28,10 @@ export class MaskDirective {
       case 'phone':
         if (value.length > 11) value = value.slice(0, 11);
         value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-        if (value.length <= 10) {
-          value = value.replace(/(\d{4})(\d)/, '$1-$2'); // telefone fixo
-        } else {
-          value = value.replace(/(\d{5})(\d)/, '$1-$2'); // celular
-        }
+        value =
+          value.length <= 10
+            ? value.replace(/(\d{4})(\d)/, '$1-$2')
+            : value.replace(/(\d{5})(\d)/, '$1-$2');
         break;
 
       case 'cpf':
@@ -46,6 +48,8 @@ export class MaskDirective {
         break;
     }
 
-    this.el.nativeElement.value = value;
+    input.value = value;
+
+    input.dispatchEvent(new Event('input'));
   }
 }

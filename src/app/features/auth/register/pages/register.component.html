@@ -6,15 +6,28 @@
     <p>Step {{ currentStep }}/3</p>
   </div>
 
+  <!-- Steps do formulário -->
   <form-stepone *ngIf="currentStep === 1" [data]="formService.stepOneData"></form-stepone>
-
   <form-steptwo *ngIf="currentStep === 2" [data]="formService.stepTwoData"></form-steptwo>
-  <!-- 
   <form-stepthree *ngIf="currentStep === 3" [data]="formService.stepThreeData"></form-stepthree>
--->
 
+  <!-- Botões -->
   <div class="buttons">
-    <button class="btn-primary" (click)="currentStep < 3 ? nextStep() : submit()">
+    <!-- Step 2 com toggle-actions -->
+    <app-toggle-actions
+      *ngIf="currentStep === 2"
+      backLabel="Deixar pra depois"
+      nextLabel="Avançar"
+      (back)="handleBack()"
+      (next)="handleNext()"
+    ></app-toggle-actions>
+
+    <!-- Steps 1 e 3 com botão padrão -->
+    <button
+      *ngIf="currentStep !== 2"
+      class="btn-primary"
+      (click)="currentStep < 3 ? nextStep() : submit()"
+    >
       {{ currentStep < 3 ? 'Avançar' : 'Finalizar' }}
     </button>
   </div>
@@ -22,5 +35,6 @@
   <div class="divider"></div>
 
   <p class="signup-text">Já tem uma conta? <a routerLink="/">Clique aqui para fazer login</a></p>
+
   <app-back-button (clickBack)="handleBack()"> Voltar </app-back-button>
 </div>

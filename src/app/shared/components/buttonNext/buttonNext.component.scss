@@ -1,0 +1,55 @@
+.step-actions {
+  position: relative;
+  display: flex;
+  width: 100%;
+  background: #e5e5e5;
+  padding: 6px;
+  border-radius: 12px;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.btn {
+  flex: 1;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+  transition:
+    color 0.3s,
+    transform 0.3s;
+}
+
+/* cores dinâmicas via classes */
+.text-white {
+  color: white;
+}
+.text-gray {
+  color: #6b7280;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* slider laranja */
+.slider {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: calc(50% - 6px);
+  background: #ff5a2f;
+  border-radius: 10px;
+  transition: left 0.3s ease;
+  z-index: 0;
+}
+
+.slider.next {
+  left: calc(50% + 6px);
+}

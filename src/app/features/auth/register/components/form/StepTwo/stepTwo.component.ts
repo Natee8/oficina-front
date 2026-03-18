@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { InputFieldComponent } from '../../../../../../shared/components/inputs/field/inputField.component';
-import { CnpjMaskDirective } from '../../../../../../shared/utils/masks/CnpjMask';
-import { StepOneData, StepTwoData } from '../../../model/dto/IFormData.dto';
+import { StepTwoData } from '../../../model/dto/IFormData.dto';
 import { FormsModule } from '@angular/forms';
 
 @Component({

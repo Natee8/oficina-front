@@ -1,0 +1,33 @@
+<div class="form-container">
+  <form class="form-content">
+    <app-input-field
+      name="adminName"
+      type="text"
+      label="Nome do Administrador"
+      [maxlength]="50"
+      [(ngModel)]="data.adminName"
+    ></app-input-field>
+
+    <app-input-field
+      name="adminEmail"
+      type="text"
+      label="E-mail do Administrador"
+      [(ngModel)]="data.adminEmail"
+    ></app-input-field>
+
+    <app-input-field
+      name="adminPhoneNumber"
+      type="text"
+      label="Telefone do Administrador"
+      mask="phone"
+      [(ngModel)]="data.adminPhoneNumber"
+    ></app-input-field>
+
+    <app-input-field
+      name="adminPassword"
+      type="password"
+      label="Senha"
+      [(ngModel)]="data.adminPassword"
+    ></app-input-field>
+  </form>
+</div>

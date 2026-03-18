@@ -1,4 +1,5 @@
 export interface StepOneData {
+  storeName: string;
   cnpj: string;
   name: string;
 }
@@ -14,6 +15,8 @@ export interface StepTwoData {
 }
 
 export interface StepThreeData {
-  address: string;
-  phone: string;
+  adminName: string;
+  adminEmail: string;
+  adminPhoneNumber: string;
+  adminPassword: string;
 }
