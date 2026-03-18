@@ -1,14 +1,13 @@
-<app-input-field
-  type="text"
-  label="Nome"
-  placeholder="Digite seu nome"
-  [(ngModel)]="data.name"
-></app-input-field>
+<div class="form-container">
+  <form class="form-content">
+    <app-input-field name="name" type="text" label="Nome" [(ngModel)]="data.name"></app-input-field>
 
-<app-input-field
-  type="text"
-  label="CNPJ"
-  placeholder="Digite o CNPJ"
-  mask="cnpj"
-  [(ngModel)]="data.cnpj"
-></app-input-field>
+    <app-input-field
+      name="cnpj"
+      type="text"
+      label="CNPJ"
+      mask="cnpj"
+      [(ngModel)]="data.cnpj"
+    ></app-input-field>
+  </form>
+</div>

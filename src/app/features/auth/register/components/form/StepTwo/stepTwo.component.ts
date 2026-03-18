@@ -1,17 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { InputFieldComponent } from '../../../../../../shared/components/inputs/field/inputField.component';
 import { CnpjMaskDirective } from '../../../../../../shared/utils/masks/CnpjMask';
-import { StepOneData } from '../../../model/dto/IFormData.dto';
+import { StepOneData, StepTwoData } from '../../../model/dto/IFormData.dto';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'form-stepone',
+  selector: 'form-steptwo',
   standalone: true,
-  templateUrl: './stepOne.component.html',
-  styleUrls: ['./stepOne.component.scss'],
+  templateUrl: './stepTwo.component.html',
+  styleUrls: ['./stepTwo.component.scss'],
   imports: [FormsModule, InputFieldComponent],
 })
-export class FormStepOne {
-  @Input() data!: StepOneData;
-  @Input() cnpjMask = false;
+export class FormStepTwo {
+  @Input() data!: StepTwoData;
 }

@@ -4,6 +4,14 @@ import { StepOneData, StepTwoData, StepThreeData } from '../../model/dto/IFormDa
 @Injectable({ providedIn: 'root' })
 export class RegisterFormService {
   stepOneData: StepOneData = { cnpj: '', name: '' };
-  stepTwoData: StepTwoData = { password: '', confirmPassword: '' };
+  stepTwoData: StepTwoData = {
+    name: '',
+    cep: '',
+    state: '',
+    city: '',
+    district: '',
+    street: '',
+    number: '',
+  };
   stepThreeData: StepThreeData = { address: '', phone: '' };
 }

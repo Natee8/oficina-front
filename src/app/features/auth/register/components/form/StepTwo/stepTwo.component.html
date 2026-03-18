@@ -1,0 +1,57 @@
+<div class="form-container">
+  <form class="form-content">
+    <app-input-field
+      name="storeName"
+      name="store"
+      type="text"
+      label="Nome da Loja"
+      [(ngModel)]="data.name"
+    ></app-input-field>
+
+    <div class="row">
+      <app-input-field name="cep" type="text" label="CEP" [(ngModel)]="data.cep"></app-input-field>
+
+      <app-input-field
+        name="state"
+        type="text"
+        name="state"
+        label="Estado"
+        [(ngModel)]="data.state"
+      ></app-input-field>
+    </div>
+
+    <app-input-field
+      name="city"
+      type="text"
+      name="city"
+      label="Cidade"
+      [(ngModel)]="data.city"
+    ></app-input-field>
+
+    <app-input-field
+      name="district"
+      type="text"
+      name="district"
+      label="Bairro"
+      [(ngModel)]="data.district"
+    ></app-input-field>
+
+    <div class="row">
+      <app-input-field
+        name="street"
+        name="street"
+        type="text"
+        label="Rua"
+        [(ngModel)]="data.street"
+      ></app-input-field>
+
+      <app-input-field
+        name="number"
+        type="text"
+        label="Número"
+        name="number"
+        [(ngModel)]="data.number"
+      ></app-input-field>
+    </div>
+  </form>
+</div>

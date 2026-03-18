@@ -4,8 +4,13 @@ export interface StepOneData {
 }
 
 export interface StepTwoData {
-  password: string;
-  confirmPassword: string;
+  name: string;
+  cep: string;
+  state: string;
+  city: string;
+  district: string;
+  street: string;
+  number: string;
 }
 
 export interface StepThreeData {

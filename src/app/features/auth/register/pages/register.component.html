@@ -1,18 +1,19 @@
-<div class="login-container">
+<div class="register-container">
   <h2>Realize seu cadastro para acessar o sistema</h2>
   <p>Crie sua conta para acessar o sistema e navegar</p>
 
-  <p>Step {{ currentStep }}/3</p>
+  <div class="steps-text">
+    <p>Step {{ currentStep }}/3</p>
+  </div>
 
   <form-stepone *ngIf="currentStep === 1" [data]="formService.stepOneData"></form-stepone>
 
-  <!-- <form-steptwo *ngIf="currentStep === 2" [data]="formService.stepTwoData"></form-steptwo>
+  <form-steptwo *ngIf="currentStep === 2" [data]="formService.stepTwoData"></form-steptwo>
+  <!-- 
   <form-stepthree *ngIf="currentStep === 3" [data]="formService.stepThreeData"></form-stepthree>
 -->
 
   <div class="buttons">
-    <button class="btn-secondary" *ngIf="currentStep > 1" (click)="prevStep()">Voltar</button>
-
     <button class="btn-primary" (click)="currentStep < 3 ? nextStep() : submit()">
       {{ currentStep < 3 ? 'Avançar' : 'Finalizar' }}
     </button>
@@ -20,7 +21,6 @@
 
   <div class="divider"></div>
 
-  <p class="signup-text">
-    Já tem uma conta? <a routerLink="/login">Clique aqui para fazer login</a>
-  </p>
+  <p class="signup-text">Já tem uma conta? <a routerLink="/">Clique aqui para fazer login</a></p>
+  <app-back-button (clickBack)="handleBack()"> Voltar </app-back-button>
 </div>

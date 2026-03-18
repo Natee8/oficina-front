@@ -1,7 +1,11 @@
 @import '../../../../style/styles.scss';
 
-.login-container {
+.register-container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+
   h2 {
+    height: auto;
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
@@ -13,106 +17,44 @@
     color: #555;
   }
 
-  .login-form {
+  .divider {
+    position: relative;
+    border-top: 1px dashed #ccc;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    text-align: center;
+
+    &::after {
+      position: absolute;
+      top: -0.65rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #fff;
+      padding: 0 0.5rem;
+      font-size: 0.8rem;
+      color: #555;
+    }
+  }
+
+  .signup-text {
+    font-size: 0.85rem;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .steps-text {
+    width: 100%;
+    cursor: pointer;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 70vb;
 
-    .forgot-password {
-      font-size: 0.85rem;
-      cursor: pointer;
-      text-align: right;
-      align-self: flex-end;
-    }
-
-    input {
-      padding: 0.75rem 1rem;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-      font-size: 0.95rem;
-      width: 100%;
-      transition: border-color 0.2s;
-
-      &:focus {
-        border-color: var(--color-secondary);
-        outline: none;
-      }
-    }
-
-    button.btn-primary {
-      padding: 1rem;
-      font-size: 1rem;
-      font-weight: bold;
-      color: #fff;
-      background-color: var(--color-secondary);
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: background-color 0.2s;
-
-      &:hover {
-        background-color: var(--color-hover-secondary);
-      }
-    }
-
-    .divider {
-      position: relative;
-      border-top: 1px dashed #ccc;
-      margin-top: 3rem;
-      margin-bottom: 3rem;
-      text-align: center;
-
-      &::after {
-        position: absolute;
-        top: -0.65rem;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #fff;
-        padding: 0 0.5rem;
-        font-size: 0.8rem;
-        color: #555;
-      }
-    }
-
-    .signup-text {
-      font-size: 0.85rem;
-      text-align: center;
-    }
-
-    .back-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 2rem;
-      cursor: pointer;
-
-      .circle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 1.5rem;
-        height: 1.5rem;
-        border-radius: 50%;
-        background-color: var(--color-primary);
-        transition: background-color 0.2s;
-
-        i {
-          font-size: 10px;
-          color: white;
-        }
-      }
-
-      p {
-        margin: 0;
-        font-weight: bold;
-        color: var(--color-primary);
-      }
-
-      &:hover .circle {
-        background-color: var(--color-secondary);
-      }
-    }
+    font-weight: 600;
+    align-items: end;
+    justify-content: flex-end;
+  }
+  .steps-text p {
+    color: var(--color-primary);
+  }
+  .buttons {
+    margin-top: 2rem;
   }
 }

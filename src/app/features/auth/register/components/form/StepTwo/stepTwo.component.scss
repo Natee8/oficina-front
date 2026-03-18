@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   width: 70vb;
+  height: auto;
 
   h2 {
     font-size: 1.5rem;
@@ -19,6 +20,15 @@
 .form-content {
   display: flex;
   flex-direction: column;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+
+  app-input-field {
+    flex: 1;
+  }
 }
 
 .btn-primary {

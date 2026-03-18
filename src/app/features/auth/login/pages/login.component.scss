@@ -26,20 +26,6 @@
       align-self: flex-end;
     }
 
-    input {
-      padding: 0.75rem 1rem;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-      font-size: 0.95rem;
-      width: 100%;
-      transition: border-color 0.2s;
-
-      &:focus {
-        border-color: var(--color-secondary);
-        outline: none;
-      }
-    }
-
     .divider {
       position: relative;
       border-top: 1px dashed #ccc;
@@ -62,41 +48,6 @@
     .signup-text {
       font-size: 0.85rem;
       text-align: center;
-    }
-
-    .back-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 2rem;
-      cursor: pointer;
-
-      .circle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 1.5rem;
-        height: 1.5rem;
-        border-radius: 50%;
-        background-color: var(--color-primary);
-        transition: background-color 0.2s;
-
-        i {
-          font-size: 10px;
-          color: white;
-        }
-      }
-
-      p {
-        margin: 0;
-        font-weight: bold;
-        color: var(--color-primary);
-      }
-
-      &:hover .circle {
-        background-color: var(--color-secondary);
-      }
     }
   }
 }
