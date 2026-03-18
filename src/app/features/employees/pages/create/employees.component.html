@@ -29,7 +29,9 @@
     <app-input-field label="Telefone" type="text" [(ngModel)]="telefone"></app-input-field>
     <app-select-field label="Cargo" [options]="cargos" [(value)]="cargo"></app-select-field>
     <app-select-field label="Loja" [options]="lojas" [(value)]="loja"></app-select-field>
-    <button type="button" class="btn-primary upscale" (click)="submit()">Finalizar</button>
-    <button type="button" class="btn-secondary" (click)="goBack()">Voltar</button>
+    <div class="form-actions">
+      <button type="button" class="btn-secondary upscale" (click)="goBack()">Voltar</button>
+      <button type="button" class="btn-primary upscale" (click)="submit()">Finalizar</button>
+    </div>
   </app-register-card>
 </ng-container>

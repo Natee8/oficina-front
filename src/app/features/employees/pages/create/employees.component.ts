@@ -6,13 +6,14 @@ import { InputFieldComponent } from '../../../../shared/components/inputs/field/
 import { SelectFieldComponent } from '../../../../shared/components/inputs/field/selectField.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToggleActionsComponent } from '../../../../shared/components/buttonNext/buttonNext.component';
 
 @Component({
 	selector: 'app-create-employee',
 	standalone: true,
 	templateUrl: './employees.component.html',
 	styleUrls: ['./employees.component.scss'],
-	imports: [CommonModule, FormsModule, BackButtonComponent, RegisterCardComponent, InputFieldComponent, SelectFieldComponent]
+	imports: [CommonModule, FormsModule, BackButtonComponent, RegisterCardComponent, InputFieldComponent, SelectFieldComponent, ToggleActionsComponent]
 })
 
 export class CreateEmployeeComponent {
