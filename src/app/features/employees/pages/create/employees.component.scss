@@ -1,0 +1,35 @@
+
+.containerHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.containerHeader p {
+  color: var(--color-default);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  width: 50%;
+  height: 50px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+  font-size: medium;
+  background-color: var(--color-secondary);
+}
+
+
+
+
+
