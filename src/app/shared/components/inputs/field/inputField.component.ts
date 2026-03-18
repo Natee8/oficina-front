@@ -65,11 +65,6 @@ export class InputFieldComponent implements ControlValueAccessor {
     return this.type === 'password' ? (this.showPassword ? 'text' : 'password') : this.type;
   }
 
-  onValueChange(val: string) {
-    this.value = val;
-    this.valueChange.emit(val);
-  }
-
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
