@@ -1,14 +1,14 @@
-interface StepOneData {
+export interface StepOneData {
+  cnpj: string;
   name: string;
-  email: string;
 }
 
-interface StepTwoData {
+export interface StepTwoData {
   password: string;
   confirmPassword: string;
 }
 
-interface StepThreeData {
+export interface StepThreeData {
   address: string;
   phone: string;
 }

@@ -8,6 +8,7 @@
     (focus)="inputFocused = true"
     (blur)="inputFocused = false"
     [disabled]="disabled"
+    [appMask]="mask ?? 'custom'"
     required
   />
   <label [class.floating]="value || inputFocused" [for]="id">{{ label }}</label>
