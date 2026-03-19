@@ -1,8 +1,4 @@
-<app-table-header
-  icon="fa-solid fa-store"
-  title="Lojas"
-  (search)="handleSearch($event)"
-></app-table-header>
+<app-table-header icon="fa-solid fa-store" title="Lojas"></app-table-header>
 
 <div class="table-container">
   <div class="table-scroll">
@@ -30,11 +26,25 @@
     </div>
   </div>
 
+  <app-modal *ngIf="activeModal === 'edit'" (close)="closeModal()" minWidth="800px">
+    <app-steps-component></app-steps-component>
+  </app-modal>
+
+  <app-modal *ngIf="activeModal === 'edit'" (close)="closeModal()" minWidth="800px">
+    <app-steps-component></app-steps-component>
+  </app-modal>
+
+  <app-modal-delete
+    *ngIf="activeModal === 'delete'"
+    [registro]="selectedStore?.id"
+    (confirm)="confirmDelete()"
+    (cancel)="closeModal()"
+  ></app-modal-delete>
+
   <app-table-footer
     [page]="page"
     [totalPages]="totalPages"
     [totalItems]="stores.length"
     [pageSize]="5"
-    (pageChange)="changePage($event)"
   ></app-table-footer>
 </div>

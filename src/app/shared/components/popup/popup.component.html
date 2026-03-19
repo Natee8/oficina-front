@@ -1,0 +1,12 @@
+<div class="overlay" (click)="fechar()">
+  <div
+    class="modal-content"
+    (click)="stopPropagation($event)"
+    [ngStyle]="{
+      'min-width': minWidth,
+      'min-height': minHeight,
+    }"
+  >
+    <ng-content></ng-content>
+  </div>
+</div>
