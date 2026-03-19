@@ -9,7 +9,8 @@ import { OSsComponent } from './features/osS/pages/oSs.component';
 import { EmployeesComponent } from './features/employees/pages/list/employees.component';
 import { ClientsComponent } from './features/clients/pages/list/clients.component';
 import { CreateClientComponent } from './features/clients/pages/create/clients.component';
-import { CarComponent } from './features/car/pages/car.component';
+import { CarComponent } from './features/car/pages/list/car.component';
+import { CreateCarComponent } from './features/car/pages/create/car.component';
 import { ProfileComponent } from './features/profile/pages/profile.component';
 import { RegisterComponent } from './features/auth/register/pages/register.component';
 import { TenantListComponent } from './features/tenant/pages/tenant-list.component';
@@ -84,5 +85,10 @@ export const routes: Routes = [
     path: 'stores-create',
     component: SideBarLayout,
     children: [{ path: '', component: CreateStoreComponent }],
+  },
+  {
+    path: 'car-create',
+    component: SideBarLayout,
+    children: [{ path: '', component: CreateCarComponent }],
   },
 ];

@@ -1,0 +1,44 @@
+<div class="containerHeader">
+  <h1>Novo Veículo</h1>
+  <p>Adicione um novo veículo à sua loja</p>
+  <app-back-button (back)="goBackList()"></app-back-button>
+</div>
+
+<ng-container *ngIf="step === 1">
+  <app-register-card
+    title="Informações do Veículo"
+    description="Preencha os dados do veículo"
+    image="assets/images/car.svg"
+    stepInfo="Etapa 1 - 2"
+  >
+    <app-select-field label="Cliente" [options]="clientes" [(ngModel)]="cliente"></app-select-field>
+    <div class="input-row">
+      <app-input-field label="Placa" type="text" [(ngModel)]="plate" class="small-input"></app-input-field>
+      <app-input-field label="Ano" type="text" [(ngModel)]="year" class="small-input"></app-input-field>
+    </div>
+    <app-input-field label="VIN" type="text" [(ngModel)]="vin"></app-input-field>
+    <app-input-field label="Renavam" type="text" [(ngModel)]="renavam"></app-input-field>
+    <app-input-field label="Nº Sinistro" type="text" [(ngModel)]="insuranceClaimNumber"></app-input-field>
+    <div class="form-actions">
+      <button type="button" class="btn-primary upscale" (click)="nextStep()">Avançar</button>
+    </div>
+  </app-register-card>
+</ng-container>
+
+<ng-container *ngIf="step === 2">
+  <app-register-card
+    title="Detalhes do Veículo"
+    description="Preencha os detalhes do veículo"
+    image="assets/images/car.svg"
+    stepInfo="Etapa 2 - 2"
+  >
+    <app-input-field label="Marca" type="text" [(ngModel)]="brand"></app-input-field>
+    <app-input-field label="Modelo" type="text" [(ngModel)]="model"></app-input-field>
+    <app-input-field label="Cor" type="text" [(ngModel)]="color"></app-input-field>
+    <app-input-field label="Observações" type="text" [(ngModel)]="notes"></app-input-field>
+    <div class="form-actions">
+      <button type="button" class="btn-secondary upscale" (click)="goBackStep()">Voltar</button>
+      <button type="button" class="btn-primary upscale" (click)="submit()">Finalizar</button>
+    </div>
+  </app-register-card>
+</ng-container>
