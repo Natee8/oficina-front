@@ -1,0 +1,83 @@
+@import '../../style/styles.scss';
+
+.container-card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 700px;
+  height: auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+
+  .background-image {
+    flex: 0 0 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding: 1rem;
+
+    background: url('/assets/images/backOne.svg') center/cover no-repeat;
+    border-radius: 8px;
+
+    .step {
+      display: flex;
+      width: 100%;
+      padding: 1rem;
+      align-items: end;
+      justify-content: end;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .image {
+      width: 100%;
+      height: 100%;
+      background: url('/assets/images/employee.svg') center/contain no-repeat;
+      background-color: transparent;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 6%;
+
+    .titles {
+      margin-bottom: 1.5rem;
+
+      h1 {
+        margin: 0;
+        font-size: 1.8rem;
+      }
+      h2 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #666;
+      }
+    }
+
+    ng-content {
+      flex: 1;
+      padding: 1rem 0;
+    }
+
+    .buttons {
+      width: 100%;
+      height: auto;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: auto;
+    }
+    .button {
+      width: 30%;
+    }
+  }
+}

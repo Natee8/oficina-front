@@ -13,12 +13,26 @@
   >
     <app-select-field label="Cliente" [options]="clientes" [(ngModel)]="cliente"></app-select-field>
     <div class="input-row">
-      <app-input-field label="Placa" type="text" [(ngModel)]="plate" class="small-input"></app-input-field>
-      <app-input-field label="Ano" type="text" [(ngModel)]="year" class="small-input"></app-input-field>
+      <app-input-field
+        label="Placa"
+        type="text"
+        [(ngModel)]="plate"
+        class="small-input"
+      ></app-input-field>
+      <app-input-field
+        label="Ano"
+        type="text"
+        [(ngModel)]="year"
+        class="small-input"
+      ></app-input-field>
     </div>
     <app-input-field label="VIN" type="text" [(ngModel)]="vin"></app-input-field>
     <app-input-field label="Renavam" type="text" [(ngModel)]="renavam"></app-input-field>
-    <app-input-field label="Nº Sinistro" type="text" [(ngModel)]="insuranceClaimNumber"></app-input-field>
+    <app-input-field
+      label="Nº Sinistro"
+      type="text"
+      [(ngModel)]="insuranceClaimNumber"
+    ></app-input-field>
     <div class="form-actions">
       <button type="button" class="btn-primary upscale" (click)="nextStep()">Avançar</button>
     </div>

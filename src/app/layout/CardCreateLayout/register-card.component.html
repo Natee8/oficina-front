@@ -1,0 +1,25 @@
+<div class="container-card">
+  <div class="background-image">
+    <div class="step">Step {{ stpsatual }}/{{ steptotal }}</div>
+    <div class="image"></div>
+  </div>
+
+  <div class="content">
+    <div class="titles">
+      <h1>{{ title }}</h1>
+      <h2>{{ subtitle }}</h2>
+    </div>
+
+    <div class="form"><ng-content></ng-content></div>
+
+    <div class="buttons">
+      <button class="btn-default button" *ngIf="stpsatual > 1" (click)="previousStep()">
+        Voltar
+      </button>
+
+      <button class="btn-primary button" (click)="nextStep()">
+        {{ stpsatual === steptotal ? 'Finalizar' : 'Avançar' }}
+      </button>
+    </div>
+  </div>
+</div>

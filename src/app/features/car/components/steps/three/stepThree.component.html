@@ -1,0 +1,6 @@
+<app-input-field label="Email" type="text" [(ngModel)]="email"></app-input-field>
+<app-input-field label="Senha" type="password" [(ngModel)]="senha"></app-input-field>
+<div class="form-actions">
+  <button type="button" class="btn-secondary upscale" (click)="back.emit()">Voltar</button>
+  <button type="button" class="btn-primary upscale" (click)="finish.emit()">Finalizar</button>
+</div>
