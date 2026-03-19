@@ -1,7 +1,7 @@
 <div class="containerHeader">
   <h1>Novo Funcionário</h1>
   <p>Adicione um novo funcionário a sua loja</p>
-  <app-back-button (back)="goBack()"></app-back-button>
+  <app-back-button (back)="goBackList()"></app-back-button>
 </div>
 
 <ng-container *ngIf="step === 1">
@@ -9,7 +9,7 @@
     title="Informações do Funcionário"
     description="Adicione dados pessoais do funcionário"
     image="assets/images/employee.svg"
-    stepInfo="Etapa 1 - 2"
+    stepInfo="Etapa 1 - 3"
   >
     <app-input-field label="Nome" type="text" [(ngModel)]="nome"></app-input-field>
     <app-input-field label="CPF" type="text" [(ngModel)]="cpf"></app-input-field>
@@ -20,17 +20,41 @@
 
 <ng-container *ngIf="step === 2">
   <app-register-card
+    title="Endereço do Funcionário"
+    description="Preencha o endereço do funcionário"
+    image="assets/images/employee.svg"
+    stepInfo="Etapa 2 - 3"
+  >
+    <div style="display: flex; gap: 1rem;">
+      <app-input-field label="CEP" type="text" [(ngModel)]="addressZip" style="flex:1"></app-input-field>
+      <app-input-field label="Número" type="text" [(ngModel)]="addressNumber" style="flex:0.5"></app-input-field>
+    </div>
+    <app-input-field label="Rua" type="text" [(ngModel)]="addressStreet"></app-input-field>
+    <app-input-field label="Bairro" type="text" [(ngModel)]="addressDistrict"></app-input-field>
+    <div style="display: flex; gap: 1rem;">
+      <app-input-field label="Cidade" type="text" [(ngModel)]="addressCity" style="flex:1"></app-input-field>
+      <app-input-field label="Estado" type="text" [(ngModel)]="addressState" style="flex:0.5"></app-input-field>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn-secondary upscale" (click)="goBackStep()">Voltar</button>
+      <button type="button" class="btn-primary upscale" (click)="nextStep()">Avançar</button>
+    </div>
+  </app-register-card>
+</ng-container>
+
+<ng-container *ngIf="step === 3">
+  <app-register-card
     title="Informações do Funcionário"
     description="Adicione as informações de cadastro do funcionário"
     image="assets/images/employee.svg"
-    stepInfo="Etapa 2 - 2"
+    stepInfo="Etapa 3 - 3"
   >
     <app-select-field label="Cargo" [options]="cargos" [(ngModel)]="cargo"></app-select-field>
     <app-select-field label="Loja" [options]="lojas" [(ngModel)]="loja"></app-select-field>
     <app-input-field label="Email" type="text" [(ngModel)]="email"></app-input-field>
     <app-input-field label="Senha" type="password" [(ngModel)]="senha"></app-input-field>
     <div class="form-actions">
-      <button type="button" class="btn-secondary upscale" (click)="goBack()">Voltar</button>
+      <button type="button" class="btn-secondary upscale" (click)="goBackStep()">Voltar</button>
       <button type="button" class="btn-primary upscale" (click)="submit()">Finalizar</button>
     </div>
   </app-register-card>

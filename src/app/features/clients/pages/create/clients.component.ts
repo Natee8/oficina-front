@@ -5,6 +5,7 @@ import { InputFieldComponent } from '../../../../shared/components/inputs/field/
 import { SelectFieldComponent } from '../../../../shared/components/inputs/field/selectField.component';
 import { RegisterCardComponent } from '../../../../shared/components/registerCard/register-card.component';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-create-client',
@@ -31,19 +32,26 @@ export class CreateClientComponent {
 	lojas = ['Loja 1', 'Loja 2'];
 	tiposLegais = ['Físico', 'Jurídico'];
 
-	goBack() {
-		if (this.step > 1) {
-			this.step--;
-		} else {
-			// lógica para voltar para a listagem, se necessário
-		}
-	}
-	nextStep() {
-		if (this.step < 3) {
-			this.step++;
-		}
-	}
-	submit() {
-		// lógica de envio final
-	}
+  constructor(private router: Router) {}
+
+ goBackStep() {
+    if (this.step > 1) {
+      this.step--;
+    }
+  }
+
+  goBackList() {
+    this.router.navigate(['/clients-list']);
+  }
+
+  nextStep() {
+    if (this.step < 3) {
+      this.step++;
+    }
+  }
+
+  submit() {
+    // lógica de envio do formulário
+  }
+
 }

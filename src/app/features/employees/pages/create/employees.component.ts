@@ -6,13 +6,14 @@ import { InputFieldComponent } from '../../../../shared/components/inputs/field/
 import { SelectFieldComponent } from '../../../../shared/components/inputs/field/selectField.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
 	selector: 'app-create-employee',
 	standalone: true,
 	templateUrl: './employees.component.html',
 	styleUrls: ['./employees.component.scss'],
-	imports: [CommonModule, FormsModule, BackButtonComponent, RegisterCardComponent, InputFieldComponent, SelectFieldComponent]
+	imports: [CommonModule, FormsModule, BackButtonComponent, RegisterCardComponent, InputFieldComponent, SelectFieldComponent, RouterModule]
 })
 
 export class CreateEmployeeComponent {
@@ -20,10 +21,17 @@ export class CreateEmployeeComponent {
 	// Etapa 1
 	nome = '';
 	cpf = '';
+	telefone = '';
+	// Etapa 2
+	addressZip = '';
+	addressStreet = '';
+	addressNumber = '';
+	addressDistrict = '';
+	addressCity = '';
+	addressState = '';
+	// Etapa 3
 	email = '';
 	senha = '';
-	// Etapa 2
-	telefone = '';
 	cargo = '';
 	loja = '';
 	cargos = ['Admin', 'Comum'];
@@ -31,21 +39,26 @@ export class CreateEmployeeComponent {
 
 	constructor(private router: Router) {}
 
-	goBack() {
-		if (this.step === 1) {
-			this.router.navigate(['/employees-list']);
-		} else {
-			this.step = 1;
+	goBackStep() {
+		if (this.step > 1) {
+			this.step--;
 		}
 	}
 
+	goBackList() {
+		this.router.navigate(['/employees-list']);
+	}
+
 	nextStep() {
-		this.step = 2;
+		if (this.step < 3) {
+			this.step++;
+		}
 	}
 
 	submit() {
-		// lógica de envio final
+		// lógica de envio do formulário
 	}
 }
+
 
 

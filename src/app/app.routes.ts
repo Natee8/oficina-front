@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/pages/login.component';
-import { StoresComponent } from './features/stores/pages/stores.component';
-
+import { StoresComponent } from './features/stores/pages/list/stores.component';
+import { CreateStoreComponent } from './features/stores/pages/create/stores.component';
 import { SideBarLayout } from './layout/sideBarLayout/sideBarLayout.component';
 import { NavBarLayout } from './layout/navBarLayout/navBarLayout';
 import { MainLayoutComponent } from './layout/authLayout/authLayout.component';
@@ -79,5 +79,10 @@ export const routes: Routes = [
     path: 'clients-create',
     component: SideBarLayout,
     children: [{ path: '', component: CreateClientComponent }],
+  },
+  {
+    path: 'stores-create',
+    component: SideBarLayout,
+    children: [{ path: '', component: CreateStoreComponent }],
   },
 ];
