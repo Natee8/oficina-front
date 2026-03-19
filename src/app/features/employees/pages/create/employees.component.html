@@ -7,14 +7,13 @@
 <ng-container *ngIf="step === 1">
   <app-register-card
     title="Informações do Funcionário"
-    description="Adicione as informações de contato do funcionário"
+    description="Adicione dados pessoais do funcionário"
     image="assets/images/employee.svg"
     stepInfo="Etapa 1 - 2"
   >
     <app-input-field label="Nome" type="text" [(ngModel)]="nome"></app-input-field>
     <app-input-field label="CPF" type="text" [(ngModel)]="cpf"></app-input-field>
-    <app-input-field label="Email" type="text" [(ngModel)]="email"></app-input-field>
-    <app-input-field label="Senha" type="password" [(ngModel)]="senha"></app-input-field>
+    <app-input-field label="Telefone" type="text" [(ngModel)]="telefone"></app-input-field>
     <button type="button" class="btn-primary upscale" (click)="nextStep()">Avançar</button>
   </app-register-card>
 </ng-container>
@@ -22,13 +21,14 @@
 <ng-container *ngIf="step === 2">
   <app-register-card
     title="Informações do Funcionário"
-    description="Adicione as informações de contato do funcionário"
+    description="Adicione as informações de cadastro do funcionário"
     image="assets/images/employee.svg"
     stepInfo="Etapa 2 - 2"
   >
-    <app-input-field label="Telefone" type="text" [(ngModel)]="telefone"></app-input-field>
-    <app-select-field label="Cargo" [options]="cargos" [(value)]="cargo"></app-select-field>
-    <app-select-field label="Loja" [options]="lojas" [(value)]="loja"></app-select-field>
+    <app-select-field label="Cargo" [options]="cargos" [(ngModel)]="cargo"></app-select-field>
+    <app-select-field label="Loja" [options]="lojas" [(ngModel)]="loja"></app-select-field>
+    <app-input-field label="Email" type="text" [(ngModel)]="email"></app-input-field>
+    <app-input-field label="Senha" type="password" [(ngModel)]="senha"></app-input-field>
     <div class="form-actions">
       <button type="button" class="btn-secondary upscale" (click)="goBack()">Voltar</button>
       <button type="button" class="btn-primary upscale" (click)="submit()">Finalizar</button>

@@ -1,0 +1,61 @@
+<div class="containerHeader">
+  <h1>Novo Cliente</h1>
+  <p>Adicione um novo cliente a sua loja</p>
+  <app-back-button (back)="goBack()"></app-back-button>
+</div>
+
+<ng-container *ngIf="step === 1">
+  <app-register-card
+    title="Informações do Cliente"
+    description="Adicione dados pessoais do cliente"
+    image="assets/images/client.svg"
+    stepInfo="Etapa 1 - 3"
+  >
+    <app-input-field label="Nome" type="text" [(ngModel)]="nome"></app-input-field>
+    <app-input-field label="CPF/CNPJ" type="text" [(ngModel)]="cpfCnpj"></app-input-field>
+    <app-input-field label="Email" type="text" [(ngModel)]="email"></app-input-field>
+    <app-input-field label="Telefone" type="text" [(ngModel)]="phone"></app-input-field>
+    <div class="form-actions">
+      <button type="button" class="btn-secondary upscale" (click)="goBack()">Voltar</button>
+      <button type="button" class="btn-primary upscale" (click)="nextStep()">Avançar</button>
+    </div>
+  </app-register-card>
+</ng-container>
+
+<ng-container *ngIf="step === 2">
+  <app-register-card
+    title="Endereço do Cliente"
+    description="Preencha o endereço do cliente"
+    image="assets/images/client.svg"
+    stepInfo="Etapa 2 - 3"
+  >
+    <app-input-field label="CEP" type="text" [(ngModel)]="addressZip"></app-input-field>
+    <app-input-field label="Rua" type="text" [(ngModel)]="addressStreet"></app-input-field>
+    <app-input-field label="Número" type="text" [(ngModel)]="addressNumber"></app-input-field>
+    <app-input-field label="Bairro" type="text" [(ngModel)]="addressDistrict"></app-input-field>
+    <app-input-field label="Cidade" type="text" [(ngModel)]="addressCity"></app-input-field>
+    <app-input-field label="Estado" type="text" [(ngModel)]="addressState"></app-input-field>
+    <div class="form-actions">
+      <button type="button" class="btn-secondary upscale" (click)="goBack()">Voltar</button>
+      <button type="button" class="btn-primary upscale" (click)="nextStep()">Avançar</button>
+    </div>
+  </app-register-card>
+</ng-container>
+
+<ng-container *ngIf="step === 3">
+  <app-register-card
+    title="Detalhes do Cliente"
+    description="Selecione loja, tipo legal e observações"
+    image="assets/images/client.svg"
+    stepInfo="Etapa 3 - 3"
+  >
+    <app-select-field label="Loja" [options]="lojas" [(ngModel)]="loja"></app-select-field>
+    <app-select-field label="Tipo Legal" [options]="tiposLegais" [(ngModel)]="tipoLegal"></app-select-field>
+    <app-input-field label="Observações" type="text" [(ngModel)]="notes"></app-input-field>
+    <div class="form-actions">
+      <button type="button" class="btn-secondary upscale" (click)="goBack()">Voltar</button>
+      <button type="button" class="btn-primary upscale" (click)="submit()">Finalizar</button>
+    </div>
+  </app-register-card>
+</ng-container>
+

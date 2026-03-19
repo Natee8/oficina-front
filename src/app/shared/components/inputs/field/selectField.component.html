@@ -1,7 +1,7 @@
 <div class="input-simple">
   <select
-    [ngModel]="value"
-    (ngModelChange)="valueChange.emit($event)"
+    [value]="value"
+    (change)="handleChange($event)"
     id="select-{{ label | lowercase }}"
   >
     <option value="" disabled selected hidden></option>
