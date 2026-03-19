@@ -1,0 +1,22 @@
+<app-modal (close)="onCancel()">
+  <div class="modal-wrapper">
+    <div class="modal-header">
+      <h2>Excluir registro</h2>
+      <p>
+        Deseja Realmente excluir esse registro? Atenção! essa alteração não pode ser desfeita uma
+        vez excluido o registro não pode ser recuperado.
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="modal-body">
+      <div class="registro-box">Registro id: {{ registro }}</div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="onCancel()">Cancelar</button>
+      <button class="btn-delete upscale" (click)="onConfirm()">Excluir</button>
+    </div>
+  </div>
+</app-modal>

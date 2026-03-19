@@ -4,13 +4,24 @@ import { TableHeaderComponent } from '../../../../shared/components/tableHeader/
 import { CommonModule } from '@angular/common';
 import { TableStoresMock } from '../../service/mock';
 import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
+import { ModalComponent } from '../../../../shared/components/popup/popup.component';
+import { StepsComponent } from '../steps/steps.component';
+import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
 
 @Component({
   selector: 'app-table-stores',
   standalone: true,
   templateUrl: './tableStores.component.html',
   styleUrls: ['./tableStores.component.scss'],
-  imports: [CommonModule, TableHeaderComponent, TableFooterComponent, TableActionsComponent],
+  imports: [
+    CommonModule,
+    TableHeaderComponent,
+    TableFooterComponent,
+    TableActionsComponent,
+    ModalComponent,
+    StepsComponent,
+    ModalDelete,
+  ],
 })
 export class TableStores {
   page = 1;
@@ -18,20 +29,30 @@ export class TableStores {
 
   columns = TableStoresMock.columns;
   stores = TableStoresMock.stores;
+  activeModal: 'edit' | 'delete' | null = null;
+  selectedStore: any = null;
 
-  handleSearch(value: string) {
-    console.log('buscar:', value);
+  handleEdit(store: any) {
+    this.selectedStore = store;
+    this.activeModal = 'edit';
   }
 
-  changePage(newPage: number) {
-    this.page = newPage;
+  handleDelete(store: any) {
+    this.selectedStore = store;
+    this.activeModal = 'delete';
   }
 
-  handleEdit(client: any) {
-    console.log('Editar:', client);
+  confirmDelete() {
+    console.log('Deletar:', this.selectedStore);
+
+    // aqui depois você chama API
+    // await service.delete(this.selectedStore.id)
+
+    this.closeModal();
   }
 
-  handleDelete(client: any) {
-    console.log('Deletar:', client);
+  closeModal() {
+    this.activeModal = null;
+    this.selectedStore = null;
   }
 }
