@@ -1,0 +1,116 @@
+.os-field-group {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.os-field-group > :first-child {
+  flex: 1 1 0;
+}
+
+.os-field-group > .small-input {
+  max-width: 180px;
+  min-width: 120px;
+  flex: 0 0 180px;
+}
+
+.os-form-container {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 3rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+
+.os-form-container h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #232c45;
+  margin-bottom: 0.5rem;
+}
+
+.os-form-container p {
+  color: #232c45;
+  font-weight: 500;
+}
+
+.os-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #232c45;
+  margin-bottom: 0.25rem;
+}
+
+.os-desc {
+  color: #232c45;
+  font-weight: 500;
+}
+
+.os-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.os-row-3 > * {
+  flex: 1 1 0;
+}
+.os-row > * {
+  flex: 1 1 0;
+}
+
+.containerHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.containerHeader p {
+  color: var(--color-default);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  width: 30%;
+  height: 50px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+  font-size: medium;
+  background-color: var(--color-secondary);
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 50%;
+  height: 50px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #262F47;
+  font-size: medium;
+  background-color: #E5E5E5;
+}
