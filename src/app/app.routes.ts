@@ -5,7 +5,7 @@ import { CreateStoreComponent } from './features/stores/pages/create/stores.comp
 import { SideBarLayout } from './layout/sideBarLayout/sideBarLayout.component';
 import { NavBarLayout } from './layout/navBarLayout/navBarLayout';
 import { MainLayoutComponent } from './layout/authLayout/authLayout.component';
-import { OSsComponent } from './features/osS/pages/oSs.component';
+import { OSsComponent } from './features/osS/pages/list/oSs.component';
 import { EmployeesComponent } from './features/employees/pages/list/employees.component';
 import { ClientsComponent } from './features/clients/pages/list/clients.component';
 import { CreateClientComponent } from './features/clients/pages/create/clients.component';
@@ -15,6 +15,7 @@ import { ProfileComponent } from './features/profile/pages/profile.component';
 import { RegisterComponent } from './features/auth/register/pages/register.component';
 import { TenantListComponent } from './features/tenant/pages/tenant-list.component';
 import { CreateEmployeeComponent } from './features/employees/pages/create/employees.component';
+import { OSsCreateComponent } from './features/osS/pages/create/oSs.component';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
@@ -90,5 +91,10 @@ export const routes: Routes = [
     path: 'car-create',
     component: SideBarLayout,
     children: [{ path: '', component: CreateCarComponent }],
+  },
+  {
+    path: 'os-create',
+    component: SideBarLayout,
+    children: [{ path: '', component: OSsCreateComponent }],
   },
 ];
