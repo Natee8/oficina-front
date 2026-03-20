@@ -5,21 +5,24 @@
 </div>
 
 <app-register-card
-  [title]="currentStep.title"
-  [subtitle]="currentStep.description"
-  [stepInfo]="currentStep.stepInfo"
-  [image]="currentStep.image"
+  [title]="steps[stepIndex].title"
+  [subtitle]="steps[stepIndex].description"
+  [stpsatual]="stepIndex + 1"
+  [steptotal]="steps.length"
+  [image]="steps[stepIndex].image"
+  (next)="nextStep()"
+  (back)="previousStep()"
 >
-  <ng-container [ngSwitch]="step">
+  <ng-container [ngSwitch]="stepIndex">
     <app-step-one
-      *ngSwitchCase="1"
+      *ngSwitchCase="0"
       [(name)]="nome"
       [(cpf)]="cpf"
       [(phone)]="telefone"
     ></app-step-one>
 
     <app-step-two
-      *ngSwitchCase="2"
+      *ngSwitchCase="1"
       [(addressZip)]="addressZip"
       [(addressNumber)]="addressNumber"
       [(addressStreet)]="addressStreet"
@@ -29,7 +32,7 @@
     ></app-step-two>
 
     <app-step-three
-      *ngSwitchCase="3"
+      *ngSwitchCase="2"
       [(cargo)]="cargo"
       [(loja)]="loja"
       [(email)]="email"

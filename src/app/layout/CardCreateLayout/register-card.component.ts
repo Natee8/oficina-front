@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ɵEmptyOutletComponent } from '@angular/router';
 
 @Component({
   selector: 'app-register-card',
@@ -13,26 +12,9 @@ export class RegisterCardComponent {
   @Input() title = '';
   @Input() subtitle = '';
   @Input() image = '';
-  @Input() stepInfo?: string;
+  @Input() stpsatual = 1;
+  @Input() steptotal = 1;
 
-  stpsatual = 1;
-  steptotal = 2;
-
-  nextStep() {
-    if (this.stpsatual < this.steptotal) {
-      this.stpsatual++;
-    } else {
-      this.finish();
-    }
-  }
-
-  previousStep() {
-    if (this.stpsatual > 1) {
-      this.stpsatual--;
-    }
-  }
-
-  finish() {
-    console.log('Finalizado!');
-  }
+  @Output() next = new EventEmitter<void>();
+  @Output() back = new EventEmitter<void>();
 }

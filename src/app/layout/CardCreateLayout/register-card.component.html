@@ -1,7 +1,7 @@
 <div class="container-card">
   <div class="background-image">
-    <div class="step">Step {{ stpsatual }}/{{ steptotal }}</div>
-    <div class="image"></div>
+    <div class="step">Etapa {{ stpsatual }} de {{ steptotal }}</div>
+    <div class="image" [style.backgroundImage]="'url(' + image + ')'"></div>
   </div>
 
   <div class="content">
@@ -13,11 +13,9 @@
     <div class="form"><ng-content></ng-content></div>
 
     <div class="buttons">
-      <button class="btn-default button" *ngIf="stpsatual > 1" (click)="previousStep()">
-        Voltar
-      </button>
+      <button class="btn-default button" *ngIf="stpsatual > 1" (click)="back.emit()">Voltar</button>
 
-      <button class="btn-primary button" (click)="nextStep()">
+      <button class="btn-primary button" (click)="next.emit()">
         {{ stpsatual === steptotal ? 'Finalizar' : 'Avançar' }}
       </button>
     </div>
