@@ -1,42 +1,57 @@
-<app-input-field
-  label="CEP"
-  type="text"
-  [(ngModel)]="addressZip"
-  (ngModelChange)="addressZipChange.emit($event)"
-></app-input-field>
+<div class="row">
+  <div class="field">
+    <app-input-field
+      label="CEP"
+      type="text"
+      [(ngModel)]="addressZip"
+      (ngModelChange)="addressZipChange.emit($event)"
+    ></app-input-field>
+  </div>
 
-<app-input-field
-  label="Número"
-  type="text"
-  [(ngModel)]="addressNumber"
-  (ngModelChange)="addressNumberChange.emit($event)"
-></app-input-field>
+  <div class="field small">
+    <app-input-field
+      label="Número"
+      type="text"
+      [(ngModel)]="addressNumber"
+      (ngModelChange)="addressNumberChange.emit($event)"
+    ></app-input-field>
+  </div>
+</div>
 
-<app-input-field
-  label="Rua"
-  type="text"
-  [(ngModel)]="addressStreet"
-  (ngModelChange)="addressStreetChange.emit($event)"
-></app-input-field>
+<div class="field">
+  <app-input-field
+    label="Rua"
+    type="text"
+    [(ngModel)]="addressStreet"
+    (ngModelChange)="addressStreetChange.emit($event)"
+  ></app-input-field>
+</div>
 
-<app-input-field
-  label="Bairro"
-  type="text"
-  [(ngModel)]="addressDistrict"
-  (ngModelChange)="addressDistrictChange.emit($event)"
-></app-input-field>
+<div class="field">
+  <app-input-field
+    label="Bairro"
+    type="text"
+    [(ngModel)]="addressDistrict"
+    (ngModelChange)="addressDistrictChange.emit($event)"
+  ></app-input-field>
+</div>
 
-<app-input-field
-  label="Cidade"
-  type="text"
-  [(ngModel)]="addressCity"
-  (ngModelChange)="addressCityChange.emit($event)"
-></app-input-field>
+<div class="row">
+  <div class="field">
+    <app-input-field
+      label="Cidade"
+      type="text"
+      [(ngModel)]="addressCity"
+      (ngModelChange)="addressCityChange.emit($event)"
+    ></app-input-field>
+  </div>
 
-<app-input-field
-  label="Estado"
-  type="text"
-  [(ngModel)]="addressState"
-  (ngModelChange)="addressStateChange.emit($event)"
-></app-input-field>
-
+  <div class="field small">
+    <app-input-field
+      label="Estado"
+      type="text"
+      [(ngModel)]="addressState"
+      (ngModelChange)="addressStateChange.emit($event)"
+    ></app-input-field>
+  </div>
+</div>
