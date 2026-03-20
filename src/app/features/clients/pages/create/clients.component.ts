@@ -37,7 +37,7 @@ export class CreateClientComponent {
       title: 'Endereço do Cliente',
       description: 'Preencha o endereço do cliente',
       image: '/assets/images/client.svg',
-      background: '/assets/images/BackTwo.svg',
+      background: '/assets/images/backOne.svg',
     },
     {
       title: 'Detalhes do Cliente',
