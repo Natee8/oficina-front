@@ -22,6 +22,10 @@ export class OSsCreateComponent {
   lojas: string[] = ['Loja 1', 'Loja 2', 'Loja 3'];
   clientes: string[] = ['Cliente 1', 'Cliente 2', 'Cliente 3'];
   veiculos: string[] = ['Veículo 1', 'Veículo 2', 'Veículo 3'];
+  pecasAdicionadas: { nome: string; quantidade: number }[] = [
+    { nome: 'Radiador 125486UD', quantidade: 12 },
+    { nome: 'Motor 45845UA', quantidade: 12 },
+  ];
 
   loja: string = '';
   cliente: string = '';
@@ -33,21 +37,33 @@ export class OSsCreateComponent {
   valorPintura: string = '';
   valorFunilaria: string = '';
 
+  // Segunda etapa
+  segundaEtapa: boolean = false;
+  peca: string = '';
+  quantidade: number | null = null;
+  valorUnitario: string = '';
+
   avancar() {
-    console.log('Dados do formulário:', {
-      loja: this.loja,
-      cliente: this.cliente,
-      veiculo: this.veiculo,
-      dataEntrada: this.dataEntrada,
-      dataSaida: this.dataSaida,
-      pintura: this.pintura,
-      funilaria: this.funilaria,
-      valorPintura: this.valorPintura,
-      valorFunilaria: this.valorFunilaria,
-    });
+    this.segundaEtapa = true;
+  }
+
+  voltar() {
+    this.segundaEtapa = false;
   }
 
   goBackList() {
     // Lógica para voltar para a lista de OSs
+  }
+
+  aumentarQuantidade(peca: { nome: string; quantidade: number }) {
+    peca.quantidade++;
+  }
+
+  diminuirQuantidade(peca: { nome: string; quantidade: number }) {
+    if (peca.quantidade > 1) peca.quantidade--;
+  }
+
+  removerPeca(peca: { nome: string; quantidade: number }) {
+    this.pecasAdicionadas = this.pecasAdicionadas.filter(p => p !== peca);
   }
 }
