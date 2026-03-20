@@ -1,0 +1,19 @@
+<app-select-field
+  label="Loja"
+  [options]="lojas"
+  [(ngModel)]="loja"
+  (ngModelChange)="lojaChange.emit($event)"
+></app-select-field>
+
+<app-select-field
+  label="Tipo Legal"
+  [options]="tiposLegais"
+  [(ngModel)]="tipoLegal"
+  (ngModelChange)="tipoLegalChange.emit($event)"
+></app-select-field>
+
+<app-input-field
+  label="Observações"
+  [(ngModel)]="notes"
+  (ngModelChange)="notesChange.emit($event)"
+></app-input-field>

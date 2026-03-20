@@ -4,61 +4,42 @@
   <app-back-button (back)="goBackList()"></app-back-button>
 </div>
 
-<ng-container *ngIf="step === 1">
-  <app-register-card
-    title="Informações do Cliente"
-    description="Adicione dados pessoais do cliente"
-    image="assets/images/client.svg"
-    stepInfo="Etapa 1 - 3"
-  >
-    <app-input-field label="Nome" type="text" [(ngModel)]="nome"></app-input-field>
-    <app-input-field label="CPF/CNPJ" type="text" [(ngModel)]="cpfCnpj"></app-input-field>
-    <app-input-field label="Email" type="text" [(ngModel)]="email"></app-input-field>
-    <app-input-field label="Telefone" type="text" [(ngModel)]="phone"></app-input-field>
-    <div class="form-actions">
-      <button type="button" class="btn-primary upscale" (click)="nextStep()">Avançar</button>
-    </div>
-  </app-register-card>
-</ng-container>
+<app-register-card
+  [title]="steps[stepIndex].title"
+  [subtitle]="steps[stepIndex].description"
+  [stpsatual]="stepIndex + 1"
+  [steptotal]="steps.length"
+  [image]="steps[stepIndex].image"
+  [backgroundImage]="steps[stepIndex].background"
+  (next)="nextStep()"
+  (back)="previousStep()"
+>
+  <ng-container [ngSwitch]="stepIndex">
+    <app-step-one-client
+      *ngSwitchCase="0"
+      [(nome)]="nome"
+      [(cpfCnpj)]="cpfCnpj"
+      [(email)]="email"
+      [(phone)]="phone"
+    ></app-step-one-client>
 
-<ng-container *ngIf="step === 2">
-  <app-register-card
-    title="Endereço do Cliente"
-    description="Preencha o endereço do cliente"
-    image="assets/images/client.svg"
-    stepInfo="Etapa 2 - 3"
-  >
-    <div style="display: flex; gap: 1rem;">
-      <app-input-field label="CEP" type="text" [(ngModel)]="addressZip" style="flex:1"></app-input-field>
-      <app-input-field label="Número" type="text" [(ngModel)]="addressNumber" style="flex:0.5"></app-input-field>
-    </div>
-    <app-input-field label="Rua" type="text" [(ngModel)]="addressStreet"></app-input-field>
-    <app-input-field label="Bairro" type="text" [(ngModel)]="addressDistrict"></app-input-field>
-    <div style="display: flex; gap: 1rem;">
-      <app-input-field label="Cidade" type="text" [(ngModel)]="addressCity" style="flex:1"></app-input-field>
-      <app-input-field label="Estado" type="text" [(ngModel)]="addressState" style="flex:0.5"></app-input-field>
-    </div>
-    <div class="form-actions">
-      <button type="button" class="btn-secondary upscale" (click)="goBackStep()">Voltar</button>
-      <button type="button" class="btn-primary upscale" (click)="nextStep()">Avançar</button>
-    </div>
-  </app-register-card>
-</ng-container>
+    <app-step-two-client
+      *ngSwitchCase="1"
+      [(addressZip)]="addressZip"
+      [(addressNumber)]="addressNumber"
+      [(addressStreet)]="addressStreet"
+      [(addressDistrict)]="addressDistrict"
+      [(addressCity)]="addressCity"
+      [(addressState)]="addressState"
+    ></app-step-two-client>
 
-<ng-container *ngIf="step === 3">
-  <app-register-card
-    title="Detalhes do Cliente"
-    description="Preencha os detalhes do cliente"
-    image="assets/images/client.svg"
-    stepInfo="Etapa 3 - 3"
-  >
-    <app-select-field label="Loja" [options]="lojas" [(ngModel)]="loja"></app-select-field>
-    <app-select-field label="Tipo Legal" [options]="tiposLegais" [(ngModel)]="tipoLegal"></app-select-field>
-    <app-input-field label="Observações" type="text" [(ngModel)]="notes"></app-input-field>
-    <div class="form-actions">
-      <button type="button" class="btn-secondary upscale" (click)="goBackStep()">Voltar</button>
-      <button type="button" class="btn-primary upscale" (click)="submit()">Finalizar</button>
-    </div>
-  </app-register-card>
-</ng-container>
-
+    <app-step-three-client
+      *ngSwitchCase="2"
+      [(loja)]="loja"
+      [(tipoLegal)]="tipoLegal"
+      [(notes)]="notes"
+      [lojas]="lojas"
+      [tiposLegais]="tiposLegais"
+    ></app-step-three-client>
+  </ng-container>
+</app-register-card>

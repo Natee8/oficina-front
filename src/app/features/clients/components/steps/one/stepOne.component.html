@@ -1,0 +1,23 @@
+<app-input-field
+  label="Nome"
+  [(ngModel)]="nome"
+  (ngModelChange)="nomeChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="CPF/CNPJ"
+  [(ngModel)]="cpfCnpj"
+  (ngModelChange)="cpfCnpjChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Email"
+  [(ngModel)]="email"
+  (ngModelChange)="emailChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Telefone"
+  [(ngModel)]="phone"
+  (ngModelChange)="phoneChange.emit($event)"
+></app-input-field>
