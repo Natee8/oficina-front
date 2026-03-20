@@ -6,16 +6,16 @@
 
 <app-register-card
   [title]="currentStep.title"
-  [description]="currentStep.description"
+  [subtitle]="currentStep.description"
   [stepInfo]="currentStep.stepInfo"
   [image]="currentStep.image"
 >
   <ng-container [ngSwitch]="step">
     <app-step-one
       *ngSwitchCase="1"
-      [(nome)]="nome"
+      [(name)]="nome"
       [(cpf)]="cpf"
-      [(telefone)]="telefone"
+      [(phone)]="telefone"
     ></app-step-one>
 
     <app-step-two

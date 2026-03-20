@@ -1,3 +1,20 @@
-<app-input-field label="Name" type="text" [(ngModel)]="name"></app-input-field>
-<app-input-field label="CPF" type="text" [(ngModel)]="cpf"></app-input-field>
-<app-input-field label="Phone" type="text" [(ngModel)]="phone"></app-input-field>
+<app-input-field
+  label="Nome"
+  type="text"
+  [(ngModel)]="name"
+  (ngModelChange)="nameChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="CPF"
+  type="text"
+  [(ngModel)]="cpf"
+  (ngModelChange)="cpfChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Telefone"
+  type="text"
+  [(ngModel)]="phone"
+  (ngModelChange)="phoneChange.emit($event)"
+></app-input-field>

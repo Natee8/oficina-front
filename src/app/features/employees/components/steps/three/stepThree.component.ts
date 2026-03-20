@@ -4,19 +4,24 @@ import { InputFieldComponent } from '../../../../../shared/components/inputs/fie
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-step-two',
+  selector: 'app-step-three',
   standalone: true,
   imports: [CommonModule, FormsModule, InputFieldComponent],
   templateUrl: './stepThree.component.html',
 })
-export class StepTwoComponent {
-  @Input() addressZip!: string;
-  @Input() addressNumber!: string;
-  @Input() addressStreet!: string;
-  @Input() addressDistrict!: string;
-  @Input() addressCity!: string;
-  @Input() addressState!: string;
+export class StepThreeComponent {
+  @Input() cargo!: string;
+  @Output() cargoChange = new EventEmitter<string>();
 
-  @Output() next = new EventEmitter<void>();
-  @Output() back = new EventEmitter<void>();
+  @Input() loja!: string;
+  @Output() lojaChange = new EventEmitter<string>();
+
+  @Input() email!: string;
+  @Output() emailChange = new EventEmitter<string>();
+
+  @Input() senha!: string;
+  @Output() senhaChange = new EventEmitter<string>();
+
+  @Input() cargos!: string[];
+  @Input() lojas!: string[];
 }

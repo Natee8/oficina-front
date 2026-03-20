@@ -11,8 +11,13 @@ import { CommonModule } from '@angular/common';
 })
 export class StepOneComponent {
   @Input() name!: string;
+  @Output() nameChange = new EventEmitter<string>();
+
   @Input() cpf!: string;
+  @Output() cpfChange = new EventEmitter<string>();
+
   @Input() phone!: string;
+  @Output() phoneChange = new EventEmitter<string>();
 
   @Output() next = new EventEmitter<void>();
 }

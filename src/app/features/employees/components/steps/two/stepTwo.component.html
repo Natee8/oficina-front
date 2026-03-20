@@ -1,34 +1,42 @@
-<div style="display: flex; gap: 1rem">
-  <app-input-field
-    label="CEP"
-    type="text"
-    [(ngModel)]="addressZip"
-    style="flex: 1"
-  ></app-input-field>
-  <app-input-field
-    label="Número"
-    type="text"
-    [(ngModel)]="addressNumber"
-    style="flex: 0.5"
-  ></app-input-field>
-</div>
-<app-input-field label="Rua" type="text" [(ngModel)]="addressStreet"></app-input-field>
-<app-input-field label="Bairro" type="text" [(ngModel)]="addressDistrict"></app-input-field>
-<div style="display: flex; gap: 1rem">
-  <app-input-field
-    label="Cidade"
-    type="text"
-    [(ngModel)]="addressCity"
-    style="flex: 1"
-  ></app-input-field>
-  <app-input-field
-    label="Estado"
-    type="text"
-    [(ngModel)]="addressState"
-    style="flex: 0.5"
-  ></app-input-field>
-</div>
-<div class="form-actions">
-  <button type="button" class="btn-secondary upscale" (click)="back.emit()">Voltar</button>
-  <button type="button" class="btn-primary upscale" (click)="next.emit()">Avançar</button>
-</div>
+<app-input-field
+  label="CEP"
+  type="text"
+  [(ngModel)]="addressZip"
+  (ngModelChange)="addressZipChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Número"
+  type="text"
+  [(ngModel)]="addressNumber"
+  (ngModelChange)="addressNumberChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Rua"
+  type="text"
+  [(ngModel)]="addressStreet"
+  (ngModelChange)="addressStreetChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Bairro"
+  type="text"
+  [(ngModel)]="addressDistrict"
+  (ngModelChange)="addressDistrictChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Cidade"
+  type="text"
+  [(ngModel)]="addressCity"
+  (ngModelChange)="addressCityChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Estado"
+  type="text"
+  [(ngModel)]="addressState"
+  (ngModelChange)="addressStateChange.emit($event)"
+></app-input-field>
+

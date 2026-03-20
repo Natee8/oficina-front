@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/register-card.component';
 import { StepOneComponent } from '../../components/steps/one/stepOne.component';
 import { StepTwoComponent } from '../../components/steps/two/stepTwo.component';
-import { StepThreeComponent } from '../../components/steps/three/stepThree.component';
+import { StepThreeComponent } from "../../components/steps/three/stepThree.component";
 
 @Component({
   selector: 'app-create-employee',
@@ -20,15 +20,13 @@ import { StepThreeComponent } from '../../components/steps/three/stepThree.compo
     CommonModule,
     FormsModule,
     BackButtonComponent,
-    InputFieldComponent,
-    SelectFieldComponent,
     FormsModule,
     RouterModule,
     RegisterCardComponent,
     StepOneComponent,
     StepTwoComponent,
-    StepThreeComponent,
-  ],
+    StepThreeComponent
+],
 })
 export class CreateEmployeeComponent {
   // register-employee.component.ts
