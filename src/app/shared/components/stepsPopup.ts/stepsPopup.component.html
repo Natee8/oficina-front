@@ -1,0 +1,27 @@
+<div class="stepper">
+  <div class="steperContainer">
+    <div
+      *ngFor="let step of steps; let i = index"
+      class="step"
+      [class.active]="i === currentStep"
+      [class.completed]="i < currentStep"
+      (click)="goToStep(i)"
+    >
+      <div class="circle">
+        <i *ngIf="i >= currentStep" [class]="step.icon"></i>
+        <span *ngIf="i < currentStep">✔</span>
+      </div>
+
+      <div class="text">
+        <span class="title">{{ step.title }}</span>
+        <span class="subtitle">{{ step.subtitle }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="progress-line">
+    <div
+      class="progress-fill"
+      [style.width.%]="steps.length > 1 ? (currentStep / (steps.length - 1)) * 100 : 0"
+    ></div>
+  </div>
+</div>

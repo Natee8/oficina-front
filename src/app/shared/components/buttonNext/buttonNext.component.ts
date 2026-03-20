@@ -15,7 +15,7 @@ export class ToggleActionsComponent {
   @Output() back = new EventEmitter<void>();
   @Output() next = new EventEmitter<void>();
 
-  activeNext = true;
+  @Input() activeNext: boolean = true;
 
   goBack() {
     this.activeNext = false;

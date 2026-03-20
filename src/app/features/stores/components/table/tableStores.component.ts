@@ -6,6 +6,7 @@ import { TableStoresMock } from '../../service/mock';
 import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
 import { ModalComponent } from '../../../../shared/components/popup/popup.component';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
+import { EditStoreModalComponent } from '../popupEdit/popupEdit.component';
 
 @Component({
   selector: 'app-table-stores',
@@ -17,8 +18,8 @@ import { ModalDelete } from '../../../../shared/components/modalDelete/modalDele
     TableHeaderComponent,
     TableFooterComponent,
     TableActionsComponent,
-    ModalComponent,
     ModalDelete,
+    EditStoreModalComponent,
   ],
 })
 export class TableStores {

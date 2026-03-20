@@ -26,9 +26,11 @@
     </div>
   </div>
 
-  <app-modal *ngIf="activeModal === 'edit'" (close)="closeModal()" minWidth="800px"> </app-modal>
-
-  <app-modal *ngIf="activeModal === 'edit'" (close)="closeModal()" minWidth="800px"> </app-modal>
+  <app-edit-store-modal
+    *ngIf="activeModal === 'edit'"
+    (closeModalEvent)="closeModal()"
+    [store]="selectedStore"
+  ></app-edit-store-modal>
 
   <app-modal-delete
     *ngIf="activeModal === 'delete'"

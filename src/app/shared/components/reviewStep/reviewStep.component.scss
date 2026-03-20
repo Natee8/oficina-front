@@ -1,0 +1,39 @@
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section {
+  background: #fafafa;
+  border-radius: 10px;
+  padding: 16px;
+
+  h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: var(--color-primary);
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 11px;
+  color: var(--color-default);
+}
+
+.value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
