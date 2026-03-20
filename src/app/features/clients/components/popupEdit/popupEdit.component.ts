@@ -7,33 +7,33 @@ import { StepperComponent } from '../../../../shared/components/stepsPopup.ts/st
 import { ReviewStepComponent } from '../../../../shared/components/reviewStep/reviewStep.component';
 import { ToggleActionsComponent } from '../../../../shared/components/buttonNext/buttonNext.component';
 
-import { StepOneComponent } from '../steps/one/stepOne.component';
-import { StepTwoComponent } from '../steps/two/stepTwo.component';
-import { StepThreeComponent } from '../steps/three/stepThree.component';
-import { StepOneClientComponent } from '../../../clients/components/steps/one/stepOne.component';
+import { StepOneClientComponent } from '../steps/one/stepOne.component';
+import { StepTwoClientComponent } from '../steps/two/stepTwo.component';
+import { StepThreeClientComponent } from '../steps/three/stepThree.component';
 
 @Component({
-  selector: 'app-edit-employee-modal',
+  selector: 'app-edit-client-modal',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     ModalComponent,
     StepperComponent,
-    StepOneComponent,
-    StepTwoComponent,
-    StepThreeComponent,
+    StepOneClientComponent,
+    StepTwoClientComponent,
+    StepThreeClientComponent,
     ReviewStepComponent,
     ToggleActionsComponent,
   ],
   templateUrl: './popupEdit.component.html',
   styleUrls: ['./popupEdit.component.scss'],
 })
-export class EditEmployeeModalComponent {
+export class EditClientModalComponent {
   stepIndex = 0;
 
-  name = '';
-  cpf = '';
+  nome = '';
+  cpfCnpj = '';
+  email = '';
   phone = '';
 
   addressZip = '';
@@ -43,57 +43,39 @@ export class EditEmployeeModalComponent {
   addressCity = '';
   addressState = '';
 
-  cargo = '';
   loja = '';
-  email = '';
-  senha = '';
+  tipoLegal = '';
+  notes = '';
 
-  cargos = ['Gerente', 'Atendente', 'Supervisor'];
-  lojas = ['Loja 1', 'Loja 2'];
+  lojas: string[] = ['Loja 1', 'Loja 2'];
+  tiposLegais: string[] = ['Pessoa Física', 'Pessoa Jurídica'];
 
-  @Input() employee: any;
-  @Input() store: any;
+  @Input() client: any;
   @Output() closeModalEvent = new EventEmitter<void>();
 
   stepsConfig = [
-    {
-      icon: 'fa-solid fa-user',
-      title: 'Step 1/4',
-      subtitle: 'Dados pessoais',
-    },
-    {
-      icon: 'fa-solid fa-location-dot',
-      title: 'Step 2/4',
-      subtitle: 'Endereço',
-    },
-    {
-      icon: 'fa-solid fa-briefcase',
-      title: 'Step 3/4',
-      subtitle: 'Trabalho',
-    },
-    {
-      icon: 'fa-solid fa-flag-checkered',
-      title: 'Step 4/4',
-      subtitle: 'Revisão',
-    },
+    { icon: 'fa-solid fa-user', title: 'Step 1/3', subtitle: 'Dados pessoais' },
+    { icon: 'fa-solid fa-location-dot', title: 'Step 2/3', subtitle: 'Endereço' },
+    { icon: 'fa-solid fa-briefcase', title: 'Step 3/3', subtitle: 'Informações adicionais' },
   ];
 
   ngOnInit() {
-    if (this.employee) {
-      this.name = this.employee.name;
-      this.cpf = this.employee.cpf;
-      this.phone = this.employee.phone;
+    if (this.client) {
+      this.nome = this.client.nome;
+      this.cpfCnpj = this.client.cpfCnpj;
+      this.email = this.client.email;
+      this.phone = this.client.phone;
 
-      this.addressZip = this.employee.zip;
-      this.addressStreet = this.employee.street;
-      this.addressNumber = this.employee.number;
-      this.addressDistrict = this.employee.neighborhood;
-      this.addressCity = this.employee.city;
-      this.addressState = this.employee.state;
+      this.addressZip = this.client.addressZip;
+      this.addressStreet = this.client.addressStreet;
+      this.addressNumber = this.client.addressNumber;
+      this.addressDistrict = this.client.addressDistrict;
+      this.addressCity = this.client.addressCity;
+      this.addressState = this.client.addressState;
 
-      this.cargo = this.employee.cargo;
-      this.loja = this.employee.loja;
-      this.email = this.employee.email;
+      this.loja = this.client.loja;
+      this.tipoLegal = this.client.tipoLegal;
+      this.notes = this.client.notes;
     }
   }
 
@@ -106,38 +88,27 @@ export class EditEmployeeModalComponent {
   }
 
   next() {
-    if (this.stepIndex < this.stepsConfig.length - 1) {
-      this.stepIndex++;
-    }
+    if (this.stepIndex < this.stepsConfig.length - 1) this.stepIndex++;
   }
-
   back() {
-    if (this.stepIndex > 0) {
-      this.stepIndex--;
-    }
+    if (this.stepIndex > 0) this.stepIndex--;
   }
 
   handleNext() {
-    if (this.isLastStep) {
-      this.save();
-    } else {
-      this.next();
-    }
+    if (this.isLastStep) this.save();
+    else this.next();
   }
 
   handleBack() {
-    if (this.stepIndex === 0) {
-      this.close();
-      return;
-    }
-
-    this.back();
+    if (this.stepIndex === 0) this.close();
+    else this.back();
   }
 
   save() {
     const payload = {
-      name: this.name,
-      cpf: this.cpf,
+      nome: this.nome,
+      cpfCnpj: this.cpfCnpj,
+      email: this.email,
       phone: this.phone,
       addressZip: this.addressZip,
       addressStreet: this.addressStreet,
@@ -145,13 +116,12 @@ export class EditEmployeeModalComponent {
       addressDistrict: this.addressDistrict,
       addressCity: this.addressCity,
       addressState: this.addressState,
-      cargo: this.cargo,
       loja: this.loja,
-      email: this.email,
-      senha: this.senha,
+      tipoLegal: this.tipoLegal,
+      notes: this.notes,
     };
 
-    console.log('EDIT EMPLOYEE', payload);
+    console.log('EDIT CLIENT', payload);
   }
 
   close() {
@@ -163,8 +133,9 @@ export class EditEmployeeModalComponent {
       {
         title: 'Dados pessoais',
         fields: [
-          { label: 'Nome', value: this.name },
-          { label: 'CPF', value: this.cpf },
+          { label: 'Nome', value: this.nome },
+          { label: 'CPF/CNPJ', value: this.cpfCnpj },
+          { label: 'Email', value: this.email },
           { label: 'Telefone', value: this.phone },
         ],
       },
@@ -180,11 +151,11 @@ export class EditEmployeeModalComponent {
         ],
       },
       {
-        title: 'Trabalho',
+        title: 'Informações adicionais',
         fields: [
-          { label: 'Cargo', value: this.cargo },
           { label: 'Loja', value: this.loja },
-          { label: 'Email', value: this.email },
+          { label: 'Tipo Legal', value: this.tipoLegal },
+          { label: 'Observações', value: this.notes },
         ],
       },
     ];
