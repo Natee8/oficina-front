@@ -9,6 +9,7 @@ import { StepTwoStoresComponent } from '../steps/two/stepTwo.component';
 import { StepperComponent } from '../../../../shared/components/stepsPopup.ts/stepsPopup.component';
 import { ReviewStepComponent } from '../../../../shared/components/reviewStep/reviewStep.component';
 import { ToggleActionsComponent } from '../../../../shared/components/buttonNext/buttonNext.component';
+import { stepsConfigStore } from '../../../../core/config/stepsLabel.config';
 
 @Component({
   selector: 'app-edit-store-modal',
@@ -41,23 +42,7 @@ export class EditStoreModalComponent {
 
   closeModal = false;
 
-  stepsConfig = [
-    {
-      icon: 'fa-solid fa-user',
-      title: 'Step 1/3',
-      subtitle: 'Informações',
-    },
-    {
-      icon: 'fa-solid fa-location-dot',
-      title: 'Step 2/3',
-      subtitle: 'Endereço',
-    },
-    {
-      icon: 'fa-solid fa-flag-checkered',
-      title: 'Step 3/3',
-      subtitle: 'Finalizar',
-    },
-  ];
+  stepsConfig = stepsConfigStore;
 
   get reviewData() {
     return [

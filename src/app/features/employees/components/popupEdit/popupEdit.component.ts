@@ -11,6 +11,7 @@ import { StepOneComponent } from '../steps/one/stepOne.component';
 import { StepTwoComponent } from '../steps/two/stepTwo.component';
 import { StepThreeComponent } from '../steps/three/stepThree.component';
 import { StepOneClientComponent } from '../../../clients/components/steps/one/stepOne.component';
+import { stepsConfigEmployee } from '../../../../core/config/stepsLabel.config';
 
 @Component({
   selector: 'app-edit-employee-modal',
@@ -55,28 +56,7 @@ export class EditEmployeeModalComponent {
   @Input() store: any;
   @Output() closeModalEvent = new EventEmitter<void>();
 
-  stepsConfig = [
-    {
-      icon: 'fa-solid fa-user',
-      title: 'Step 1/4',
-      subtitle: 'Dados pessoais',
-    },
-    {
-      icon: 'fa-solid fa-location-dot',
-      title: 'Step 2/4',
-      subtitle: 'Endereço',
-    },
-    {
-      icon: 'fa-solid fa-briefcase',
-      title: 'Step 3/4',
-      subtitle: 'Trabalho',
-    },
-    {
-      icon: 'fa-solid fa-flag-checkered',
-      title: 'Step 4/4',
-      subtitle: 'Revisão',
-    },
-  ];
+  stepsConfig = stepsConfigEmployee;
 
   ngOnInit() {
     if (this.employee) {

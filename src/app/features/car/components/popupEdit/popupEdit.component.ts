@@ -9,6 +9,7 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { StepOneCarComponent } from '../steps/one/stepOne.component';
 import { StepTwoCarComponent } from '../steps/two/stepTwo.component';
 import { ReviewStepComponent } from '../../../../shared/components/reviewStep/reviewStep.component';
+import { stepsConfigCar } from '../../../../core/config/stepsLabel.config';
 
 @Component({
   selector: 'app-edit-car-modal',
@@ -45,15 +46,7 @@ export class EditCarModalComponent {
   @Input() car: any;
   @Output() closeModalEvent = new EventEmitter<void>();
 
-  stepsConfig = [
-    { icon: 'fa-solid fa-car', title: 'Step 1/2', subtitle: 'Dados do veículo' },
-    { icon: 'fa-solid fa-info', title: 'Step 2/2', subtitle: 'Informações adicionais' },
-    {
-      icon: 'fa-solid fa-flag-checkered',
-      title: 'Step 3/3',
-      subtitle: 'Finalizar',
-    },
-  ];
+  stepsConfig = stepsConfigCar;
 
   ngOnInit() {
     if (this.car) {

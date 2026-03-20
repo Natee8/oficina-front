@@ -10,6 +10,7 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { StepOneClientComponent } from '../steps/one/stepOne.component';
 import { StepTwoClientComponent } from '../steps/two/stepTwo.component';
 import { StepThreeClientComponent } from '../steps/three/stepThree.component';
+import { stepsConfigClient } from '../../../../core/config/stepsLabel.config';
 
 @Component({
   selector: 'app-edit-client-modal',
@@ -53,11 +54,7 @@ export class EditClientModalComponent {
   @Input() client: any;
   @Output() closeModalEvent = new EventEmitter<void>();
 
-  stepsConfig = [
-    { icon: 'fa-solid fa-user', title: 'Step 1/3', subtitle: 'Dados pessoais' },
-    { icon: 'fa-solid fa-location-dot', title: 'Step 2/3', subtitle: 'Endereço' },
-    { icon: 'fa-solid fa-briefcase', title: 'Step 3/3', subtitle: 'Informações adicionais' },
-  ];
+  stepsConfig = stepsConfigClient;
 
   ngOnInit() {
     if (this.client) {
