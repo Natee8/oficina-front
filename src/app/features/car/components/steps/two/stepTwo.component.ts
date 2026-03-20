@@ -1,20 +1,24 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-step-two',
+  selector: 'app-step-two-car',
+  standalone: true,
+  imports: [CommonModule, FormsModule, InputFieldComponent],
   templateUrl: './stepTwo.component.html',
-  imports: [InputFieldComponent, FormsModule],
 })
-export class StepTwoComponent {
-  @Input() addressZip!: string;
-  @Input() addressNumber!: string;
-  @Input() addressStreet!: string;
-  @Input() addressDistrict!: string;
-  @Input() addressCity!: string;
-  @Input() addressState!: string;
+export class StepTwoCarComponent {
+  @Input() brand!: string;
+  @Output() brandChange = new EventEmitter<string>();
 
-  @Output() next = new EventEmitter<void>();
-  @Output() back = new EventEmitter<void>();
+  @Input() model!: string;
+  @Output() modelChange = new EventEmitter<string>();
+
+  @Input() color!: string;
+  @Output() colorChange = new EventEmitter<string>();
+
+  @Input() notes!: string;
+  @Output() notesChange = new EventEmitter<string>();
 }

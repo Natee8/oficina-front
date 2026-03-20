@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { InputFieldComponent } from '../../../../shared/components/inputs/field/inputField.component';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 import { Router } from '@angular/router';
-import { SelectFieldComponent } from '../../../../shared/components/inputs/field/selectField.component';
 import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/register-card.component';
+import { StepOneCarComponent } from '../../components/steps/one/stepOne.component';
+import { StepTwoCarComponent } from '../../components/steps/two/stepTwo.component';
 
 @Component({
   selector: 'app-create-car',
@@ -15,31 +15,57 @@ import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/regis
   imports: [
     CommonModule,
     FormsModule,
-    InputFieldComponent,
-    SelectFieldComponent,
     BackButtonComponent,
     RegisterCardComponent,
+    StepOneCarComponent,
+    StepTwoCarComponent,
   ],
 })
 export class CreateCarComponent {
-  step = 1;
-  clientes = ['Cliente 1', 'Cliente 2'];
+  stepIndex = 0;
+
+  steps = [
+    {
+      title: 'Informações do Veículo',
+      description: 'Preencha os dados do veículo',
+      image: '/assets/images/car.svg',
+      background: '/assets/images/backOne.svg',
+    },
+    {
+      title: 'Detalhes do Veículo',
+      description: 'Preencha os detalhes do veículo',
+      image: '/assets/images/car.svg',
+      background: '/assets/images/backOne.svg',
+    },
+  ];
+
   cliente = '';
   plate = '';
   year: number | null = null;
   vin = '';
   renavam = '';
   insuranceClaimNumber = '';
+
   brand = '';
   model = '';
   color = '';
   notes = '';
 
+  clientes = ['Cliente 1', 'Cliente 2'];
+
   constructor(private router: Router) {}
 
-  goBackStep() {
-    if (this.step > 1) {
-      this.step--;
+  nextStep() {
+    if (this.stepIndex < this.steps.length - 1) {
+      this.stepIndex++;
+    } else {
+      this.submit();
+    }
+  }
+
+  previousStep() {
+    if (this.stepIndex > 0) {
+      this.stepIndex--;
     }
   }
 
@@ -47,13 +73,20 @@ export class CreateCarComponent {
     this.router.navigate(['/car-list']);
   }
 
-  nextStep() {
-    if (this.step < 2) {
-      this.step++;
-    }
-  }
-
   submit() {
-    // lógica de envio do formulário
+    const payload = {
+      cliente: this.cliente,
+      plate: this.plate,
+      year: this.year,
+      vin: this.vin,
+      renavam: this.renavam,
+      insuranceClaimNumber: this.insuranceClaimNumber,
+      brand: this.brand,
+      model: this.model,
+      color: this.color,
+      notes: this.notes,
+    };
+
+    console.log('Veículo cadastrado!', payload);
   }
 }

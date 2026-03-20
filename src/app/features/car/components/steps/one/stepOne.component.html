@@ -1,5 +1,45 @@
-<app-input-field label="Nome" type="text" [(ngModel)]="name"></app-input-field>
-<app-input-field label="CNPJ" type="text" [(ngModel)]="cnpj"></app-input-field>
-<div class="form-actions">
-  <button type="button" class="btn-primary upscale" (click)="next.emit()">Avançar</button>
+<app-select-field
+  label="Cliente"
+  [options]="clientes"
+  [(ngModel)]="cliente"
+  (ngModelChange)="clienteChange.emit($event)"
+></app-select-field>
+
+<div class="input-row">
+  <app-input-field
+    label="Placa"
+    type="text"
+    [(ngModel)]="plate"
+    (ngModelChange)="plateChange.emit($event)"
+    class="small-input"
+  ></app-input-field>
+
+  <app-input-field
+    label="Ano"
+    type="text"
+    [(ngModel)]="year"
+    (ngModelChange)="yearChange.emit($event)"
+    class="small-input"
+  ></app-input-field>
 </div>
+
+<app-input-field
+  label="VIN"
+  type="text"
+  [(ngModel)]="vin"
+  (ngModelChange)="vinChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Renavam"
+  type="text"
+  [(ngModel)]="renavam"
+  (ngModelChange)="renavamChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Nº Sinistro"
+  type="text"
+  [(ngModel)]="insuranceClaimNumber"
+  (ngModelChange)="insuranceClaimNumberChange.emit($event)"
+></app-input-field>
