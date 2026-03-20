@@ -1,37 +1,79 @@
 <div class="containerHeader">
   <h1>Nova OS</h1>
-  <p>Cadastre uma nova ordem de serviço</p>
+  <p>Adicione uma nova ordem de serviço à sua loja</p>
   <app-back-button (back)="goBackList()"></app-back-button>
 </div>
-
-
-<div class="os-form-container">
-  <h2 class="os-title">Informações da OS</h2>
-  <p class="os-desc">Adicione as informações da ordem de serviço</p>
-  <form>
-    <div class="os-row os-row-3">
-      <app-select-field label="Loja" [options]="lojas" [(ngModel)]="loja" name="loja"></app-select-field>
-      <app-select-field label="Cliente" [options]="clientes" [(ngModel)]="cliente" name="cliente"></app-select-field>
-      <app-select-field label="Veículo" [options]="veiculos" [(ngModel)]="veiculo" name="veiculo"></app-select-field>
+<div class="content">
+  <!-- Step 1 -->
+  <ng-container *ngIf="!segundaEtapa">
+    <div class="titles">
+      <h1>Informações da OS</h1>
+      <h2>Cadastre uma nova ordem de serviço</h2>
     </div>
-    <div class="os-row">
-      <app-input-field label="Data de Entrada" type="text" [(ngModel)]="dataEntrada" name="dataEntrada"></app-input-field>
-      <app-input-field label="Previsão data de saída" type="text" [(ngModel)]="dataSaida" name="dataSaida"></app-input-field>
+    <form>
+      <div class="os-row os-row-3">
+        <app-select-field label="Loja" [options]="lojas" [(ngModel)]="loja" name="loja"></app-select-field>
+        <app-select-field label="Cliente" [options]="clientes" [(ngModel)]="cliente" name="cliente"></app-select-field>
+        <app-select-field label="Veículo" [options]="veiculos" [(ngModel)]="veiculo" name="veiculo"></app-select-field>
+      </div>
+      <div class="os-row">
+        <app-input-field label="Data de Entrada" type="text" [(ngModel)]="dataEntrada" name="dataEntrada" class="input-flex"></app-input-field>
+        <app-input-field label="Previsão data de saída" type="text" [(ngModel)]="dataSaida" name="dataSaida" class="input-flex"></app-input-field>
+      </div>
+      <div class="os-row">
+        <div class="os-field-group">
+          <app-input-field label="Pintura" type="text" [(ngModel)]="pintura" name="pintura"></app-input-field>
+          <app-input-field label="Valor da pintura" type="text" [(ngModel)]="valorPintura" name="valorPintura" class="small-input"></app-input-field>
+        </div>
+      </div>
+      <div class="os-row">
+        <div class="os-field-group">
+          <app-input-field label="Funilaria" type="text" [(ngModel)]="funilaria" name="funilaria"></app-input-field>
+          <app-input-field label="Valor da Funilaria" type="text" [(ngModel)]="valorFunilaria" name="valorFunilaria" class="small-input"></app-input-field>
+        </div>
+      </div>
+      <div class="buttons">
+        <button type="button" class="btn-primary button" (click)="avancar()">Avançar</button>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="segundaEtapa">
+    <div class="titles">
+      <h1>Informações da OS</h1>
+      <h2>Adicione as peças utilizadas na OS</h2>
     </div>
-    <div class="os-row">
-      <div class="os-field-group">
-        <app-input-field label="Pintura" type="text" [(ngModel)]="pintura" name="pintura"></app-input-field>
-        <app-input-field label="Valor da pintura" type="text" [(ngModel)]="valorPintura" name="valorPintura" class="small-input"></app-input-field>
+    <form>
+      <div class="os-row os-row-pecas">
+        <app-input-field label="Peças" type="text" [(ngModel)]="peca" name="peca" class="input-peca input-flex"></app-input-field>
+        <app-input-field label="Quantidade" type="text" [(ngModel)]="quantidade" name="quantidade" class="input-qtd input-flex"></app-input-field>
+        <app-input-field label="Valor Unitário" type="text" [(ngModel)]="valorUnitario" name="valorUnitario" class="input-qtd input-flex"></app-input-field>
+        <button type="button" class="btn-circle-add" title="Adicionar">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+      <div class="titles">
+        <hr class="pecas-divider" />
+        <h1>Novas peças</h1>
+        <h2>Visualize e gerencie as novas peças</h2>
+      </div>
+    <div class="pecas-lista">
+      <div class="peca-card" *ngFor="let peca of pecasAdicionadas">
+        <div class="peca-nome">{{ peca.nome }}</div>
+        <div class="peca-controles">
+          <button type="button" class="peca-btn" (click)="diminuirQuantidade(peca)">-</button>
+          <span class="peca-quantidade">{{ peca.quantidade }}</span>
+          <button type="button" class="peca-btn" (click)="aumentarQuantidade(peca)">+</button>
+        </div>
+        <button type="button" class="peca-delete" (click)="removerPeca(peca)">
+          <i class="fa fa-trash"></i>
+        </button>
       </div>
     </div>
-    <div class="os-row">
-      <div class="os-field-group">
-        <app-input-field label="Funilaria" type="text" [(ngModel)]="funilaria" name="funilaria"></app-input-field>
-        <app-input-field label="Valor da Funilaria" type="text" [(ngModel)]="valorFunilaria" name="valorFunilaria" class="small-input"></app-input-field>
+      <div class="buttons">
+        <button type="button" class="btn-default button" (click)="voltar()">Voltar</button>
+        <button type="submit" class="btn-primary button">Salvar OS</button>
       </div>
-    </div>
-    <div class="form-actions">
-      <button type="button" class="btn-primary upscale" (click)="avancar()">Avançar</button>
-    </div>
-  </form>
+    </form>
+  </ng-container>
 </div>
