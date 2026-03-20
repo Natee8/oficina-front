@@ -6,6 +6,7 @@ import { TableActionsComponent } from '../../../../shared/components/buttonTable
 import { TableVehiclesMock } from '../../service/mock';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
 import { ModalComponent } from '../../../../shared/components/popup/popup.component';
+import { EditCarModalComponent } from '../popupEdit/popupEdit.component';
 
 @Component({
   selector: 'app-table-car',
@@ -17,8 +18,8 @@ import { ModalComponent } from '../../../../shared/components/popup/popup.compon
     TableHeaderComponent,
     TableFooterComponent,
     TableActionsComponent,
-    ModalComponent,
     ModalDelete,
+    EditCarModalComponent,
   ],
 })
 export class TableCar {
