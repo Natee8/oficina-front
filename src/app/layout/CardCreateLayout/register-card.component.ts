@@ -12,6 +12,7 @@ export class RegisterCardComponent {
   @Input() title = '';
   @Input() subtitle = '';
   @Input() image = '';
+  @Input() backgroundImage: string = '';
   @Input() stpsatual = 1;
   @Input() steptotal = 1;
 

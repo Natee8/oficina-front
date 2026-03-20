@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { TableStoresMock } from '../../service/mock';
 import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
 import { ModalComponent } from '../../../../shared/components/popup/popup.component';
-import { StepsComponent } from '../steps/steps.component';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
 
 @Component({
@@ -19,7 +18,6 @@ import { ModalDelete } from '../../../../shared/components/modalDelete/modalDele
     TableFooterComponent,
     TableActionsComponent,
     ModalComponent,
-    StepsComponent,
     ModalDelete,
   ],
 })

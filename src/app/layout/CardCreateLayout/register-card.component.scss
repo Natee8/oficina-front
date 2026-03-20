@@ -19,7 +19,10 @@
     justify-content: start;
     padding: 1rem;
 
-    background: url('/assets/images/backOne.svg') center/cover no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
     border-radius: 8px;
 
     .step {
@@ -36,7 +39,9 @@
     .image {
       width: 100%;
       height: 100%;
-      background: url('/assets/images/employee.svg') center/contain no-repeat;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
       background-color: transparent;
       border-radius: 8px;
       margin-top: 1rem;

@@ -26,13 +26,9 @@
     </div>
   </div>
 
-  <app-modal *ngIf="activeModal === 'edit'" (close)="closeModal()" minWidth="800px">
-    <app-steps-component></app-steps-component>
-  </app-modal>
+  <app-modal *ngIf="activeModal === 'edit'" (close)="closeModal()" minWidth="800px"> </app-modal>
 
-  <app-modal *ngIf="activeModal === 'edit'" (close)="closeModal()" minWidth="800px">
-    <app-steps-component></app-steps-component>
-  </app-modal>
+  <app-modal *ngIf="activeModal === 'edit'" (close)="closeModal()" minWidth="800px"> </app-modal>
 
   <app-modal-delete
     *ngIf="activeModal === 'delete'"

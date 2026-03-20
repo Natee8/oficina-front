@@ -1,0 +1,13 @@
+<app-input-field
+  label="Nome da Loja"
+  type="text"
+  [(ngModel)]="name"
+  (ngModelChange)="nameChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="CNPJ"
+  type="text"
+  [(ngModel)]="cnpj"
+  (ngModelChange)="cnpjChange.emit($event)"
+></app-input-field>

@@ -35,21 +35,21 @@ export class CreateEmployeeComponent {
       title: 'Informações do Funcionário',
       description: 'Adicione dados pessoais do funcionário',
       image: '/assets/images/employee.svg',
-      stepInfo: 'Etapa 1 - 3',
+      background: '/assets/images/backOne.svg',
     },
     {
       component: StepTwoComponent,
       title: 'Endereço do Funcionário',
       description: 'Preencha o endereço do funcionário',
       image: '/assets/images/employee.svg',
-      stepInfo: 'Etapa 2 - 3',
+      background: '/assets/images/backTwo.svg',
     },
     {
       component: StepThreeComponent,
       title: 'Informações do Funcionário',
       description: 'Adicione as informações de cadastro do funcionário',
       image: '/assets/images/employee.svg',
-      stepInfo: 'Etapa 3 - 3',
+      background: '/assets/images/backThree.svg',
     },
   ];
   stepIndex = 0;

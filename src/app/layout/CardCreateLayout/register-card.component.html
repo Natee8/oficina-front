@@ -1,7 +1,11 @@
 <div class="container-card">
-  <div class="background-image">
+  <div
+    class="background-image"
+    [style.backgroundImage]="backgroundImage ? 'url(' + backgroundImage + ')' : null"
+  >
     <div class="step">Etapa {{ stpsatual }} de {{ steptotal }}</div>
-    <div class="image" [style.backgroundImage]="'url(' + image + ')'"></div>
+
+    <div class="image" [style.backgroundImage]="image ? 'url(' + image + ')' : null"></div>
   </div>
 
   <div class="content">
@@ -10,7 +14,9 @@
       <h2>{{ subtitle }}</h2>
     </div>
 
-    <div class="form"><ng-content></ng-content></div>
+    <div class="form">
+      <ng-content></ng-content>
+    </div>
 
     <div class="buttons">
       <button class="btn-default button" *ngIf="stpsatual > 1" (click)="back.emit()">Voltar</button>

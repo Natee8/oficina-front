@@ -11,39 +11,3 @@
   font-weight: 600;
   margin-bottom: 1rem;
 }
-
-.form-actions {
-  display: flex;
-  gap: 1rem;
-  width: 100%;
-  justify-content: flex-end;
-}
-
-.btn-primary {
-  display: flex;
-  align-items: center;
-  align-self: flex-end;
-  justify-content: center;
-  gap: 1rem;
-  width: 50%;
-  height: 50px;
-  border-radius: 8px;
-  font-weight: 600;
-  color: white;
-  font-size: medium;
-  background-color: var(--color-secondary);
-}
-
-.btn-secondary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  width: 50%;
-  height: 50px;
-  border-radius: 8px;
-  font-weight: 600;
-  color: #262F47;
-  font-size: medium;
-  background-color: #E5E5E5;
-}

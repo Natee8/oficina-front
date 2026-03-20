@@ -1,22 +1,49 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { InputFieldComponent } from '../../../../shared/components/inputs/field/inputField.component';
-import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 import { Router } from '@angular/router';
-import { RegisterCardComponent } from "../../../../layout/CardCreateLayout/register-card.component";
+
+import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/register-card.component';
+import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
+
+import { StepOneStoresComponent } from '../../components/steps/one/stepOne.component';
+import { StepTwoStoresComponent } from '../../components/steps/two/stepTwo.component';
 
 @Component({
   selector: 'app-create-store',
   standalone: true,
   templateUrl: './stores.component.html',
   styleUrls: ['./stores.component.scss'],
-  imports: [CommonModule, FormsModule, InputFieldComponent, BackButtonComponent, RegisterCardComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RegisterCardComponent,
+    BackButtonComponent,
+    StepOneStoresComponent,
+    StepTwoStoresComponent,
+  ],
 })
 export class CreateStoreComponent {
-  step = 1;
+  stepIndex = 0;
+
+  steps = [
+    {
+      title: 'Informações da Loja',
+      description: 'Adicione os dados da loja',
+      image: '/assets/images/store.svg',
+      background: '/assets/images/BackTwo.svg',
+    },
+    {
+      title: 'Endereço da Loja',
+      description: 'Preencha o endereço da loja',
+      image: '/assets/images/store.svg',
+      background: '/assets/images/BackTwo.svg',
+    },
+  ];
+
   name = '';
   cnpj = '';
+
   addressZip = '';
   addressStreet = '';
   addressNumber = '';
@@ -26,9 +53,17 @@ export class CreateStoreComponent {
 
   constructor(private router: Router) {}
 
-  goBackStep() {
-    if (this.step > 1) {
-      this.step--;
+  nextStep() {
+    if (this.stepIndex < this.steps.length - 1) {
+      this.stepIndex++;
+    } else {
+      this.finish();
+    }
+  }
+
+  previousStep() {
+    if (this.stepIndex > 0) {
+      this.stepIndex--;
     }
   }
 
@@ -36,13 +71,18 @@ export class CreateStoreComponent {
     this.router.navigate(['/stores-list']);
   }
 
-  nextStep() {
-    if (this.step < 2) {
-      this.step++;
-    }
-  }
+  finish() {
+    const payload = {
+      name: this.name,
+      cnpj: this.cnpj,
+      addressZip: this.addressZip,
+      addressStreet: this.addressStreet,
+      addressNumber: this.addressNumber,
+      addressDistrict: this.addressDistrict,
+      addressCity: this.addressCity,
+      addressState: this.addressState,
+    };
 
-  submit() {
-    // lógica de envio do formulário
+    console.log('Loja cadastrada!', payload);
   }
 }
