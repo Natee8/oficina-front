@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-back-button',
+  selector: 'app-back-button-circle',
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   `,
   styleUrls: ['./buttonBack.component.scss'],
 })
-export class BackButtonComponent {
+export class BackButtonCircleComponent {
   @Output() clickBack = new EventEmitter<void>();
 
   onClick() {

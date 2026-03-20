@@ -9,7 +9,7 @@ import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/regis
 import { StepOneComponent } from '../../components/steps/one/stepOne.component';
 import { StepTwoComponent } from '../../components/steps/two/stepTwo.component';
 import { StepThreeComponent } from '../../components/steps/three/stepThree.component';
-import { BackButtonComponent } from '../../../../shared/components/buttonBack/buttonBack.component';
+import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 
 @Component({
   selector: 'app-create-employee',
@@ -42,14 +42,14 @@ export class CreateEmployeeComponent {
       title: 'Endereço do Funcionário',
       description: 'Preencha o endereço do funcionário',
       image: '/assets/images/employee.svg',
-      background: '/assets/images/backTwo.svg',
+      background: '/assets/images/backOne.svg',
     },
     {
       component: StepThreeComponent,
       title: 'Informações do Funcionário',
       description: 'Adicione as informações de cadastro do funcionário',
       image: '/assets/images/employee.svg',
-      background: '/assets/images/backThree.svg',
+      background: '/assets/images/backOne.svg',
     },
   ];
   stepIndex = 0;
