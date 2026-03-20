@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, FormsModule, InputFieldComponent],
   templateUrl: './stepTwo.component.html',
+  styleUrls: ['./stepTwo.component.scss'],
 })
 export class StepTwoComponent {
   @Input() addressZip!: string;

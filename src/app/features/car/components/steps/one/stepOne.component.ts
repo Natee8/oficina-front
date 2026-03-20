@@ -9,6 +9,7 @@ import { SelectFieldComponent } from '../../../../../shared/components/inputs/fi
   standalone: true,
   imports: [CommonModule, FormsModule, InputFieldComponent, SelectFieldComponent],
   templateUrl: './stepOne.component.html',
+  styleUrls: ['./stepOne.component.scss'],
 })
 export class StepOneCarComponent {
   @Input() cliente!: string;

@@ -6,6 +6,7 @@ import { ClientColumns, ClientListMock } from '../../service/mock';
 import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
 import { ModalComponent } from '../../../../shared/components/popup/popup.component';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
+import { EditClientModalComponent } from '../popupEdit/popupEdit.component';
 
 @Component({
   selector: 'app-table-clients',
@@ -17,8 +18,8 @@ import { ModalDelete } from '../../../../shared/components/modalDelete/modalDele
     TableHeaderComponent,
     TableFooterComponent,
     TableActionsComponent,
-    ModalComponent,
     ModalDelete,
+    EditClientModalComponent,
   ],
 })
 export class TableClients {
@@ -28,6 +29,7 @@ export class TableClients {
 
   activeModal: 'edit' | 'delete' | null = null;
   selectedOs: any = null;
+  selectedClient: any;
 
   columns = ClientColumns;
   clientList = ClientListMock;

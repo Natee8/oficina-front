@@ -38,14 +38,15 @@
     </div>
   </div>
 
-  <app-modal *ngIf="activeModal === 'edit'" (close)="closeModal()" minWidth="800px">
-    <h3>Editar OS</h3>
-    <p>ID: {{ selectedOs?.id }}</p>
-  </app-modal>
+  <app-edit-employee-modal
+    *ngIf="activeModal === 'edit'"
+    [store]="selectedEmployeer"
+    (closeModalEvent)="closeModal()"
+  ></app-edit-employee-modal>
 
   <app-modal-delete
     *ngIf="activeModal === 'delete'"
-    [registro]="selectedOs?.id"
+    [registro]="selectedEmployeer?.id"
     (confirm)="confirmDelete()"
     (cancel)="closeModal()"
   ></app-modal-delete>

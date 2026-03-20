@@ -1,0 +1,56 @@
+<app-modal (close)="close()" minWidth="60%" minHeight="600px">
+  <div class="popupContainer">
+    <div class="modal-header">
+      <h2>Editar funcionário</h2>
+      <p>Edite um funcionário e atualize informações</p>
+    </div>
+
+    <app-stepper
+      [steps]="stepsConfig"
+      [currentStep]="stepIndex"
+      (stepChange)="setStep($event)"
+    ></app-stepper>
+
+    <div class="content">
+      <ng-container [ngSwitch]="stepIndex">
+        <app-step-one
+          *ngSwitchCase="0"
+          [(name)]="name"
+          [(cpf)]="cpf"
+          [(phone)]="phone"
+        ></app-step-one>
+
+        <app-step-two
+          *ngSwitchCase="1"
+          [(addressZip)]="addressZip"
+          [(addressNumber)]="addressNumber"
+          [(addressStreet)]="addressStreet"
+          [(addressDistrict)]="addressDistrict"
+          [(addressCity)]="addressCity"
+          [(addressState)]="addressState"
+        ></app-step-two>
+
+        <app-step-three
+          *ngSwitchCase="2"
+          [(cargo)]="cargo"
+          [(loja)]="loja"
+          [(email)]="email"
+          [(senha)]="senha"
+          [cargos]="cargos"
+          [lojas]="lojas"
+        ></app-step-three>
+
+        <app-review-step *ngSwitchCase="3" [sections]="reviewData"></app-review-step>
+      </ng-container>
+    </div>
+
+    <div class="buttons">
+      <app-toggle-actions
+        [backLabel]="stepIndex === 0 ? 'Cancelar' : 'Voltar'"
+        [nextLabel]="isLastStep ? 'Salvar' : 'Avançar'"
+        (back)="handleBack()"
+        (next)="handleNext()"
+      ></app-toggle-actions>
+    </div>
+  </div>
+</app-modal>

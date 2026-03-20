@@ -34,10 +34,11 @@
     </div>
   </div>
 
-  <app-modal *ngIf="activeModal === 'edit'" (close)="closeModal()" minWidth="800px">
-    <h3>Editar OS</h3>
-    <p>ID: {{ selectedOs?.id }}</p>
-  </app-modal>
+  <app-edit-car-modal
+    *ngIf="activeModal === 'edit'"
+    [car]="selectedOs"
+    (closeModalEvent)="closeModal()"
+  ></app-edit-car-modal>
 
   <app-modal-delete
     *ngIf="activeModal === 'delete'"
