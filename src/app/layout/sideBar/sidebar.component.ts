@@ -53,7 +53,13 @@ export class SideBarComponent {
   }
 
   expandSidebar() {
-    if (this.collapsed) this.collapsed = false;
+    if (this.collapsed) {
+      // Se estiver fechado, apenas abre
+      this.collapsed = false;
+    } else {
+      // Se já estiver aberto, redireciona para o perfil
+      this.router.navigate(['/profile']);
+    }
   }
 
   toggleSubmenu(name: string) {
