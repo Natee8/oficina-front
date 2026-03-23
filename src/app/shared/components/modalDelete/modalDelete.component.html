@@ -1,22 +1,24 @@
-<app-modal (close)="onCancel()">
+<app-modal [hasHeader]="true" (close)="onCancel()" [minWidth]="'650px'" [minHeight]="'480px'">
   <div class="modal-wrapper">
-    <div class="modal-header">
-      <h2>Excluir registro</h2>
-      <p>
-        Deseja Realmente excluir esse registro? Atenção! essa alteração não pode ser desfeita uma
-        vez excluido o registro não pode ser recuperado.
-      </p>
+    <div class="icon-wrapper">
+      <div class="circle outer">
+        <div class="circle inner">
+          <i class="fa-solid fa-trash"></i>
+        </div>
+      </div>
     </div>
 
-    <div class="divider"></div>
+    <div class="modal-header center">
+      <h2>Excluir registro</h2>
+      <p>Deseja realmente excluir esse registro? Atenção! Essa ação não pode ser desfeita.</p>
+    </div>
 
     <div class="modal-body">
       <div class="registro-box">Registro id: {{ registro }}</div>
     </div>
 
-    <div class="modal-actions">
-      <button class="btn-cancel" (click)="onCancel()">Cancelar</button>
-      <button class="btn-delete upscale" (click)="onConfirm()">Excluir</button>
+    <div class="modal-actions center">
+      <button class="btn-delete big" (click)="onConfirm()">Excluir</button>
     </div>
   </div>
 </app-modal>

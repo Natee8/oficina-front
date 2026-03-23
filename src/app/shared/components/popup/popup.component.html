@@ -2,14 +2,16 @@
   <div
     class="modal-content"
     (click)="stopPropagation($event)"
-    [ngStyle]="{
-      'min-width': minWidth,
-      'min-height': minHeight,
-    }"
+    [ngStyle]="{ 'min-width': minWidth, 'min-height': minHeight }"
   >
-    <button class="close-btn" (click)="fechar()">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-    <ng-content></ng-content>
+    <div *ngIf="hasHeader" class="modal-header-top">
+      <button class="close-btn" (click)="fechar()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="modal-inner">
+      <ng-content></ng-content>
+    </div>
   </div>
 </div>
