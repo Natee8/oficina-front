@@ -5,34 +5,94 @@
   </div>
 
   <ul class="menu">
-    <li routerLink="/stores-list" routerLinkActive="active" (click)="expandSidebar()">
-      <img src="assets/icons/building.svg" />
-      <span>Loja</span>
+    <li>
+      <div
+        class="menu-item"
+        (click)="collapsed ? navigate('/stores-list') : toggleSubmenu('stores')"
+      >
+        <img src="assets/icons/building.svg" />
+        <span>Loja</span>
+        <i
+          *ngIf="!collapsed"
+          class="fa-solid"
+          [ngClass]="{ 'fa-chevron-down': !storesOpen, 'fa-chevron-up': storesOpen }"
+        ></i>
+      </div>
+      <ul class="submenu" *ngIf="storesOpen && !collapsed">
+        <li routerLink="/stores-list">Listar lojas</li>
+        <li routerLink="/stores-create">Criar loja</li>
+      </ul>
     </li>
 
-    <li routerLink="/employees-list" routerLinkActive="active" (click)="expandSidebar()">
-      <img src="assets/icons/profile-2user.svg" />
-      <span>Funcionarios</span>
+    <li>
+      <div
+        class="menu-item"
+        (click)="collapsed ? navigate('/employees-list') : toggleSubmenu('employees')"
+      >
+        <img src="assets/icons/profile-2user.svg" />
+        <span>Funcionários</span>
+        <i
+          *ngIf="!collapsed"
+          class="fa-solid"
+          [ngClass]="{ 'fa-chevron-down': !employeesOpen, 'fa-chevron-up': employeesOpen }"
+        ></i>
+      </div>
+      <ul class="submenu" *ngIf="employeesOpen && !collapsed">
+        <li routerLink="/employees-list">Listar funcionários</li>
+        <li routerLink="/employees-create">Criar funcionário</li>
+      </ul>
     </li>
 
-    <li routerLink="/clients-list" routerLinkActive="active" (click)="expandSidebar()">
-      <img src="assets/icons/profile.svg" />
-      <span>Clientes</span>
+    <li>
+      <div
+        class="menu-item"
+        (click)="collapsed ? navigate('/clients-list') : toggleSubmenu('clients')"
+      >
+        <img src="assets/icons/profile.svg" />
+        <span>Clientes</span>
+        <i
+          *ngIf="!collapsed"
+          class="fa-solid"
+          [ngClass]="{ 'fa-chevron-down': !clientsOpen, 'fa-chevron-up': clientsOpen }"
+        ></i>
+      </div>
+      <ul class="submenu" *ngIf="clientsOpen && !collapsed">
+        <li routerLink="/clients-list">Listar clientes</li>
+        <li routerLink="/clients-create">Criar cliente</li>
+      </ul>
     </li>
 
-    <li routerLink="/os-list" routerLinkActive="active" (click)="expandSidebar()">
-      <img src="assets/icons/chart.svg" />
-      <span>OSs</span>
+    <li>
+      <div class="menu-item" (click)="collapsed ? navigate('/os-list') : toggleSubmenu('oss')">
+        <img src="assets/icons/chart.svg" />
+        <span>OSs</span>
+        <i
+          *ngIf="!collapsed"
+          class="fa-solid"
+          [ngClass]="{ 'fa-chevron-down': !ossOpen, 'fa-chevron-up': ossOpen }"
+        ></i>
+      </div>
+      <ul class="submenu" *ngIf="ossOpen && !collapsed">
+        <li routerLink="/os-list">Listar OSs</li>
+        <li routerLink="/os-create">Criar OS</li>
+      </ul>
     </li>
 
-    <li routerLink="/car-list" outerLinkActive="active" (click)="expandSidebar()">
-      <img src="assets/icons/car.svg" />
-      <span>Veiculos</span>
+    <li>
+      <div class="menu-item" (click)="collapsed ? navigate('/car-list') : toggleSubmenu('cars')">
+        <img src="assets/icons/car.svg" />
+        <span>Veículos</span>
+        <i
+          *ngIf="!collapsed"
+          class="fa-solid"
+          [ngClass]="{ 'fa-chevron-down': !carsOpen, 'fa-chevron-up': carsOpen }"
+        ></i>
+      </div>
+      <ul class="submenu" *ngIf="carsOpen && !collapsed">
+        <li routerLink="/car-list">Listar veículos</li>
+        <li routerLink="/car-create">Criar veículo</li>
+      </ul>
     </li>
-    <!--<li (click)="expandSidebar()">
-      <img src="assets/icons/building.svg" />
-      <span>Empresa</span>
-    </li> -->
   </ul>
 
   <button class="logout">

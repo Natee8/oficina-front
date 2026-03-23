@@ -5,7 +5,7 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
   selector: 'app-modal',
   templateUrl: './popup.component.html',
   styleUrls: ['./popup.component.scss'],
-  imports: [NgStyle, NgIf, NgClass],
+  imports: [NgStyle, NgIf],
 })
 export class ModalComponent {
   @Output() close = new EventEmitter<void>();
