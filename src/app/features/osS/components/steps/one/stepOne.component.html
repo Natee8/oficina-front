@@ -1,0 +1,79 @@
+<div class="titles">
+  <h1>Informações da OS</h1>
+  <h2>Cadastre uma nova ordem de serviço</h2>
+</div>
+<form>
+  <div class="os-row os-row-3">
+    <app-select-field
+      label="Loja"
+      [options]="lojas"
+      [(ngModel)]="loja"
+      name="loja"
+    ></app-select-field>
+    <app-select-field
+      label="Cliente"
+      [options]="clientes"
+      [(ngModel)]="cliente"
+      name="cliente"
+    ></app-select-field>
+    <app-select-field
+      label="Veículo"
+      [options]="veiculos"
+      [(ngModel)]="veiculo"
+      name="veiculo"
+    ></app-select-field>
+  </div>
+  <div class="os-row">
+    <app-input-field
+      label="Data de Entrada"
+      type="text"
+      [(ngModel)]="dataEntrada"
+      name="dataEntrada"
+      class="input-flex"
+    ></app-input-field>
+    <app-input-field
+      label="Previsão data de saída"
+      type="text"
+      [(ngModel)]="dataSaida"
+      name="dataSaida"
+      class="input-flex"
+    ></app-input-field>
+  </div>
+  <div class="os-row">
+    <div class="os-field-group">
+      <app-input-field
+        label="Pintura"
+        type="text"
+        [(ngModel)]="pintura"
+        name="pintura"
+      ></app-input-field>
+      <app-input-field
+        label="Valor da pintura"
+        type="text"
+        [(ngModel)]="valorPintura"
+        name="valorPintura"
+        class="small-input"
+      ></app-input-field>
+    </div>
+  </div>
+  <div class="os-row">
+    <div class="os-field-group">
+      <app-input-field
+        label="Funilaria"
+        type="text"
+        [(ngModel)]="funilaria"
+        name="funilaria"
+      ></app-input-field>
+      <app-input-field
+        label="Valor da Funilaria"
+        type="text"
+        [(ngModel)]="valorFunilaria"
+        name="valorFunilaria"
+        class="small-input"
+      ></app-input-field>
+    </div>
+  </div>
+  <div class="buttons">
+    <button type="button" class="btn-primary button" (click)="avancar()">Avançar</button>
+  </div>
+</form>

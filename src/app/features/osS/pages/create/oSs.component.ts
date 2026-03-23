@@ -1,27 +1,24 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { InputFieldComponent } from '../../../../shared/components/inputs/field/inputField.component';
-import { SelectFieldComponent } from '../../../../shared/components/inputs/field/selectField.component';
+
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 
+import { OsStepOneComponent } from '../../components/steps/one/stepOne.component';
+import { OsStepTwoComponent } from '../../components/steps/two/stepTwo.component';
+
 @Component({
-  selector: 'app-oSs-create',
+  selector: 'app-os-create',
   standalone: true,
   templateUrl: './oSs.component.html',
   styleUrls: ['./oSs.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    InputFieldComponent,
-    SelectFieldComponent,
-    BackButtonComponent,
-  ],
+  imports: [CommonModule, FormsModule, CommonModule, OsStepOneComponent, OsStepTwoComponent],
 })
 export class OSsCreateComponent {
   lojas: string[] = ['Loja 1', 'Loja 2', 'Loja 3'];
   clientes: string[] = ['Cliente 1', 'Cliente 2', 'Cliente 3'];
   veiculos: string[] = ['Veículo 1', 'Veículo 2', 'Veículo 3'];
+
   pecasAdicionadas: { nome: string; quantidade: number }[] = [
     { nome: 'Radiador 125486UD', quantidade: 12 },
     { nome: 'Motor 45845UA', quantidade: 12 },
@@ -37,7 +34,6 @@ export class OSsCreateComponent {
   valorPintura: string = '';
   valorFunilaria: string = '';
 
-  // Segunda etapa
   segundaEtapa: boolean = false;
   peca: string = '';
   quantidade: number | null = null;
@@ -51,8 +47,15 @@ export class OSsCreateComponent {
     this.segundaEtapa = false;
   }
 
-  goBackList() {
-    // Lógica para voltar para a lista de OSs
+  goBackList() {}
+
+  adicionarPeca() {
+    if (this.peca && this.quantidade) {
+      this.pecasAdicionadas.push({ nome: this.peca, quantidade: this.quantidade });
+      this.peca = '';
+      this.quantidade = null;
+      this.valorUnitario = '';
+    }
   }
 
   aumentarQuantidade(peca: { nome: string; quantidade: number }) {
@@ -64,6 +67,6 @@ export class OSsCreateComponent {
   }
 
   removerPeca(peca: { nome: string; quantidade: number }) {
-    this.pecasAdicionadas = this.pecasAdicionadas.filter(p => p !== peca);
+    this.pecasAdicionadas = this.pecasAdicionadas.filter((p) => p !== peca);
   }
 }

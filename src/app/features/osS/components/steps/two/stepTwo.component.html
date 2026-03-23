@@ -1,0 +1,57 @@
+<div class="titles">
+  <h1>Informações da OS</h1>
+  <h2>Adicione as peças utilizadas na OS</h2>
+</div>
+<form>
+  <div class="os-row os-row-pecas">
+    <app-input-field
+      label="Peças"
+      type="text"
+      [(ngModel)]="peca"
+      name="peca"
+      class="input-peca input-flex"
+    ></app-input-field>
+    <app-input-field
+      label="Quantidade"
+      type="text"
+      [(ngModel)]="quantidade"
+      name="quantidade"
+      class="input-qtd input-flex"
+    ></app-input-field>
+    <app-input-field
+      label="Valor Unitário"
+      type="text"
+      [(ngModel)]="valorUnitario"
+      name="valorUnitario"
+      class="input-qtd input-flex"
+    ></app-input-field>
+    <button type="button" class="btn-circle-add" title="Adicionar" (click)="adicionar()">
+      <i class="fa fa-plus"></i>
+    </button>
+  </div>
+
+  <div class="titles">
+    <hr class="pecas-divider" />
+    <h1>Novas peças</h1>
+    <h2>Visualize e gerencie as novas peças</h2>
+  </div>
+
+  <div class="pecas-lista">
+    <div class="peca-card" *ngFor="let peca of pecasAdicionadas">
+      <div class="peca-nome">{{ peca.nome }}</div>
+      <div class="peca-controles">
+        <button type="button" class="peca-btn" (click)="diminuir(peca)">-</button>
+        <span class="peca-quantidade">{{ peca.quantidade }}</span>
+        <button type="button" class="peca-btn" (click)="aumentar(peca)">+</button>
+      </div>
+      <button type="button" class="peca-delete" (click)="remover(peca)">
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button type="button" class="btn-default button" (click)="voltar()">Voltar</button>
+    <button type="submit" class="btn-primary button">Salvar OS</button>
+  </div>
+</form>
