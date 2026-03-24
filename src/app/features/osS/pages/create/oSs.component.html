@@ -20,10 +20,10 @@
     [(peca)]="peca"
     [(quantidade)]="quantidade"
     [(valorUnitario)]="valorUnitario"
-    (adicionar)="adicionarPeca()"
+    (adicionarPeca)="adicionarPeca()"
     [pecasAdicionadas]="pecasAdicionadas"
-    (remover)="removerPeca($event)"
-    (aumentar)="aumentarQuantidade($event)"
-    (diminuir)="diminuirQuantidade($event)"
+    (removerPecaEvent)="removerPeca($event)"
+    (aumentarQtd)="aumentarQuantidade($event)"
+    (diminuirQtd)="diminuirQuantidade($event)"
   ></app-os-step-two>
 </ng-container>

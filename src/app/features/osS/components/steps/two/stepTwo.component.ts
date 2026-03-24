@@ -11,12 +11,12 @@ import { CommonModule } from '@angular/common';
 })
 export class OsStepTwoComponent {
   @Input() peca!: string;
-  @Input() quantidade!: string;
+  @Input() quantidade!: number | null;
   @Input() valorUnitario!: string;
   @Input() pecasAdicionadas: any[] = [];
 
   @Output() pecaChange = new EventEmitter<string>();
-  @Output() quantidadeChange = new EventEmitter<string>();
+  @Output() quantidadeChange = new EventEmitter<number | null>();
   @Output() valorUnitarioChange = new EventEmitter<string>();
 
   @Output() adicionarPeca = new EventEmitter<void>();

@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
-
 import { OsStepOneComponent } from '../../components/steps/one/stepOne.component';
 import { OsStepTwoComponent } from '../../components/steps/two/stepTwo.component';
 
