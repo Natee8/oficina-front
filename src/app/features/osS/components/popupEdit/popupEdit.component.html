@@ -1,0 +1,60 @@
+<app-modal (close)="close()" minWidth="60%" minHeight="600px">
+  <div class="popupContainer">
+    <div class="modal-header">
+      <h2>Editar OS</h2>
+      <p>Edite uma ordem de serviço existente</p>
+    </div>
+
+    <app-stepper
+      [steps]="stepsConfig"
+      [currentStep]="stepIndex"
+      (stepChange)="setStep($event)"
+    ></app-stepper>
+
+    <div class="content">
+      <ng-container [ngSwitch]="stepIndex">
+        <!-- STEP 1 -->
+        <app-os-step-one
+          *ngSwitchCase="0"
+          [lojas]="lojas"
+          [clientes]="clientes"
+          [veiculos]="veiculos"
+          [(loja)]="loja"
+          [(cliente)]="cliente"
+          [(veiculo)]="veiculo"
+          [(dataEntrada)]="dataEntrada"
+          [(dataSaida)]="dataSaida"
+          [(pintura)]="pintura"
+          [(valorPintura)]="valorPintura"
+          [(funilaria)]="funilaria"
+          [(valorFunilaria)]="valorFunilaria"
+        ></app-os-step-one>
+
+        <!-- STEP 2 -->
+        <app-os-step-two
+          *ngSwitchCase="1"
+          [(peca)]="peca"
+          [(quantidade)]="quantidade"
+          [(valorUnitario)]="valorUnitario"
+          [pecasAdicionadas]="pecasAdicionadas"
+          (adicionarPeca)="adicionarPeca()"
+          (aumentarQtd)="aumentarQtd($event)"
+          (diminuirQtd)="diminuirQtd($event)"
+          (removerPecaEvent)="removerPeca($event)"
+        ></app-os-step-two>
+
+        <!-- REVIEW -->
+        <app-review-step *ngSwitchCase="2" [sections]="reviewData"></app-review-step>
+      </ng-container>
+    </div>
+
+    <div class="buttons">
+      <app-toggle-actions
+        [backLabel]="stepIndex === 0 ? 'Cancelar' : 'Voltar'"
+        [nextLabel]="isLastStep ? 'Salvar' : 'Avançar'"
+        (back)="handleBack()"
+        (next)="handleNext()"
+      ></app-toggle-actions>
+    </div>
+  </div>
+</app-modal>

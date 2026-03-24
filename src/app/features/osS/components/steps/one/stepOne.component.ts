@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-os-step-one',
   standalone: true,
   templateUrl: './stepOne.component.html',
+  styleUrls: ['./stepOne.component.scss'],
   imports: [FormsModule, InputFieldComponent, SelectFieldComponent, CommonModule],
 })
 export class OsStepOneComponent {

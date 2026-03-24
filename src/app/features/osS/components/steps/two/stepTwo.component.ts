@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-os-step-two',
   standalone: true,
   templateUrl: './stepTwo.component.html',
+  styleUrls: ['./stepTwo.component.scss'],
   imports: [FormsModule, InputFieldComponent, CommonModule],
 })
 export class OsStepTwoComponent {

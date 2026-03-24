@@ -6,6 +6,7 @@ import { OsColumns, OsListMock } from '../../service/mock';
 import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
 import { ModalComponent } from '../../../../shared/components/popup/popup.component';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
+import { EditOsModalComponent } from '../popupEdit/popupEdit.component';
 
 @Component({
   selector: 'app-table-os',
@@ -17,8 +18,8 @@ import { ModalDelete } from '../../../../shared/components/modalDelete/modalDele
     TableHeaderComponent,
     TableFooterComponent,
     TableActionsComponent,
-    ModalComponent,
     ModalDelete,
+    EditOsModalComponent,
   ],
 })
 export class TableOs {
@@ -27,6 +28,10 @@ export class TableOs {
   pageSize = 5;
   activeModal: 'edit' | 'delete' | null = null;
   selectedOs: any = null;
+
+  lojas: any[] = [];
+  clientes: any[] = [];
+  veiculos: any[] = [];
 
   columns = OsColumns;
   osList = OsListMock;

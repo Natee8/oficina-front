@@ -1,0 +1,42 @@
+.titles {
+  h1 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #666;
+  }
+}
+
+.os-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.os-row-3 > * {
+  flex: 1 1 0;
+}
+
+.input-flex {
+  flex: 1 1 0;
+}
+
+.os-field-group {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.os-field-group > :first-child {
+  flex: 1 1 0;
+}
+
+.os-field-group > .small-input {
+  max-width: 180px;
+  min-width: 120px;
+  flex: 0 0 180px;
+}
