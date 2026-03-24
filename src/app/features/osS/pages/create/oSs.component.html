@@ -1,29 +1,38 @@
-<ng-container *ngIf="!segundaEtapa">
-  <app-os-step-one
-    [lojas]="lojas"
-    [clientes]="clientes"
-    [veiculos]="veiculos"
-    [(loja)]="loja"
-    [(cliente)]="cliente"
-    [(veiculo)]="veiculo"
-    [(dataEntrada)]="dataEntrada"
-    [(dataSaida)]="dataSaida"
-    [(pintura)]="pintura"
-    [(funilaria)]="funilaria"
-    [(valorPintura)]="valorPintura"
-    [(valorFunilaria)]="valorFunilaria"
-  ></app-os-step-one>
-</ng-container>
+<div class="content">
+  <ng-container [ngSwitch]="stepAtual">
+    <app-os-step-one
+      *ngSwitchCase="1"
+      [lojas]="lojas"
+      [clientes]="clientes"
+      [veiculos]="veiculos"
+      [(loja)]="loja"
+      [(cliente)]="cliente"
+      [(veiculo)]="veiculo"
+      [(dataEntrada)]="dataEntrada"
+      [(dataSaida)]="dataSaida"
+      [(pintura)]="pintura"
+      [(funilaria)]="funilaria"
+      [(valorPintura)]="valorPintura"
+      [(valorFunilaria)]="valorFunilaria"
+    ></app-os-step-one>
 
-<ng-container *ngIf="segundaEtapa">
-  <app-os-step-two
-    [(peca)]="peca"
-    [(quantidade)]="quantidade"
-    [(valorUnitario)]="valorUnitario"
-    (adicionarPeca)="adicionarPeca()"
-    [pecasAdicionadas]="pecasAdicionadas"
-    (removerPecaEvent)="removerPeca($event)"
-    (aumentarQtd)="aumentarQuantidade($event)"
-    (diminuirQtd)="diminuirQuantidade($event)"
-  ></app-os-step-two>
-</ng-container>
+    <app-os-step-two
+      *ngSwitchCase="2"
+      [(peca)]="peca"
+      [(quantidade)]="quantidade"
+      [(valorUnitario)]="valorUnitario"
+      (adicionarPeca)="adicionarPeca()"
+      [pecasAdicionadas]="pecasAdicionadas"
+      (removerPecaEvent)="removerPeca($event)"
+      (aumentarQtd)="aumentarQuantidade($event)"
+      (diminuirQtd)="diminuirQuantidade($event)"
+    ></app-os-step-two>
+  </ng-container>
+  <div class="buttons">
+    <button class="btn-default button" *ngIf="stepAtual > 1" (click)="backStep()">Voltar</button>
+
+    <button class="btn-primary button" (click)="nextStep()">
+      {{ stepAtual === stepTotal ? 'Finalizar' : 'Avançar' }}
+    </button>
+  </div>
+</div>

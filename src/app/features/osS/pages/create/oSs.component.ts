@@ -32,17 +32,42 @@ export class OSsCreateComponent {
   valorPintura: string = '';
   valorFunilaria: string = '';
 
-  segundaEtapa: boolean = false;
   peca: string = '';
   quantidade: number | null = null;
   valorUnitario: string = '';
 
-  avancar() {
-    this.segundaEtapa = true;
+  stepAtual = 1;
+  stepTotal = 2;
+
+  nextStep() {
+    if (this.stepAtual < this.stepTotal) {
+      this.stepAtual++;
+    } else {
+      this.finalizar();
+    }
   }
 
-  voltar() {
-    this.segundaEtapa = false;
+  backStep() {
+    if (this.stepAtual > 1) {
+      this.stepAtual--;
+    }
+  }
+
+  finalizar() {
+    const payload = {
+      loja: this.loja,
+      cliente: this.cliente,
+      veiculo: this.veiculo,
+      dataEntrada: this.dataEntrada,
+      dataSaida: this.dataSaida,
+      pintura: this.pintura,
+      valorPintura: this.valorPintura,
+      funilaria: this.funilaria,
+      valorFunilaria: this.valorFunilaria,
+      pecas: this.pecasAdicionadas,
+    };
+
+    console.log('CREATE OS', payload);
   }
 
   goBackList() {}

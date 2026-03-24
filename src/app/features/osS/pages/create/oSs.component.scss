@@ -1,89 +1,17 @@
-// Linha decorativa para o título 'Novas peças'
-.pecas-divider {
-  border: none;
-  border-top: 1.5px dashed #d3d7e0;
-  margin-bottom: 2rem;
-  margin-top: 1rem;
-}
-// Lista de peças adicionadas
-.pecas-lista {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 2rem;
-  margin-bottom: 1.5rem;
-}
+@import '../../../../style/styles.scss';
 
-.peca-card {
-  display: flex;
-  align-items: center;
-  background: #fafbfc;
-  border: 1.5px solid #d3d7e0;
-  border-radius: 20px;
-  padding: 1.5rem;
-  gap: 2rem;
-  box-shadow: none;
+.buttons {
   width: 100%;
-  position: relative;
-}
-
-.peca-nome {
-  flex: 1;
-  font-weight: 600;
-  color: #555a6a;
-  font-size: 1.1rem;
-}
-
-.peca-controles {
   display: flex;
-  align-items: center;
-  gap: 1.2rem;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: auto;
 }
 
-.peca-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  border: none;
-  background: #edeff2;
-  color: #7a7e8c;
-  font-size: 1.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.peca-btn:hover {
-  background: #e2e4ea;
+.button {
+  width: 30%;
 }
 
-.peca-quantidade {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #555a6a;
-  min-width: 32px;
-  text-align: center;
-}
-
-.peca-delete {
-  margin-left: auto;
-  background: #ff5c5c;
-  border: none;
-  border-radius: 12px;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.peca-delete i {
-  color: #fff;
-  font-size: 15px;
-}
-.peca-delete:hover {
-  background: #e04a4a;
-}
 .content {
   flex: 1;
   display: flex;
@@ -97,128 +25,4 @@
   max-width: 100%;
   justify-content: flex-start;
   gap: 2rem;
-
-  .titles {
-    h1 {
-      margin: 0;
-      font-size: 1.8rem;
-    }
-    h2 {
-      margin: 0;
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: #666;
-    }
-  }
-
-  ng-content {
-    flex: 1;
-    padding: 1rem 0;
-  }
-
-  .buttons {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: auto;
-  }
-  .button {
-    width: 30%;
-  }
 }
-
-.os-field-group {
-  display: flex;
-  gap: 1.5rem;
-  width: 100%;
-}
-
-.os-field-group > :first-child {
-  flex: 1 1 0;
-}
-
-.os-field-group > .small-input {
-  max-width: 180px;
-  min-width: 120px;
-  flex: 0 0 180px;
-}
-
-.os-row {
-  display: flex;
-  gap: 1rem;
-}
-
-.os-row-3 > * {
-  flex: 1 1 0;
-}
-
-.input-flex {
-  flex: 1 1 0;
-}
-
-.containerHeader {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 2rem;
-}
-
-.containerHeader p {
-  color: var(--color-default);
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.os-row-pecas {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-}
-
-.input-peca {
-  flex: 2 1 0;
-}
-
-.input-qtd {
-  flex: 1 1 0;
-  min-width: 120px;
-  max-width: 180px;
-}
-
-.btn-circle-add {
-  width: 55px;
-  height: 55px;
-  min-width: 55px;
-  min-height: 55px;
-  border-radius: 50%;
-  background: #FF9E2D;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0.5rem;
-  padding: 0;
-  transition: background 0.2s;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  cursor: pointer;
-}
-.btn-circle-add i {
-  color: #fff;
-  font-size: 1.2rem;
-  font-weight: bold;
-  line-height: 1;
-}
-.btn-circle-add:hover {
-  background: #e6861a;
-}
-
-
-
-
-
-
-
