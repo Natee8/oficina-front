@@ -1,1 +1,21 @@
 @import '../../../../style/styles.scss';
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.step-scroll {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+.step-inner {
+  max-height: 400px;
+  width: 100%;
+}

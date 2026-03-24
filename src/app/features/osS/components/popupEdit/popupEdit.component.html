@@ -13,38 +13,43 @@
 
     <div class="content">
       <ng-container [ngSwitch]="stepIndex">
-        <!-- STEP 1 -->
-        <app-os-step-one
-          *ngSwitchCase="0"
-          [lojas]="lojas"
-          [clientes]="clientes"
-          [veiculos]="veiculos"
-          [(loja)]="loja"
-          [(cliente)]="cliente"
-          [(veiculo)]="veiculo"
-          [(dataEntrada)]="dataEntrada"
-          [(dataSaida)]="dataSaida"
-          [(pintura)]="pintura"
-          [(valorPintura)]="valorPintura"
-          [(funilaria)]="funilaria"
-          [(valorFunilaria)]="valorFunilaria"
-        ></app-os-step-one>
+        <div *ngSwitchCase="0" class="step-scroll">
+          <div class="step-inner">
+            <app-os-step-one
+              [lojas]="lojas"
+              [clientes]="clientes"
+              [veiculos]="veiculos"
+              [(loja)]="loja"
+              [(cliente)]="cliente"
+              [(veiculo)]="veiculo"
+              [(dataEntrada)]="dataEntrada"
+              [(dataSaida)]="dataSaida"
+              [(pintura)]="pintura"
+              [(valorPintura)]="valorPintura"
+              [(funilaria)]="funilaria"
+              [(valorFunilaria)]="valorFunilaria"
+            ></app-os-step-one>
+          </div>
+        </div>
 
-        <!-- STEP 2 -->
-        <app-os-step-two
-          *ngSwitchCase="1"
-          [(peca)]="peca"
-          [(quantidade)]="quantidade"
-          [(valorUnitario)]="valorUnitario"
-          [pecasAdicionadas]="pecasAdicionadas"
-          (adicionarPeca)="adicionarPeca()"
-          (aumentarQtd)="aumentarQtd($event)"
-          (diminuirQtd)="diminuirQtd($event)"
-          (removerPecaEvent)="removerPeca($event)"
-        ></app-os-step-two>
+        <div *ngSwitchCase="1" class="step-scroll">
+          <div class="step-inner">
+            <app-os-step-two
+              [(peca)]="peca"
+              [(quantidade)]="quantidade"
+              [(valorUnitario)]="valorUnitario"
+              [pecasAdicionadas]="pecasAdicionadas"
+              (adicionarPeca)="adicionarPeca()"
+              (aumentarQtd)="aumentarQtd($event)"
+              (diminuirQtd)="diminuirQtd($event)"
+              (removerPecaEvent)="removerPeca($event)"
+            ></app-os-step-two>
+          </div>
+        </div>
 
-        <!-- REVIEW -->
-        <app-review-step *ngSwitchCase="2" [sections]="reviewData"></app-review-step>
+        <div class="step-inner">
+          <app-review-step *ngSwitchCase="2" [sections]="reviewData"></app-review-step>
+        </div>
       </ng-container>
     </div>
 
