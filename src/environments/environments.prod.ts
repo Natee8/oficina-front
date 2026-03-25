@@ -1,0 +1,5 @@
+// produção
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.seusite.com',
+};
