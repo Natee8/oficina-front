@@ -11,6 +11,7 @@
       placeholder="Digite seu Email aqui"
       [maxlength]="50"
       width="100%"
+      [(ngModel)]="email"
     ></app-input-field>
 
     <a class="forgot-password">Esqueci a senha</a>
@@ -22,16 +23,15 @@
       name="senha"
       placeholder="Digite sua senha"
       [maxlength]="50"
+      [(ngModel)]="password"
     ></app-input-field>
 
-    <button type="submit" class="btn-primary">Avançar</button>
+    <button type="submit" class="btn-primary">Entrar</button>
 
     <div class="divider"></div>
 
     <p class="signup-text">
       Ainda não tem conta? <a routerLink="/register">Clique aqui para se cadastrar</a>
     </p>
-
-    <app-back-button-circle (clickBack)="handleBack()"> Voltar </app-back-button-circle>
   </form>
 </div>
