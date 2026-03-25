@@ -4,18 +4,29 @@ import { FormsModule } from '@angular/forms';
 
 import { OsStepOneComponent } from '../../components/steps/one/stepOne.component';
 import { OsStepTwoComponent } from '../../components/steps/two/stepTwo.component';
+import { Router } from '@angular/router';
+import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 
 @Component({
   selector: 'app-os-create',
   standalone: true,
   templateUrl: './oSs.component.html',
   styleUrls: ['./oSs.component.scss'],
-  imports: [CommonModule, FormsModule, CommonModule, OsStepOneComponent, OsStepTwoComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    CommonModule,
+    OsStepOneComponent,
+    OsStepTwoComponent,
+    BackButtonComponent,
+  ],
 })
 export class OSsCreateComponent {
   lojas: string[] = ['Loja 1', 'Loja 2', 'Loja 3'];
   clientes: string[] = ['Cliente 1', 'Cliente 2', 'Cliente 3'];
   veiculos: string[] = ['Veículo 1', 'Veículo 2', 'Veículo 3'];
+
+  constructor(private router: Router) {}
 
   pecasAdicionadas: { nome: string; quantidade: number }[] = [
     { nome: 'Radiador 125486UD', quantidade: 12 },
@@ -70,7 +81,9 @@ export class OSsCreateComponent {
     console.log('CREATE OS', payload);
   }
 
-  goBackList() {}
+  goBackList() {
+    this.router.navigate(['/os-list']);
+  }
 
   adicionarPeca() {
     if (this.peca && this.quantidade) {
