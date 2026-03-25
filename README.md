@@ -1,3 +1,21 @@
+# iniciar o projeto
+
+configurar o .env com:
+
+# .env.development
+
+VITE_API_URL=http://localhost:3000/api
+
+# .env.homolog
+
+VITE_API_URL=https://homolog.example.com/api
+
+# .env.production
+
+VITE_API_URL=https://api.example.com
+
+npm start para iniciar o front
+
 # OficinaFront
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.0.
