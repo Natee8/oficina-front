@@ -1,9 +1,23 @@
 <div class="containerHeader">
-  <h1>OSs</h1>
-  <p>Gerencie e visualize aqui suas OSs referentes as suas lojas</p>
-  <button class="button upscale" (click)="goToCreate()">
-    <p>Nova OSs</p>
-    <i class="fa-solid fa-plus"></i>
-  </button>
+  <div class="header-top">
+    <h1>OSs</h1>
+    <p>Gerencie e visualize aqui suas OSs referentes as suas lojas</p>
+  </div>
+
+  <div class="header-bottom">
+    <div class="containerButtons">
+      <div class="buttonContainer">
+        <button class="button upscale" (click)="goToCreate()">
+          <p>Nova OSs</p>
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+      <div class="filters">
+        <app-input-field label="CPF/CNPJ" mask="cnpj"></app-input-field>
+        <app-select-field label="Lojas"></app-select-field>
+      </div>
+    </div>
+  </div>
 </div>
-<app-table-os />
+
+<app-table-os></app-table-os>

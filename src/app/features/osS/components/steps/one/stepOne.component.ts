@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
-import { SelectFieldComponent } from '../../../../../shared/components/inputs/field/selectField.component';
+import { SelectFieldComponent } from '../../../../../shared/components/inputs/select/selectField.component';
 import { CommonModule } from '@angular/common';
 
 @Component({

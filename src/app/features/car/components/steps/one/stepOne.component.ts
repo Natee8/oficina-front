@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
-import { SelectFieldComponent } from '../../../../../shared/components/inputs/field/selectField.component';
+import { SelectFieldComponent } from '../../../../../shared/components/inputs/select/selectField.component';
 
 @Component({
   selector: 'app-step-one-car',

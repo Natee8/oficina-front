@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { InputFieldComponent } from '../../../../shared/components/inputs/field/inputField.component';
-import { SelectFieldComponent } from '../../../../shared/components/inputs/field/selectField.component';
+import { SelectFieldComponent } from '../../../../shared/components/inputs/select/selectField.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
