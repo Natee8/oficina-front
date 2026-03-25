@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StepOneData, StepTwoData, StepThreeData } from '../../model/dto/IFormData.dto';
+import { StepOneData, StepTwoData, StepThreeData } from '../dto/IFormData.dto';
 
 @Injectable({ providedIn: 'root' })
 export class RegisterFormService {

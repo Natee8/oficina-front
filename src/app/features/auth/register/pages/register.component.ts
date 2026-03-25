@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormStepOne } from '../components/form/stepOne/stepOne.component';
-import { RegisterFormService } from '../services/state/stateForm';
+import { RegisterFormService } from '../model/state/stateForm';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormStepTwo } from '../components/form/stepTwo/stepTwo.component';
 import { FormStepThree } from '../components/form/stepThree/stepThree.component';
 import { ToggleActionsComponent } from '../../../../shared/components/buttonNext/buttonNext.component';
-import { BackButtonCircleComponent } from "../../../../shared/components/buttonBack/buttonBack.component";
+import { BackButtonCircleComponent } from '../../../../shared/components/buttonBack/buttonBack.component';
 
 @Component({
   selector: 'app-register',
@@ -20,8 +20,8 @@ import { BackButtonCircleComponent } from "../../../../shared/components/buttonB
     FormStepTwo,
     FormStepThree,
     ToggleActionsComponent,
-    BackButtonCircleComponent
-],
+    BackButtonCircleComponent,
+  ],
 })
 export class RegisterComponent {
   currentStep = 1;

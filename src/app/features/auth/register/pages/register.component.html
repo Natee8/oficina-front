@@ -6,14 +6,11 @@
     <p>Step {{ currentStep }}/3</p>
   </div>
 
-  <!-- Steps do formulário -->
   <form-stepone *ngIf="currentStep === 1" [data]="formService.stepOneData"></form-stepone>
   <form-steptwo *ngIf="currentStep === 2" [data]="formService.stepTwoData"></form-steptwo>
   <form-stepthree *ngIf="currentStep === 3" [data]="formService.stepThreeData"></form-stepthree>
 
-  <!-- Botões -->
   <div class="buttons">
-    <!-- Step 2 com toggle-actions -->
     <app-toggle-actions
       *ngIf="currentStep === 2"
       backLabel="Deixar pra depois"
@@ -22,7 +19,6 @@
       (next)="handleNext()"
     ></app-toggle-actions>
 
-    <!-- Steps 1 e 3 com botão padrão -->
     <button
       *ngIf="currentStep !== 2"
       class="btn-primary"
