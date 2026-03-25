@@ -1,11 +1,24 @@
 <div class="containerHeader">
-  <h1>Funcionários</h1>
-  <p>Gerencie e visualize aqui seus funcionários cadastrados</p>
+  <div class="header-top">
+    <h1>Funcionários</h1>
+    <p>Gerencie e visualize aqui seus funcionários cadastrados</p>
+  </div>
 
-  <button class="button upscale" routerLink="/employees-create">
-    <p>Novo Funcionário</p>
-    <i class="fa-solid fa-plus"></i>
-  </button>
+  <div class="header-bottom">
+    <div class="containerButtons">
+      <div class="buttonContainer">
+        <button class="button upscale" [routerLink]="['/employees-create']">
+          <p>Novo Funcionário</p>
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <div class="filters">
+        <app-select-field label="Lojas"></app-select-field>
+        <app-select-field label="Cargos"></app-select-field>
+      </div>
+    </div>
+  </div>
 </div>
 
-<app-table-employees />
+<app-table-employees></app-table-employees>

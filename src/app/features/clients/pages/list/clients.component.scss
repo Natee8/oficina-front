@@ -1,31 +1,59 @@
+@import '../../../../style/styles.scss';
+
 .containerHeader {
+  width: 100%;
+  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  width: 50%;
-  margin-bottom: 2rem;
-  gap: 10px;
-}
+  gap: 16px;
 
-.containerHeader p {
-  color: var(--color-default);
-  font-weight: 600;
-}
+  .header-top {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 
-.button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
-  width: 50%;
-  height: 50px;
-  border-radius: 8px;
-  font-weight: 700;
-  color: white;
-  font-size: medium;
-  background-color: var(--color-secondary);
-}
+    h1 {
+      margin: 0;
+      font-weight: 700;
+    }
 
-.button p {
-  color: white;
+    p {
+      margin: 0;
+      font-weight: 600;
+      color: var(--color-default);
+    }
+  }
+
+  .header-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    .containerButtons {
+      display: flex;
+      width: 100%;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      app-input-field,
+      app-select-field {
+        flex: 1;
+        min-width: 120px;
+      }
+    }
+
+    .filters {
+      width: 30%;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .buttonContainer {
+      width: 40%;
+    }
+  }
 }

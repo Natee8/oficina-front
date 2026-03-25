@@ -1,11 +1,23 @@
 <div class="containerHeader">
-  <h1>Clientes</h1>
-  <p>Gerencie e visualize aqui os clientes referentes às suas lojas</p>
+  <div class="header-top">
+    <h1>Clientes</h1>
+    <p>Gerencie e visualize aqui os clientes referentes às suas lojas</p>
+  </div>
 
-  <button class="button upscale" [routerLink]="['/clients-create']">
-    <p>Novo Cliente</p>
-    <i class="fa-solid fa-plus"></i>
-  </button>
+  <div class="header-bottom">
+    <div class="containerButtons">
+      <div class="buttonContainer">
+        <button class="button upscale" [routerLink]="['/clients-create']">
+          <p>Novo Cliente</p>
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </div>
+
+      <div class="filters">
+        <app-select-field label="Lojas"></app-select-field>
+      </div>
+    </div>
+  </div>
 </div>
 
-<app-table-clients />
+<app-table-clients></app-table-clients>
