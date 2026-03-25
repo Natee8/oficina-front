@@ -7,6 +7,7 @@ import { TableActionsComponent } from '../../../../shared/components/buttonTable
 import { ModalComponent } from '../../../../shared/components/popup/popup.component';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
 import { EditOsModalComponent } from '../popupEdit/popupEdit.component';
+import { DropdownActions } from '../buttonDropdown/dropdown.component';
 
 @Component({
   selector: 'app-table-os',
@@ -17,9 +18,9 @@ import { EditOsModalComponent } from '../popupEdit/popupEdit.component';
     CommonModule,
     TableHeaderComponent,
     TableFooterComponent,
-    TableActionsComponent,
     ModalDelete,
     EditOsModalComponent,
+    DropdownActions,
   ],
 })
 export class TableOs {
@@ -43,6 +44,10 @@ export class TableOs {
   changePage(newPage: number) {
     this.page = newPage;
   }
+
+  alterarStatus(os: any) {}
+
+  baixarDocumento(os: any) {}
 
   handleEdit(os: any) {
     this.selectedOs = os;

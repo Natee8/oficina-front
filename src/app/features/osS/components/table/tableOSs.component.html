@@ -31,8 +31,13 @@
         <div class="table-cell">{{ os.cnpj }}</div>
         <div class="table-cell">{{ os.telefone }}</div>
 
-        <div class="table-cell">
-          <app-table-actions (onEdit)="handleEdit(os)" (onDelete)="handleDelete(os)" />
+        <div class="table-cell-center">
+          <app-dropdown-actions
+            (onEdit)="handleEdit(os)"
+            (onDelete)="handleDelete(os)"
+            (onStatus)="alterarStatus(os)"
+            (onDownload)="baixarDocumento(os)"
+          ></app-dropdown-actions>
         </div>
       </div>
     </div>
