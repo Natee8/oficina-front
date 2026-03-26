@@ -5,14 +5,14 @@
       type="text"
       label="Nome da empresa"
       [maxlength]="50"
-      [(ngModel)]="data.name"
+      [(ngModel)]="formService.stepOneData.name"
     ></app-input-field>
 
     <app-input-field
-      name="storename"
+      name="storeName"
       type="text"
       label="Nome da loja"
-      [(ngModel)]="data.storeName"
+      [(ngModel)]="formService.stepOneData.storeName"
     ></app-input-field>
 
     <app-input-field
@@ -20,7 +20,7 @@
       type="text"
       label="CNPJ"
       mask="cnpj"
-      [(ngModel)]="data.cnpj"
+      [(ngModel)]="formService.stepOneData.cnpj"
     ></app-input-field>
   </form>
 </div>

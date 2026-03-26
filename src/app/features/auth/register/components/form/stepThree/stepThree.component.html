@@ -5,14 +5,14 @@
       type="text"
       label="Nome do Administrador"
       [maxlength]="50"
-      [(ngModel)]="data.adminName"
+      [(ngModel)]="formService.stepThreeData.adminName"
     ></app-input-field>
 
     <app-input-field
       name="adminEmail"
       type="text"
       label="E-mail do Administrador"
-      [(ngModel)]="data.adminEmail"
+      [(ngModel)]="formService.stepThreeData.adminEmail"
     ></app-input-field>
 
     <app-input-field
@@ -20,14 +20,14 @@
       type="text"
       label="Telefone do Administrador"
       mask="phone"
-      [(ngModel)]="data.adminPhoneNumber"
+      [(ngModel)]="formService.stepThreeData.adminPhoneNumber"
     ></app-input-field>
 
     <app-input-field
       name="adminPassword"
       type="password"
       label="Senha"
-      [(ngModel)]="data.adminPassword"
+      [(ngModel)]="formService.stepThreeData.adminPassword"
     ></app-input-field>
   </form>
 </div>

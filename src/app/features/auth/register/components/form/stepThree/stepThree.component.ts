@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { InputFieldComponent } from '../../../../../../shared/components/inputs/field/inputField.component';
 import { FormsModule } from '@angular/forms';
-import { StepThreeData } from '../../../model/dto/IFormData.dto';
+import { RegisterFormService } from '../../../model/state/stateForm';
 
 @Component({
   selector: 'form-stepthree',
@@ -11,8 +11,5 @@ import { StepThreeData } from '../../../model/dto/IFormData.dto';
   imports: [FormsModule, InputFieldComponent],
 })
 export class FormStepThree {
-  @Input() data!: StepThreeData;
-  @Input() cnpjMask = false;
-  @Input() ngModel: any;
-  @Output() ngModelChange = new EventEmitter<any>();
+  constructor(public formService: RegisterFormService) {}
 }

@@ -6,9 +6,9 @@
     <p>Step {{ currentStep }}/3</p>
   </div>
 
-  <form-stepone *ngIf="currentStep === 1" [data]="formService.stepOneData"></form-stepone>
-  <form-steptwo *ngIf="currentStep === 2" [data]="formService.stepTwoData"></form-steptwo>
-  <form-stepthree *ngIf="currentStep === 3" [data]="formService.stepThreeData"></form-stepthree>
+  <form-stepone *ngIf="currentStep === 1"></form-stepone>
+  <form-steptwo *ngIf="currentStep === 2"></form-steptwo>
+  <form-stepthree *ngIf="currentStep === 3"></form-stepthree>
 
   <div class="buttons">
     <app-toggle-actions

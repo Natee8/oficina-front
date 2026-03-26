@@ -2,55 +2,54 @@
   <form class="form-content">
     <app-input-field
       name="storeName"
-      name="store"
       type="text"
       label="Nome da Loja"
-      [(ngModel)]="data.name"
+      [(ngModel)]="formService.stepTwoData.name"
     ></app-input-field>
 
     <div class="row">
-      <app-input-field name="cep" type="text" label="CEP" [(ngModel)]="data.cep"></app-input-field>
+      <app-input-field
+        name="cep"
+        type="text"
+        label="CEP"
+        [(ngModel)]="formService.stepTwoData.cep"
+      ></app-input-field>
 
       <app-input-field
         name="state"
         type="text"
-        name="state"
         label="Estado"
-        [(ngModel)]="data.state"
+        [(ngModel)]="formService.stepTwoData.state"
       ></app-input-field>
     </div>
 
     <app-input-field
       name="city"
       type="text"
-      name="city"
       label="Cidade"
-      [(ngModel)]="data.city"
+      [(ngModel)]="formService.stepTwoData.city"
     ></app-input-field>
 
     <app-input-field
       name="district"
       type="text"
-      name="district"
       label="Bairro"
-      [(ngModel)]="data.district"
+      [(ngModel)]="formService.stepTwoData.district"
     ></app-input-field>
 
     <div class="row">
       <app-input-field
         name="street"
-        name="street"
         type="text"
         label="Rua"
-        [(ngModel)]="data.street"
+        [(ngModel)]="formService.stepTwoData.street"
       ></app-input-field>
 
       <app-input-field
         name="number"
         type="text"
         label="Número"
-        name="number"
-        [(ngModel)]="data.number"
+        [(ngModel)]="formService.stepTwoData.number"
       ></app-input-field>
     </div>
   </form>

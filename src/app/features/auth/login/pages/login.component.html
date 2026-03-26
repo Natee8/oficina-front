@@ -2,7 +2,7 @@
   <h2>Entre com sua conta para acessar o sistema</h2>
   <p>Entre com sua conta para ter acesso ao nosso sistema de gerenciamento</p>
 
-  <form class="login-form">
+  <form class="login-form" (ngSubmit)="handleLogin($event)">
     <app-input-field
       type="text"
       id="username"
@@ -20,7 +20,7 @@
       type="password"
       id="password"
       label="Senha"
-      name="senha"
+      name="password"
       placeholder="Digite sua senha"
       [maxlength]="50"
       [(ngModel)]="password"

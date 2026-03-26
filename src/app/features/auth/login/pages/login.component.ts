@@ -40,7 +40,7 @@ export class LoginComponent {
 
       this.snackBar.open('Login realizado com sucesso!', 'Fechar', {
         duration: 3000,
-        horizontalPosition: 'center',
+        horizontalPosition: 'right',
         verticalPosition: 'top',
       });
 
@@ -48,7 +48,7 @@ export class LoginComponent {
     } catch (err: any) {
       this.snackBar.open(err.message || 'Erro ao fazer login', 'Fechar', {
         duration: 5000,
-        horizontalPosition: 'center',
+        horizontalPosition: 'right',
         verticalPosition: 'top',
       });
     }

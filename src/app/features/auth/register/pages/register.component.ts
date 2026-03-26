@@ -53,7 +53,7 @@ export class RegisterComponent {
 
         this.snackBar.open(message, 'Fechar', {
           duration: 3000,
-          horizontalPosition: 'center',
+          horizontalPosition: 'right',
           verticalPosition: 'top',
         });
       },
@@ -62,7 +62,7 @@ export class RegisterComponent {
 
         this.snackBar.open(message, 'Fechar', {
           duration: 3000,
-          horizontalPosition: 'center',
+          horizontalPosition: 'right',
           verticalPosition: 'top',
         });
       },

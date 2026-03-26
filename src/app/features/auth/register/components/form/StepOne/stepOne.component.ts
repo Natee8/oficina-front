@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { InputFieldComponent } from '../../../../../../shared/components/inputs/field/inputField.component';
-import { StepOneData } from '../../../model/dto/IFormData.dto';
 import { FormsModule } from '@angular/forms';
+import { RegisterFormService } from '../../../model/state/stateForm';
 
 @Component({
   selector: 'form-stepone',
@@ -11,8 +11,5 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule, InputFieldComponent],
 })
 export class FormStepOne {
-  @Input() data!: StepOneData;
-  @Input() cnpjMask = false;
-  @Input() ngModel: any;
-  @Output() ngModelChange = new EventEmitter<any>();
+  constructor(public formService: RegisterFormService) {}
 }

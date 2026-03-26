@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { InputFieldComponent } from '../../../../../../shared/components/inputs/field/inputField.component';
-import { StepTwoData } from '../../../model/dto/IFormData.dto';
 import { FormsModule } from '@angular/forms';
+import { RegisterFormService } from '../../../model/state/stateForm';
 
 @Component({
   selector: 'form-steptwo',
@@ -11,5 +11,5 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule, InputFieldComponent],
 })
 export class FormStepTwo {
-  @Input() data!: StepTwoData;
+  constructor(public formService: RegisterFormService) {}
 }
