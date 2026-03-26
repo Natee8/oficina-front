@@ -4,7 +4,7 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
   selector: '[appMask]',
 })
 export class MaskDirective {
-  @Input('appMask') maskType?: 'cnpj' | 'phone' | 'cpf' | 'custom';
+  @Input('appMask') maskType?: 'cnpj' | 'phone' | 'cpf' | 'email' | 'custom';
   @Input() customPattern?: (value: string) => string;
 
   constructor(private el: ElementRef<HTMLInputElement>) {}
@@ -17,6 +17,10 @@ export class MaskDirective {
     let value = input.value.replace(/\D/g, '');
 
     switch (this.maskType) {
+      case 'email':
+        value = input.value.replace(/\s+/g, '').toLowerCase();
+        break;
+        
       case 'cnpj':
         if (value.length > 14) value = value.slice(0, 14);
         value = value.replace(/^(\d{2})(\d)/, '$1.$2');

@@ -41,8 +41,11 @@ export class CreateStoreComponent {
     },
   ];
 
+
   name = '';
   cnpj = '';
+  phone = '';
+  email = '';
 
   addressZip = '';
   addressStreet = '';
@@ -75,6 +78,8 @@ export class CreateStoreComponent {
     const payload = {
       name: this.name,
       cnpj: this.cnpj,
+      phone: this.phone,
+      email: this.email,
       addressZip: this.addressZip,
       addressStreet: this.addressStreet,
       addressNumber: this.addressNumber,

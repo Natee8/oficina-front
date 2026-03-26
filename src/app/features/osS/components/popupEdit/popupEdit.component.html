@@ -1,8 +1,12 @@
 <app-modal (close)="close()" minWidth="60%" minHeight="600px">
+
   <div class="popupContainer">
-    <div class="modal-header">
-      <h2>Editar OS</h2>
-      <p>Edite uma ordem de serviço existente</p>
+    <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <h2>Editar OS</h2>
+        <p>Edite uma ordem de serviço existente</p>
+      </div>
+      <span class="close" (click)="close()" style="cursor:pointer; font-size: 24px; color: #999; margin-left: 16px; transition: 0.2s;">×</span>
     </div>
 
     <app-stepper

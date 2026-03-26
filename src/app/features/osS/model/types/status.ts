@@ -1,1 +1,1 @@
-export type StatusOs = 'aberto' | 'analise' | 'aprovado' | 'rejeitado';
+export type StatusOs = 'enviado' | 'feito' | 'finalizado';

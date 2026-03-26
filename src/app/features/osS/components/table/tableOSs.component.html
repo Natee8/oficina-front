@@ -27,8 +27,7 @@
         <div class="table-cell">{{ os.loja }}</div>
         <div class="table-cell">{{ os.valor | currency: 'BRL' }}</div>
         <div class="table-cell">{{ os.placa }}</div>
-        <div class="table-cell">{{ os.cpf }}</div>
-        <div class="table-cell">{{ os.cnpj }}</div>
+        <div class="table-cell">{{ os.cpf || os.cnpj }}</div>
         <div class="table-cell">
           <span class="status" [ngClass]="os.status">
             {{ os.status }}
