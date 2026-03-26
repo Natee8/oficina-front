@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForOf, NgIf, NgClass } from '@angular/common';
+import { ToggleActionsComponent } from "../../../../shared/components/buttonNext/buttonNext.component";
 @Component({
   selector: 'app-status-modal',
   templateUrl: './modelStatus.component.html',
   styleUrls: ['./modelStatus.component.scss'],
-  imports: [NgForOf, NgIf, NgClass],
+  imports: [NgForOf, NgIf, NgClass, ToggleActionsComponent],
 })
 export class StatusModalComponent {
   @Input() isOpen = false;

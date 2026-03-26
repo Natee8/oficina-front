@@ -1,5 +1,5 @@
-<div class="overlay" *ngIf="isOpen">
-  <div class="modal">
+<div class="overlay" *ngIf="isOpen" (click)="close()">
+  <div class="modal" (click)="$event.stopPropagation()">
     <div class="header">
       <h2>Alterar Status</h2>
       <span class="close" (click)="close()">×</span>
@@ -29,9 +29,13 @@
       </div>
     </div>
 
-    <div class="actions">
-      <button class="cancel" (click)="close()">Cancelar</button>
-      <button class="confirm" (click)="confirm()">Confirmar</button>
+    <div class="buttonsContainer">
+      <app-toggle-actions
+        nextLabel="Concluir"
+        backLabel="Cancelar"
+        (next)="confirm()"
+        (back)="close()"
+      />
     </div>
   </div>
 </div>
