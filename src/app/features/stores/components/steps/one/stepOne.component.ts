@@ -10,9 +10,18 @@ import { CommonModule } from '@angular/common';
   templateUrl: './stepOne.component.html',
 })
 export class StepOneStoresComponent {
+    isValidEmail(value: string): boolean {
+      return /^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/.test(value);
+    }
   @Input() name!: string;
   @Output() nameChange = new EventEmitter<string>();
 
   @Input() cnpj!: string;
   @Output() cnpjChange = new EventEmitter<string>();
+
+  @Input() phone!: string;
+  @Output() phoneChange = new EventEmitter<string>();
+
+  @Input() email!: string;
+  @Output() emailChange = new EventEmitter<string>();
 }

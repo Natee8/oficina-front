@@ -15,7 +15,7 @@
   (back)="previousStep()"
 >
   <ng-container [ngSwitch]="stepIndex">
-    <app-step-one-stores *ngSwitchCase="0" [(name)]="name" [(cnpj)]="cnpj"></app-step-one-stores>
+    <app-step-one-stores *ngSwitchCase="0" [(name)]="name" [(cnpj)]="cnpj" [(phone)]="phone" [(email)]="email"></app-step-one-stores>
 
     <app-step-two-stores
       *ngSwitchCase="1"

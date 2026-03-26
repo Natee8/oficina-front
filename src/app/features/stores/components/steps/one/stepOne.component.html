@@ -11,3 +11,23 @@
   [(ngModel)]="cnpj"
   (ngModelChange)="cnpjChange.emit($event)"
 ></app-input-field>
+
+<app-input-field
+  label="Telefone"
+  type="text"
+  [(ngModel)]="phone"
+  (ngModelChange)="phoneChange.emit($event)"
+></app-input-field>
+
+<app-input-field
+  label="Email"
+  type="text"
+  [(ngModel)]="email"
+  (ngModelChange)="emailChange.emit($event)"
+  [mask]="'email'"
+  #emailInput="ngModel"
+  required
+></app-input-field>
+<div *ngIf="email && !isValidEmail(email)" style="color: red; font-size: 12px; margin-top: 2px;">
+  Email inválido
+</div>
