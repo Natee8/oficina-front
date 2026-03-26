@@ -36,7 +36,6 @@ export class LoginComponent {
     try {
       const result = await login(data);
 
-      // ✅ Usando TokenService
       TokenService.saveToken(result.token);
 
       this.snackBar.open('Login realizado com sucesso!', 'Fechar', {

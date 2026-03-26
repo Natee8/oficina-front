@@ -7,6 +7,8 @@ import { FormStepTwo } from '../components/form/stepTwo/stepTwo.component';
 import { FormStepThree } from '../components/form/stepThree/stepThree.component';
 import { ToggleActionsComponent } from '../../../../shared/components/buttonNext/buttonNext.component';
 import { BackButtonCircleComponent } from '../../../../shared/components/buttonBack/buttonBack.component';
+import { OnboardingService } from '../services/register.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +28,11 @@ import { BackButtonCircleComponent } from '../../../../shared/components/buttonB
 export class RegisterComponent {
   currentStep = 1;
 
-  constructor(public formService: RegisterFormService) {}
+  constructor(
+    public formService: RegisterFormService,
+    private onboardingService: OnboardingService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   nextStep() {
     if (this.currentStep < 3) this.currentStep++;
@@ -41,7 +47,26 @@ export class RegisterComponent {
   }
 
   submit() {
-    console.log('enviando');
+    this.onboardingService.register().subscribe({
+      next: (res: any) => {
+        const message = res?.message || 'Cadastro realizado com sucesso!';
+
+        this.snackBar.open(message, 'Fechar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+      },
+      error: (err) => {
+        const message = err?.error?.message || err?.error?.title || 'Erro ao realizar cadastro!';
+
+        this.snackBar.open(message, 'Fechar', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+      },
+    });
   }
 
   handleBack() {
