@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
 import { TableFooterComponent } from '../../../../shared/components/tableFooter/tableFooter.component';
 import { OsColumns, OsListMock } from '../../service/mock';
-import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
-import { ModalComponent } from '../../../../shared/components/popup/popup.component';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
 import { EditOsModalComponent } from '../popupEdit/popupEdit.component';
 import { DropdownActions } from '../buttonDropdown/dropdown.component';
+import { StatusModalComponent } from '../modelStatus/modelStatus.component';
 
 @Component({
   selector: 'app-table-os',
@@ -21,14 +20,15 @@ import { DropdownActions } from '../buttonDropdown/dropdown.component';
     ModalDelete,
     EditOsModalComponent,
     DropdownActions,
+    StatusModalComponent,
   ],
 })
 export class TableOs {
   page = 1;
   totalPages = 5;
   pageSize = 5;
-  activeModal: 'edit' | 'delete' | null = null;
   selectedOs: any = null;
+  activeModal: 'edit' | 'delete' | 'status' | null = null;
 
   lojas: any[] = [];
   clientes: any[] = [];
@@ -37,6 +37,19 @@ export class TableOs {
   columns = OsColumns;
   osList = OsListMock;
 
+  alterarStatus(os: any) {
+    this.selectedOs = os;
+    this.activeModal = 'status';
+  }
+
+  updateStatus(newStatus: string) {
+    if (this.selectedOs) {
+      this.selectedOs.status = newStatus;
+    }
+
+    this.closeModal();
+  }
+
   handleSearch(value: string) {
     console.log('buscar:', value);
   }
@@ -44,8 +57,6 @@ export class TableOs {
   changePage(newPage: number) {
     this.page = newPage;
   }
-
-  alterarStatus(os: any) {}
 
   baixarDocumento(os: any) {}
 

@@ -1,0 +1,37 @@
+<div class="overlay" *ngIf="isOpen">
+  <div class="modal">
+    <div class="header">
+      <h2>Alterar Status</h2>
+      <span class="close" (click)="close()">×</span>
+    </div>
+
+    <p class="pedido">OS #{{ pedidoId }}</p>
+
+    <div class="status-list">
+      <div
+        class="status-item"
+        *ngFor="let status of statusList"
+        [class.active]="selected === status.value"
+        [ngClass]="selected === status.value ? status.value : ''"
+        (click)="select(status.value)"
+      >
+        <div class="icon">⏱</div>
+
+        <div class="info">
+          <div class="title">
+            {{ status.label }}
+            <span *ngIf="status.value === current" class="badge">ATUAL</span>
+          </div>
+          <p>{{ status.description }}</p>
+        </div>
+
+        <div class="check" *ngIf="selected === status.value">✔</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="cancel" (click)="close()">Cancelar</button>
+      <button class="confirm" (click)="confirm()">Confirmar</button>
+    </div>
+  </div>
+</div>
