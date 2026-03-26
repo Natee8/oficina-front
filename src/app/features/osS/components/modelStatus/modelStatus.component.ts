@@ -19,24 +19,19 @@ export class StatusModalComponent {
 
   statusList = [
     {
-      value: 'aberto',
-      label: 'Aberto',
-      description: 'Pedido aguardando processamento',
+      value: 'enviado',
+      label: 'Enviado',
+      description: 'Enviado para o cliente',
     },
     {
-      value: 'analise',
-      label: 'Em análise',
-      description: 'Pedido sendo avaliado',
+      value: 'feito',
+      label: 'Feito',
+      description: 'Pago pelo cliente',
     },
     {
-      value: 'aprovado',
-      label: 'Aprovado',
-      description: 'Pedido aprovado com sucesso',
-    },
-    {
-      value: 'rejeitado',
-      label: 'Rejeitado',
-      description: 'Pedido não aprovado',
+      value: 'finalizado',
+      label: 'Finalizado',
+      description: 'Pago e entregue ao cliente',
     },
   ];
 
