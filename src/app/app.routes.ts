@@ -16,6 +16,7 @@ import { RegisterComponent } from './features/auth/register/pages/register.compo
 import { TenantListComponent } from './features/tenant/pages/tenant-list.component';
 import { CreateEmployeeComponent } from './features/employees/pages/create/employees.component';
 import { OSsCreateComponent } from './features/osS/pages/create/oSs.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
@@ -36,65 +37,24 @@ export const routes: Routes = [
     ],
   },
 
-  // ROTAS COM SIDEBAR
   {
-    path: 'stores-list',
+    path: '',
     component: SideBarLayout,
-    children: [{ path: '', component: StoresComponent }],
-  },
-  {
-    path: 'os-list',
-    component: SideBarLayout,
-    children: [{ path: '', component: OSsComponent }],
-  },
-  {
-    path: 'employees-list',
-    component: SideBarLayout,
-    children: [{ path: '', component: EmployeesComponent }],
-  },
-  {
-    path: 'clients-list',
-    component: SideBarLayout,
-    children: [{ path: '', component: ClientsComponent }],
-  },
-  {
-    path: 'car-list',
-    component: SideBarLayout,
-    children: [{ path: '', component: CarComponent }],
-  },
-  {
-    path: 'tenant-list',
-    component: SideBarLayout,
-    children: [{ path: '', component: TenantListComponent }],
-  },
-  {
-    path: 'profile',
-    component: SideBarLayout,
-    children: [{ path: '', component: ProfileComponent }],
-  },
-  {
-    path: 'employees-create',
-    component: SideBarLayout,
-    children: [{ path: '', component: CreateEmployeeComponent }],
-  },
-  {
-    path: 'clients-create',
-    component: SideBarLayout,
-    children: [{ path: '', component: CreateClientComponent }],
-  },
-  {
-    path: 'stores-create',
-    component: SideBarLayout,
-    children: [{ path: '', component: CreateStoreComponent }],
-  },
-  {
-    path: 'car-create',
-    component: SideBarLayout,
-    children: [{ path: '', component: CreateCarComponent }],
-  },
-  {
-    path: 'os-create',
-    component: SideBarLayout,
-    children: [{ path: '', component: OSsCreateComponent }],
+    canActivate: [authGuard],
+    children: [
+      { path: 'stores-list', component: StoresComponent },
+      { path: 'os-list', component: OSsComponent },
+      { path: 'employees-list', component: EmployeesComponent },
+      { path: 'clients-list', component: ClientsComponent },
+      { path: 'car-list', component: CarComponent },
+      { path: 'tenant-list', component: TenantListComponent },
+      { path: 'profile', component: ProfileComponent },
+
+      { path: 'employees-create', component: CreateEmployeeComponent },
+      { path: 'clients-create', component: CreateClientComponent },
+      { path: 'stores-create', component: CreateStoreComponent },
+      { path: 'car-create', component: CreateCarComponent },
+      { path: 'os-create', component: OSsCreateComponent },
+    ],
   },
 ];
