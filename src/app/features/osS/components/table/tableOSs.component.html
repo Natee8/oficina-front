@@ -10,7 +10,7 @@
       <div
         class="table-head"
         [style.grid-template-columns]="
-          '80px minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(160px,1fr) minmax(160px,1fr) minmax(140px,1fr) 140px 120px'
+            '80px minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(160px,1fr) minmax(160px,1fr) 140px 120px'
         "
       >
         <div *ngFor="let col of columns">{{ col.label }}</div>
@@ -20,20 +20,19 @@
         class="table-row"
         *ngFor="let os of osList"
         [style.grid-template-columns]="
-          '80px minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(160px,1fr) minmax(160px,1fr) minmax(140px,1fr) 140px 120px'
+            '80px minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(160px,1fr) minmax(160px,1fr) 140px 120px'
         "
       >
         <div class="table-cell">{{ os.id }}</div>
-        <div class="table-cell">{{ os.loja }}</div>
-        <div class="table-cell">{{ os.valor | currency: 'BRL' }}</div>
-        <div class="table-cell">{{ os.placa }}</div>
-        <div class="table-cell">{{ os.cpf || os.cnpj }}</div>
+        <div class="table-cell">{{ os.unitName }}</div>
+        <div class="table-cell">{{ os.totalAmount | currency: 'BRL' }}</div>
+        <div class="table-cell">{{ os.vehiclePlate }}</div>
+        <div class="table-cell">{{ os.ownerCustomerName }}</div>
         <div class="table-cell">
-          <span class="status" [ngClass]="os.status">
-            {{ os.status }}
+          <span class="status" [ngClass]="os.statusCode">
+            {{ os.statusName }}
           </span>
         </div>
-        <div class="table-cell">{{ os.telefone }}</div>
 
         <app-status-modal
           *ngIf="activeModal === 'status'"
