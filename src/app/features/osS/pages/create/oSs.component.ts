@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { OsStepOneComponent } from '../../components/steps/one/stepOne.component';
 import { OsStepTwoComponent } from '../../components/steps/two/stepTwo.component';
 import { Router } from '@angular/router';
+import { OsService, CreateOsPayload } from '../../service/os.service';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 
 @Component({
@@ -26,12 +27,9 @@ export class OSsCreateComponent {
   clientes: string[] = ['Cliente 1', 'Cliente 2', 'Cliente 3'];
   veiculos: string[] = ['Veículo 1', 'Veículo 2', 'Veículo 3'];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private osService: OsService) {}
 
-  pecasAdicionadas: { nome: string; quantidade: number }[] = [
-    { nome: 'Radiador 125486UD', quantidade: 12 },
-    { nome: 'Motor 45845UA', quantidade: 12 },
-  ];
+  pecasAdicionadas: { nome: string; quantidade: number; valorUnitario: number }[] = [];
 
   loja: string = '';
   cliente: string = '';
@@ -65,18 +63,30 @@ export class OSsCreateComponent {
   }
 
   finalizar() {
-    const payload = {
-      loja: this.loja,
-      cliente: this.cliente,
-      veiculo: this.veiculo,
-      dataEntrada: this.dataEntrada,
-      dataSaida: this.dataSaida,
-      pintura: this.pintura,
-      valorPintura: this.valorPintura,
-      funilaria: this.funilaria,
-      valorFunilaria: this.valorFunilaria,
-      pecas: this.pecasAdicionadas,
+    // qual seria o endpoint para pegar o veiculo e seu cliente dono?
+    const payload: CreateOsPayload = {
+      unitId: 1, 
+      vehicleId: 10, // Select de veiculos de acordo com o get unit 
+      ownerCustomerId: 25, // Costumer Id automatico de acordo com o veiculo selecionado
+      entryDate: this.dataEntrada,
+      estimatedDeliveryDate: this.dataSaida,
+      bodyworkDescription: this.funilaria,
+      bodyworkValue: Number(this.valorFunilaria),
+      paintDescription: this.pintura,
+      paintValue: Number(this.valorPintura),
+      parts: this.pecasAdicionadas.map(p => ({
+        description: p.nome,
+        quantity: p.quantidade,
+        unitPrice: p.valorUnitario
+      })),
     };
+    this.osService.postServiceOrder(payload).subscribe({
+      next: () => {
+        this.router.navigate(['/os-list']);
+      },
+      error: () => {
+      }
+    });
 
     console.log('CREATE OS', payload);
   }
@@ -86,23 +96,27 @@ export class OSsCreateComponent {
   }
 
   adicionarPeca() {
-    if (this.peca && this.quantidade) {
-      this.pecasAdicionadas.push({ nome: this.peca, quantidade: this.quantidade });
+    console.log('adicionarPeca pai chamado', this.peca, this.quantidade, this.valorUnitario);
+    if (this.peca && this.quantidade && this.valorUnitario) {
+      this.pecasAdicionadas = [
+        ...this.pecasAdicionadas,
+        { nome: this.peca, quantidade: this.quantidade, valorUnitario: Number(this.valorUnitario) }
+      ];
       this.peca = '';
       this.quantidade = null;
       this.valorUnitario = '';
     }
   }
 
-  aumentarQuantidade(peca: { nome: string; quantidade: number }) {
+  aumentarQuantidade(peca: { nome: string; quantidade: number; valorUnitario: number }) {
     peca.quantidade++;
   }
 
-  diminuirQuantidade(peca: { nome: string; quantidade: number }) {
+  diminuirQuantidade(peca: { nome: string; quantidade: number; valorUnitario: number }) {
     if (peca.quantidade > 1) peca.quantidade--;
   }
 
-  removerPeca(peca: { nome: string; quantidade: number }) {
+  removerPeca(peca: { nome: string; quantidade: number; valorUnitario: number }) {
     this.pecasAdicionadas = this.pecasAdicionadas.filter((p) => p !== peca);
   }
 }

@@ -8,6 +8,7 @@
       label="Peças"
       type="text"
       [(ngModel)]="peca"
+      (ngModelChange)="pecaChange.emit($event)"
       name="peca"
       class="input-peca input-flex"
     ></app-input-field>
@@ -15,15 +16,18 @@
       label="Quantidade"
       type="text"
       [(ngModel)]="quantidade"
+      (ngModelChange)="quantidadeChange.emit($event)"
       name="quantidade"
       class="input-qtd input-flex"
     ></app-input-field>
-    <app-input-field
+      <app-input-field
       label="Valor Unitário"
       type="text"
       [(ngModel)]="valorUnitario"
+      (ngModelChange)="valorUnitarioChange.emit($event)"
       name="valorUnitario"
       class="input-qtd input-flex"
+      mask="currency"
     ></app-input-field>
     <button type="button" class="btn-circle-add" title="Adicionar" (click)="adicionar()">
       <i class="fa fa-plus"></i>

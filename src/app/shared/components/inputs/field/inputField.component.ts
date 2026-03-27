@@ -22,7 +22,7 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() id = '';
   @Input() label = '';
   @Input() maxlength?: number;
-  @Input() mask?: 'cnpj' | 'phone' | 'email';
+  @Input() mask?: 'cnpj' | 'phone' | 'email' | 'currency';
 
   value: any = '';
   disabled = false;
