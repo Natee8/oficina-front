@@ -1,7 +1,18 @@
 <div class="containerHeader">
-  <h1>Bem vindo! [nome]</h1>
+  <h1>Bem vindo! {{ profile.name }}</h1>
   <p>Seja bem vindo ao modulo de administrador do sistemas de Oficina mecanica</p>
-  <form class="profile-form">
+  <form class="profile-form" (submit)="onSubmit($event)">
+    <app-input-field
+      type="text"
+      id="profileName"
+      label="Nome"
+      placeholder="Digite seu nome"
+      [maxlength]="100"
+      [(ngModel)]="profile.name"
+      name="profileName"
+      required
+    ></app-input-field>
+    
     <app-input-field
       type="text"
       id="profileEmail"
@@ -10,16 +21,6 @@
       [maxlength]="100"
       [(ngModel)]="profile.email"
       name="profileEmail"
-    />
-
-    <app-input-field
-      type="password"
-      id="profilePassword"
-      label="Senha"
-      [maxlength]="50"
-      [(ngModel)]="profile.password"
-      name="profilePassword"
-      [disabled]="true"
     />
 
     <app-input-field
