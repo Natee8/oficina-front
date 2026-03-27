@@ -17,6 +17,9 @@ import { TenantListComponent } from './features/tenant/pages/tenant-list.compone
 import { CreateEmployeeComponent } from './features/employees/pages/create/employees.component';
 import { OSsCreateComponent } from './features/osS/pages/create/oSs.component';
 import { authGuard } from './core/guards/auth.guard';
+import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
+import { NotFoundComponent } from './pages/notfound/notfound.component';
+import { ServerErrorComponent } from './pages/serverError/serverError.component';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
@@ -41,6 +44,7 @@ export const routes: Routes = [
     path: '',
     component: SideBarLayout,
     canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       { path: 'stores-list', component: StoresComponent },
       { path: 'os-list', component: OSsComponent },
@@ -56,5 +60,19 @@ export const routes: Routes = [
       { path: 'car-create', component: CreateCarComponent },
       { path: 'os-create', component: OSsCreateComponent },
     ],
+  },
+  //rotas de erros
+
+  {
+    path: 'unauthorized',
+    component: UnauthorizedComponent,
+  },
+  {
+    path: 'server-error',
+    component: ServerErrorComponent,
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ];
