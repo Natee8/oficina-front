@@ -49,9 +49,8 @@ export class InputFieldComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  onInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.value = input.value;
+  onInput(value: any) {
+    this.value = value;
     this.onChange(this.value);
   }
 

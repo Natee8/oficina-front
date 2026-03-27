@@ -1,7 +1,7 @@
 <div class="containerHeader">
-  <h1>Bem vindo! Empresa [nome]</h1>
-  <p>Seja bem vindo ao modulo de administrador do sistemas de Oficina mecanica</p>
-  <form class="tenant-form">
+  <h1>Bem vindo!</h1>
+  <p>Seja bem vindo ao modulo de administrador do Gestão Oficina</p>
+  <form class="tenant-form" (submit)="onSubmit($event)">
     <app-input-field
       type="text"
       id="tenantName"
@@ -9,6 +9,9 @@
       placeholder="Digite o nome da empresa"
       [maxlength]="255"
       width="100%"
+      [(ngModel)]="tenantName"
+      name="tenantName"
+      required
     ></app-input-field>
 
     <app-input-field
@@ -16,8 +19,12 @@
       id="cnpj"
       label="CNPJ"
       placeholder="Digite o CNPJ da empresa"
-      [maxlength]="15"
+      [maxlength]="18"
       width="100%"
+      [(ngModel)]="cnpj"
+      name="cnpj"
+      mask="cnpj"
+      required
     ></app-input-field>
     <button type="submit" class="btn-primary upscale">Editar empresa</button>
   </form>

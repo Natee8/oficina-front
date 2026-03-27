@@ -2,8 +2,8 @@
   <input
     [type]="inputType"
     [id]="id"
-    [value]="value"
-    (input)="onInput($event)"
+    [(ngModel)]="value"
+    (ngModelChange)="onInput($event)"
     (focus)="inputFocused = true"
     (blur)="onBlur(); inputFocused = false"
     [attr.maxlength]="maxlength"
