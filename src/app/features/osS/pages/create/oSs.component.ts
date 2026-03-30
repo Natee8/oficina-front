@@ -102,10 +102,29 @@ export class OSsCreateComponent implements OnInit {
       next: (vehicles) => {
         this.veiculos = vehicles.filter(vehicle => vehicle.customerId === this.cliente);
       },
-      error: (err) => {
+      error: () => {
         this.veiculos = [];
       },
     });
+  }
+
+  private parseCurrency(value: string | number | null | undefined): number {
+    if (value === null || value === undefined) return 0;
+    if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+
+    const normalized = value
+      .toString()
+      .trim()
+      .replace(/\./g, '')
+      .replace(',', '.');
+
+    const parsed = Number(normalized);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
+  private toIsoUtc(dateValue: string, hour: number): string {
+    if (!dateValue) return '';
+    return `${dateValue}T${String(hour).padStart(2, '0')}:00:00Z`;
   }
 
   nextStep() {
@@ -127,16 +146,16 @@ export class OSsCreateComponent implements OnInit {
       unitId: this.loja ?? 1,
       vehicleId: this.veiculo ?? 10,
       ownerCustomerId: this.cliente ?? 25,
-      entryDate: this.dataEntrada,
-      estimatedDeliveryDate: this.dataSaida,
+      entryDate: this.toIsoUtc(this.dataEntrada, 10),
+      estimatedDeliveryDate: this.toIsoUtc(this.dataSaida, 18),
       bodyworkDescription: this.funilaria,
-      bodyworkValue: Number(this.valorFunilaria),
+      bodyworkValue: this.parseCurrency(this.valorFunilaria),
       paintDescription: this.pintura,
-      paintValue: Number(this.valorPintura),
+      paintValue: this.parseCurrency(this.valorPintura),
       parts: this.pecasAdicionadas.map(p => ({
         description: p.nome,
-        quantity: p.quantidade,
-        unitPrice: p.valorUnitario
+        quantity: Number(p.quantidade),
+        unitPrice: this.parseCurrency(p.valorUnitario)
       })),
     };
     this.osService.postServiceOrder(payload).subscribe({
@@ -159,7 +178,11 @@ export class OSsCreateComponent implements OnInit {
     if (this.peca && this.quantidade && this.valorUnitario) {
       this.pecasAdicionadas = [
         ...this.pecasAdicionadas,
-        { nome: this.peca, quantidade: this.quantidade, valorUnitario: Number(this.valorUnitario) }
+        {
+          nome: this.peca,
+          quantidade: Number(this.quantidade),
+          valorUnitario: this.parseCurrency(this.valorUnitario),
+        }
       ];
       this.peca = '';
       this.quantidade = null;

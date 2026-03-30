@@ -34,17 +34,19 @@
   <div class="os-row">
     <app-input-field
       label="Data de Entrada"
-      type="text"
+      type="date"
       labelBgColor="#fff"
-      [(ngModel)]="dataEntrada"
+      [ngModel]="dataEntrada"
+      (ngModelChange)="updateField('dataEntrada', $event)"
       name="dataEntrada"
       class="input-flex"
     ></app-input-field>
     <app-input-field
       label="Previsão data de saída"
-      type="text"
+      type="date"
       labelBgColor="#fff"
-      [(ngModel)]="dataSaida"
+      [ngModel]="dataSaida"
+      (ngModelChange)="updateField('dataSaida', $event)"
       name="dataSaida"
       class="input-flex"
     ></app-input-field>
@@ -55,16 +57,19 @@
         label="Pintura"
         labelBgColor="#fff"
         type="text"
-        [(ngModel)]="pintura"
+        [ngModel]="pintura"
+        (ngModelChange)="updateField('pintura', $event)"
         name="pintura"
       ></app-input-field>
       <app-input-field
         label="Valor da pintura"
         type="text"
         labelBgColor="#fff"
-        [(ngModel)]="valorPintura"
+        [ngModel]="valorPintura"
+        (ngModelChange)="updateField('valorPintura', $event)"
         name="valorPintura"
         class="small-input"
+        mask="currency"
       ></app-input-field>
     </div>
   </div>
@@ -74,16 +79,19 @@
         label="Funilaria"
         labelBgColor="#fff"
         type="text"
-        [(ngModel)]="funilaria"
+        [ngModel]="funilaria"
+        (ngModelChange)="updateField('funilaria', $event)"
         name="funilaria"
       ></app-input-field>
       <app-input-field
         label="Valor da Funilaria"
         type="text"
         labelBgColor="#fff"
-        [(ngModel)]="valorFunilaria"
+        [ngModel]="valorFunilaria"
+        (ngModelChange)="updateField('valorFunilaria', $event)"
         name="valorFunilaria"
         class="small-input"
+        mask="currency"
       ></app-input-field>
     </div>
   </div>

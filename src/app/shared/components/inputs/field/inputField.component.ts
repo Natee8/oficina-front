@@ -18,11 +18,11 @@ import { MaskDirective } from '../../../utils/masks/maskDirective';
   ],
 })
 export class InputFieldComponent implements ControlValueAccessor {
-  @Input() type: 'text' | 'password' = 'text';
+  @Input() type: 'text' | 'password' | 'date' = 'text';
   @Input() id = '';
   @Input() label = '';
   @Input() maxlength?: number;
-  @Input() mask?: 'cnpj' | 'phone' | 'cpf' | 'email' | 'custom' | 'currency';
+  @Input() mask?: 'cnpj' | 'phone' | 'cpf' | 'email' | 'custom' | 'currency' | 'integer';
   @Input() errorMessage?: string;
   @Input() labelBgColor = 'var(--color-bg)';
 
@@ -62,8 +62,11 @@ export class InputFieldComponent implements ControlValueAccessor {
   }
 
   get inputType() {
-    if (this.disabled && this.type === 'password') return 'password';
-    return this.type === 'password' ? (this.showPassword ? 'text' : 'password') : this.type;
+    if (this.type === 'password') {
+      if (this.disabled) return 'password';
+      return this.showPassword ? 'text' : 'password';
+    }
+    return this.type;
   }
 
   togglePassword() {

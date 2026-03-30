@@ -4,7 +4,7 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
   selector: '[appMask]',
 })
 export class MaskDirective {
-  @Input('appMask') maskType?: 'cnpj' | 'phone' | 'cpf' | 'email' | 'custom' | 'currency';
+  @Input('appMask') maskType?: 'cnpj' | 'phone' | 'cpf' | 'email' | 'custom' | 'currency' | 'integer';
   @Input() customPattern?: (value: string) => string;
 
   private isUpdating = false;
@@ -74,6 +74,10 @@ export class MaskDirective {
         integer = integer.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
         value = integer + ',' + cents;
+        break;
+
+      case 'integer':
+        value = value.replace(/\D/g, '');
         break;
     }
 
