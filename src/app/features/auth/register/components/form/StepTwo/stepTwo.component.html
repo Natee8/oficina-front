@@ -1,49 +1,83 @@
 <div class="form-container">
   <form class="form-content">
-    <div class="row">
-      <app-input-field
-        name="cep"
-        type="text"
-        label="CEP"
-        [(ngModel)]="formService.stepTwoData.cep"
-      ></app-input-field>
+    <!-- Linha 1: CEP e Estado -->
+    <div class="row space-between">
+      <div class="input-wrapper half-width">
+        <app-input-field
+          name="cep"
+          type="text"
+          label="CEP"
+          [(ngModel)]="formService.stepTwoData.cep"
+        ></app-input-field>
+        <div class="error" *ngIf="stepTwoErrors['cep']">
+          {{ stepTwoErrors['cep'] }}
+        </div>
+      </div>
 
-      <app-input-field
-        name="state"
-        type="text"
-        label="Estado"
-        [(ngModel)]="formService.stepTwoData.state"
-      ></app-input-field>
+      <div class="input-wrapper half-width">
+        <app-input-field
+          name="state"
+          type="text"
+          label="Estado"
+          [(ngModel)]="formService.stepTwoData.state"
+        ></app-input-field>
+        <div class="error" *ngIf="stepTwoErrors['state']">
+          {{ stepTwoErrors['state'] }}
+        </div>
+      </div>
     </div>
 
-    <app-input-field
-      name="city"
-      type="text"
-      label="Cidade"
-      [(ngModel)]="formService.stepTwoData.city"
-    ></app-input-field>
-
-    <app-input-field
-      name="district"
-      type="text"
-      label="Bairro"
-      [(ngModel)]="formService.stepTwoData.district"
-    ></app-input-field>
-
-    <div class="row">
+    <!-- Cidade -->
+    <div class="input-wrapper">
       <app-input-field
-        name="street"
+        name="city"
         type="text"
-        label="Rua"
-        [(ngModel)]="formService.stepTwoData.street"
+        label="Cidade"
+        [(ngModel)]="formService.stepTwoData.city"
       ></app-input-field>
+      <div class="error" *ngIf="stepTwoErrors['city']">
+        {{ stepTwoErrors['city'] }}
+      </div>
+    </div>
 
+    <!-- Bairro -->
+    <div class="input-wrapper">
       <app-input-field
-        name="number"
+        name="district"
         type="text"
-        label="Número"
-        [(ngModel)]="formService.stepTwoData.number"
+        label="Bairro"
+        [(ngModel)]="formService.stepTwoData.district"
       ></app-input-field>
+      <div class="error" *ngIf="stepTwoErrors['district']">
+        {{ stepTwoErrors['district'] }}
+      </div>
+    </div>
+
+    <!-- Linha 2: Rua e Número -->
+    <div class="row space-between">
+      <div class="input-wrapper half-width">
+        <app-input-field
+          name="street"
+          type="text"
+          label="Rua"
+          [(ngModel)]="formService.stepTwoData.street"
+        ></app-input-field>
+        <div class="error" *ngIf="stepTwoErrors['street']">
+          {{ stepTwoErrors['street'] }}
+        </div>
+      </div>
+
+      <div class="input-wrapper half-width">
+        <app-input-field
+          name="number"
+          type="text"
+          label="Número"
+          [(ngModel)]="formService.stepTwoData.number"
+        ></app-input-field>
+        <div class="error" *ngIf="stepTwoErrors['number']">
+          {{ stepTwoErrors['number'] }}
+        </div>
+      </div>
     </div>
   </form>
 </div>

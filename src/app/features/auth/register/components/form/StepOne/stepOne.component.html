@@ -7,6 +7,7 @@
       [maxlength]="50"
       [(ngModel)]="formService.stepOneData.name"
     ></app-input-field>
+    <div class="error" *ngIf="stepOneErrors['name']">{{ stepOneErrors['name'] }}</div>
 
     <app-input-field
       name="storeName"
@@ -14,6 +15,9 @@
       label="Nome da loja"
       [(ngModel)]="formService.stepOneData.storeName"
     ></app-input-field>
+    <div class="error" *ngIf="stepOneErrors['storeName']">
+      {{ stepOneErrors['storeName'] }}
+    </div>
 
     <app-input-field
       name="cnpj"
@@ -22,5 +26,6 @@
       mask="cnpj"
       [(ngModel)]="formService.stepOneData.cnpj"
     ></app-input-field>
+    <div class="error" *ngIf="stepOneErrors['cnpj']">{{ stepOneErrors['cnpj'] }}</div>
   </form>
 </div>

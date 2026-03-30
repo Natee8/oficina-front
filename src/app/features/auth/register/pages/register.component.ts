@@ -9,6 +9,9 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { BackButtonCircleComponent } from '../../../../shared/components/buttonBack/buttonBack.component';
 import { OnboardingService } from '../services/register.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { stepOneSchema } from '../schemas/stepOne.schema';
+import { stepTwoSchema } from '../schemas/stepTwo.schema';
+import { stepThreeSchema } from '../schemas/stepThree.schema';
 
 @Component({
   selector: 'app-register',
@@ -27,6 +30,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class RegisterComponent {
   currentStep = 1;
+  stepOneErrors: Record<string, string> = {};
+  stepTwoErrors: Record<string, string> = {};
+  stepThreeErrors: Record<string, string> = {};
 
   constructor(
     public formService: RegisterFormService,
@@ -68,10 +74,41 @@ export class RegisterComponent {
   }
 
   handleNextAction() {
-    if (this.currentStep < 3) {
-      this.nextStep();
-    } else {
-      this.submit();
+    try {
+      // Limpa erros do step atual
+      if (this.currentStep === 1) this.stepOneErrors = {};
+      if (this.currentStep === 2) this.stepTwoErrors = {};
+      if (this.currentStep === 3) this.stepThreeErrors = {};
+
+      // Validação do step atual
+      if (this.currentStep === 1) {
+        stepOneSchema.validateSync(this.formService.stepOneData, { abortEarly: false });
+      }
+      if (this.currentStep === 2) {
+        stepTwoSchema.validateSync(this.formService.stepTwoData, { abortEarly: false });
+      }
+      if (this.currentStep === 3) {
+        stepThreeSchema.validateSync(this.formService.stepThreeData, { abortEarly: false });
+      }
+
+      // Se passar na validação
+      if (this.currentStep < 3) {
+        this.nextStep();
+      } else {
+        this.submit();
+      }
+    } catch (err: any) {
+      // Captura os erros e mostra na UI
+      if (err.inner) {
+        for (const e of err.inner) {
+          if (this.currentStep === 1) this.stepOneErrors[e.path!] = e.message;
+          if (this.currentStep === 2) this.stepTwoErrors[e.path!] = e.message;
+          if (this.currentStep === 3) this.stepThreeErrors[e.path!] = e.message;
+        }
+      }
+
+      // **Importante**: impede o envio do formulário
+      return;
     }
   }
 

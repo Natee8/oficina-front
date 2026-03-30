@@ -14,6 +14,7 @@
       width="100%"
       [(ngModel)]="email"
     ></app-input-field>
+    <div class="error" *ngIf="errors['email']">{{ errors['email'] }}</div>
 
     <a class="forgot-password">Esqueci a senha</a>
 
@@ -26,8 +27,11 @@
       [maxlength]="50"
       [(ngModel)]="password"
     ></app-input-field>
+    <div class="error" *ngIf="errors['password']">{{ errors['password'] }}</div>
 
-    <button type="submit" class="btn-primary">Entrar</button>
+    <div class="btn-container">
+      <button type="submit" class="btn-primary">Entrar</button>
+    </div>
 
     <div class="divider"></div>
 

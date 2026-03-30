@@ -1,33 +1,53 @@
 <div class="form-container">
   <form class="form-content">
-    <app-input-field
-      name="adminName"
-      type="text"
-      label="Nome do Administrador"
-      [maxlength]="50"
-      [(ngModel)]="formService.stepThreeData.adminName"
-    ></app-input-field>
+    <div class="input-wrapper">
+      <app-input-field
+        name="adminName"
+        type="text"
+        label="Nome do Administrador"
+        [maxlength]="50"
+        [(ngModel)]="formService.stepThreeData.adminName"
+      ></app-input-field>
+      <div class="error" *ngIf="stepThreeErrors['adminName']">
+        {{ stepThreeErrors['adminName'] }}
+      </div>
+    </div>
 
-    <app-input-field
-      name="adminEmail"
-      type="text"
-      label="E-mail do Administrador"
-      [(ngModel)]="formService.stepThreeData.adminEmail"
-    ></app-input-field>
+    <div class="input-wrapper">
+      <app-input-field
+        name="adminEmail"
+        type="text"
+        label="E-mail do Administrador"
+        [(ngModel)]="formService.stepThreeData.adminEmail"
+      ></app-input-field>
+      <div class="error" *ngIf="stepThreeErrors['adminEmail']">
+        {{ stepThreeErrors['adminEmail'] }}
+      </div>
+    </div>
 
-    <app-input-field
-      name="adminPhoneNumber"
-      type="text"
-      label="Telefone do Administrador"
-      mask="phone"
-      [(ngModel)]="formService.stepThreeData.adminPhoneNumber"
-    ></app-input-field>
+    <div class="input-wrapper">
+      <app-input-field
+        name="adminPhoneNumber"
+        type="text"
+        label="Telefone do Administrador"
+        mask="phone"
+        [(ngModel)]="formService.stepThreeData.adminPhoneNumber"
+      ></app-input-field>
+      <div class="error" *ngIf="stepThreeErrors['adminPhoneNumber']">
+        {{ stepThreeErrors['adminPhoneNumber'] }}
+      </div>
+    </div>
 
-    <app-input-field
-      name="adminPassword"
-      type="password"
-      label="Senha"
-      [(ngModel)]="formService.stepThreeData.adminPassword"
-    ></app-input-field>
+    <div class="input-wrapper">
+      <app-input-field
+        name="adminPassword"
+        type="password"
+        label="Senha"
+        [(ngModel)]="formService.stepThreeData.adminPassword"
+      ></app-input-field>
+      <div class="error" *ngIf="stepThreeErrors['adminPassword']">
+        {{ stepThreeErrors['adminPassword'] }}
+      </div>
+    </div>
   </form>
 </div>

@@ -31,6 +31,18 @@
   }
 }
 
+.row.space-between {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.input-wrapper.half-width {
+  flex: 0 0 48%;
+  display: flex;
+  flex-direction: column;
+}
+
 .btn-primary {
   margin-top: 1rem;
 }

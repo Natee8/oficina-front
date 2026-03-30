@@ -6,13 +6,15 @@
     <p>Step {{ currentStep }}/3</p>
   </div>
 
-  <form-stepone *ngIf="currentStep === 1"></form-stepone>
-  <form-steptwo *ngIf="currentStep === 2"></form-steptwo>
-  <form-stepthree *ngIf="currentStep === 3"></form-stepthree>
+  <form-stepone [stepOneErrors]="stepOneErrors" *ngIf="currentStep === 1"></form-stepone>
+  <form-steptwo [stepTwoErrors]="stepTwoErrors" *ngIf="currentStep === 2"></form-steptwo>
+  <form-stepthree [stepThreeErrors]="stepThreeErrors" *ngIf="currentStep === 3"></form-stepthree>
 
   <div class="buttons">
     <div class="buttons">
-      <button *ngIf="currentStep === 1" class="btn-primary" (click)="nextStep()">Avançar</button>
+      <button *ngIf="currentStep === 1" class="btn-primary" (click)="handleNextAction()">
+        Avançar
+      </button>
 
       <app-toggle-actions
         *ngIf="currentStep > 1"
