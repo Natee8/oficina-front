@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
+import { TokenService } from '../../core/services/token.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { JwtService } from '../../core/services/jwt.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,6 +14,7 @@ import { NgClass, NgIf } from '@angular/common';
 })
 export class SideBarComponent {
   collapsed = false;
+  emailLogged = '';
 
   submenus: { [key: string]: boolean } = {
     stores: false,
@@ -20,7 +24,16 @@ export class SideBarComponent {
     cars: false,
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private snackBar: MatSnackBar,
+  ) {}
+
+  ngOnInit() {
+    console.log('Token:', TokenService.getToken()); // deve exibir o JWT
+    console.log('Email do token:', JwtService.getEmail()); // deve exibir o email
+    this.emailLogged = JwtService.getEmail() || '';
+  }
 
   get storesOpen() {
     return this.submenus['stores'];
@@ -41,6 +54,19 @@ export class SideBarComponent {
     return this.submenus['tenants'];
   }
 
+  logout() {
+    TokenService.removeToken();
+
+    this.snackBar.open('Deslogado com sucesso!', 'Fechar', {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      panelClass: ['snackbar-success'],
+    });
+
+    this.router.navigate(['/']);
+  }
+
   toggleSidebar() {
     if (this.collapsed) {
       this.collapsed = false;
@@ -54,10 +80,8 @@ export class SideBarComponent {
 
   expandSidebar() {
     if (this.collapsed) {
-      // Se estiver fechado, apenas abre
       this.collapsed = false;
     } else {
-      // Se já estiver aberto, redireciona para o perfil
       this.router.navigate(['/profile']);
     }
   }

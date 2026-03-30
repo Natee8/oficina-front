@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 
 @Component({
   selector: 'app-back-button-circle',
@@ -18,7 +18,10 @@ import { CommonModule } from '@angular/common';
 export class BackButtonCircleComponent {
   @Output() clickBack = new EventEmitter<void>();
 
+  constructor(private location: Location) {}
+
   onClick() {
+    this.location.back();
     this.clickBack.emit();
   }
 }

@@ -49,27 +49,35 @@ export class RegisterComponent {
   submit() {
     this.onboardingService.register().subscribe({
       next: (res: any) => {
-        const message = res?.message || 'Cadastro realizado com sucesso!';
-
-        this.snackBar.open(message, 'Fechar', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-        });
+        this.showSnackbar(res?.message || 'Cadastro realizado com sucesso!', 'success');
       },
       error: (err) => {
         const message = err?.error?.message || err?.error?.title || 'Erro ao realizar cadastro!';
-
-        this.snackBar.open(message, 'Fechar', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-        });
+        this.showSnackbar(message, 'error');
       },
     });
   }
 
+  private showSnackbar(message: string, type: 'success' | 'error') {
+    this.snackBar.open(message, 'Fechar', {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error'],
+    });
+  }
+
+  handleNextAction() {
+    if (this.currentStep < 3) {
+      this.nextStep();
+    } else {
+      this.submit();
+    }
+  }
+
   handleBack() {
-    console.log('Botão de voltar clicado');
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
   }
 }

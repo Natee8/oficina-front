@@ -81,6 +81,7 @@ export class MaskDirective {
 
     input.value = value;
 
+    // 🔥 ESSENCIAL: atualiza o Angular forms
     input.dispatchEvent(new Event('input', { bubbles: true }));
 
     this.isUpdating = false;

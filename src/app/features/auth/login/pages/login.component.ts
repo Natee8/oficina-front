@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
 import { TokenService } from '../../../../core/services/token.service';
 import { InputFieldComponent } from '../../../../shared/components/inputs/field/inputField.component';
@@ -12,7 +12,7 @@ import { login } from '../services/loginService';
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [InputFieldComponent, RouterLink, FormsModule],
+  imports: [InputFieldComponent, RouterLink, FormsModule, MatSnackBarModule],
 })
 export class LoginComponent {
   step = 1;
@@ -41,20 +41,22 @@ export class LoginComponent {
 
       TokenService.saveToken(result.token);
 
+      await this.router.navigate(['/tenant-list']);
+
       this.snackBar.open('Login realizado com sucesso!', 'Fechar', {
         duration: 3000,
         horizontalPosition: 'right',
         verticalPosition: 'top',
+        panelClass: ['snackbar-success'],
       });
-
-      await this.router.navigate(['/tenant-list']);
 
       console.log('Usuário logado:', result.user);
     } catch (err: any) {
-      this.snackBar.open(err.message || 'Erro ao fazer login', 'Fechar', {
-        duration: 5000,
+      this.snackBar.open(err?.error?.message || err?.message || 'Erro ao fazer login', 'Fechar', {
+        duration: 3000,
         horizontalPosition: 'right',
         verticalPosition: 'top',
+        panelClass: ['snackbar-error'],
       });
     }
   }

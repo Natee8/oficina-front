@@ -11,21 +11,16 @@
   <form-stepthree *ngIf="currentStep === 3"></form-stepthree>
 
   <div class="buttons">
-    <app-toggle-actions
-      *ngIf="currentStep === 2"
-      backLabel="Deixar pra depois"
-      nextLabel="Avançar"
-      (back)="handleBack()"
-      (next)="handleNext()"
-    ></app-toggle-actions>
+    <div class="buttons">
+      <button *ngIf="currentStep === 1" class="btn-primary" (click)="nextStep()">Avançar</button>
 
-    <button
-      *ngIf="currentStep !== 2"
-      class="btn-primary"
-      (click)="currentStep < 3 ? nextStep() : submit()"
-    >
-      {{ currentStep < 3 ? 'Avançar' : 'Finalizar' }}
-    </button>
+      <app-toggle-actions
+        *ngIf="currentStep > 1"
+        [nextLabel]="currentStep < 3 ? 'Avançar' : 'Finalizar'"
+        (back)="handleBack()"
+        (next)="handleNextAction()"
+      ></app-toggle-actions>
+    </div>
   </div>
 
   <div class="divider"></div>
