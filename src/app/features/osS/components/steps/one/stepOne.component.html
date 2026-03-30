@@ -8,7 +8,8 @@
       label="Loja"
       [options]="lojas"
       labelBgColor="#fff"
-      [(ngModel)]="loja"
+      [ngModel]="loja"
+      (ngModelChange)="updateField('loja', $event)"
       name="loja"
     ></app-select-field>
     <app-select-field

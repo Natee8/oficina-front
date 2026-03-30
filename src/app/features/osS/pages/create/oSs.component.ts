@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -6,6 +6,10 @@ import { OsStepOneComponent } from '../../components/steps/one/stepOne.component
 import { OsStepTwoComponent } from '../../components/steps/two/stepTwo.component';
 import { Router } from '@angular/router';
 import { OsService, CreateOsPayload } from '../../service/os.service';
+import { StoreService } from '../../../stores/service/store.service';
+import { StoreDto } from '../../../stores/model/store.dto';
+import { ClientService } from '../../../clients/service/client.service';
+import { ClientDto } from '../../../clients/model/client.dto';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 
 @Component({
@@ -22,16 +26,14 @@ import { BackButtonComponent } from '../../../../shared/components/backButton/ba
     BackButtonComponent,
   ],
 })
-export class OSsCreateComponent {
-  lojas: string[] = ['Loja 1', 'Loja 2', 'Loja 3'];
-  clientes: string[] = ['Cliente 1', 'Cliente 2', 'Cliente 3'];
+export class OSsCreateComponent implements OnInit {
+  lojas: StoreDto[] = [];
+  clientes: ClientDto[] = [];
   veiculos: string[] = ['Veículo 1', 'Veículo 2', 'Veículo 3'];
-
-  constructor(private router: Router, private osService: OsService) {}
 
   pecasAdicionadas: { nome: string; quantidade: number; valorUnitario: number }[] = [];
 
-  loja: string = '';
+  loja: number | null = null;
   cliente: string = '';
   veiculo: string = '';
   dataEntrada: string = '';
@@ -48,6 +50,39 @@ export class OSsCreateComponent {
   stepAtual = 1;
   stepTotal = 2;
 
+  constructor(
+    private router: Router,
+    private osService: OsService,
+    private storeService: StoreService,
+    private clientService: ClientService
+  ) {}
+
+  ngOnInit() {
+    this.storeService.getStores().subscribe(lojas => {
+      this.lojas = lojas;
+    });
+  }
+
+  onLojaChange(lojaId: number | string | null) {
+    const parsedLoja = lojaId === null || lojaId === '' ? null : Number(lojaId);
+    this.loja = Number.isNaN(parsedLoja) ? null : parsedLoja;
+    this.cliente = '';
+    this.clientes = [];
+
+    if (!this.loja) {
+      return;
+    }
+
+    this.clientService.getCustomers().subscribe({
+      next: (customers) => {
+        this.clientes = customers.filter(customer => customer.unitIds?.includes(this.loja as number));
+      },
+      error: () => {
+        this.clientes = [];
+      },
+    });
+  }
+
   nextStep() {
     if (this.stepAtual < this.stepTotal) {
       this.stepAtual++;
@@ -63,11 +98,10 @@ export class OSsCreateComponent {
   }
 
   finalizar() {
-    // qual seria o endpoint para pegar o veiculo e seu cliente dono?
     const payload: CreateOsPayload = {
-      unitId: 1, 
-      vehicleId: 10, // Select de veiculos de acordo com o get unit 
-      ownerCustomerId: 25, // Costumer Id automatico de acordo com o veiculo selecionado
+      unitId: this.loja ?? 1,
+      vehicleId: 10, // integrar select de veículos
+      ownerCustomerId: Number(this.cliente) || 25,
       entryDate: this.dataEntrada,
       estimatedDeliveryDate: this.dataSaida,
       bodyworkDescription: this.funilaria,

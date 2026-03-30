@@ -12,11 +12,12 @@ import { CommonModule } from '@angular/common';
   imports: [FormsModule, InputFieldComponent, SelectFieldComponent, CommonModule],
 })
 export class OsStepOneComponent {
+
   @Input() lojas: any[] = [];
   @Input() clientes: any[] = [];
   @Input() veiculos: any[] = [];
 
-  @Input() loja!: string;
+  @Input() loja!: number | null;
   @Input() cliente!: string;
   @Input() veiculo!: string;
   @Input() dataEntrada!: string;
@@ -26,7 +27,7 @@ export class OsStepOneComponent {
   @Input() funilaria!: string;
   @Input() valorFunilaria!: string;
 
-  @Output() lojaChange = new EventEmitter<string>();
+  @Output() lojaChange = new EventEmitter<number | null>();
   @Output() clienteChange = new EventEmitter<string>();
   @Output() veiculoChange = new EventEmitter<string>();
   @Output() dataEntradaChange = new EventEmitter<string>();

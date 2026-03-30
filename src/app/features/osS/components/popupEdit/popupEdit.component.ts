@@ -27,10 +27,11 @@ import { stepsConfigOs } from '../../../../core/config/stepsLabel.config';
   templateUrl: './popupEdit.component.html',
   styleUrls: ['./popupEdit.component.scss'],
 })
+
 export class EditOsModalComponent {
   stepIndex = 0;
 
-  loja = '';
+  loja: number | null = null;
   cliente = '';
   veiculo = '';
   dataEntrada = '';
@@ -55,7 +56,7 @@ export class EditOsModalComponent {
 
   ngOnInit() {
     if (this.os) {
-      this.loja = this.os.loja;
+      this.loja = typeof this.os.loja === 'number' ? this.os.loja : Number(this.os.loja);
       this.cliente = this.os.cliente;
       this.veiculo = this.os.veiculo;
       this.dataEntrada = this.os.dataEntrada;
