@@ -2,52 +2,110 @@
   position: relative;
   margin: 1.5rem 0;
   width: 100%;
-  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
-  select {
-    width: 100%;
-    height: 3.5rem;
-    padding: 0.75em 1em;
-    font-size: 1em;
-    background-color: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: 0.5rem;
-    outline: none;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    transition:
-      border-color 0.2s,
-      box-shadow 0.2s;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-  }
+.input-field-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
-  select:focus {
+select {
+  width: 100%;
+  height: 3.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  outline: none;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    padding 0.2s ease;
+  color: inherit;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  &:focus {
     border-color: var(--color-primary);
   }
 
-  label {
-    position: absolute;
-    top: 50%;
-    left: 1em;
-    transform: translateY(-50%);
-    pointer-events: none;
-    background-color: var(--color-bg);
-    padding: 0 0.4em;
-    font-family: Arial, sans-serif;
-    font-size: 1em;
-    color: gray;
-    transition:
-      transform 0.2s,
-      font-size 0.2s,
-      color 0.2s;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
   }
 
-  select:focus + label,
-  select:not([value=""]) + label {
-    transform: translateY(-250%);
-    font-size: 0.8em;
-    color: var(--color-primary);
+  // 🔥 simula o comportamento do input
+  &:focus,
+  &.has-value {
+    padding-top: 1.2rem;
+    padding-bottom: 0.8rem;
   }
+}
+
+.floating-label {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.label-content {
+  position: absolute;
+  left: 1rem;
+  top: 1.1rem;
+
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  color: gray;
+  white-space: nowrap;
+
+  transform: scale(1);
+  transform-origin: left center;
+
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.2s ease,
+    background-color 0.2s ease;
+
+  padding: 0 0.25rem;
+  background-color: transparent;
+  border-radius: 0.3rem;
+}
+
+// 🔥 ativa quando tem valor
+select:focus ~ .floating-label .label-content,
+select.has-value ~ .floating-label .label-content {
+  transform: translateY(-1.6rem) scale(0.85);
+  color: var(--color-primary);
+  background-color: var(--bg-color, var(--color-bg));
+  padding: 0 0.4rem;
+}
+
+// quando NÃO tem valor → label fica no lugar de placeholder
+select:not(.has-value):not(:focus) ~ .floating-label .label-content {
+  transform: translateY(0) scale(1);
+  color: gray;
+}
+
+// quando foca OU tem valor → sobe
+select:focus ~ .floating-label .label-content,
+select.has-value ~ .floating-label .label-content {
+  transform: translateY(-1.6rem) scale(0.85);
+  color: var(--color-primary);
+}
+
+.error-message {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 0;
+  font-size: 0.8rem;
+  color: red;
+  margin: 0;
 }

@@ -1,11 +1,27 @@
 <div class="input-simple">
-  <select
-    [value]="value"
-    (change)="handleChange($event)"
-    id="select-{{ label | lowercase }}"
-  >
-    <option value="" disabled selected hidden></option>
-    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
-  </select>
-  <label [for]="'select-' + (label | lowercase)">{{ label }}</label>
+  <div class="input-field-wrapper">
+    <select
+      [id]="id"
+      [(ngModel)]="value"
+      (change)="handleChange($event)"
+      (blur)="onTouched()"
+      [disabled]="disabled"
+      [class.has-value]="hasValue"
+      required
+    >
+      <option value="" disabled hidden></option>
+
+      <option *ngFor="let option of options" [value]="option">
+        {{ option }}
+      </option>
+    </select>
+
+    <label [for]="id" class="floating-label">
+      <span class="label-content" [style.--bg-color]="labelBgColor">
+        {{ label }}
+      </span>
+    </label>
+  </div>
+
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
 </div>
