@@ -22,7 +22,7 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() id = '';
   @Input() label = '';
   @Input() maxlength?: number;
-  @Input() mask?: 'cnpj' | 'phone' | 'email' | 'currency';
+  @Input() mask?: 'cnpj' | 'phone' | 'cpf' | 'email' | 'custom' | 'currency';
   @Input() errorMessage?: string;
   @Input() labelBgColor = 'var(--color-bg)';
 
