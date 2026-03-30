@@ -18,8 +18,8 @@ export class OsStepOneComponent {
   @Input() veiculos: any[] = [];
 
   @Input() loja!: number | null;
-  @Input() cliente!: string;
-  @Input() veiculo!: string;
+  @Input() cliente!: number | null;
+  @Input() veiculo!: number | null;
   @Input() dataEntrada!: string;
   @Input() dataSaida!: string;
   @Input() pintura!: string;
@@ -27,9 +27,30 @@ export class OsStepOneComponent {
   @Input() funilaria!: string;
   @Input() valorFunilaria!: string;
 
+  get lojaOptions() {
+    return this.lojas.map((loja) => ({
+      label: loja?.name ?? '',
+      value: loja?.id ?? null,
+    }));
+  }
+
+  get clienteOptions() {
+    return this.clientes.map((cliente) => ({
+      label: cliente?.name ?? '',
+      value: cliente?.id ?? null,
+    }));
+  }
+
+  get veiculoOptions() {
+    return this.veiculos.map((veiculo) => ({
+      label: `${veiculo?.model ?? ''} ${veiculo?.plate ?? ''}`,
+      value: veiculo?.id ?? null,
+    }));
+  }
+
   @Output() lojaChange = new EventEmitter<number | null>();
-  @Output() clienteChange = new EventEmitter<string>();
-  @Output() veiculoChange = new EventEmitter<string>();
+  @Output() clienteChange = new EventEmitter<number | null>();
+  @Output() veiculoChange = new EventEmitter<number | null>();
   @Output() dataEntradaChange = new EventEmitter<string>();
   @Output() dataSaidaChange = new EventEmitter<string>();
   @Output() pinturaChange = new EventEmitter<string>();

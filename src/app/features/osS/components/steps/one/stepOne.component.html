@@ -6,7 +6,7 @@
   <div class="os-row os-row-3">
     <app-select-field
       label="Loja"
-      [options]="lojas"
+      [options]="lojaOptions"
       labelBgColor="#fff"
       [ngModel]="loja"
       (ngModelChange)="updateField('loja', $event)"
@@ -14,16 +14,20 @@
     ></app-select-field>
     <app-select-field
       label="Cliente"
-      [options]="clientes"
+      [options]="clienteOptions"
       labelBgColor="#fff"
-      [(ngModel)]="cliente"
+      [disabled]="!loja"
+      [ngModel]="cliente"
+      (ngModelChange)="updateField('cliente', $event)"
       name="cliente"
     ></app-select-field>
     <app-select-field
       label="Veículo"
-      [options]="veiculos"
+      [options]="veiculoOptions"
       labelBgColor="#fff"
-      [(ngModel)]="veiculo"
+      [disabled]="!loja || !cliente"
+      [ngModel]="veiculo"
+      (ngModelChange)="updateField('veiculo', $event)"
       name="veiculo"
     ></app-select-field>
   </div>

@@ -10,6 +10,8 @@ import { StoreService } from '../../../stores/service/store.service';
 import { StoreDto } from '../../../stores/model/store.dto';
 import { ClientService } from '../../../clients/service/client.service';
 import { ClientDto } from '../../../clients/model/client.dto';
+import { VehicleDto } from '../../../car/model/vehicle.dto';
+import { VehicleService } from '../../../car/service/vehicle.service';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 
 @Component({
@@ -29,13 +31,13 @@ import { BackButtonComponent } from '../../../../shared/components/backButton/ba
 export class OSsCreateComponent implements OnInit {
   lojas: StoreDto[] = [];
   clientes: ClientDto[] = [];
-  veiculos: string[] = ['Veículo 1', 'Veículo 2', 'Veículo 3'];
+  veiculos: VehicleDto[] = [];
 
   pecasAdicionadas: { nome: string; quantidade: number; valorUnitario: number }[] = [];
 
   loja: number | null = null;
-  cliente: string = '';
-  veiculo: string = '';
+  cliente: number | null = null;
+  veiculo: number | null = null;
   dataEntrada: string = '';
   dataSaida: string = '';
   pintura: string = '';
@@ -54,7 +56,8 @@ export class OSsCreateComponent implements OnInit {
     private router: Router,
     private osService: OsService,
     private storeService: StoreService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private vehicleService: VehicleService
   ) {}
 
   ngOnInit() {
@@ -66,8 +69,10 @@ export class OSsCreateComponent implements OnInit {
   onLojaChange(lojaId: number | string | null) {
     const parsedLoja = lojaId === null || lojaId === '' ? null : Number(lojaId);
     this.loja = Number.isNaN(parsedLoja) ? null : parsedLoja;
-    this.cliente = '';
+    this.cliente = null;
+    this.veiculo = null;
     this.clientes = [];
+    this.veiculos = [];
 
     if (!this.loja) {
       return;
@@ -79,6 +84,26 @@ export class OSsCreateComponent implements OnInit {
       },
       error: () => {
         this.clientes = [];
+      },
+    });
+  }
+
+  onClienteChange(clienteId: number | string | null) {
+    const parsedCliente = clienteId === null || clienteId === '' ? null : Number(clienteId);
+    this.cliente = Number.isNaN(parsedCliente) ? null : parsedCliente;
+    this.veiculo = null;
+    this.veiculos = [];
+
+    if (!this.loja || !this.cliente) {
+      return;
+    }
+
+    this.vehicleService.getVehicles().subscribe({
+      next: (vehicles) => {
+        this.veiculos = vehicles.filter(vehicle => vehicle.customerId === this.cliente);
+      },
+      error: (err) => {
+        this.veiculos = [];
       },
     });
   }
@@ -100,8 +125,8 @@ export class OSsCreateComponent implements OnInit {
   finalizar() {
     const payload: CreateOsPayload = {
       unitId: this.loja ?? 1,
-      vehicleId: 10, // integrar select de veículos
-      ownerCustomerId: Number(this.cliente) || 25,
+      vehicleId: this.veiculo ?? 10,
+      ownerCustomerId: this.cliente ?? 25,
       entryDate: this.dataEntrada,
       estimatedDeliveryDate: this.dataSaida,
       bodyworkDescription: this.funilaria,

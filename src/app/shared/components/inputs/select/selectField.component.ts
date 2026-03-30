@@ -18,22 +18,31 @@ import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/f
 })
 export class SelectFieldComponent implements ControlValueAccessor {
   @Input() label = '';
-  @Input() options: string[] = [];
+  @Input() options: Array<string | { label: string; value: any }> = [];
 
   @Input() id = '';
   @Input() errorMessage?: string;
   @Input() labelBgColor = '#fff';
-  disabled = false;
+  @Input() disabled = false;
 
-  value = '';
+  value: any = null;
   onChange = (value: any) => {};
   onTouched = () => {};
 
   writeValue(value: any): void {
     this.value = value;
   }
+
+  getOptionLabel(option: string | { label: string; value: any }): string {
+    return typeof option === 'string' ? option : option.label;
+  }
+
+  getOptionValue(option: string | { label: string; value: any }): any {
+    return typeof option === 'string' ? option : option.value;
+  }
+
   get hasValue() {
-    return !!this.value;
+    return this.value !== null && this.value !== undefined && this.value !== '';
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -41,10 +50,12 @@ export class SelectFieldComponent implements ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-  setDisabledState?(isDisabled: boolean): void {}
+  setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
 
-  handleChange(event: any) {
-    this.value = event.target.value;
+  handleChange(value: any) {
+    this.value = value;
     this.onChange(this.value);
     this.onTouched();
   }
