@@ -3,6 +3,7 @@
     <app-select-field
       label="Cliente"
       [options]="clientes"
+      labelBgColor="#fff"
       [(ngModel)]="cliente"
       (ngModelChange)="clienteChange.emit($event)"
     ></app-select-field>
@@ -13,6 +14,7 @@
   <div class="field small">
     <app-input-field
       label="Placa"
+      labelBgColor="#fff"
       type="text"
       [(ngModel)]="plate"
       (ngModelChange)="plateChange.emit($event)"
@@ -22,6 +24,7 @@
   <div class="field small">
     <app-input-field
       label="Ano"
+      labelBgColor="#fff"
       type="text"
       [(ngModel)]="year"
       (ngModelChange)="yearChange.emit($event)"
@@ -34,6 +37,7 @@
     <app-input-field
       label="VIN"
       type="text"
+      labelBgColor="#fff"
       [(ngModel)]="vin"
       (ngModelChange)="vinChange.emit($event)"
     ></app-input-field>
@@ -45,6 +49,7 @@
     <app-input-field
       label="Renavam"
       type="text"
+      labelBgColor="#fff"
       [(ngModel)]="renavam"
       (ngModelChange)="renavamChange.emit($event)"
     ></app-input-field>
@@ -56,6 +61,7 @@
     <app-input-field
       label="Nº Sinistro"
       type="text"
+      labelBgColor="#fff"
       [(ngModel)]="insuranceClaimNumber"
       (ngModelChange)="insuranceClaimNumberChange.emit($event)"
     ></app-input-field>

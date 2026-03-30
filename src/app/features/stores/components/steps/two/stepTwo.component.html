@@ -3,6 +3,7 @@
     <app-input-field
       label="CEP"
       type="text"
+      labelBgColor="#fff"
       [(ngModel)]="addressZip"
       (ngModelChange)="addressZipChange.emit($event)"
     ></app-input-field>
@@ -11,6 +12,7 @@
   <div class="field small">
     <app-input-field
       label="Número"
+      labelBgColor="#fff"
       type="text"
       [(ngModel)]="addressNumber"
       (ngModelChange)="addressNumberChange.emit($event)"
@@ -21,6 +23,7 @@
 <div class="field">
   <app-input-field
     label="Rua"
+    labelBgColor="#fff"
     type="text"
     [(ngModel)]="addressStreet"
     (ngModelChange)="addressStreetChange.emit($event)"
@@ -31,6 +34,7 @@
   <app-input-field
     label="Bairro"
     type="text"
+    labelBgColor="#fff"
     [(ngModel)]="addressDistrict"
     (ngModelChange)="addressDistrictChange.emit($event)"
   ></app-input-field>
@@ -41,6 +45,7 @@
     <app-input-field
       label="Cidade"
       type="text"
+      labelBgColor="#fff"
       [(ngModel)]="addressCity"
       (ngModelChange)="addressCityChange.emit($event)"
     ></app-input-field>
@@ -50,6 +55,7 @@
     <app-input-field
       label="Estado"
       type="text"
+      labelBgColor="#fff"
       [(ngModel)]="addressState"
       (ngModelChange)="addressStateChange.emit($event)"
     ></app-input-field>

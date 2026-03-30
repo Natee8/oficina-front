@@ -7,6 +7,7 @@
     <app-input-field
       label="Peças"
       type="text"
+      labelBgColor="#fff"
       [(ngModel)]="peca"
       (ngModelChange)="pecaChange.emit($event)"
       name="peca"
@@ -15,14 +16,16 @@
     <app-input-field
       label="Quantidade"
       type="text"
+      labelBgColor="#fff"
       [(ngModel)]="quantidade"
       (ngModelChange)="quantidadeChange.emit($event)"
       name="quantidade"
       class="input-qtd input-flex"
     ></app-input-field>
-      <app-input-field
+    <app-input-field
       label="Valor Unitário"
       type="text"
+      labelBgColor="#fff"
       [(ngModel)]="valorUnitario"
       (ngModelChange)="valorUnitarioChange.emit($event)"
       name="valorUnitario"

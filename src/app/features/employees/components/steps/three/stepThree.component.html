@@ -1,6 +1,7 @@
 <app-input-field
   label="Cargo"
   type="text"
+  labelBgColor="#fff"
   [(ngModel)]="cargo"
   (ngModelChange)="cargoChange.emit($event)"
 ></app-input-field>
@@ -8,12 +9,14 @@
 <app-input-field
   label="Loja"
   type="text"
+  labelBgColor="#fff"
   [(ngModel)]="loja"
   (ngModelChange)="lojaChange.emit($event)"
 ></app-input-field>
 
 <app-input-field
   label="Email"
+  labelBgColor="#fff"
   [(ngModel)]="email"
   (ngModelChange)="emailChange.emit($event)"
 ></app-input-field>
@@ -21,6 +24,7 @@
 <app-input-field
   label="Senha"
   type="password"
+  labelBgColor="#fff"
   [(ngModel)]="senha"
   (ngModelChange)="senhaChange.emit($event)"
 ></app-input-field>

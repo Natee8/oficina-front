@@ -1,6 +1,7 @@
 <app-input-field
   label="Nome da Loja"
   type="text"
+  labelBgColor="#fff"
   [(ngModel)]="name"
   (ngModelChange)="nameChange.emit($event)"
 ></app-input-field>
@@ -8,6 +9,7 @@
 <app-input-field
   label="CNPJ"
   type="text"
+  labelBgColor="#fff"
   [(ngModel)]="cnpj"
   (ngModelChange)="cnpjChange.emit($event)"
 ></app-input-field>
@@ -16,11 +18,13 @@
   label="Telefone"
   type="text"
   [(ngModel)]="phone"
+  labelBgColor="#fff"
   (ngModelChange)="phoneChange.emit($event)"
 ></app-input-field>
 
 <app-input-field
   label="Email"
+  labelBgColor="#fff"
   type="text"
   [(ngModel)]="email"
   (ngModelChange)="emailChange.emit($event)"
@@ -28,6 +32,6 @@
   #emailInput="ngModel"
   required
 ></app-input-field>
-<div *ngIf="email && !isValidEmail(email)" style="color: red; font-size: 12px; margin-top: 2px;">
+<div *ngIf="email && !isValidEmail(email)" style="color: red; font-size: 12px; margin-top: 2px">
   Email inválido
 </div>

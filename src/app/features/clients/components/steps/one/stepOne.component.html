@@ -1,23 +1,27 @@
 <app-input-field
   label="Nome"
   [(ngModel)]="nome"
+  labelBgColor="#fff"
   (ngModelChange)="nomeChange.emit($event)"
 ></app-input-field>
 
 <app-input-field
   label="CPF/CNPJ"
   [(ngModel)]="cpfCnpj"
+  labelBgColor="#fff"
   (ngModelChange)="cpfCnpjChange.emit($event)"
 ></app-input-field>
 
 <app-input-field
   label="Email"
   [(ngModel)]="email"
+  labelBgColor="#fff"
   (ngModelChange)="emailChange.emit($event)"
 ></app-input-field>
 
 <app-input-field
   label="Telefone"
+  labelBgColor="#fff"
   [(ngModel)]="phone"
   (ngModelChange)="phoneChange.emit($event)"
 ></app-input-field>

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { InputFieldComponent } from '../../../../shared/components/inputs/field/inputField.component';
-import { RouterLink } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { LoginData } from '../model/auth.dto';
-import { TokenService } from '../../../../core/services/token.service';
-import { login } from '../services/loginService';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, RouterLink } from '@angular/router';
+import { TokenService } from '../../../../core/services/token.service';
+import { InputFieldComponent } from '../../../../shared/components/inputs/field/inputField.component';
+import { LoginData } from '../model/auth.dto';
+import { login } from '../services/loginService';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,10 @@ export class LoginComponent {
   email = '';
   password = '';
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router,
+  ) {}
 
   handleBack() {
     console.log('Botão de voltar clicado');
@@ -43,6 +46,8 @@ export class LoginComponent {
         horizontalPosition: 'right',
         verticalPosition: 'top',
       });
+
+      await this.router.navigate(['/tenant-list']);
 
       console.log('Usuário logado:', result.user);
     } catch (err: any) {

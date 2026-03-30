@@ -2,6 +2,7 @@
   label="Nome"
   type="text"
   [(ngModel)]="name"
+  labelBgColor="#fff"
   (ngModelChange)="nameChange.emit($event)"
 ></app-input-field>
 
@@ -9,6 +10,7 @@
   label="CPF"
   type="text"
   [(ngModel)]="cpf"
+  labelBgColor="#fff"
   (ngModelChange)="cpfChange.emit($event)"
 ></app-input-field>
 
@@ -16,5 +18,6 @@
   label="Telefone"
   type="text"
   [(ngModel)]="phone"
+  labelBgColor="#fff"
   (ngModelChange)="phoneChange.emit($event)"
 ></app-input-field>

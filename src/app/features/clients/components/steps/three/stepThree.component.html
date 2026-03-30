@@ -2,11 +2,13 @@
   label="Loja"
   [options]="lojas"
   [(ngModel)]="loja"
+  labelBgColor="#fff"
   (ngModelChange)="lojaChange.emit($event)"
 ></app-select-field>
 
 <app-select-field
   label="Tipo Legal"
+  labelBgColor="#fff"
   [options]="tiposLegais"
   [(ngModel)]="tipoLegal"
   (ngModelChange)="tipoLegalChange.emit($event)"
@@ -14,6 +16,7 @@
 
 <app-input-field
   label="Observações"
+  labelBgColor="#fff"
   [(ngModel)]="notes"
   (ngModelChange)="notesChange.emit($event)"
 ></app-input-field>
