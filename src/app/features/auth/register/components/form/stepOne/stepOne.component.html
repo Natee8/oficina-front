@@ -1,0 +1,26 @@
+<div class="form-container">
+  <form class="form-content">
+    <app-input-field
+      name="name"
+      type="text"
+      label="Nome da empresa"
+      [maxlength]="50"
+      [(ngModel)]="formService.stepOneData.name"
+    ></app-input-field>
+
+    <app-input-field
+      name="storeName"
+      type="text"
+      label="Nome da loja"
+      [(ngModel)]="formService.stepOneData.storeName"
+    ></app-input-field>
+
+    <app-input-field
+      name="cnpj"
+      type="text"
+      label="CNPJ"
+      mask="cnpj"
+      [(ngModel)]="formService.stepOneData.cnpj"
+    ></app-input-field>
+  </form>
+</div>

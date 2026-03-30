@@ -1,19 +1,29 @@
 <div class="input-simple">
-  <input
-    [type]="inputType"
-    [id]="id"
-    [(ngModel)]="value"
-    (ngModelChange)="onInput($event)"
-    (focus)="inputFocused = true"
-    (blur)="onBlur(); inputFocused = false"
-    [attr.maxlength]="maxlength"
-    [disabled]="disabled"
-    [appMask]="mask"
-    required
-  />
-  <label [class.floating]="value || inputFocused" [for]="id">{{ label }}</label>
+  <div class="input-field-wrapper">
+    <input
+      [type]="inputType"
+      [id]="id"
+      [placeholder]="label"
+      [(ngModel)]="value"
+      (ngModelChange)="onInput($event)"
+      (focus)="inputFocused = true"
+      (blur)="onBlur()"
+      [attr.maxlength]="maxlength"
+      [disabled]="disabled"
+      [appMask]="mask"
+      required
+    />
 
-  <span *ngIf="type === 'password' && !disabled" class="toggle-password" (click)="togglePassword()">
-    <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
-  </span>
+    <label [for]="id" class="floating-label">
+      <span class="label-content" [style.--bg-color]="labelBgColor">
+        {{ label }}
+      </span>
+    </label>
+
+    <span *ngIf="type === 'password' && !disabled" class="toggle-password" (click)="togglePassword()">
+      <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+    </span>
+  </div>
+
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
 </div>

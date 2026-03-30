@@ -1,0 +1,49 @@
+<div class="form-container">
+  <form class="form-content">
+    <div class="row">
+      <app-input-field
+        name="cep"
+        type="text"
+        label="CEP"
+        [(ngModel)]="formService.stepTwoData.cep"
+      ></app-input-field>
+
+      <app-input-field
+        name="state"
+        type="text"
+        label="Estado"
+        [(ngModel)]="formService.stepTwoData.state"
+      ></app-input-field>
+    </div>
+
+    <app-input-field
+      name="city"
+      type="text"
+      label="Cidade"
+      [(ngModel)]="formService.stepTwoData.city"
+    ></app-input-field>
+
+    <app-input-field
+      name="district"
+      type="text"
+      label="Bairro"
+      [(ngModel)]="formService.stepTwoData.district"
+    ></app-input-field>
+
+    <div class="row">
+      <app-input-field
+        name="street"
+        type="text"
+        label="Rua"
+        [(ngModel)]="formService.stepTwoData.street"
+      ></app-input-field>
+
+      <app-input-field
+        name="number"
+        type="text"
+        label="Número"
+        [(ngModel)]="formService.stepTwoData.number"
+      ></app-input-field>
+    </div>
+  </form>
+</div>

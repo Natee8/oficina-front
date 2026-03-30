@@ -1,6 +1,6 @@
-import { Component, Input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MaskDirective } from '../../../utils/masks/maskDirective';
 
 @Component({
@@ -23,6 +23,8 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() maxlength?: number;
   @Input() mask?: 'cnpj' | 'phone' | 'email' | 'currency';
+  @Input() errorMessage?: string;
+  @Input() labelBgColor = 'var(--color-bg)';
 
   value: any = '';
   disabled = false;
