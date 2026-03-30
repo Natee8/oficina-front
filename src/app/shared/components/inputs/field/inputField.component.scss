@@ -23,7 +23,10 @@ input {
   outline: none;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, padding 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    padding 0.2s ease;
   color: inherit;
 
   &::placeholder {
@@ -123,7 +126,3 @@ input:not(:placeholder-shown) ~ .floating-label .label-content {
   margin: 0;
   padding: 0;
 }
-
-
-
-
