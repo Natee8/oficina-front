@@ -12,13 +12,18 @@ import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/f
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SelectFieldComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class SelectFieldComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() options: string[] = [];
+
+  @Input() id = '';
+  @Input() errorMessage?: string;
+  @Input() labelBgColor = '#fff';
+  disabled = false;
 
   value = '';
   onChange = (value: any) => {};
@@ -26,6 +31,9 @@ export class SelectFieldComponent implements ControlValueAccessor {
 
   writeValue(value: any): void {
     this.value = value;
+  }
+  get hasValue() {
+    return !!this.value;
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
