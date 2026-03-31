@@ -31,6 +31,7 @@ export class OsService {
   getServiceOrders(): Observable<OsDto[]> {
     return this.http.get<OsDto[]>(this.apiUrl);
   }
+
   postServiceOrder(payload: CreateOsPayload) {
     return this.http.post<OsDto>(this.apiUrl, payload);
   }

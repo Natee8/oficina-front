@@ -3,16 +3,16 @@
     <select
       [id]="id"
       [(ngModel)]="value"
-      (change)="handleChange($event)"
+      (ngModelChange)="handleChange($event)"
       (blur)="onTouched()"
       [disabled]="disabled"
       [class.has-value]="hasValue"
       required
     >
-      <option value="" disabled hidden></option>
+      <option [ngValue]="null" disabled hidden></option>
 
-      <option *ngFor="let option of options" [value]="option">
-        {{ option }}
+      <option *ngFor="let option of options" [ngValue]="getOptionValue(option)">
+        {{ getOptionLabel(option) }}
       </option>
     </select>
 
