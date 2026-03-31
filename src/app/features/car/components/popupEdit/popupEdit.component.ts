@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -10,6 +10,9 @@ import { StepOneCarComponent } from '../steps/one/stepOne.component';
 import { StepTwoCarComponent } from '../steps/two/stepTwo.component';
 import { ReviewStepComponent } from '../../../../shared/components/reviewStep/reviewStep.component';
 import { stepsConfigCar } from '../../../../core/config/stepsLabel.config';
+import { ClientService } from '../../../clients/service/client.service';
+import { CreateVehiclePayload, VehicleService } from '../../service/car.service';
+import { VehicleDto } from '../../model/vehicle.dto';
 
 @Component({
   selector: 'app-edit-car-modal',
@@ -27,30 +30,39 @@ import { stepsConfigCar } from '../../../../core/config/stepsLabel.config';
   templateUrl: './popupEdit.component.html',
   styleUrls: ['./popupEdit.component.scss'],
 })
-export class EditCarModalComponent {
+export class EditCarModalComponent implements OnInit {
   stepIndex = 0;
 
-  cliente = '';
+  cliente: number | null = null;
   plate = '';
   year: number | null = null;
   vin = '';
   renavam = '';
   insuranceClaimNumber = '';
-  clientes: string[] = [];
+  clientes: Array<{ label: string; value: number }> = [];
 
   brand = '';
   model = '';
   color = '';
   notes = '';
+  error = '';
 
-  @Input() car: any;
+  @Input() car: VehicleDto | null = null;
   @Output() closeModalEvent = new EventEmitter<void>();
+  @Output() vehicleUpdated = new EventEmitter<VehicleDto>();
 
   stepsConfig = stepsConfigCar;
 
+  constructor(
+    private clientService: ClientService,
+    private vehicleService: VehicleService
+  ) {}
+
   ngOnInit() {
+    this.loadClients();
+
     if (this.car) {
-      this.cliente = this.car.cliente;
+      this.cliente = this.car.customerId;
       this.plate = this.car.plate;
       this.year = this.car.year;
       this.vin = this.car.vin;
@@ -62,8 +74,27 @@ export class EditCarModalComponent {
       this.color = this.car.color;
       this.notes = this.car.notes;
 
-      this.clientes = this.car.clientes || [];
     }
+  }
+
+  private loadClients() {
+    this.clientService.getCustomers().subscribe({
+      next: (customers) => {
+        this.clientes = customers.map((customer) => ({
+          label: customer.name,
+          value: customer.id,
+        }));
+      },
+      error: () => {
+        this.clientes = this.car?.customerName && this.car?.customerId
+          ? [{ label: this.car.customerName, value: this.car.customerId }]
+          : [];
+      },
+    });
+  }
+
+  get clienteLabel() {
+    return this.clientes.find((client) => client.value === this.cliente)?.label ?? this.car?.customerName ?? '';
   }
 
   setStep(index: number) {
@@ -91,11 +122,26 @@ export class EditCarModalComponent {
     else this.back();
   }
 
+  private parseYear(value: number | string | null): number {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
   save() {
-    const payload = {
-      cliente: this.cliente,
+    if (!this.car?.id) {
+      this.error = 'Veículo inválido para atualização';
+      return;
+    }
+
+    if (!this.cliente) {
+      this.error = 'Selecione um cliente';
+      return;
+    }
+
+    const payload: CreateVehiclePayload = {
+      customerId: this.cliente,
       plate: this.plate,
-      year: this.year,
+      year: this.parseYear(this.year),
       vin: this.vin,
       renavam: this.renavam,
       insuranceClaimNumber: this.insuranceClaimNumber,
@@ -104,7 +150,16 @@ export class EditCarModalComponent {
       color: this.color,
       notes: this.notes,
     };
-    console.log('EDIT CAR', payload);
+
+    this.vehicleService.patchVehicle(this.car.id, payload).subscribe({
+      next: (vehicle) => {
+        this.vehicleUpdated.emit(vehicle);
+        this.close();
+      },
+      error: () => {
+        this.error = 'Erro ao atualizar veículo';
+      },
+    });
   }
 
   close() {
@@ -116,7 +171,7 @@ export class EditCarModalComponent {
       {
         title: 'Dados do veículo',
         fields: [
-          { label: 'Cliente', value: this.cliente },
+          { label: 'Cliente', value: this.clienteLabel },
           { label: 'Placa', value: this.plate },
           { label: 'Ano', value: this.year },
           { label: 'VIN', value: this.vin },
