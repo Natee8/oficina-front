@@ -10,6 +10,9 @@ import { StepperComponent } from '../../../../shared/components/stepsPopup.ts/st
 import { ReviewStepComponent } from '../../../../shared/components/reviewStep/reviewStep.component';
 import { ToggleActionsComponent } from '../../../../shared/components/buttonNext/buttonNext.component';
 import { stepsConfigStore } from '../../../../core/config/stepsLabel.config';
+import { createStoreData } from '../../model/store.data';
+import { stepOneSchema } from '../../schemas/stepOne.schema';
+import { stepTwoSchema } from '../../schemas/stepTwo.schema';
 
 @Component({
   selector: 'app-edit-store-modal',
@@ -29,16 +32,8 @@ import { stepsConfigStore } from '../../../../core/config/stepsLabel.config';
 })
 export class EditStoreModalComponent {
   stepIndex = 0;
-
-  name = '';
-  cnpj = '';
-
-  addressZip = '';
-  addressStreet = '';
-  addressNumber = '';
-  addressDistrict = '';
-  addressCity = '';
-  addressState = '';
+  storeData = createStoreData();
+  errors: Record<string, string> = {};
 
   closeModal = false;
 
@@ -49,19 +44,19 @@ export class EditStoreModalComponent {
       {
         title: 'Informações da Loja',
         fields: [
-          { label: 'Nome', value: this.name },
-          { label: 'CNPJ', value: this.cnpj },
+          { label: 'Nome', value: this.storeData.name },
+          { label: 'CNPJ', value: this.storeData.cnpj },
         ],
       },
       {
         title: 'Endereço',
         fields: [
-          { label: 'CEP', value: this.addressZip },
-          { label: 'Número', value: this.addressNumber },
-          { label: 'Rua', value: this.addressStreet },
-          { label: 'Bairro', value: this.addressDistrict },
-          { label: 'Cidade', value: this.addressCity },
-          { label: 'Estado', value: this.addressState },
+          { label: 'CEP', value: this.storeData.addressZip },
+          { label: 'Número', value: this.storeData.addressNumber },
+          { label: 'Rua', value: this.storeData.addressStreet },
+          { label: 'Bairro', value: this.storeData.addressDistrict },
+          { label: 'Cidade', value: this.storeData.addressCity },
+          { label: 'Estado', value: this.storeData.addressState },
         ],
       },
     ];
@@ -72,15 +67,15 @@ export class EditStoreModalComponent {
 
   ngOnInit() {
     if (this.store) {
-      this.name = this.store.name;
-      this.cnpj = this.store.cnpj;
+      this.storeData.name = this.store.name;
+      this.storeData.cnpj = this.store.cnpj;
 
-      this.addressZip = this.store.zip;
-      this.addressStreet = this.store.street;
-      this.addressNumber = this.store.number;
-      this.addressDistrict = this.store.neighborhood;
-      this.addressCity = this.store.city;
-      this.addressState = this.store.state;
+      this.storeData.addressZip = this.store.zip;
+      this.storeData.addressStreet = this.store.street;
+      this.storeData.addressNumber = this.store.number;
+      this.storeData.addressDistrict = this.store.neighborhood;
+      this.storeData.addressCity = this.store.city;
+      this.storeData.addressState = this.store.state;
     }
   }
 
@@ -104,11 +99,30 @@ export class EditStoreModalComponent {
     }
   }
 
-  handleNext() {
-    if (this.isLastStep) {
-      this.save();
-    } else {
-      this.next();
+  async handleNext() {
+    try {
+      this.errors = {};
+
+      const schemas = [stepOneSchema, stepTwoSchema];
+
+      // só valida steps que têm form
+      if (this.stepIndex < 2) {
+        await schemas[this.stepIndex].validate(this.storeData, {
+          abortEarly: false,
+        });
+      }
+
+      if (this.isLastStep) {
+        this.save();
+      } else {
+        this.next();
+      }
+    } catch (err: any) {
+      this.errors = {};
+
+      err.inner.forEach((e: any) => {
+        this.errors[e.path] = e.message;
+      });
     }
   }
 
@@ -123,14 +137,14 @@ export class EditStoreModalComponent {
 
   save() {
     const payload = {
-      name: this.name,
-      cnpj: this.cnpj,
-      addressZip: this.addressZip,
-      addressStreet: this.addressStreet,
-      addressNumber: this.addressNumber,
-      addressDistrict: this.addressDistrict,
-      addressCity: this.addressCity,
-      addressState: this.addressState,
+      name: this.storeData.name,
+      cnpj: this.storeData.cnpj,
+      addressZip: this.storeData.addressZip,
+      addressStreet: this.storeData.addressStreet,
+      addressNumber: this.storeData.addressNumber,
+      addressDistrict: this.storeData.addressDistrict,
+      addressCity: this.storeData.addressCity,
+      addressState: this.storeData.addressState,
     };
 
     console.log('EDIT STORE', payload);

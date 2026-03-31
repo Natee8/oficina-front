@@ -1,11 +1,19 @@
 <app-modal (close)="close()" minWidth="60%" minHeight="600px">
   <div class="popupContainer">
-    <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div
+      class="modal-header"
+      style="display: flex; justify-content: space-between; align-items: center"
+    >
       <div>
         <h2>Editar nova loja</h2>
         <p>Edite uma loja já existente e atualize informações</p>
       </div>
-      <span class="close" (click)="close()" style="cursor:pointer; font-size: 24px; color: #999; margin-left: 16px; transition: 0.2s;">×</span>
+      <span
+        class="close"
+        (click)="close()"
+        style="cursor: pointer; font-size: 24px; color: #999; margin-left: 16px; transition: 0.2s"
+        >×</span
+      >
     </div>
 
     <app-stepper
@@ -18,18 +26,14 @@
       <ng-container [ngSwitch]="stepIndex">
         <app-step-one-stores
           *ngSwitchCase="0"
-          [(name)]="name"
-          [(cnpj)]="cnpj"
+          [data]="storeData"
+          [errors]="errors"
         ></app-step-one-stores>
 
         <app-step-two-stores
           *ngSwitchCase="1"
-          [(addressZip)]="addressZip"
-          [(addressNumber)]="addressNumber"
-          [(addressStreet)]="addressStreet"
-          [(addressDistrict)]="addressDistrict"
-          [(addressCity)]="addressCity"
-          [(addressState)]="addressState"
+          [data]="storeData"
+          [errors]="errors"
         ></app-step-two-stores>
 
         <app-review-step *ngSwitchCase="2" [sections]="reviewData"></app-review-step>

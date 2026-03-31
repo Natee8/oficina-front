@@ -1,12 +1,7 @@
 <div class="row">
-  <div class="field">
-    <app-input-field
-      label="CEP"
-      type="text"
-      labelBgColor="#fff"
-      [(ngModel)]="addressZip"
-      (ngModelChange)="addressZipChange.emit($event)"
-    ></app-input-field>
+  <app-input-field label="CEP" [(ngModel)]="data.addressZip"></app-input-field>
+  <div *ngIf="errors['addressZip']">
+    {{ errors['addressZip'] }}
   </div>
 
   <div class="field small">
@@ -14,9 +9,12 @@
       label="Número"
       labelBgColor="#fff"
       type="text"
-      [(ngModel)]="addressNumber"
-      (ngModelChange)="addressNumberChange.emit($event)"
+      [(ngModel)]="data.addressNumber"
+      (ngModelChange)="data.addressNumberChange.emit($event)"
     ></app-input-field>
+    <div *ngIf="errors['addressNumber']">
+      {{ errors['addressNumber'] }}
+    </div>
   </div>
 </div>
 
@@ -25,9 +23,12 @@
     label="Rua"
     labelBgColor="#fff"
     type="text"
-    [(ngModel)]="addressStreet"
-    (ngModelChange)="addressStreetChange.emit($event)"
+    [(ngModel)]="data.addressStreet"
+    (ngModelChange)="data.addressStreetChange.emit($event)"
   ></app-input-field>
+  <div *ngIf="errors['addressStreet']">
+    {{ errors['addressStreet'] }}
+  </div>
 </div>
 
 <div class="field">
@@ -35,9 +36,12 @@
     label="Bairro"
     type="text"
     labelBgColor="#fff"
-    [(ngModel)]="addressDistrict"
-    (ngModelChange)="addressDistrictChange.emit($event)"
+    [(ngModel)]="data.addressDistrict"
+    (ngModelChange)="data.addressDistrictChange.emit($event)"
   ></app-input-field>
+  <div *ngIf="errors['addressDistrict']">
+    {{ errors['addressDistrict'] }}
+  </div>
 </div>
 
 <div class="row">
@@ -46,9 +50,12 @@
       label="Cidade"
       type="text"
       labelBgColor="#fff"
-      [(ngModel)]="addressCity"
-      (ngModelChange)="addressCityChange.emit($event)"
+      [(ngModel)]="data.addressCity"
+      (ngModelChange)="data.addressCityChange.emit($event)"
     ></app-input-field>
+    <div *ngIf="errors['addressCity']">
+      {{ errors['addressCity'] }}
+    </div>
   </div>
 
   <div class="field small">
@@ -56,8 +63,11 @@
       label="Estado"
       type="text"
       labelBgColor="#fff"
-      [(ngModel)]="addressState"
-      (ngModelChange)="addressStateChange.emit($event)"
+      [(ngModel)]="data.addressState"
+      (ngModelChange)="data.addressStateChange.emit($event)"
     ></app-input-field>
+    <div *ngIf="errors['addressState']">
+      {{ errors['addressState'] }}
+    </div>
   </div>
 </div>

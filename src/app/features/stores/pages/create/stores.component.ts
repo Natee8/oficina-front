@@ -8,6 +8,9 @@ import { BackButtonComponent } from '../../../../shared/components/backButton/ba
 
 import { StepOneStoresComponent } from '../../components/steps/one/stepOne.component';
 import { StepTwoStoresComponent } from '../../components/steps/two/stepTwo.component';
+import { stepOneSchema } from '../../schemas/stepOne.schema';
+import { stepTwoSchema } from '../../schemas/stepTwo.schema';
+import { createStoreData } from '../../model/store.data';
 
 @Component({
   selector: 'app-create-store',
@@ -25,6 +28,7 @@ import { StepTwoStoresComponent } from '../../components/steps/two/stepTwo.compo
 })
 export class CreateStoreComponent {
   stepIndex = 0;
+  errors: Record<string, string> = {};
 
   steps = [
     {
@@ -41,26 +45,33 @@ export class CreateStoreComponent {
     },
   ];
 
-
-  name = '';
-  cnpj = '';
-  phone = '';
-  email = '';
-
-  addressZip = '';
-  addressStreet = '';
-  addressNumber = '';
-  addressDistrict = '';
-  addressCity = '';
-  addressState = '';
+  storeData = createStoreData();
 
   constructor(private router: Router) {}
 
-  nextStep() {
-    if (this.stepIndex < this.steps.length - 1) {
-      this.stepIndex++;
-    } else {
-      this.finish();
+  async nextStep() {
+    try {
+      this.errors = {};
+
+      if (this.stepIndex === 0) {
+        await stepOneSchema.validate(this.storeData, { abortEarly: false });
+      }
+
+      if (this.stepIndex === 1) {
+        await stepTwoSchema.validate(this.storeData, { abortEarly: false });
+      }
+
+      if (this.stepIndex < 1) {
+        this.stepIndex++;
+      } else {
+        this.finish();
+      }
+    } catch (err: any) {
+      this.errors = {};
+
+      err.inner.forEach((e: any) => {
+        this.errors[e.path] = e.message;
+      });
     }
   }
 
@@ -76,16 +87,16 @@ export class CreateStoreComponent {
 
   finish() {
     const payload = {
-      name: this.name,
-      cnpj: this.cnpj,
-      phone: this.phone,
-      email: this.email,
-      addressZip: this.addressZip,
-      addressStreet: this.addressStreet,
-      addressNumber: this.addressNumber,
-      addressDistrict: this.addressDistrict,
-      addressCity: this.addressCity,
-      addressState: this.addressState,
+      name: this.storeData.name,
+      cnpj: this.storeData.cnpj,
+      phone: this.storeData.phone,
+      email: this.storeData.email,
+      addressZip: this.storeData.addressZip,
+      addressStreet: this.storeData.addressStreet,
+      addressNumber: this.storeData.addressNumber,
+      addressDistrict: this.storeData.addressDistrict,
+      addressCity: this.storeData.addressCity,
+      addressState: this.storeData.addressState,
     };
 
     console.log('Loja cadastrada!', payload);
