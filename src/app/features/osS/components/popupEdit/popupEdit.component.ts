@@ -11,7 +11,7 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { OsStepOneComponent } from '../steps/one/stepOne.component';
 import { OsStepTwoComponent } from '../steps/two/stepTwo.component';
 import { stepsConfigOs } from '../../../../core/config/stepsLabel.config';
-import { OsService, CreateOsPayload } from '../../service/os.service';
+import { OsService, CreateOsPayload, UpdateOsPayload } from '../../service/os.service';
 import { OsDto } from '../../model/dtos/os.dto';
 import { StoreService } from '../../../stores/service/store.service';
 import { StoreDto } from '../../../stores/model/store.dto';
@@ -19,7 +19,8 @@ import { ClientService } from '../../../clients/service/client.service';
 import { ClientDto } from '../../../clients/model/client.dto';
 import { VehicleService } from '../../../car/service/car.service';
 import { VehicleDto } from '../../../car/model/vehicle.dto';
-import { OsData } from '../../model/dtos/os.data';
+import { OsData, createOsData } from '../../model/dtos/os.data';
+import { StepOneOsSchema } from '../../schemas/stepOne.schema';
 
 @Component({
   selector: 'app-edit-os-modal',
@@ -40,25 +41,16 @@ import { OsData } from '../../model/dtos/os.data';
 export class EditOsModalComponent implements OnInit {
   stepIndex = 0;
 
-  loja: number | null = null;
-  cliente: number | null = null;
-  veiculo: number | null = null;
-  dataEntrada = '';
-  dataSaida = '';
-  pintura = '';
-  valorPintura = '';
-  funilaria = '';
-  valorFunilaria = '';
-  peca = '';
-  quantidade: number | null = null;
-  valorUnitario = '';
-  pecasAdicionadas: any[] = [];
+  osData: OsData = createOsData();
+  errors: Record<string, string> = {};
 
   lojas: StoreDto[] = [];
   clientes: ClientDto[] = [];
   veiculos: VehicleDto[] = [];
 
   stepsConfig = stepsConfigOs;
+
+  stepOneErrors: Record<string, string> = {};
 
   @Input() os: OsDto | null = null;
   @Output() closeModalEvent = new EventEmitter<void>();
@@ -80,147 +72,32 @@ export class EditOsModalComponent implements OnInit {
   }
 
   private loadLookupData() {
-    this.storeService.getStores().subscribe((stores) => {
-      this.lojas = stores;
-    });
-
-    this.clientService.getCustomers().subscribe((customers) => {
-      this.clientes = customers;
-    });
-
-    this.vehicleService.getVehicles().subscribe((vehicles) => {
-      this.veiculos = vehicles;
-    });
+    this.storeService.getStores().subscribe((stores) => (this.lojas = stores));
+    this.clientService.getCustomers().subscribe((customers) => (this.clientes = customers));
+    this.vehicleService.getVehicles().subscribe((vehicles) => (this.veiculos = vehicles));
   }
 
   private populateFromOs(os: OsDto) {
-    this.loja = os.unitId;
-    this.cliente = os.ownerCustomerId;
-    this.veiculo = os.vehicleId;
-    this.dataEntrada = os.entryDate ? os.entryDate.split('T')[0] : '';
-    this.dataSaida = os.estimatedDeliveryDate ? os.estimatedDeliveryDate.split('T')[0] : '';
-    this.funilaria = os.bodyworkDescription;
-    this.valorFunilaria = os.bodyworkValue ? String(os.bodyworkValue) : '';
-    this.pintura = os.paintDescription;
-    this.valorPintura = os.paintValue ? String(os.paintValue) : '';
+    this.osData = {
+      loja: os.unitId,
+      cliente: os.ownerCustomerId,
+      veiculo: os.vehicleId,
+      dataEntrada: os.entryDate ? os.entryDate.split('T')[0] : '',
+      dataSaida: os.estimatedDeliveryDate ? os.estimatedDeliveryDate.split('T')[0] : '',
+      pintura: os.paintDescription,
+      valorPintura: os.paintValue ? String(os.paintValue) : '',
+      funilaria: os.bodyworkDescription,
+      valorFunilaria: os.bodyworkValue ? String(os.bodyworkValue) : '',
+      peca: '',
+      quantidade: null,
+      valorUnitario: '',
+    };
 
     this.pecasAdicionadas = (os.parts || []).map((part) => ({
       nome: part.description,
       quantidade: part.quantity,
       valor: String(part.unitPrice),
     }));
-  }
-
-  onLojaChange(lojaId: number | string | null) {
-    const parsedLoja = lojaId === null || lojaId === '' ? null : Number(lojaId);
-    this.loja = Number.isNaN(parsedLoja) ? null : parsedLoja;
-    this.cliente = null;
-    this.veiculo = null;
-
-    if (!this.loja) {
-      return;
-    }
-
-    this.clientService.getCustomers().subscribe({
-      next: (customers) => {
-        this.clientes = customers.filter((customer) =>
-          customer.unitIds?.includes(this.loja as number),
-        );
-      },
-      error: () => {
-        this.clientes = [];
-      },
-    });
-  }
-
-  onClienteChange(clienteId: number | string | null) {
-    const parsedCliente = clienteId === null || clienteId === '' ? null : Number(clienteId);
-    this.cliente = Number.isNaN(parsedCliente) ? null : parsedCliente;
-    this.veiculo = null;
-
-    if (!this.loja || !this.cliente) {
-      return;
-    }
-
-    this.vehicleService.getVehicles().subscribe({
-      next: (vehicles) => {
-        this.veiculos = vehicles.filter((vehicle) => vehicle.customerId === this.cliente);
-      },
-      error: () => {
-        this.veiculos = [];
-      },
-    });
-  }
-
-  private parseCurrency(value: string | number | null | undefined): number {
-    if (value === null || value === undefined) return 0;
-    if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
-
-    const normalized = value.toString().trim().replace(/\./g, '').replace(',', '.');
-
-    const parsed = Number(normalized);
-    return Number.isFinite(parsed) ? parsed : 0;
-  }
-
-  private toIsoUtc(dateValue: string | null, hour: number): string {
-    if (!dateValue) return '';
-    return `${dateValue}T${String(hour).padStart(2, '0')}:00:00Z`;
-  }
-
-  private formatCurrencyDisplay(value: string | number | null | undefined): string {
-    if (value === null || value === undefined || value === '') {
-      return 'R$ 0';
-    }
-
-    return `R$ ${value}`;
-  }
-
-  get reviewData() {
-    return [
-      {
-        title: 'Informações da OS',
-        fields: [
-          { label: 'Loja', value: this.loja },
-          { label: 'Cliente', value: this.cliente },
-          { label: 'Veículo', value: this.veiculo },
-          { label: 'Entrada', value: this.dataEntrada },
-          { label: 'Saída', value: this.dataSaida },
-        ],
-      },
-      {
-        title: 'Serviços',
-        fields: [
-          { label: 'Pintura', value: this.pintura },
-          { label: 'Valor Pintura', value: this.formatCurrencyDisplay(this.valorPintura) },
-          { label: 'Funilaria', value: this.funilaria },
-          { label: 'Valor Funilaria', value: this.formatCurrencyDisplay(this.valorFunilaria) },
-        ],
-      },
-      {
-        title: 'Peças',
-        fields: this.pecasAdicionadas.map((p) => ({
-          label: p.nome,
-          value: `Qtd: ${p.quantidade} | R$ ${p.valor}`,
-        })),
-      },
-    ];
-  }
-
-  get osData(): OsData {
-    return {
-      loja: this.loja,
-      cliente: this.cliente,
-      veiculo: this.veiculo,
-      dataEntrada: this.dataEntrada,
-      dataSaida: this.dataSaida,
-      pintura: this.pintura,
-      valorPintura: this.valorPintura,
-      funilaria: this.funilaria,
-      valorFunilaria: this.valorFunilaria,
-      peca: '',
-      quantidade: null,
-      valorUnitario: '',
-    };
   }
 
   setStep(index: number) {
@@ -243,11 +120,32 @@ export class EditOsModalComponent implements OnInit {
     }
   }
 
-  handleNext() {
-    if (this.isLastStep) {
-      this.save();
-    } else {
-      this.next();
+  async handleNext() {
+    try {
+      this.stepOneErrors = {};
+
+      if (this.stepIndex === 0) {
+        if (this.stepIndex === 0) {
+          const dataToValidate = {
+            ...this.osData,
+            valorPintura: this.parseCurrency(this.osData.valorPintura),
+            valorFunilaria: this.parseCurrency(this.osData.valorFunilaria),
+          };
+
+          await StepOneOsSchema.validate(dataToValidate, { abortEarly: false });
+        }
+      }
+
+      if (this.isLastStep) {
+        this.save();
+      } else {
+        this.next();
+      }
+    } catch (err: any) {
+      this.stepOneErrors = {};
+      err.inner.forEach((e: any) => {
+        this.stepOneErrors[e.path] = e.message;
+      });
     }
   }
 
@@ -260,18 +158,56 @@ export class EditOsModalComponent implements OnInit {
     this.back();
   }
 
+  save() {
+    if (!this.os) return;
+
+    const payload: UpdateOsPayload = {
+      unitId: this.osData.loja ?? this.os.unitId,
+      vehicleId: this.osData.veiculo ?? this.os.vehicleId,
+      ownerCustomerId: this.osData.cliente ?? this.os.ownerCustomerId,
+      entryDate: this.toIsoUtc(this.osData.dataEntrada, 10),
+      estimatedDeliveryDate: this.toIsoUtc(this.osData.dataSaida, 18),
+      bodyworkDescription: this.osData.funilaria,
+      bodyworkValue: this.parseCurrency(this.osData.valorFunilaria),
+      paintDescription: this.osData.pintura,
+      paintValue: this.parseCurrency(this.osData.valorPintura),
+      parts: this.pecasAdicionadas.map((p) => ({
+        description: p.nome,
+        quantity: Number(p.quantidade),
+        unitPrice: this.parseCurrency(p.valor),
+      })),
+      statusId: this.os.statusId, // só passando o mesmo valor, sem alteração
+      totalDiscount: this.os.totalDiscount ?? 0,
+    };
+
+    this.osService.patchServiceOrder(this.os.id, payload).subscribe({
+      next: () => {
+        this.router.navigate(['/os-list']);
+        this.close();
+      },
+      error: (error) => console.error('Error updating OS:', error),
+    });
+  }
+
+  close() {
+    this.closeModalEvent.emit();
+  }
+
+  // funções auxiliares
+  pecasAdicionadas: any[] = [];
+
   adicionarPeca() {
-    if (!this.peca || !this.quantidade) return;
+    if (!this.osData.peca || !this.osData.quantidade) return;
 
     this.pecasAdicionadas.push({
-      nome: this.peca,
-      quantidade: this.quantidade,
-      valor: this.valorUnitario,
+      nome: this.osData.peca,
+      quantidade: this.osData.quantidade,
+      valor: this.osData.valorUnitario,
     });
 
-    this.peca = '';
-    this.quantidade = null;
-    this.valorUnitario = '';
+    this.osData.peca = '';
+    this.osData.quantidade = null;
+    this.osData.valorUnitario = '';
   }
 
   aumentarQtd(peca: any) {
@@ -286,48 +222,48 @@ export class EditOsModalComponent implements OnInit {
     this.pecasAdicionadas = this.pecasAdicionadas.filter((p) => p !== peca);
   }
 
-  save() {
-    if (!this.os) {
-      console.error('No OS data to update');
-      return;
-    }
+  private parseCurrency(value: string | number | null | undefined): number {
+    if (value === null || value === undefined) return 0;
+    if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
 
-    const payload: CreateOsPayload = {
-      unitId: this.loja ?? this.os.unitId,
-      vehicleId: this.veiculo ?? this.os.vehicleId,
-      ownerCustomerId: this.cliente ?? this.os.ownerCustomerId,
-      entryDate: this.toIsoUtc(this.dataEntrada, 10),
-      estimatedDeliveryDate: this.toIsoUtc(this.dataSaida, 18),
-      bodyworkDescription: this.funilaria,
-      bodyworkValue: this.parseCurrency(this.valorFunilaria),
-      paintDescription: this.pintura,
-      paintValue: this.parseCurrency(this.valorPintura),
-      parts: this.pecasAdicionadas.map((p) => ({
-        description: p.nome,
-        quantity: Number(p.quantidade),
-        unitPrice: this.parseCurrency(p.valor),
-      })),
-    };
-
-    this.osService
-      .patchServiceOrder(this.os.id, {
-        ...payload,
-        statusId: this.os.statusId,
-        deliveryDate: this.os.deliveryDate,
-        totalDiscount: this.os.totalDiscount,
-      })
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/os-list']);
-          this.close();
-        },
-        error: (error) => {
-          console.error('Error updating OS:', error);
-        },
-      });
+    const normalized = value.toString().trim().replace(/\./g, '').replace(',', '.');
+    const parsed = Number(normalized);
+    return Number.isFinite(parsed) ? parsed : 0;
   }
 
-  close() {
-    this.closeModalEvent.emit();
+  private toIsoUtc(dateValue: string | null, hour: number): string {
+    if (!dateValue) return '';
+    return `${dateValue}T${String(hour).padStart(2, '0')}:00:00Z`;
+  }
+
+  get reviewData() {
+    return [
+      {
+        title: 'Informações da OS',
+        fields: [
+          { label: 'Loja', value: this.osData.loja },
+          { label: 'Cliente', value: this.osData.cliente },
+          { label: 'Veículo', value: this.osData.veiculo },
+          { label: 'Entrada', value: this.osData.dataEntrada },
+          { label: 'Saída', value: this.osData.dataSaida },
+        ],
+      },
+      {
+        title: 'Serviços',
+        fields: [
+          { label: 'Pintura', value: this.osData.pintura },
+          { label: 'Valor Pintura', value: `R$ ${this.osData.valorPintura}` },
+          { label: 'Funilaria', value: this.osData.funilaria },
+          { label: 'Valor Funilaria', value: `R$ ${this.osData.valorFunilaria}` },
+        ],
+      },
+      {
+        title: 'Peças',
+        fields: this.pecasAdicionadas.map((p) => ({
+          label: p.nome,
+          value: `Qtd: ${p.quantidade} | R$ ${p.valor}`,
+        })),
+      },
+    ];
   }
 }
