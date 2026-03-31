@@ -1,54 +1,31 @@
 import * as yup from 'yup';
 
-const parseCurrency = (value: string) => {
-  if (!value) return 0;
-  return Number(
-    value
-      .replace(/\./g, '')
-      .replace(',', '.')
-      .replace(/[^\d.-]/g, ''),
-  );
-};
-
-export const stepOneOsSchema = yup.object().shape({
+export const StepOneOsSchema = yup.object({
   loja: yup.number().required('Selecione a loja'),
   cliente: yup.number().required('Selecione o cliente'),
   veiculo: yup.number().required('Selecione o veículo'),
 
   dataEntrada: yup.string().required('Informe a data de entrada'),
-  dataSaida: yup.string().required('Informe a data de saída'),
+  dataSaida: yup
+    .string()
+    .required('Informe a data de saída')
+    .test('data-saida', 'Data de saída não pode ser menor que a data de entrada', function (value) {
+      const { dataEntrada } = this.parent;
+      if (!value || !dataEntrada) return true; // se algum estiver vazio, outro validator pega
+      return new Date(value) >= new Date(dataEntrada);
+    }),
 
-  pintura: yup.string().default(''),
+  pintura: yup.string().required('Informe a pintura'),
   valorPintura: yup
-    .string()
-    .default('')
-    .when('pintura', {
-      is: (p: string) => !!p && p.trim() !== '',
-      then: (schema) =>
-        schema
-          .required('Informe um valor para pintura')
-          .test(
-            'valor-pintura',
-            'Informe um valor válido para pintura',
-            (value) => parseCurrency(value || '') > 0,
-          ),
-      otherwise: (schema) => schema.default(''),
-    }),
+    .number()
+    .typeError('Valor inválido')
+    .required('Informe o valor da pintura')
+    .moreThan(0, 'Valor deve ser maior que 0'),
 
-  funilaria: yup.string().default(''),
+  funilaria: yup.string().required('Informe a funilaria'),
   valorFunilaria: yup
-    .string()
-    .default('')
-    .when('funilaria', {
-      is: (f: string) => !!f && f.trim() !== '',
-      then: (schema) =>
-        schema
-          .required('Informe um valor para funilaria')
-          .test(
-            'valor-funilaria',
-            'Informe um valor válido para funilaria',
-            (value) => parseCurrency(value || '') > 0,
-          ),
-      otherwise: (schema) => schema.default(''),
-    }),
+    .number()
+    .typeError('Valor inválido')
+    .required('Informe o valor da funilaria')
+    .moreThan(0, 'Valor deve ser maior que 0'),
 });

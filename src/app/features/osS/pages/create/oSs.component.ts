@@ -14,8 +14,7 @@ import { VehicleDto } from '../../../car/model/vehicle.dto';
 import { VehicleService } from '../../../car/service/vehicle.service';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 import { createOsData, OsData } from '../../model/dtos/os.data';
-import { stepOneOsSchema } from '../../schemas/stepOne.schema';
-import { stepTwoOsSchema } from '../../schemas/stepTwo.schema';
+import { StepOneOsSchema } from '../../schemas/stepOne.schema';
 
 @Component({
   selector: 'app-os-create',
@@ -49,33 +48,31 @@ export class OSsCreateComponent implements OnInit, DoCheck {
   ) {}
 
   ngOnInit() {
-    this.storeService.getStores().subscribe((lojas) => {
-      this.lojas = lojas;
-    });
+    this.storeService.getStores().subscribe((lojas) => (this.lojas = lojas));
   }
 
   ngDoCheck() {
+    // Atualização de clientes quando muda a loja
     if (this.osData.loja !== this.lastLoja) {
       this.lastLoja = this.osData.loja;
 
       this.osData.cliente = null;
       this.osData.veiculo = null;
-
       this.clientes = [];
       this.veiculos = [];
 
       if (!this.osData.loja) return;
 
       this.clientService.getCustomers().subscribe({
-        next: (customers) => {
-          this.clientes = customers.filter((customer) =>
-            customer.unitIds?.includes(this.osData.loja as number),
-          );
-        },
+        next: (customers) =>
+          (this.clientes = customers.filter((c) =>
+            c.unitIds?.includes(this.osData.loja as number),
+          )),
         error: () => (this.clientes = []),
       });
     }
 
+    // Atualização de veículos quando muda o cliente
     if (this.osData.cliente !== this.lastCliente) {
       this.lastCliente = this.osData.cliente;
 
@@ -85,9 +82,8 @@ export class OSsCreateComponent implements OnInit, DoCheck {
       if (!this.osData.loja || !this.osData.cliente) return;
 
       this.vehicleService.getVehicles().subscribe({
-        next: (vehicles) => {
-          this.veiculos = vehicles.filter((vehicle) => vehicle.customerId === this.osData.cliente);
-        },
+        next: (vehicles) =>
+          (this.veiculos = vehicles.filter((v) => v.customerId === this.osData.cliente)),
         error: () => (this.veiculos = []),
       });
     }
@@ -96,9 +92,7 @@ export class OSsCreateComponent implements OnInit, DoCheck {
   private parseCurrency(value: string | number | null | undefined): number {
     if (value == null) return 0;
     if (typeof value === 'number') return value;
-
-    const normalized = value.toString().trim().replace(/\./g, '').replace(',', '.');
-    return Number(normalized) || 0;
+    return Number(value.toString().trim().replace(/\./g, '').replace(',', '.')) || 0;
   }
 
   private toIsoUtc(dateValue: string, hour: number): string {
@@ -107,38 +101,38 @@ export class OSsCreateComponent implements OnInit, DoCheck {
   }
 
   async nextStep() {
-    try {
-      this.errors = {};
+    this.errors = {};
 
-      if (this.stepAtual === 1) {
-        await stepOneOsSchema.validate(this.osData, { abortEarly: false });
+    if (this.stepAtual === 1) {
+      try {
+        const parsedData = {
+          ...this.osData,
+          valorPintura: parseFloat(this.osData.valorPintura.replace(/\./g, '').replace(',', '.')),
+          valorFunilaria: parseFloat(
+            this.osData.valorFunilaria.replace(/\./g, '').replace(',', '.'),
+          ),
+        };
+
+        await StepOneOsSchema.validate(parsedData, { abortEarly: false });
+        this.stepAtual++;
+      } catch (err: any) {
+        this.errors = {};
+        err.inner.forEach((e: any) => {
+          if (e.path) this.errors[e.path] = e.message;
+        });
       }
-
-      if (this.stepAtual === 2) {
-        await stepTwoOsSchema.validate({ pecas: this.pecasAdicionadas }, { abortEarly: false });
-      }
-
+    } else {
+      // Step Two é opcional, apenas avançamos ou finalizamos
       if (this.stepAtual < this.stepTotal) {
         this.stepAtual++;
       } else {
         this.finalizar();
       }
-    } catch (err: any) {
-      this.errors = {};
-      console.log('ERROS YUP:', err);
-      console.log('INNER:', err.inner);
-      console.log('MAPEADO:', this.errors);
-
-      err.inner.forEach((e: any) => {
-        const field = e.path;
-        if (field) this.errors[field] = e.message;
-      });
     }
   }
+
   backStep() {
-    if (this.stepAtual > 1) {
-      this.stepAtual--;
-    }
+    if (this.stepAtual > 1) this.stepAtual--;
   }
 
   finalizar() {
@@ -161,7 +155,7 @@ export class OSsCreateComponent implements OnInit, DoCheck {
 
     this.osService.postServiceOrder(payload).subscribe({
       next: () => this.router.navigate(['/os-list']),
-      error: () => {},
+      error: (err) => console.error('Erro ao criar OS:', err),
     });
 
     console.log('CREATE OS', payload);
@@ -173,15 +167,11 @@ export class OSsCreateComponent implements OnInit, DoCheck {
 
   adicionarPeca() {
     if (this.osData.peca && this.osData.quantidade && this.osData.valorUnitario) {
-      this.pecasAdicionadas = [
-        ...this.pecasAdicionadas,
-        {
-          nome: this.osData.peca,
-          quantidade: Number(this.osData.quantidade),
-          valorUnitario: this.parseCurrency(this.osData.valorUnitario),
-        },
-      ];
-
+      this.pecasAdicionadas.push({
+        nome: this.osData.peca,
+        quantidade: Number(this.osData.quantidade),
+        valorUnitario: this.parseCurrency(this.osData.valorUnitario),
+      });
       this.osData.peca = '';
       this.osData.quantidade = null;
       this.osData.valorUnitario = '';

@@ -12,5 +12,5 @@ import { CommonModule } from '@angular/common';
 })
 export class StepTwoStoresComponent {
   @Input() data!: any;
-  @Input() errors!: Record<string, string>;
+@Input() errors!: Record<string, string>;
 }

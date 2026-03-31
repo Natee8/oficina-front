@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MaskDirective } from '../../../utils/masks/maskDirective';
 
@@ -18,13 +18,14 @@ import { MaskDirective } from '../../../utils/masks/maskDirective';
   ],
 })
 export class InputFieldComponent implements ControlValueAccessor {
-  @Input() type: 'text' | 'password' | 'date' = 'text';
+  @Input() type: 'text' | 'password' | 'date' | 'number' = 'text';
   @Input() id = '';
   @Input() label = '';
   @Input() maxlength?: number;
   @Input() mask?: 'cnpj' | 'phone' | 'cpf' | 'email' | 'custom' | 'currency' | 'integer';
   @Input() errorMessage?: string;
   @Input() labelBgColor = 'var(--color-bg)';
+  @ViewChild('input', { static: true }) inputRef!: ElementRef<HTMLInputElement>;
 
   value: any = '';
   disabled = false;
@@ -52,7 +53,13 @@ export class InputFieldComponent implements ControlValueAccessor {
   }
 
   onInput(value: any) {
-    this.value = value;
+    if (this.type === 'number') {
+      const num = Number(value.toString().replace(/[^0-9.-]/g, ''));
+      this.value = isNaN(num) ? null : num;
+    } else {
+      this.value = value;
+    }
+
     this.onChange(this.value);
   }
 

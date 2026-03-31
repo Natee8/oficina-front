@@ -4,6 +4,7 @@
 </div>
 
 <form>
+  <!-- Linha 1: Loja, Cliente, Veículo -->
   <div class="os-row os-row-3">
     <div class="field">
       <app-select-field
@@ -13,9 +14,7 @@
         [(ngModel)]="data.loja"
         name="loja"
       ></app-select-field>
-      <div *ngIf="errors['loja']" class="error">
-        {{ errors['loja'] }}
-      </div>
+      <div *ngIf="errors['loja']" class="error">{{ errors['loja'] }}</div>
     </div>
 
     <div class="field">
@@ -27,9 +26,7 @@
         [(ngModel)]="data.cliente"
         name="cliente"
       ></app-select-field>
-      <div *ngIf="errors['cliente']" class="error">
-        {{ errors['cliente'] }}
-      </div>
+      <div *ngIf="errors['cliente']" class="error">{{ errors['cliente'] }}</div>
     </div>
 
     <div class="field">
@@ -41,12 +38,11 @@
         [(ngModel)]="data.veiculo"
         name="veiculo"
       ></app-select-field>
-      <div *ngIf="errors['veiculo']" class="error">
-        {{ errors['veiculo'] }}
-      </div>
+      <div *ngIf="errors['veiculo']" class="error">{{ errors['veiculo'] }}</div>
     </div>
   </div>
 
+  <!-- Linha 2: Datas -->
   <div class="os-row">
     <div class="field input-flex">
       <app-input-field
@@ -56,54 +52,45 @@
         [(ngModel)]="data.dataEntrada"
         name="dataEntrada"
       ></app-input-field>
-      <div *ngIf="errors['dataEntrada']" class="error">
-        {{ errors['dataEntrada'] }}
-      </div>
+      <div *ngIf="errors['dataEntrada']" class="error">{{ errors['dataEntrada'] }}</div>
     </div>
 
     <div class="field input-flex">
       <app-input-field
-        label="Previsão data de saída"
+        label="Previsão de Saída"
         type="date"
         labelBgColor="#fff"
         [(ngModel)]="data.dataSaida"
         name="dataSaida"
       ></app-input-field>
-      <div *ngIf="errors['dataSaida']" class="error">
-        {{ errors['dataSaida'] }}
-      </div>
+      <div *ngIf="errors['dataSaida']" class="error">{{ errors['dataSaida'] }}</div>
     </div>
   </div>
 
+  <!-- Linha 3: Pintura + Valor -->
   <div class="os-row">
     <div class="os-field-group">
       <div class="field">
         <app-input-field
           label="Pintura"
-          labelBgColor="#fff"
           type="text"
+          labelBgColor="#fff"
           [(ngModel)]="data.pintura"
           name="pintura"
         ></app-input-field>
-
-        <div *ngIf="errors['pintura']" class="error">
-          {{ errors['pintura'] }}
-        </div>
+        <div *ngIf="errors['pintura']" class="error">{{ errors['pintura'] }}</div>
       </div>
 
       <div class="field small-input">
         <app-input-field
-          label="Valor da pintura"
+          label="Valor da Pintura"
           type="text"
           labelBgColor="#fff"
           [(ngModel)]="data.valorPintura"
           name="valorPintura"
           mask="currency"
         ></app-input-field>
-
-        <div *ngIf="errors['valorPintura']" class="error">
-          {{ errors['valorPintura'] }}
-        </div>
+        <div *ngIf="errors['valorPintura']" class="error">{{ errors['valorPintura'] }}</div>
       </div>
     </div>
   </div>
@@ -113,15 +100,12 @@
       <div class="field">
         <app-input-field
           label="Funilaria"
-          labelBgColor="#fff"
           type="text"
+          labelBgColor="#fff"
           [(ngModel)]="data.funilaria"
           name="funilaria"
         ></app-input-field>
-
-        <div *ngIf="errors['funilaria']" class="error">
-          {{ errors['funilaria'] }}
-        </div>
+        <div *ngIf="errors['funilaria']" class="error">{{ errors['funilaria'] }}</div>
       </div>
 
       <div class="field small-input">
@@ -133,10 +117,7 @@
           name="valorFunilaria"
           mask="currency"
         ></app-input-field>
-
-        <div *ngIf="errors['valorFunilaria']" class="error">
-          {{ errors['valorFunilaria'] }}
-        </div>
+        <div *ngIf="errors['valorFunilaria']" class="error">{{ errors['valorFunilaria'] }}</div>
       </div>
     </div>
   </div>

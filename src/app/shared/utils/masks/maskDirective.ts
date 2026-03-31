@@ -1,15 +1,26 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { NgControl } from '@angular/forms';
 
 @Directive({
   selector: '[appMask]',
 })
 export class MaskDirective {
-  @Input('appMask') maskType?: 'cnpj' | 'phone' | 'cpf' | 'email' | 'custom' | 'currency' | 'integer';
+  @Input('appMask') maskType?:
+    | 'cnpj'
+    | 'phone'
+    | 'cpf'
+    | 'email'
+    | 'custom'
+    | 'currency'
+    | 'integer';
   @Input() customPattern?: (value: string) => string;
 
   private isUpdating = false;
 
-  constructor(private el: ElementRef<HTMLInputElement>) {}
+  constructor(
+    private el: ElementRef<HTMLInputElement>,
+    private ngControl: NgControl,
+  ) {}
 
   @HostListener('input', ['$event'])
   onInput(event: Event) {
@@ -56,23 +67,16 @@ export class MaskDirective {
 
       case 'currency':
         value = value.replace(/\D/g, '');
-
         if (!value) {
           value = '';
           break;
         }
-
         if (value.length > 12) value = value.slice(0, 12);
-
-        // garante pelo menos 3 dígitos (centavos)
         while (value.length < 3) value = '0' + value;
-
-        let cents = value.slice(-2);
+        const cents = value.slice(-2);
         let integer = value.slice(0, -2);
-
         integer = integer.replace(/^0+(?!$)/, '');
         integer = integer.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
         value = integer + ',' + cents;
         break;
 
@@ -83,10 +87,13 @@ export class MaskDirective {
 
     this.isUpdating = true;
 
+    // Atualiza o DOM
     input.value = value;
 
-    // 🔥 ESSENCIAL: atualiza o Angular forms
-    input.dispatchEvent(new Event('input', { bubbles: true }));
+    // Atualiza o Angular forms corretamente
+    if (this.ngControl && this.ngControl.control) {
+      this.ngControl.control.setValue(value, { emitEvent: true });
+    }
 
     this.isUpdating = false;
   }
