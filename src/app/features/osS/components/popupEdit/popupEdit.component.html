@@ -1,12 +1,19 @@
 <app-modal (close)="close()" minWidth="60%" minHeight="600px">
-
   <div class="popupContainer">
-    <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div
+      class="modal-header"
+      style="display: flex; justify-content: space-between; align-items: center"
+    >
       <div>
         <h2>Editar OS</h2>
         <p>Edite uma ordem de serviço existente</p>
       </div>
-      <span class="close" (click)="close()" style="cursor:pointer; font-size: 24px; color: #999; margin-left: 16px; transition: 0.2s;">×</span>
+      <span
+        class="close"
+        (click)="close()"
+        style="cursor: pointer; font-size: 24px; color: #999; margin-left: 16px; transition: 0.2s"
+        >×</span
+      >
     </div>
 
     <app-stepper
@@ -23,15 +30,7 @@
               [lojas]="lojas"
               [clientes]="clientes"
               [veiculos]="veiculos"
-              [(loja)]="loja"
-              [(cliente)]="cliente"
-              [(veiculo)]="veiculo"
-              [(dataEntrada)]="dataEntrada"
-              [(dataSaida)]="dataSaida"
-              [(pintura)]="pintura"
-              [(valorPintura)]="valorPintura"
-              [(funilaria)]="funilaria"
-              [(valorFunilaria)]="valorFunilaria"
+              [data]="osData"
             ></app-os-step-one>
           </div>
         </div>
@@ -39,9 +38,7 @@
         <div *ngSwitchCase="1" class="step-scroll">
           <div class="step-inner">
             <app-os-step-two
-              [(peca)]="peca"
-              [(quantidade)]="quantidade"
-              [(valorUnitario)]="valorUnitario"
+              [data]="osData"
               [pecasAdicionadas]="pecasAdicionadas"
               (adicionarPeca)="adicionarPeca()"
               (aumentarQtd)="aumentarQtd($event)"

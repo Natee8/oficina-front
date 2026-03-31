@@ -37,12 +37,13 @@ export class SelectFieldComponent implements ControlValueAccessor {
     return typeof option === 'string' ? option : option.label;
   }
 
-  getOptionValue(option: string | { label: string; value: any }): any {
-    return typeof option === 'string' ? option : option.value;
+  getOptionValue(option: any) {
+    const value = typeof option === 'string' ? option : option.value;
+    return Number(value);
   }
 
   get hasValue() {
-    return this.value !== null && this.value !== undefined && this.value !== '';
+    return this.value != null && this.value !== '';
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;

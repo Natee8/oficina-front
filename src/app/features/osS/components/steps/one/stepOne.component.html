@@ -2,97 +2,142 @@
   <h1>Informações da OS</h1>
   <h2>Cadastre uma nova ordem de serviço</h2>
 </div>
+
 <form>
   <div class="os-row os-row-3">
-    <app-select-field
-      label="Loja"
-      [options]="lojaOptions"
-      labelBgColor="#fff"
-      [ngModel]="loja"
-      (ngModelChange)="updateField('loja', $event)"
-      name="loja"
-    ></app-select-field>
-    <app-select-field
-      label="Cliente"
-      [options]="clienteOptions"
-      labelBgColor="#fff"
-      [disabled]="!loja"
-      [ngModel]="cliente"
-      (ngModelChange)="updateField('cliente', $event)"
-      name="cliente"
-    ></app-select-field>
-    <app-select-field
-      label="Veículo"
-      [options]="veiculoOptions"
-      labelBgColor="#fff"
-      [disabled]="!loja || !cliente"
-      [ngModel]="veiculo"
-      (ngModelChange)="updateField('veiculo', $event)"
-      name="veiculo"
-    ></app-select-field>
-  </div>
-  <div class="os-row">
-    <app-input-field
-      label="Data de Entrada"
-      type="date"
-      labelBgColor="#fff"
-      [ngModel]="dataEntrada"
-      (ngModelChange)="updateField('dataEntrada', $event)"
-      name="dataEntrada"
-      class="input-flex"
-    ></app-input-field>
-    <app-input-field
-      label="Previsão data de saída"
-      type="date"
-      labelBgColor="#fff"
-      [ngModel]="dataSaida"
-      (ngModelChange)="updateField('dataSaida', $event)"
-      name="dataSaida"
-      class="input-flex"
-    ></app-input-field>
-  </div>
-  <div class="os-row">
-    <div class="os-field-group">
-      <app-input-field
-        label="Pintura"
+    <div class="field">
+      <app-select-field
+        label="Loja"
+        [options]="lojaOptions"
         labelBgColor="#fff"
-        type="text"
-        [ngModel]="pintura"
-        (ngModelChange)="updateField('pintura', $event)"
-        name="pintura"
-      ></app-input-field>
-      <app-input-field
-        label="Valor da pintura"
-        type="text"
+        [(ngModel)]="data.loja"
+        name="loja"
+      ></app-select-field>
+      <div *ngIf="errors['loja']" class="error">
+        {{ errors['loja'] }}
+      </div>
+    </div>
+
+    <div class="field">
+      <app-select-field
+        label="Cliente"
+        [options]="clienteOptions"
         labelBgColor="#fff"
-        [ngModel]="valorPintura"
-        (ngModelChange)="updateField('valorPintura', $event)"
-        name="valorPintura"
-        class="small-input"
-        mask="currency"
-      ></app-input-field>
+        [disabled]="!data.loja"
+        [(ngModel)]="data.cliente"
+        name="cliente"
+      ></app-select-field>
+      <div *ngIf="errors['cliente']" class="error">
+        {{ errors['cliente'] }}
+      </div>
+    </div>
+
+    <div class="field">
+      <app-select-field
+        label="Veículo"
+        [options]="veiculoOptions"
+        labelBgColor="#fff"
+        [disabled]="!data.loja || !data.cliente"
+        [(ngModel)]="data.veiculo"
+        name="veiculo"
+      ></app-select-field>
+      <div *ngIf="errors['veiculo']" class="error">
+        {{ errors['veiculo'] }}
+      </div>
     </div>
   </div>
+
+  <div class="os-row">
+    <div class="field input-flex">
+      <app-input-field
+        label="Data de Entrada"
+        type="date"
+        labelBgColor="#fff"
+        [(ngModel)]="data.dataEntrada"
+        name="dataEntrada"
+      ></app-input-field>
+      <div *ngIf="errors['dataEntrada']" class="error">
+        {{ errors['dataEntrada'] }}
+      </div>
+    </div>
+
+    <div class="field input-flex">
+      <app-input-field
+        label="Previsão data de saída"
+        type="date"
+        labelBgColor="#fff"
+        [(ngModel)]="data.dataSaida"
+        name="dataSaida"
+      ></app-input-field>
+      <div *ngIf="errors['dataSaida']" class="error">
+        {{ errors['dataSaida'] }}
+      </div>
+    </div>
+  </div>
+
   <div class="os-row">
     <div class="os-field-group">
-      <app-input-field
-        label="Funilaria"
-        labelBgColor="#fff"
-        type="text"
-        [ngModel]="funilaria"
-        (ngModelChange)="updateField('funilaria', $event)"
-        name="funilaria"
-      ></app-input-field>
-      <app-input-field
-        label="Valor da Funilaria"
-        type="text"
-        labelBgColor="#fff"
-        [ngModel]="valorFunilaria"
-        (ngModelChange)="updateField('valorFunilaria', $event)"
-        name="valorFunilaria"
-        class="small-input"
-        mask="currency"
-      ></app-input-field>
+      <div class="field">
+        <app-input-field
+          label="Pintura"
+          labelBgColor="#fff"
+          type="text"
+          [(ngModel)]="data.pintura"
+          name="pintura"
+        ></app-input-field>
+
+        <div *ngIf="errors['pintura']" class="error">
+          {{ errors['pintura'] }}
+        </div>
+      </div>
+
+      <div class="field small-input">
+        <app-input-field
+          label="Valor da pintura"
+          type="text"
+          labelBgColor="#fff"
+          [(ngModel)]="data.valorPintura"
+          name="valorPintura"
+          mask="currency"
+        ></app-input-field>
+
+        <div *ngIf="errors['valorPintura']" class="error">
+          {{ errors['valorPintura'] }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="os-row">
+    <div class="os-field-group">
+      <div class="field">
+        <app-input-field
+          label="Funilaria"
+          labelBgColor="#fff"
+          type="text"
+          [(ngModel)]="data.funilaria"
+          name="funilaria"
+        ></app-input-field>
+
+        <div *ngIf="errors['funilaria']" class="error">
+          {{ errors['funilaria'] }}
+        </div>
+      </div>
+
+      <div class="field small-input">
+        <app-input-field
+          label="Valor da Funilaria"
+          type="text"
+          labelBgColor="#fff"
+          [(ngModel)]="data.valorFunilaria"
+          name="valorFunilaria"
+          mask="currency"
+        ></app-input-field>
+
+        <div *ngIf="errors['valorFunilaria']" class="error">
+          {{ errors['valorFunilaria'] }}
+        </div>
+      </div>
     </div>
   </div>
 </form>

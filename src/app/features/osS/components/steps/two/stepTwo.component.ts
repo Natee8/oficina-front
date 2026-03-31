@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
 import { CommonModule } from '@angular/common';
+import { OsData } from '../../../model/dtos/os.data';
 
 @Component({
   selector: 'app-os-step-two',
@@ -11,30 +12,20 @@ import { CommonModule } from '@angular/common';
   imports: [FormsModule, InputFieldComponent, CommonModule],
 })
 export class OsStepTwoComponent implements OnChanges {
-    ngOnChanges(changes: SimpleChanges): void {
-      if (changes['pecasAdicionadas']) {
-        console.log('pecasAdicionadas atualizado:', this.pecasAdicionadas);
-      }
-    }
-  @Input() peca: string = '';
-  @Input() quantidade: number | null = null;
-  @Input() valorUnitario: string = '';
+  @Input() data!: OsData;
+
   @Input() pecasAdicionadas: { nome: string; quantidade: number; valorUnitario: number }[] = [];
 
-  @Output() pecaChange = new EventEmitter<string>();
-  @Output() quantidadeChange = new EventEmitter<number | null>();
-  @Output() valorUnitarioChange = new EventEmitter<string>();
-
   @Output() adicionarPeca = new EventEmitter<void>();
+  @Output() removerPecaEvent = new EventEmitter<any>();
+  @Output() aumentarQtd = new EventEmitter<any>();
+  @Output() diminuirQtd = new EventEmitter<any>();
   @Output() voltarStep = new EventEmitter<void>();
-  @Output() aumentarQtd = new EventEmitter<{ nome: string; quantidade: number; valorUnitario: number }>();
-  @Output() diminuirQtd = new EventEmitter<{ nome: string; quantidade: number; valorUnitario: number }>();
-  @Output() removerPecaEvent = new EventEmitter<{ nome: string; quantidade: number; valorUnitario: number }>();
 
-  updateField(field: 'peca' | 'quantidade' | 'valorUnitario', value: any) {
-    (this as any)[field] = value;
-    const eventName = field + 'Change';
-    (this as any)[eventName]?.emit(value);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['pecasAdicionadas']) {
+      console.log('pecasAdicionadas atualizado:', this.pecasAdicionadas);
+    }
   }
 
   adicionar() {

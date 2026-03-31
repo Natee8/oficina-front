@@ -10,6 +10,7 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { OsStepOneComponent } from '../steps/one/stepOne.component';
 import { OsStepTwoComponent } from '../steps/two/stepTwo.component';
 import { stepsConfigOs } from '../../../../core/config/stepsLabel.config';
+import { createOsData, OsData } from '../../model/dtos/os.data';
 
 @Component({
   selector: 'app-edit-os-modal',
@@ -27,25 +28,11 @@ import { stepsConfigOs } from '../../../../core/config/stepsLabel.config';
   templateUrl: './popupEdit.component.html',
   styleUrls: ['./popupEdit.component.scss'],
 })
-
 export class EditOsModalComponent {
   stepIndex = 0;
-
-  loja: number | null = null;
-  cliente: number | null = null;
-  veiculo: number | null = null;
-  dataEntrada = '';
-  dataSaida = '';
-  pintura = '';
-  valorPintura = '';
-  funilaria = '';
-  valorFunilaria = '';
-  stepsConfig = stepsConfigOs;
-
-  peca = '';
-  quantidade: number | null = null;
-  valorUnitario = '';
+  osData: OsData = createOsData();
   pecasAdicionadas: any[] = [];
+  stepsConfig = stepsConfigOs;
 
   @Input() os: any;
   @Input() lojas: any[] = [];
@@ -56,17 +43,20 @@ export class EditOsModalComponent {
 
   ngOnInit() {
     if (this.os) {
-      this.loja = typeof this.os.loja === 'number' ? this.os.loja : Number(this.os.loja);
-      this.cliente = this.os.cliente == null ? null : Number(this.os.cliente);
-      this.veiculo = this.os.veiculo == null ? null : Number(this.os.veiculo);
-      this.dataEntrada = this.os.dataEntrada;
-      this.dataSaida = this.os.dataSaida;
-      this.pintura = this.os.pintura;
-      this.valorPintura = this.os.valorPintura;
-      this.funilaria = this.os.funilaria;
-      this.valorFunilaria = this.os.valorFunilaria;
-
-      this.pecasAdicionadas = this.os.pecas || [];
+      this.osData = {
+        loja: Number(this.os.loja),
+        cliente: Number(this.os.cliente),
+        veiculo: Number(this.os.veiculo),
+        dataEntrada: this.os.dataEntrada,
+        dataSaida: this.os.dataSaida,
+        pintura: this.os.pintura,
+        valorPintura: this.os.valorPintura,
+        funilaria: this.os.funilaria,
+        valorFunilaria: this.os.valorFunilaria,
+        peca: '',
+        quantidade: null,
+        valorUnitario: '',
+      };
     }
   }
 
@@ -75,28 +65,21 @@ export class EditOsModalComponent {
       {
         title: 'Informações da OS',
         fields: [
-          { label: 'Loja', value: this.loja },
-          { label: 'Cliente', value: this.cliente },
-          { label: 'Veículo', value: this.veiculo },
-          { label: 'Entrada', value: this.dataEntrada },
-          { label: 'Saída', value: this.dataSaida },
+          { label: 'Loja', value: this.osData.loja },
+          { label: 'Cliente', value: this.osData.cliente },
+          { label: 'Veículo', value: this.osData.veiculo },
+          { label: 'Entrada', value: this.osData.dataEntrada },
+          { label: 'Saída', value: this.osData.dataSaida },
         ],
       },
       {
         title: 'Serviços',
         fields: [
-          { label: 'Pintura', value: this.pintura },
-          { label: 'Valor Pintura', value: this.valorPintura },
-          { label: 'Funilaria', value: this.funilaria },
-          { label: 'Valor Funilaria', value: this.valorFunilaria },
+          { label: 'Pintura', value: this.osData.pintura },
+          { label: 'Valor Pintura', value: this.osData.valorPintura },
+          { label: 'Funilaria', value: this.osData.funilaria },
+          { label: 'Valor Funilaria', value: this.osData.valorFunilaria },
         ],
-      },
-      {
-        title: 'Peças',
-        fields: this.pecasAdicionadas.map((p) => ({
-          label: p.nome,
-          value: `Qtd: ${p.quantidade} | R$ ${p.valor}`,
-        })),
       },
     ];
   }
@@ -139,17 +122,17 @@ export class EditOsModalComponent {
   }
 
   adicionarPeca() {
-    if (!this.peca || !this.quantidade) return;
+    if (!this.osData.peca || !this.osData.quantidade) return;
 
     this.pecasAdicionadas.push({
-      nome: this.peca,
-      quantidade: this.quantidade,
-      valor: this.valorUnitario,
+      nome: this.osData.peca,
+      quantidade: this.osData.quantidade,
+      valor: this.osData.valorUnitario,
     });
 
-    this.peca = '';
-    this.quantidade = null;
-    this.valorUnitario = '';
+    this.osData.peca = '';
+    this.osData.quantidade = null;
+    this.osData.valorUnitario = '';
   }
 
   aumentarQtd(peca: any) {
@@ -166,15 +149,7 @@ export class EditOsModalComponent {
 
   save() {
     const payload = {
-      loja: this.loja,
-      cliente: this.cliente,
-      veiculo: this.veiculo,
-      dataEntrada: this.dataEntrada,
-      dataSaida: this.dataSaida,
-      pintura: this.pintura,
-      valorPintura: this.valorPintura,
-      funilaria: this.funilaria,
-      valorFunilaria: this.valorFunilaria,
+      ...this.osData,
       pecas: this.pecasAdicionadas,
     };
 

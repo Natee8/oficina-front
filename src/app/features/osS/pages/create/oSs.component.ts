@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -13,113 +13,92 @@ import { ClientDto } from '../../../clients/model/client.dto';
 import { VehicleDto } from '../../../car/model/vehicle.dto';
 import { VehicleService } from '../../../car/service/vehicle.service';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
+import { createOsData, OsData } from '../../model/dtos/os.data';
+import { stepOneOsSchema } from '../../schemas/stepOne.schema';
+import { stepTwoOsSchema } from '../../schemas/stepTwo.schema';
 
 @Component({
   selector: 'app-os-create',
   standalone: true,
   templateUrl: './oSs.component.html',
   styleUrls: ['./oSs.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    CommonModule,
-    OsStepOneComponent,
-    OsStepTwoComponent,
-    BackButtonComponent,
-  ],
+  imports: [CommonModule, FormsModule, OsStepOneComponent, OsStepTwoComponent, BackButtonComponent],
 })
-export class OSsCreateComponent implements OnInit {
+export class OSsCreateComponent implements OnInit, DoCheck {
   lojas: StoreDto[] = [];
   clientes: ClientDto[] = [];
   veiculos: VehicleDto[] = [];
 
+  errors: Record<string, string> = {};
+  osData: OsData = createOsData();
+
   pecasAdicionadas: { nome: string; quantidade: number; valorUnitario: number }[] = [];
-
-  loja: number | null = null;
-  cliente: number | null = null;
-  veiculo: number | null = null;
-  dataEntrada: string = '';
-  dataSaida: string = '';
-  pintura: string = '';
-  funilaria: string = '';
-  valorPintura: string = '';
-  valorFunilaria: string = '';
-
-  peca: string = '';
-  quantidade: number | null = null;
-  valorUnitario: string = '';
 
   stepAtual = 1;
   stepTotal = 2;
+
+  private lastLoja: number | null = null;
+  private lastCliente: number | null = null;
 
   constructor(
     private router: Router,
     private osService: OsService,
     private storeService: StoreService,
     private clientService: ClientService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
   ) {}
 
   ngOnInit() {
-    this.storeService.getStores().subscribe(lojas => {
+    this.storeService.getStores().subscribe((lojas) => {
       this.lojas = lojas;
     });
   }
 
-  onLojaChange(lojaId: number | string | null) {
-    const parsedLoja = lojaId === null || lojaId === '' ? null : Number(lojaId);
-    this.loja = Number.isNaN(parsedLoja) ? null : parsedLoja;
-    this.cliente = null;
-    this.veiculo = null;
-    this.clientes = [];
-    this.veiculos = [];
+  ngDoCheck() {
+    if (this.osData.loja !== this.lastLoja) {
+      this.lastLoja = this.osData.loja;
 
-    if (!this.loja) {
-      return;
+      this.osData.cliente = null;
+      this.osData.veiculo = null;
+
+      this.clientes = [];
+      this.veiculos = [];
+
+      if (!this.osData.loja) return;
+
+      this.clientService.getCustomers().subscribe({
+        next: (customers) => {
+          this.clientes = customers.filter((customer) =>
+            customer.unitIds?.includes(this.osData.loja as number),
+          );
+        },
+        error: () => (this.clientes = []),
+      });
     }
 
-    this.clientService.getCustomers().subscribe({
-      next: (customers) => {
-        this.clientes = customers.filter(customer => customer.unitIds?.includes(this.loja as number));
-      },
-      error: () => {
-        this.clientes = [];
-      },
-    });
-  }
+    if (this.osData.cliente !== this.lastCliente) {
+      this.lastCliente = this.osData.cliente;
 
-  onClienteChange(clienteId: number | string | null) {
-    const parsedCliente = clienteId === null || clienteId === '' ? null : Number(clienteId);
-    this.cliente = Number.isNaN(parsedCliente) ? null : parsedCliente;
-    this.veiculo = null;
-    this.veiculos = [];
+      this.osData.veiculo = null;
+      this.veiculos = [];
 
-    if (!this.loja || !this.cliente) {
-      return;
+      if (!this.osData.loja || !this.osData.cliente) return;
+
+      this.vehicleService.getVehicles().subscribe({
+        next: (vehicles) => {
+          this.veiculos = vehicles.filter((vehicle) => vehicle.customerId === this.osData.cliente);
+        },
+        error: () => (this.veiculos = []),
+      });
     }
-
-    this.vehicleService.getVehicles().subscribe({
-      next: (vehicles) => {
-        this.veiculos = vehicles.filter(vehicle => vehicle.customerId === this.cliente);
-      },
-      error: () => {
-        this.veiculos = [];
-      },
-    });
   }
 
   private parseCurrency(value: string | number | null | undefined): number {
-    if (value === null || value === undefined) return 0;
-    if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+    if (value == null) return 0;
+    if (typeof value === 'number') return value;
 
-    const normalized = value
-      .toString()
-      .trim()
-      .replace(/\./g, '')
-      .replace(',', '.');
-
-    const parsed = Number(normalized);
-    return Number.isFinite(parsed) ? parsed : 0;
+    const normalized = value.toString().trim().replace(/\./g, '').replace(',', '.');
+    return Number(normalized) || 0;
   }
 
   private toIsoUtc(dateValue: string, hour: number): string {
@@ -127,14 +106,35 @@ export class OSsCreateComponent implements OnInit {
     return `${dateValue}T${String(hour).padStart(2, '0')}:00:00Z`;
   }
 
-  nextStep() {
-    if (this.stepAtual < this.stepTotal) {
-      this.stepAtual++;
-    } else {
-      this.finalizar();
+  async nextStep() {
+    try {
+      this.errors = {};
+
+      if (this.stepAtual === 1) {
+        await stepOneOsSchema.validate(this.osData, { abortEarly: false });
+      }
+
+      if (this.stepAtual === 2) {
+        await stepTwoOsSchema.validate({ pecas: this.pecasAdicionadas }, { abortEarly: false });
+      }
+
+      if (this.stepAtual < this.stepTotal) {
+        this.stepAtual++;
+      } else {
+        this.finalizar();
+      }
+    } catch (err: any) {
+      this.errors = {};
+      console.log('ERROS YUP:', err);
+      console.log('INNER:', err.inner);
+      console.log('MAPEADO:', this.errors);
+
+      err.inner.forEach((e: any) => {
+        const field = e.path;
+        if (field) this.errors[field] = e.message;
+      });
     }
   }
-
   backStep() {
     if (this.stepAtual > 1) {
       this.stepAtual--;
@@ -143,27 +143,25 @@ export class OSsCreateComponent implements OnInit {
 
   finalizar() {
     const payload: CreateOsPayload = {
-      unitId: this.loja ?? 1,
-      vehicleId: this.veiculo ?? 10,
-      ownerCustomerId: this.cliente ?? 25,
-      entryDate: this.toIsoUtc(this.dataEntrada, 10),
-      estimatedDeliveryDate: this.toIsoUtc(this.dataSaida, 18),
-      bodyworkDescription: this.funilaria,
-      bodyworkValue: this.parseCurrency(this.valorFunilaria),
-      paintDescription: this.pintura,
-      paintValue: this.parseCurrency(this.valorPintura),
-      parts: this.pecasAdicionadas.map(p => ({
+      unitId: this.osData.loja ?? 1,
+      vehicleId: this.osData.veiculo ?? 10,
+      ownerCustomerId: this.osData.cliente ?? 25,
+      entryDate: this.toIsoUtc(this.osData.dataEntrada, 10),
+      estimatedDeliveryDate: this.toIsoUtc(this.osData.dataSaida, 18),
+      bodyworkDescription: this.osData.funilaria,
+      bodyworkValue: this.parseCurrency(this.osData.valorFunilaria),
+      paintDescription: this.osData.pintura,
+      paintValue: this.parseCurrency(this.osData.valorPintura),
+      parts: this.pecasAdicionadas.map((p) => ({
         description: p.nome,
         quantity: Number(p.quantidade),
-        unitPrice: this.parseCurrency(p.valorUnitario)
+        unitPrice: this.parseCurrency(p.valorUnitario),
       })),
     };
+
     this.osService.postServiceOrder(payload).subscribe({
-      next: () => {
-        this.router.navigate(['/os-list']);
-      },
-      error: () => {
-      }
+      next: () => this.router.navigate(['/os-list']),
+      error: () => {},
     });
 
     console.log('CREATE OS', payload);
@@ -174,19 +172,19 @@ export class OSsCreateComponent implements OnInit {
   }
 
   adicionarPeca() {
-    console.log('adicionarPeca pai chamado', this.peca, this.quantidade, this.valorUnitario);
-    if (this.peca && this.quantidade && this.valorUnitario) {
+    if (this.osData.peca && this.osData.quantidade && this.osData.valorUnitario) {
       this.pecasAdicionadas = [
         ...this.pecasAdicionadas,
         {
-          nome: this.peca,
-          quantidade: Number(this.quantidade),
-          valorUnitario: this.parseCurrency(this.valorUnitario),
-        }
+          nome: this.osData.peca,
+          quantidade: Number(this.osData.quantidade),
+          valorUnitario: this.parseCurrency(this.osData.valorUnitario),
+        },
       ];
-      this.peca = '';
-      this.quantidade = null;
-      this.valorUnitario = '';
+
+      this.osData.peca = '';
+      this.osData.quantidade = null;
+      this.osData.valorUnitario = '';
     }
   }
 

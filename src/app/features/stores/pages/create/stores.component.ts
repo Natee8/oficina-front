@@ -11,6 +11,8 @@ import { StepTwoStoresComponent } from '../../components/steps/two/stepTwo.compo
 import { stepOneSchema } from '../../schemas/stepOne.schema';
 import { stepTwoSchema } from '../../schemas/stepTwo.schema';
 import { createStoreData } from '../../model/store.data';
+import { StoreService } from '../../service/store.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-store',
@@ -47,7 +49,11 @@ export class CreateStoreComponent {
 
   storeData = createStoreData();
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private storeService: StoreService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   async nextStep() {
     try {
@@ -86,19 +92,30 @@ export class CreateStoreComponent {
   }
 
   finish() {
-    const payload = {
-      name: this.storeData.name,
-      cnpj: this.storeData.cnpj,
-      phone: this.storeData.phone,
-      email: this.storeData.email,
-      addressZip: this.storeData.addressZip,
-      addressStreet: this.storeData.addressStreet,
-      addressNumber: this.storeData.addressNumber,
-      addressDistrict: this.storeData.addressDistrict,
-      addressCity: this.storeData.addressCity,
-      addressState: this.storeData.addressState,
-    };
+    const payload = { ...this.storeData };
 
-    console.log('Loja cadastrada!', payload);
+    this.storeService.createStore(payload).subscribe({
+      next: (res) => {
+        this.snackBar.open('Loja cadastrada com sucesso!', 'Fechar', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success'],
+        });
+
+        console.log('Loja cadastrada!', res);
+        this.router.navigate(['/stores-list']);
+      },
+      error: (err) => {
+        console.error('Erro ao cadastrar a loja', err);
+
+        this.snackBar.open(err?.error?.message || 'Erro ao cadastrar a loja', 'Fechar', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error'],
+        });
+      },
+    });
   }
 }

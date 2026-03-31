@@ -109,3 +109,13 @@ select.has-value ~ .floating-label .label-content {
   color: red;
   margin: 0;
 }
+
+select {
+  &:not(.has-value) {
+    color: transparent;
+  }
+
+  &:focus {
+    color: #000;
+  }
+}

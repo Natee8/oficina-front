@@ -9,7 +9,7 @@
       [class.has-value]="hasValue"
       required
     >
-      <option [ngValue]="null" disabled hidden></option>
+      <option [ngValue]="null" disabled hidden>Selecione</option>
 
       <option *ngFor="let option of options" [ngValue]="getOptionValue(option)">
         {{ getOptionLabel(option) }}
@@ -23,5 +23,7 @@
     </label>
   </div>
 
-  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  <p *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </p>
 </div>
