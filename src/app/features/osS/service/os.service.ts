@@ -50,4 +50,8 @@ export class OsService {
   patchServiceOrderStatus(id: number, status: StatusOs) {
     return this.http.patch<OsDto>(`${this.apiUrl}/${id}/status/${status}`, {});
   }
+
+  deleteServiceOrder(id: number) {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
