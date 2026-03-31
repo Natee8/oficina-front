@@ -19,6 +19,7 @@ import { ClientService } from '../../../clients/service/client.service';
 import { ClientDto } from '../../../clients/model/client.dto';
 import { VehicleService } from '../../../car/service/vehicle.service';
 import { VehicleDto } from '../../../car/model/vehicle.dto';
+import { OsData } from '../../model/dtos/os.data';
 
 @Component({
   selector: 'app-edit-os-modal',
@@ -171,23 +172,47 @@ export class EditOsModalComponent implements OnInit {
       {
         title: 'Informações da OS',
         fields: [
-          { label: 'Loja', value: this.osData.loja },
-          { label: 'Cliente', value: this.osData.cliente },
-          { label: 'Veículo', value: this.osData.veiculo },
-          { label: 'Entrada', value: this.osData.dataEntrada },
-          { label: 'Saída', value: this.osData.dataSaida },
+          { label: 'Loja', value: this.loja },
+          { label: 'Cliente', value: this.cliente },
+          { label: 'Veículo', value: this.veiculo },
+          { label: 'Entrada', value: this.dataEntrada },
+          { label: 'Saída', value: this.dataSaida },
         ],
       },
       {
         title: 'Serviços',
         fields: [
-          { label: 'Pintura', value: this.osData.pintura },
-          { label: 'Valor Pintura', value: this.osData.valorPintura },
-          { label: 'Funilaria', value: this.osData.funilaria },
-          { label: 'Valor Funilaria', value: this.osData.valorFunilaria },
+          { label: 'Pintura', value: this.pintura },
+          { label: 'Valor Pintura', value: this.valorPintura },
+          { label: 'Funilaria', value: this.funilaria },
+          { label: 'Valor Funilaria', value: this.valorFunilaria },
         ],
       },
+      {
+        title: 'Peças',
+        fields: this.pecasAdicionadas.map((p) => ({
+          label: p.nome,
+          value: `Qtd: ${p.quantidade} | R$ ${p.valor}`,
+        })),
+      },
     ];
+  }
+
+  get osData(): OsData {
+    return {
+      loja: this.loja,
+      cliente: this.cliente,
+      veiculo: this.veiculo,
+      dataEntrada: this.dataEntrada,
+      dataSaida: this.dataSaida,
+      pintura: this.pintura,
+      valorPintura: this.valorPintura,
+      funilaria: this.funilaria,
+      valorFunilaria: this.valorFunilaria,
+      peca: '',
+      quantidade: null,
+      valorUnitario: '',
+    };
   }
 
   setStep(index: number) {
@@ -228,17 +253,17 @@ export class EditOsModalComponent implements OnInit {
   }
 
   adicionarPeca() {
-    if (!this.osData.peca || !this.osData.quantidade) return;
+    if (!this.peca || !this.quantidade) return;
 
     this.pecasAdicionadas.push({
-      nome: this.osData.peca,
-      quantidade: this.osData.quantidade,
-      valor: this.osData.valorUnitario,
+      nome: this.peca,
+      quantidade: this.quantidade,
+      valor: this.valorUnitario,
     });
 
-    this.osData.peca = '';
-    this.osData.quantidade = null;
-    this.osData.valorUnitario = '';
+    this.peca = '';
+    this.quantidade = null;
+    this.valorUnitario = '';
   }
 
   aumentarQtd(peca: any) {

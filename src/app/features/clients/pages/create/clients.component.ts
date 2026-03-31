@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
@@ -7,6 +7,8 @@ import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/regis
 import { StepOneClientComponent } from '../../components/steps/one/stepOne.component';
 import { StepTwoClientComponent } from '../../components/steps/two/stepTwo.component';
 import { StepThreeClientComponent } from '../../components/steps/three/stepThree.component';
+import { ClientService } from '../../service/client.service';
+import { CreateClientDto } from '../../model/createClient.dto';
 
 @Component({
   selector: 'app-create-client',
@@ -23,7 +25,7 @@ import { StepThreeClientComponent } from '../../components/steps/three/stepThree
     StepThreeClientComponent,
   ],
 })
-export class CreateClientComponent {
+export class CreateClientComponent implements OnInit {
   stepIndex = 0;
 
   steps = [
@@ -47,6 +49,7 @@ export class CreateClientComponent {
     },
   ];
 
+  // Campos do cliente
   nome = '';
   cpfCnpj = '';
   email = '';
@@ -58,15 +61,31 @@ export class CreateClientComponent {
   addressDistrict = '';
   addressCity = '';
   addressState = '';
+  loja!: number; // <-- agora é number
+  tipoLegal!: number; // <-- agora é number
 
   notes = '';
-  loja = '';
-  tipoLegal = '';
 
-  lojas = ['Loja 1', 'Loja 2'];
-  tiposLegais = ['Físico', 'Jurídico'];
+  // IDs selecionados
 
-  constructor(private router: Router) {}
+  // Opções
+  // CreateClientComponent
+  lojas: { label: string; value: number }[] = [];
+  tiposLegais: { label: string; value: number }[] = [
+    { label: 'Cliente Físico', value: 1 },
+    { label: 'Cliente Empresa', value: 2 },
+  ];
+
+  constructor(
+    private router: Router,
+    private clientService: ClientService,
+  ) {}
+
+  ngOnInit() {
+    this.clientService.getLojas().subscribe((res) => {
+      this.lojas = res.map((l) => ({ label: l.name, value: l.id }));
+    });
+  }
 
   nextStep() {
     if (this.stepIndex < this.steps.length - 1) {
@@ -77,9 +96,7 @@ export class CreateClientComponent {
   }
 
   previousStep() {
-    if (this.stepIndex > 0) {
-      this.stepIndex--;
-    }
+    if (this.stepIndex > 0) this.stepIndex--;
   }
 
   goBackList() {
@@ -87,8 +104,15 @@ export class CreateClientComponent {
   }
 
   submit() {
-    const payload = {
-      nome: this.nome,
+    if (!this.loja || !this.tipoLegal) {
+      console.error('Loja ou tipo legal não selecionado!');
+      return;
+    }
+
+    const payload: CreateClientDto = {
+      unitId: this.loja,
+      legalTypeId: this.tipoLegal,
+      name: this.nome,
       cpfCnpj: this.cpfCnpj,
       email: this.email,
       phone: this.phone,
@@ -98,11 +122,15 @@ export class CreateClientComponent {
       addressDistrict: this.addressDistrict,
       addressCity: this.addressCity,
       addressState: this.addressState,
-      loja: this.loja,
-      tipoLegal: this.tipoLegal,
       notes: this.notes,
     };
 
-    console.log('Cliente cadastrado!', payload);
+    this.clientService.createClient(payload).subscribe({
+      next: (res) => {
+        console.log('Cliente cadastrado!', res);
+        this.router.navigate(['/clients-list']);
+      },
+      error: (err) => console.error('Erro ao cadastrar cliente', err),
+    });
   }
 }

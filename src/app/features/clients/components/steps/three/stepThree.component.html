@@ -8,15 +8,10 @@
 
 <app-select-field
   label="Tipo Legal"
-  labelBgColor="#fff"
   [options]="tiposLegais"
   [(ngModel)]="tipoLegal"
+  labelBgColor="#fff"
   (ngModelChange)="tipoLegalChange.emit($event)"
 ></app-select-field>
 
-<app-input-field
-  label="Observações"
-  labelBgColor="#fff"
-  [(ngModel)]="notes"
-  (ngModelChange)="notesChange.emit($event)"
-></app-input-field>
+<app-input-field label="Observações" [(ngModel)]="notes" labelBgColor="#fff"></app-input-field>

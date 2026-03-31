@@ -43,13 +43,16 @@ export class EditClientModalComponent {
   addressDistrict = '';
   addressCity = '';
   addressState = '';
-
-  loja = '';
-  tipoLegal = '';
   notes = '';
 
-  lojas: string[] = ['Loja 1', 'Loja 2'];
-  tiposLegais: string[] = ['Pessoa Física', 'Pessoa Jurídica'];
+  lojas: { label: string; value: number }[] = [];
+  tiposLegais: { label: string; value: number }[] = [
+    { label: 'Cliente Físico', value: 1 },
+    { label: 'Cliente Empresa', value: 2 },
+  ];
+
+  loja!: number;
+  tipoLegal!: number;
 
   @Input() client: any;
   @Output() closeModalEvent = new EventEmitter<void>();

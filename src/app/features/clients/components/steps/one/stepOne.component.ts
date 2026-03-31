@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { OsData } from '../../../../osS/model/dtos/os.data';
 
 @Component({
   selector: 'app-step-one-client',
@@ -21,4 +22,19 @@ export class StepOneClientComponent {
 
   @Input() phone!: string;
   @Output() phoneChange = new EventEmitter<string>();
+
+  @Input() data: OsData = {
+    loja: null,
+    cliente: null,
+    veiculo: null,
+    dataEntrada: '',
+    dataSaida: '',
+    pintura: '',
+    funilaria: '',
+    valorPintura: '',
+    valorFunilaria: '',
+    peca: '',
+    quantidade: null,
+    valorUnitario: '',
+  };
 }
