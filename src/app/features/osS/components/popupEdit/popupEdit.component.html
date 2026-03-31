@@ -49,8 +49,9 @@
           </div>
         </div>
 
-        <div class="step-inner">
-          <app-review-step *ngSwitchCase="2" [sections]="reviewData"></app-review-step>
+        <div *ngSwitchCase="2" class="step-inner">
+          <!-- Aqui usamos a versão formatada para o review -->
+          <app-review-step [sections]="formattedReviewData"></app-review-step>
         </div>
       </ng-container>
     </div>

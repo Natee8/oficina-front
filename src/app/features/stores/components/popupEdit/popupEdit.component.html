@@ -36,7 +36,8 @@
           [errors]="errors"
         ></app-step-two-stores>
 
-        <app-review-step *ngSwitchCase="2" [sections]="reviewData"></app-review-step>
+        <!-- Aqui usamos o formattedReviewData -->
+        <app-review-step *ngSwitchCase="2" [sections]="formattedReviewData"></app-review-step>
       </ng-container>
     </div>
 

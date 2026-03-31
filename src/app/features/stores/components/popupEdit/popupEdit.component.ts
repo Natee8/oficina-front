@@ -13,6 +13,7 @@ import { stepsConfigStore } from '../../../../core/config/stepsLabel.config';
 import { createStoreData } from '../../model/store.data';
 import { stepOneSchema } from '../../schemas/stepOne.schema';
 import { stepTwoSchema } from '../../schemas/stepTwo.schema';
+import { reviewStoreConfig } from '../../../../core/config/reviewsData';
 
 @Component({
   selector: 'app-edit-store-modal',
@@ -34,32 +35,21 @@ export class EditStoreModalComponent {
   stepIndex = 0;
   storeData = createStoreData();
   errors: Record<string, string> = {};
+  reviewData = reviewStoreConfig;
 
   closeModal = false;
 
   stepsConfig = stepsConfigStore;
 
-  get reviewData() {
-    return [
-      {
-        title: 'Informações da Loja',
-        fields: [
-          { label: 'Nome', value: this.storeData.name },
-          { label: 'CNPJ', value: this.storeData.cnpj },
-        ],
-      },
-      {
-        title: 'Endereço',
-        fields: [
-          { label: 'CEP', value: this.storeData.addressZip },
-          { label: 'Número', value: this.storeData.addressNumber },
-          { label: 'Rua', value: this.storeData.addressStreet },
-          { label: 'Bairro', value: this.storeData.addressDistrict },
-          { label: 'Cidade', value: this.storeData.addressCity },
-          { label: 'Estado', value: this.storeData.addressState },
-        ],
-      },
-    ];
+  get formattedReviewData() {
+    // substitui as keys pelos valores reais do storeData
+    return this.reviewData.map((section) => ({
+      title: section.title,
+      fields: section.fields.map((field) => ({
+        label: field.label,
+        value: (this.storeData as any)[field.key] ?? '',
+      })),
+    }));
   }
 
   @Input() store: any;

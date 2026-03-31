@@ -21,6 +21,7 @@ import { VehicleService } from '../../../car/service/car.service';
 import { VehicleDto } from '../../../car/model/vehicle.dto';
 import { OsData, createOsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
+import { reviewOsConfig } from '../../../../core/config/reviewsData';
 
 @Component({
   selector: 'app-edit-os-modal',
@@ -42,13 +43,13 @@ export class EditOsModalComponent implements OnInit {
   stepIndex = 0;
 
   osData: OsData = createOsData();
-  errors: Record<string, string> = {};
 
   lojas: StoreDto[] = [];
   clientes: ClientDto[] = [];
   veiculos: VehicleDto[] = [];
 
   stepsConfig = stepsConfigOs;
+  reviewData = reviewOsConfig;
 
   stepOneErrors: Record<string, string> = {};
 
@@ -236,34 +237,38 @@ export class EditOsModalComponent implements OnInit {
     return `${dateValue}T${String(hour).padStart(2, '0')}:00:00Z`;
   }
 
-  get reviewData() {
-    return [
-      {
-        title: 'Informações da OS',
-        fields: [
-          { label: 'Loja', value: this.osData.loja },
-          { label: 'Cliente', value: this.osData.cliente },
-          { label: 'Veículo', value: this.osData.veiculo },
-          { label: 'Entrada', value: this.osData.dataEntrada },
-          { label: 'Saída', value: this.osData.dataSaida },
-        ],
-      },
-      {
-        title: 'Serviços',
-        fields: [
-          { label: 'Pintura', value: this.osData.pintura },
-          { label: 'Valor Pintura', value: `R$ ${this.osData.valorPintura}` },
-          { label: 'Funilaria', value: this.osData.funilaria },
-          { label: 'Valor Funilaria', value: `R$ ${this.osData.valorFunilaria}` },
-        ],
-      },
-      {
-        title: 'Peças',
-        fields: this.pecasAdicionadas.map((p) => ({
-          label: p.nome,
-          value: `Qtd: ${p.quantidade} | R$ ${p.valor}`,
-        })),
-      },
-    ];
+  get formattedReviewData() {
+    return this.reviewData.map((section) => {
+      if (section.dynamic) {
+        return {
+          title: section.title,
+          fields: this.pecasAdicionadas
+            .map((p) =>
+              section.fields.map((f) => ({
+                label: f.labelKey,
+                value: f.format ? f.format(p) : p[f.valueKey],
+              })),
+            )
+            .flat(),
+        };
+      }
+
+      return {
+        title: section.title,
+        fields: section.fields.map((f) => {
+          if ('label' in f && 'key' in f) {
+            return {
+              label: f.label,
+              value:
+                (this.osData as any)[f.key] != null
+                  ? `${f.prefix || ''}${(this.osData as any)[f.key]}`
+                  : '',
+            };
+          }
+
+          return { label: '', value: '' };
+        }),
+      };
+    });
   }
 }

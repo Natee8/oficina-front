@@ -32,6 +32,7 @@ import { stepsConfigEmployee } from '../../../../core/config/stepsLabel.config';
 })
 export class EditEmployeeModalComponent {
   stepIndex = 0;
+  employeeData: any = {};
 
   name = '';
   cpf = '';
