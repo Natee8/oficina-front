@@ -12,8 +12,8 @@ import { SelectFieldComponent } from '../../../../../shared/components/inputs/se
   styleUrls: ['./stepOne.component.scss'],
 })
 export class StepOneCarComponent {
-  @Input() cliente!: string;
-  @Output() clienteChange = new EventEmitter<string>();
+  @Input() cliente!: number | null;
+  @Output() clienteChange = new EventEmitter<number | null>();
 
   @Input() plate!: string;
   @Output() plateChange = new EventEmitter<string>();
@@ -30,5 +30,5 @@ export class StepOneCarComponent {
   @Input() insuranceClaimNumber!: string;
   @Output() insuranceClaimNumberChange = new EventEmitter<string>();
 
-  @Input() clientes: string[] = [];
+  @Input() clientes: Array<{ label: string; value: number }> = [];
 }

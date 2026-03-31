@@ -134,7 +134,50 @@ export class TableOs implements OnInit {
     this.page = newPage;
   }
 
-  baixarDocumento(os: OsDto) {}
+  private getPdfFileName(contentDisposition: string | null, osId: number): string {
+    const fallback = `os-${osId}.pdf`;
+
+    if (!contentDisposition) {
+      return fallback;
+    }
+
+    const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+    if (utf8Match?.[1]) {
+      return decodeURIComponent(utf8Match[1]);
+    }
+
+    const quotedMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
+    return quotedMatch?.[1] ?? fallback;
+  }
+
+  baixarDocumento(os: OsDto) {
+    if (!os.id) {
+      this.error = 'OS inválida para download';
+      return;
+    }
+
+    this.osService.getServiceOrderPdf(os.id).subscribe({
+      next: (response) => {
+        const fileName = this.getPdfFileName(response.headers.get('content-disposition'), os.id);
+        const blob = response.body;
+
+        if (!blob) {
+          this.error = 'PDF da OS não retornado pelo servidor';
+          return;
+        }
+
+        const fileUrl = window.URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = fileUrl;
+        anchor.download = fileName;
+        anchor.click();
+        window.URL.revokeObjectURL(fileUrl);
+      },
+      error: () => {
+        this.error = 'Erro ao baixar PDF da OS';
+      },
+    });
+  }
 
   handleEdit(os: OsDto) {
     this.selectedOs = os;

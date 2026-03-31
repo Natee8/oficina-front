@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/register-card.component';
 import { StepOneCarComponent } from '../../components/steps/one/stepOne.component';
 import { StepTwoCarComponent } from '../../components/steps/two/stepTwo.component';
+import { ClientService } from '../../../clients/service/client.service';
+import { CreateVehiclePayload, VehicleService } from '../../service/car.service';
 
 @Component({
   selector: 'app-create-car',
@@ -21,7 +23,8 @@ import { StepTwoCarComponent } from '../../components/steps/two/stepTwo.componen
     StepTwoCarComponent,
   ],
 })
-export class CreateCarComponent {
+
+export class CreateCarComponent implements OnInit {
   stepIndex = 0;
 
   steps = [
@@ -39,21 +42,39 @@ export class CreateCarComponent {
     },
   ];
 
-  cliente = '';
+  cliente: number | null = null;
   plate = '';
   year: number | null = null;
   vin = '';
   renavam = '';
   insuranceClaimNumber = '';
-
   brand = '';
   model = '';
   color = '';
   notes = '';
 
-  clientes = ['Cliente 1', 'Cliente 2'];
+  clientes: Array<{ label: string; value: number }> = [];
+  error = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private clientService: ClientService,
+    private vehicleService: VehicleService
+  ) {}
+
+  ngOnInit() {
+    this.clientService.getCustomers().subscribe({
+      next: (customers) => {
+        this.clientes = customers.map((customer) => ({
+          label: customer.name,
+          value: customer.id,
+        }));
+      },
+      error: () => {
+        this.clientes = [];
+      },
+    });
+  }
 
   nextStep() {
     if (this.stepIndex < this.steps.length - 1) {
@@ -73,11 +94,21 @@ export class CreateCarComponent {
     this.router.navigate(['/car-list']);
   }
 
+  private parseYear(value: number | string | null): number {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
   submit() {
-    const payload = {
-      cliente: this.cliente,
+    if (!this.cliente) {
+      this.error = 'Selecione um cliente';
+      return;
+    }
+
+    const payload: CreateVehiclePayload = {
+      customerId: this.cliente,
       plate: this.plate,
-      year: this.year,
+      year: this.parseYear(this.year),
       vin: this.vin,
       renavam: this.renavam,
       insuranceClaimNumber: this.insuranceClaimNumber,
@@ -87,6 +118,13 @@ export class CreateCarComponent {
       notes: this.notes,
     };
 
-    console.log('Veículo cadastrado!', payload);
+    this.vehicleService.postVehicle(payload).subscribe({
+      next: () => {
+        this.router.navigate(['/car-list']);
+      },
+      error: () => {
+        this.error = 'Erro ao cadastrar veículo';
+      },
+    });
   }
 }

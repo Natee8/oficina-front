@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OsDto } from '../model/dtos/os.dto';
 import { StatusOs } from '../model/types/status';
@@ -53,5 +53,12 @@ export class OsService {
 
   deleteServiceOrder(id: number) {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getServiceOrderPdf(id: number): Observable<HttpResponse<Blob>> {
+    return this.http.get(`${this.apiUrl}/${id}/pdf`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
   }
 }

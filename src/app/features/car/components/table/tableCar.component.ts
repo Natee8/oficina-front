@@ -1,12 +1,23 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { TableFooterComponent } from '../../../../shared/components/tableFooter/tableFooter.component';
 import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
-import { CommonModule } from '@angular/common';
 import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
-import { TableVehiclesMock } from '../../service/mock';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
-import { ModalComponent } from '../../../../shared/components/popup/popup.component';
 import { EditCarModalComponent } from '../popupEdit/popupEdit.component';
+import { VehicleDto } from '../../model/vehicle.dto';
+import { VehicleService } from '../../service/car.service';
+
+const vehicleColumns = [
+  { key: 'customerName', label: 'Cliente' },
+  { key: 'plate', label: 'Placa' },
+  { key: 'brand', label: 'Marca' },
+  { key: 'model', label: 'Modelo' },
+  { key: 'year', label: 'Ano' },
+  { key: 'color', label: 'Cor' },
+  { key: 'renavam', label: 'Renavam' },
+  { key: 'actions', label: 'Ações' },
+];
 
 @Component({
   selector: 'app-table-car',
@@ -22,15 +33,31 @@ import { EditCarModalComponent } from '../popupEdit/popupEdit.component';
     EditCarModalComponent,
   ],
 })
-export class TableCar {
+export class TableCar implements OnInit {
   page = 1;
   totalPages = 5;
-
   activeModal: 'edit' | 'delete' | null = null;
-  selectedOs: any = null;
+  selectedOs: VehicleDto | null = null;
+  loading = false;
+  error = '';
+  columns = vehicleColumns;
+  vehicles: VehicleDto[] = [];
 
-  columns = TableVehiclesMock.columns;
-  vehicles = TableVehiclesMock.vehicles;
+  constructor(private vehicleService: VehicleService) {}
+
+  ngOnInit() {
+    this.loading = true;
+    this.vehicleService.getVehicles().subscribe({
+      next: (vehicles) => {
+        this.vehicles = vehicles;
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Erro ao carregar veículos';
+        this.loading = false;
+      },
+    });
+  }
 
   handleSearch(value: string) {
     console.log('buscar:', value);
@@ -40,18 +67,39 @@ export class TableCar {
     this.page = newPage;
   }
 
-  handleEdit(os: any) {
-    this.selectedOs = os;
+  handleEdit(vehicle: VehicleDto) {
+    this.selectedOs = vehicle;
     this.activeModal = 'edit';
   }
 
-  handleDelete(os: any) {
-    this.selectedOs = os;
+  handleDelete(vehicle: VehicleDto) {
+    this.selectedOs = vehicle;
     this.activeModal = 'delete';
   }
 
   confirmDelete() {
-    console.log('Deletar OS:', this.selectedOs);
+    if (!this.selectedOs?.id) {
+      this.closeModal();
+      return;
+    }
+
+    const selectedId = this.selectedOs.id;
+
+    this.vehicleService.deleteVehicle(selectedId).subscribe({
+      next: () => {
+        this.vehicles = this.vehicles.filter((vehicle) => vehicle.id !== selectedId);
+        this.closeModal();
+      },
+      error: () => {
+        this.error = 'Erro ao excluir veículo';
+      },
+    });
+  }
+
+  handleVehicleUpdated(updatedVehicle: VehicleDto) {
+    this.vehicles = this.vehicles.map((vehicle) =>
+      vehicle.id === updatedVehicle.id ? updatedVehicle : vehicle
+    );
     this.closeModal();
   }
 

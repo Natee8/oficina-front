@@ -17,7 +17,7 @@ import { StoreService } from '../../../stores/service/store.service';
 import { StoreDto } from '../../../stores/model/store.dto';
 import { ClientService } from '../../../clients/service/client.service';
 import { ClientDto } from '../../../clients/model/client.dto';
-import { VehicleService } from '../../../car/service/vehicle.service';
+import { VehicleService } from '../../../car/service/car.service';
 import { VehicleDto } from '../../../car/model/vehicle.dto';
 import { OsData } from '../../model/dtos/os.data';
 
@@ -167,6 +167,14 @@ export class EditOsModalComponent implements OnInit {
     return `${dateValue}T${String(hour).padStart(2, '0')}:00:00Z`;
   }
 
+  private formatCurrencyDisplay(value: string | number | null | undefined): string {
+    if (value === null || value === undefined || value === '') {
+      return 'R$ 0';
+    }
+
+    return `R$ ${value}`;
+  }
+
   get reviewData() {
     return [
       {
@@ -183,9 +191,9 @@ export class EditOsModalComponent implements OnInit {
         title: 'Serviços',
         fields: [
           { label: 'Pintura', value: this.pintura },
-          { label: 'Valor Pintura', value: this.valorPintura },
+          { label: 'Valor Pintura', value: this.formatCurrencyDisplay(this.valorPintura) },
           { label: 'Funilaria', value: this.funilaria },
-          { label: 'Valor Funilaria', value: this.valorFunilaria },
+          { label: 'Valor Funilaria', value: this.formatCurrencyDisplay(this.valorFunilaria) },
         ],
       },
       {

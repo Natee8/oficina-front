@@ -19,13 +19,13 @@
         *ngFor="let vehicle of vehicles"
         [style.grid-template-columns]="'2fr 1.5fr 1.5fr 1fr 1.5fr 2fr 2fr 120px'"
       >
-        <div class="table-cell">{{ vehicle.store }}</div>
+        <div class="table-cell">{{ vehicle.customerName }}</div>
         <div class="table-cell">{{ vehicle.plate }}</div>
         <div class="table-cell">{{ vehicle.brand }}</div>
+        <div class="table-cell">{{ vehicle.model }}</div>
         <div class="table-cell">{{ vehicle.year }}</div>
         <div class="table-cell">{{ vehicle.color }}</div>
         <div class="table-cell">{{ vehicle.renavam }}</div>
-        <div class="table-cell">{{ vehicle.document }}</div>
 
         <div class="table-cell">
           <app-table-actions (onEdit)="handleEdit(vehicle)" (onDelete)="handleDelete(vehicle)" />
@@ -37,6 +37,7 @@
   <app-edit-car-modal
     *ngIf="activeModal === 'edit'"
     [car]="selectedOs"
+    (vehicleUpdated)="handleVehicleUpdated($event)"
     (closeModalEvent)="closeModal()"
   ></app-edit-car-modal>
 

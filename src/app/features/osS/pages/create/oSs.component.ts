@@ -11,7 +11,7 @@ import { StoreDto } from '../../../stores/model/store.dto';
 import { ClientService } from '../../../clients/service/client.service';
 import { ClientDto } from '../../../clients/model/client.dto';
 import { VehicleDto } from '../../../car/model/vehicle.dto';
-import { VehicleService } from '../../../car/service/vehicle.service';
+import { VehicleService } from '../../../car/service/car.service';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 import { createOsData, OsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
