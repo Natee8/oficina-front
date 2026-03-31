@@ -15,6 +15,7 @@ import { JwtService } from '../../core/services/jwt.service';
 export class SideBarComponent {
   collapsed = false;
   emailLogged = '';
+  isAdmin = false;
 
   submenus: { [key: string]: boolean } = {
     stores: false,
@@ -22,6 +23,7 @@ export class SideBarComponent {
     clients: false,
     oss: false,
     cars: false,
+    tenants: false,
   };
 
   constructor(
@@ -33,6 +35,7 @@ export class SideBarComponent {
     console.log('Token:', TokenService.getToken()); // deve exibir o JWT
     console.log('Email do token:', JwtService.getEmail()); // deve exibir o email
     this.emailLogged = JwtService.getEmail() || '';
+    this.isAdmin = JwtService.isAdmin();
   }
 
   get storesOpen() {

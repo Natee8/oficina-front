@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
+import { adminGuard, authGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './features/auth/login/pages/login.component';
 import { RegisterComponent } from './features/auth/register/pages/register.component';
 import { CreateCarComponent } from './features/car/pages/create/car.component';
@@ -46,17 +46,17 @@ export const routes: Routes = [
     canActivate: [authGuard],
     canActivateChild: [authGuard],
     children: [
-      { path: 'stores-list', component: StoresComponent },
+      { path: 'stores-list', component: StoresComponent, canActivate: [adminGuard] },
       { path: 'os-list', component: OSsComponent },
       { path: 'employees-list', component: EmployeesComponent },
       { path: 'clients-list', component: ClientsComponent },
       { path: 'car-list', component: CarComponent },
-      { path: 'tenant-list', component: TenantListComponent },
+      { path: 'tenant-list', component: TenantListComponent, canActivate: [adminGuard] },
       { path: 'profile', component: ProfileComponent },
 
       { path: 'employees-create', component: CreateEmployeeComponent },
       { path: 'clients-create', component: CreateClientComponent },
-      { path: 'stores-create', component: CreateStoreComponent },
+      { path: 'stores-create', component: CreateStoreComponent, canActivate: [adminGuard] },
       { path: 'car-create', component: CreateCarComponent },
       { path: 'os-create', component: OSsCreateComponent },
     ],

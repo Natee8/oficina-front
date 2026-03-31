@@ -5,7 +5,21 @@
   </div>
 
   <ul class="menu">
-    <li>
+    <li *ngIf="isAdmin">
+      <div class="menu-item" (click)="collapsed ? navigate('/tenant-list') : toggleSubmenu('tenants')">
+        <img src="assets/icons/building.svg" />
+        <span>Empresa</span>
+        <i
+          *ngIf="!collapsed"
+          class="fa-solid"
+          [ngClass]="{ 'fa-chevron-down': !tenantsOpen, 'fa-chevron-up': tenantsOpen }"
+        ></i>
+      </div>
+      <ul class="submenu" *ngIf="tenantsOpen && !collapsed">
+        <li routerLink="/tenant-list">Listar Empresa</li>
+      </ul>
+    </li>
+    <li *ngIf="isAdmin">
       <div
         class="menu-item"
         (click)="collapsed ? navigate('/stores-list') : toggleSubmenu('stores')"
