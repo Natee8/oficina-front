@@ -29,16 +29,16 @@
         <div class="table-cell">{{ os.vehiclePlate }}</div>
         <div class="table-cell">{{ os.ownerCustomerName }}</div>
         <div class="table-cell">
-          <span class="status" [ngClass]="os.statusCode">
+          <span class="status" [ngClass]="normalizeStatus(os.statusCode)">
             {{ os.statusName }}
           </span>
         </div>
 
         <app-status-modal
-          *ngIf="activeModal === 'status'"
+          *ngIf="activeModal === 'status' && selectedOs as currentOs"
           [isOpen]="true"
-          [pedidoId]="selectedOs?.id"
-          [current]="selectedOs?.status"
+          [pedidoId]="currentOs.id"
+          [current]="normalizeStatus(currentOs.statusCode)"
           (onClose)="closeModal()"
           (onConfirm)="updateStatus($event)"
         ></app-status-modal>
@@ -58,9 +58,6 @@
   <app-edit-os-modal
     *ngIf="activeModal === 'edit'"
     [os]="selectedOs"
-    [lojas]="lojas"
-    [clientes]="clientes"
-    [veiculos]="veiculos"
     (closeModalEvent)="closeModal()"
   ></app-edit-os-modal>
 

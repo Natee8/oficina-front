@@ -1,3 +1,11 @@
+export interface OsPart {
+  id: number;
+  description: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+}
+
 export interface OsDto {
   id: number;
   tenantId: number;
@@ -22,4 +30,5 @@ export interface OsDto {
   totalAmount: number;
   createdAt: string;
   updatedAt: string;
+  parts?: OsPart[];
 }

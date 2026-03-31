@@ -10,12 +10,20 @@ import { ToggleActionsComponent } from "../../../../shared/components/buttonNext
 export class StatusModalComponent {
   @Input() isOpen = false;
   @Input() pedidoId!: number;
-  @Input() current!: string;
+
+  private _current = '';
+  @Input() set current(value: string) {
+    this._current = this.normalizeStatus(value);
+    this.selected = this._current;
+  }
+  get current() {
+    return this._current;
+  }
 
   @Output() onClose = new EventEmitter<void>();
   @Output() onConfirm = new EventEmitter<string>();
 
-  selected!: string;
+  selected = '';
 
   statusList = [
     {
@@ -35,8 +43,20 @@ export class StatusModalComponent {
     },
   ];
 
-  ngOnInit() {
-    this.selected = this.current;
+  private normalizeStatus(status: string | null | undefined): string {
+    if (!status) return '';
+
+    const normalized = status
+      .toLowerCase()
+      .trim()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+    if (normalized === 'enviado' || normalized === 'feito' || normalized === 'finalizado') {
+      return normalized;
+    }
+
+    return '';
   }
 
   select(value: string) {

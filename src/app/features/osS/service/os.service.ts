@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OsDto } from '../model/dtos/os.dto';
+import { StatusOs } from '../model/types/status';
 
 export interface CreateOsPart {
   description: string;
@@ -22,6 +23,12 @@ export interface CreateOsPayload {
   parts: CreateOsPart[];
 }
 
+export interface UpdateOsPayload extends CreateOsPayload {
+  statusId: number;
+  deliveryDate?: string | null;
+  totalDiscount: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class OsService {
   private readonly apiUrl = 'http://localhost:5233/api/ServiceOrders';
@@ -34,5 +41,13 @@ export class OsService {
 
   postServiceOrder(payload: CreateOsPayload) {
     return this.http.post<OsDto>(this.apiUrl, payload);
+  }
+
+  patchServiceOrder(id: number, payload: UpdateOsPayload) {
+    return this.http.patch<OsDto>(`${this.apiUrl}/${id}`, payload);
+  }
+
+  patchServiceOrderStatus(id: number, status: StatusOs) {
+    return this.http.patch<OsDto>(`${this.apiUrl}/${id}/status/${status}`, {});
   }
 }
