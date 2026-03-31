@@ -17,29 +17,27 @@
   <ng-container [ngSwitch]="stepIndex">
     <app-step-one
       *ngSwitchCase="0"
-      [(name)]="nome"
-      [(cpf)]="cpf"
-      [(phone)]="telefone"
+      [(name)]="employeeData.nome"
+      [(cpf)]="employeeData.cpf"
+      [(phone)]="employeeData.telefone"
     ></app-step-one>
 
     <app-step-two
       *ngSwitchCase="1"
-      [(addressZip)]="addressZip"
-      [(addressNumber)]="addressNumber"
-      [(addressStreet)]="addressStreet"
-      [(addressDistrict)]="addressDistrict"
-      [(addressCity)]="addressCity"
-      [(addressState)]="addressState"
+      [(addressZip)]="employeeData.addressZip"
+      [(addressNumber)]="employeeData.addressNumber"
+      [(addressStreet)]="employeeData.addressStreet"
+      [(addressDistrict)]="employeeData.addressDistrict"
+      [(addressCity)]="employeeData.addressCity"
+      [(addressState)]="employeeData.addressState"
     ></app-step-two>
 
     <app-step-three
       *ngSwitchCase="2"
-      [(cargo)]="cargo"
-      [(loja)]="loja"
-      [(email)]="email"
-      [(senha)]="senha"
-      [cargos]="cargos"
-      [lojas]="lojas"
+      [(cargo)]="employeeData.cargo"
+      [(loja)]="employeeData.loja"
+      [(email)]="employeeData.email"
+      [(senha)]="employeeData.senha"
     ></app-step-three>
   </ng-container>
 </app-register-card>

@@ -19,5 +19,7 @@ export class StepOneComponent {
   @Input() phone!: string;
   @Output() phoneChange = new EventEmitter<string>();
 
+  @Input() errors: Record<string, string> = {};
+
   @Output() next = new EventEmitter<void>();
 }

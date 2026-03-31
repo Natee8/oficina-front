@@ -5,6 +5,7 @@
   labelBgColor="#fff"
   (ngModelChange)="nameChange.emit($event)"
 ></app-input-field>
+<div class="error" *ngIf="errors['nome']">{{ errors['nome'] }}</div>
 
 <app-input-field
   label="CPF"
@@ -13,6 +14,7 @@
   labelBgColor="#fff"
   (ngModelChange)="cpfChange.emit($event)"
 ></app-input-field>
+<div class="error" *ngIf="errors['cpf']">{{ errors['cpf'] }}</div>
 
 <app-input-field
   label="Telefone"
@@ -21,3 +23,4 @@
   labelBgColor="#fff"
   (ngModelChange)="phoneChange.emit($event)"
 ></app-input-field>
+<div class="error" *ngIf="errors['telefone']">{{ errors['telefone'] }}</div>

@@ -1,18 +1,20 @@
-<app-input-field
+<app-select-field
   label="Cargo"
-  type="text"
-  labelBgColor="#fff"
+  [options]="cargosOptions"
   [(ngModel)]="cargo"
   (ngModelChange)="cargoChange.emit($event)"
-></app-input-field>
+></app-select-field>
+<div class="error" *ngIf="errors['cargo']">{{ errors['cargo'] }}</div>
 
-<app-input-field
+<app-select-field
   label="Loja"
   type="text"
   labelBgColor="#fff"
   [(ngModel)]="loja"
   (ngModelChange)="lojaChange.emit($event)"
-></app-input-field>
+  [options]="lojasOptionsSelect"
+></app-select-field>
+<div class="error" *ngIf="errors['loja']">{{ errors['loja'] }}</div>
 
 <app-input-field
   label="Email"
@@ -20,6 +22,7 @@
   [(ngModel)]="email"
   (ngModelChange)="emailChange.emit($event)"
 ></app-input-field>
+<div class="error" *ngIf="errors['email']">{{ errors['email'] }}</div>
 
 <app-input-field
   label="Senha"
@@ -28,3 +31,4 @@
   [(ngModel)]="senha"
   (ngModelChange)="senhaChange.emit($event)"
 ></app-input-field>
+<div class="error" *ngIf="errors['senha']">{{ errors['senha'] }}</div>

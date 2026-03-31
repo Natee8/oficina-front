@@ -28,4 +28,6 @@ export class StepTwoComponent {
 
   @Input() addressState!: string;
   @Output() addressStateChange = new EventEmitter<string>();
+
+  @Input() errors: Record<string, string> = {};
 }
