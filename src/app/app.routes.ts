@@ -10,6 +10,7 @@ import { CreateEmployeeComponent } from './features/employees/pages/create/emplo
 import { EmployeesComponent } from './features/employees/pages/list/employees.component';
 import { OSsCreateComponent } from './features/osS/pages/create/oSs.component';
 import { OSsComponent } from './features/osS/pages/list/oSs.component';
+import { NfsGroupingStoreComponent } from './features/nfs/pages/grouping-store/nfs-grouping-store.component';
 import { ProfileComponent } from './features/profile/pages/profile.component';
 import { CreateStoreComponent } from './features/stores/pages/create/stores.component';
 import { StoresComponent } from './features/stores/pages/list/stores.component';
@@ -51,6 +52,7 @@ export const routes: Routes = [
       { path: 'employees-list', component: EmployeesComponent },
       { path: 'clients-list', component: ClientsComponent },
       { path: 'car-list', component: CarComponent },
+      { path: 'nfs-grouping-store', component: NfsGroupingStoreComponent },
       { path: 'tenant-list', component: TenantListComponent, canActivate: [adminGuard] },
       { path: 'profile', component: ProfileComponent },
 

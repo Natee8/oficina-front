@@ -7,7 +7,7 @@
   <ul class="menu">
     <li *ngIf="isAdmin">
       <div class="menu-item" (click)="collapsed ? navigate('/tenant-list') : toggleSubmenu('tenants')">
-        <img src="assets/icons/building.svg" />
+        <img src="assets/icons/tenant.svg" />
         <span>Empresa</span>
         <i
           *ngIf="!collapsed"
@@ -105,6 +105,24 @@
       <ul class="submenu" *ngIf="carsOpen && !collapsed">
         <li routerLink="/car-list">Listar veículos</li>
         <li routerLink="/car-create">Criar veículo</li>
+      </ul>
+    </li>
+
+    <li>
+      <div
+        class="menu-item"
+        (click)="collapsed ? navigate('/nfs-grouping-store') : toggleSubmenu('nfs')"
+      >
+        <img src="assets/icons/nf.svg" />
+        <span>NFs</span>
+        <i
+          *ngIf="!collapsed"
+          class="fa-solid"
+          [ngClass]="{ 'fa-chevron-down': !nfsOpen, 'fa-chevron-up': nfsOpen }"
+        ></i>
+      </div>
+      <ul class="submenu" *ngIf="nfsOpen && !collapsed">
+        <li routerLink="/nfs-grouping-store">Agrupamento por loja</li>
       </ul>
     </li>
   </ul>
