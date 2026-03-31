@@ -13,8 +13,21 @@ import { OsData } from '../../../model/dtos/os.data';
   imports: [FormsModule, InputFieldComponent, SelectFieldComponent, CommonModule],
 })
 export class OsStepOneComponent {
-  @Input() data!: OsData;
-  @Input() errors!: Record<string, string>;
+  @Input() data: OsData = {
+    loja: null,
+    cliente: null,
+    veiculo: null,
+    dataEntrada: '',
+    dataSaida: '',
+    pintura: '',
+    valorPintura: '',
+    funilaria: '',
+    valorFunilaria: '',
+    peca: '',
+    quantidade: null,
+    valorUnitario: '',
+  };
+  @Input() errors: Record<string, string> = {};
 
   @Input() lojas: any[] = [];
   @Input() clientes: any[] = [];
