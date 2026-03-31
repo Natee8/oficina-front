@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OsDto } from '../model/dtos/os.dto';
+import { StatusOs } from '../model/types/status';
 
 export interface CreateOsPart {
   description: string;
@@ -44,5 +45,9 @@ export class OsService {
 
   patchServiceOrder(id: number, payload: UpdateOsPayload) {
     return this.http.patch<OsDto>(`${this.apiUrl}/${id}`, payload);
+  }
+
+  patchServiceOrderStatus(id: number, status: StatusOs) {
+    return this.http.patch<OsDto>(`${this.apiUrl}/${id}/status/${status}`, {});
   }
 }
