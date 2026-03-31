@@ -168,6 +168,14 @@ export class EditOsModalComponent implements OnInit {
     return `${dateValue}T${String(hour).padStart(2, '0')}:00:00Z`;
   }
 
+  private formatCurrencyDisplay(value: string | number | null | undefined): string {
+    if (value === null || value === undefined || value === '') {
+      return 'R$ 0';
+    }
+
+    return `R$ ${value}`;
+  }
+
   get reviewData() {
     return [
       {
@@ -184,9 +192,9 @@ export class EditOsModalComponent implements OnInit {
         title: 'Serviços',
         fields: [
           { label: 'Pintura', value: this.pintura },
-          { label: 'Valor Pintura', value: this.valorPintura },
+          { label: 'Valor Pintura', value: this.formatCurrencyDisplay(this.valorPintura) },
           { label: 'Funilaria', value: this.funilaria },
-          { label: 'Valor Funilaria', value: this.valorFunilaria },
+          { label: 'Valor Funilaria', value: this.formatCurrencyDisplay(this.valorFunilaria) },
         ],
       },
       {
