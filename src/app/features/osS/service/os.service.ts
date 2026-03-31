@@ -22,6 +22,12 @@ export interface CreateOsPayload {
   parts: CreateOsPart[];
 }
 
+export interface UpdateOsPayload extends CreateOsPayload {
+  statusId: number;
+  deliveryDate?: string | null;
+  totalDiscount: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class OsService {
   private readonly apiUrl = 'http://localhost:5233/api/ServiceOrders';
@@ -34,5 +40,9 @@ export class OsService {
 
   postServiceOrder(payload: CreateOsPayload) {
     return this.http.post<OsDto>(this.apiUrl, payload);
+  }
+
+  patchServiceOrder(id: number, payload: UpdateOsPayload) {
+    return this.http.patch<OsDto>(`${this.apiUrl}/${id}`, payload);
   }
 }
