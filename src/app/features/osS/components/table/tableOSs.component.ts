@@ -147,8 +147,22 @@ export class TableOs implements OnInit {
   }
 
   confirmDelete() {
-    console.log('Deletar OS:', this.selectedOs);
-    this.closeModal();
+    if (!this.selectedOs?.id) {
+      this.closeModal();
+      return;
+    }
+
+    const selectedId = this.selectedOs.id;
+
+    this.osService.deleteServiceOrder(selectedId).subscribe({
+      next: () => {
+        this.osList = this.osList.filter((os) => os.id !== selectedId);
+        this.closeModal();
+      },
+      error: () => {
+        this.error = 'Erro ao excluir OS';
+      },
+    });
   }
 
   closeModal() {
