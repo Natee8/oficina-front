@@ -19,6 +19,7 @@ export class SideBarComponent {
 
   submenus: { [key: string]: boolean } = {
     stores: false,
+    nfs: false,
     employees: false,
     clients: false,
     oss: false,
@@ -43,6 +44,9 @@ export class SideBarComponent {
   }
   get employeesOpen() {
     return this.submenus['employees'];
+  }
+  get nfsOpen() {
+    return this.submenus['nfs'];
   }
   get clientsOpen() {
     return this.submenus['clients'];
