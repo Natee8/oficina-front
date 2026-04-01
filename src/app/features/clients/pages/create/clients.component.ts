@@ -8,7 +8,8 @@ import { StepOneClientComponent } from '../../components/steps/one/stepOne.compo
 import { StepTwoClientComponent } from '../../components/steps/two/stepTwo.component';
 import { StepThreeClientComponent } from '../../components/steps/three/stepThree.component';
 import { ClientService } from '../../service/client.service';
-import { CreateClientDto } from '../../model/createClient.dto';
+import { CreateClientDto } from '../../model/dtos/createClient.dto';
+import { stepsConfigCreateClients } from '../../../../core/config/stepsCreate.config';
 
 @Component({
   selector: 'app-create-client',
@@ -28,26 +29,7 @@ import { CreateClientDto } from '../../model/createClient.dto';
 export class CreateClientComponent implements OnInit {
   stepIndex = 0;
 
-  steps = [
-    {
-      title: 'Informações do Cliente',
-      description: 'Adicione dados pessoais do cliente',
-      image: '/assets/images/client.svg',
-      background: '/assets/images/backOne.svg',
-    },
-    {
-      title: 'Endereço do Cliente',
-      description: 'Preencha o endereço do cliente',
-      image: '/assets/images/client.svg',
-      background: '/assets/images/backOne.svg',
-    },
-    {
-      title: 'Detalhes do Cliente',
-      description: 'Preencha os detalhes do cliente',
-      image: '/assets/images/client.svg',
-      background: '/assets/images/backOne.svg',
-    },
-  ];
+  steps = stepsConfigCreateClients;
 
   // Campos do cliente
   nome = '';
@@ -66,10 +48,6 @@ export class CreateClientComponent implements OnInit {
 
   notes = '';
 
-  // IDs selecionados
-
-  // Opções
-  // CreateClientComponent
   lojas: { label: string; value: number }[] = [];
   tiposLegais: { label: string; value: number }[] = [
     { label: 'Cliente Físico', value: 1 },

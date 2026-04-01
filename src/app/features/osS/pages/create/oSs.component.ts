@@ -9,7 +9,7 @@ import { OsService, CreateOsPayload } from '../../service/os.service';
 import { StoreService } from '../../../stores/service/store.service';
 import { StoreDto } from '../../../stores/model/store.dto';
 import { ClientService } from '../../../clients/service/client.service';
-import { ClientDto } from '../../../clients/model/client.dto';
+import { ClientDto } from '../../../clients/model/dtos/client.dto';
 import { VehicleDto } from '../../../car/model/vehicle.dto';
 import { VehicleService } from '../../../car/service/car.service';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';

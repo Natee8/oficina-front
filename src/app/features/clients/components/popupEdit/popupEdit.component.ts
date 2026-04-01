@@ -10,7 +10,7 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { StepOneClientComponent } from '../steps/one/stepOne.component';
 import { StepTwoClientComponent } from '../steps/two/stepTwo.component';
 import { StepThreeClientComponent } from '../steps/three/stepThree.component';
-import { stepsConfigClient } from '../../../../core/config/stepsLabel.config';
+import { stepsConfigClient } from '../../../../core/config/stepsPopup.config';
 
 @Component({
   selector: 'app-edit-client-modal',

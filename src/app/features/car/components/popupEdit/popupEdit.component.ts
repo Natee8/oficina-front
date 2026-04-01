@@ -9,7 +9,7 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { StepOneCarComponent } from '../steps/one/stepOne.component';
 import { StepTwoCarComponent } from '../steps/two/stepTwo.component';
 import { ReviewStepComponent } from '../../../../shared/components/reviewStep/reviewStep.component';
-import { stepsConfigCar } from '../../../../core/config/stepsLabel.config';
+import { stepsConfigCar } from '../../../../core/config/stepsPopup.config';
 import { ClientService } from '../../../clients/service/client.service';
 import { CreateVehiclePayload, VehicleService } from '../../service/car.service';
 import { VehicleDto } from '../../model/vehicle.dto';
@@ -55,7 +55,7 @@ export class EditCarModalComponent implements OnInit {
 
   constructor(
     private clientService: ClientService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
   ) {}
 
   ngOnInit() {
@@ -73,7 +73,6 @@ export class EditCarModalComponent implements OnInit {
       this.model = this.car.model;
       this.color = this.car.color;
       this.notes = this.car.notes;
-
     }
   }
 
@@ -86,15 +85,20 @@ export class EditCarModalComponent implements OnInit {
         }));
       },
       error: () => {
-        this.clientes = this.car?.customerName && this.car?.customerId
-          ? [{ label: this.car.customerName, value: this.car.customerId }]
-          : [];
+        this.clientes =
+          this.car?.customerName && this.car?.customerId
+            ? [{ label: this.car.customerName, value: this.car.customerId }]
+            : [];
       },
     });
   }
 
   get clienteLabel() {
-    return this.clientes.find((client) => client.value === this.cliente)?.label ?? this.car?.customerName ?? '';
+    return (
+      this.clientes.find((client) => client.value === this.cliente)?.label ??
+      this.car?.customerName ??
+      ''
+    );
   }
 
   setStep(index: number) {

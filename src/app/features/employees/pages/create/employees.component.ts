@@ -14,6 +14,7 @@ import { stepThreeEmployersSchema } from '../../schemas/stepThree.schema';
 import { stepTwoEmployersSchema } from '../../schemas/stepTwo.schema';
 import { stepOneEmployersSchema } from '../../schemas/stepOne.schema';
 import { createEmployeeData, EmployeeData } from '../../model/dtos/employer.data';
+import { stepsConfigCreateEmployees } from '../../../../core/config/stepsCreate.config';
 
 @Component({
   selector: 'app-create-employee',
@@ -33,32 +34,8 @@ import { createEmployeeData, EmployeeData } from '../../model/dtos/employer.data
   ],
 })
 export class CreateEmployeeComponent {
-  steps = [
-    {
-      component: StepOneComponent,
-      title: 'Informações do Funcionário',
-      description: 'Adicione dados pessoais do funcionário',
-      image: '/assets/images/employee.svg',
-      background: '/assets/images/backOne.svg',
-    },
-    {
-      component: StepTwoComponent,
-      title: 'Endereço do Funcionário',
-      description: 'Preencha o endereço do funcionário',
-      image: '/assets/images/employee.svg',
-      background: '/assets/images/backOne.svg',
-    },
-    {
-      component: StepThreeComponent,
-      title: 'Informações do Funcionário',
-      description: 'Adicione as informações de cadastro do funcionário',
-      image: '/assets/images/employee.svg',
-      background: '/assets/images/backOne.svg',
-    },
-  ];
+  steps = stepsConfigCreateEmployees;
   stepIndex = 0;
-  step = 1;
-  steptotal = 3;
 
   employeeData: EmployeeData = createEmployeeData();
   errors: Record<string, string> = {};

@@ -10,13 +10,13 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 
 import { OsStepOneComponent } from '../steps/one/stepOne.component';
 import { OsStepTwoComponent } from '../steps/two/stepTwo.component';
-import { stepsConfigOs } from '../../../../core/config/stepsLabel.config';
+import { stepsConfigOs } from '../../../../core/config/stepsPopup.config';
 import { OsService, CreateOsPayload, UpdateOsPayload } from '../../service/os.service';
 import { OsDto } from '../../model/dtos/os.dto';
 import { StoreService } from '../../../stores/service/store.service';
 import { StoreDto } from '../../../stores/model/store.dto';
 import { ClientService } from '../../../clients/service/client.service';
-import { ClientDto } from '../../../clients/model/client.dto';
+import { ClientDto } from '../../../clients/model/dtos/client.dto';
 import { VehicleService } from '../../../car/service/car.service';
 import { VehicleDto } from '../../../car/model/vehicle.dto';
 import { OsData, createOsData } from '../../model/dtos/os.data';

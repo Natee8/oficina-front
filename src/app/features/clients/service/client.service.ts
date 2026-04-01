@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ClientDto } from '../model/client.dto';
-import { CreateClientDto } from '../model/createClient.dto';
+import { ClientDto } from '../model/dtos/client.dto';
+import { CreateClientDto } from '../model/dtos/createClient.dto';
 
 @Injectable({ providedIn: 'root' })
 export class ClientService {

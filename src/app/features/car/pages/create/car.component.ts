@@ -8,6 +8,7 @@ import { StepOneCarComponent } from '../../components/steps/one/stepOne.componen
 import { StepTwoCarComponent } from '../../components/steps/two/stepTwo.component';
 import { ClientService } from '../../../clients/service/client.service';
 import { CreateVehiclePayload, VehicleService } from '../../service/car.service';
+import { stepsConfigCreateCar } from '../../../../core/config/stepsCreate.config';
 
 @Component({
   selector: 'app-create-car',
@@ -23,24 +24,10 @@ import { CreateVehiclePayload, VehicleService } from '../../service/car.service'
     StepTwoCarComponent,
   ],
 })
-
 export class CreateCarComponent implements OnInit {
   stepIndex = 0;
 
-  steps = [
-    {
-      title: 'Informações do Veículo',
-      description: 'Preencha os dados do veículo',
-      image: '/assets/images/car.svg',
-      background: '/assets/images/backOne.svg',
-    },
-    {
-      title: 'Detalhes do Veículo',
-      description: 'Preencha os detalhes do veículo',
-      image: '/assets/images/car.svg',
-      background: '/assets/images/backOne.svg',
-    },
-  ];
+  steps = stepsConfigCreateCar;
 
   cliente: number | null = null;
   plate = '';
@@ -59,7 +46,7 @@ export class CreateCarComponent implements OnInit {
   constructor(
     private router: Router,
     private clientService: ClientService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
   ) {}
 
   ngOnInit() {

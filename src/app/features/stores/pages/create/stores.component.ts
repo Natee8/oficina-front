@@ -13,6 +13,7 @@ import { stepTwoSchema } from '../../schemas/stepTwo.schema';
 import { createStoreData } from '../../model/store.data';
 import { StoreService } from '../../service/store.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { stepsConfigCreateStores } from '../../../../core/config/stepsCreate.config';
 
 @Component({
   selector: 'app-create-store',
@@ -32,20 +33,7 @@ export class CreateStoreComponent {
   stepIndex = 0;
   errors: Record<string, string> = {};
 
-  steps = [
-    {
-      title: 'Informações da Loja',
-      description: 'Adicione os dados da loja',
-      image: '/assets/images/store.svg',
-      background: '/assets/images/BackTwo.svg',
-    },
-    {
-      title: 'Endereço da Loja',
-      description: 'Preencha o endereço da loja',
-      image: '/assets/images/store.svg',
-      background: '/assets/images/BackTwo.svg',
-    },
-  ];
+  steps = stepsConfigCreateStores;
 
   storeData = createStoreData();
 

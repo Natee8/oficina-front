@@ -10,7 +10,7 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { StepOneComponent } from '../steps/one/stepOne.component';
 import { StepTwoComponent } from '../steps/two/stepTwo.component';
 import { StepThreeComponent } from '../steps/three/stepThree.component';
-import { stepsConfigEmployee } from '../../../../core/config/stepsLabel.config';
+import { stepsConfigEmployee } from '../../../../core/config/stepsPopup.config';
 import { reviewEmployeeConfig } from '../../../../core/config/reviewsData';
 
 @Component({

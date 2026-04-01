@@ -9,7 +9,7 @@ import { StepTwoStoresComponent } from '../steps/two/stepTwo.component';
 import { StepperComponent } from '../../../../shared/components/stepsPopup.ts/stepsPopup.component';
 import { ReviewStepComponent } from '../../../../shared/components/reviewStep/reviewStep.component';
 import { ToggleActionsComponent } from '../../../../shared/components/buttonNext/buttonNext.component';
-import { stepsConfigStore } from '../../../../core/config/stepsLabel.config';
+import { stepsConfigStore } from '../../../../core/config/stepsPopup.config';
 import { createStoreData } from '../../model/store.data';
 import { stepOneSchema } from '../../schemas/stepOne.schema';
 import { stepTwoSchema } from '../../schemas/stepTwo.schema';
