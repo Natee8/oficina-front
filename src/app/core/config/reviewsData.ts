@@ -87,3 +87,36 @@ export const reviewEmployeeConfig = [
     ],
   },
 ];
+
+//clientes
+
+export const reviewClientConfig = [
+  {
+    title: 'Dados Pessoais',
+    fields: [
+      { label: 'Nome', key: 'nome' },
+      { label: 'CPF/CNPJ', key: 'cpfCnpj' },
+      { label: 'Email', key: 'email' },
+      { label: 'Telefone', key: 'telefone' },
+    ],
+  },
+  {
+    title: 'Endereço',
+    fields: [
+      { label: 'CEP', key: 'addressZip' },
+      { label: 'Número', key: 'addressNumber' },
+      { label: 'Rua', key: 'addressStreet' },
+      { label: 'Bairro', key: 'addressDistrict' },
+      { label: 'Cidade', key: 'addressCity' },
+      { label: 'Estado', key: 'addressState' },
+    ],
+  },
+  {
+    title: 'Informações adicionais',
+    fields: [
+      { label: 'Loja', key: 'loja' },
+      { label: 'Tipo Legal', key: 'tipoLegal' },
+      { label: 'Observações', key: 'notes' },
+    ],
+  },
+];

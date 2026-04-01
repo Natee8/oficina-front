@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OsData } from '../../../../osS/model/dtos/os.data';
+import { ClientData } from '../../../model/dtos/client.data';
 
 @Component({
   selector: 'app-step-one-client',
@@ -11,30 +12,6 @@ import { OsData } from '../../../../osS/model/dtos/os.data';
   templateUrl: './stepOne.component.html',
 })
 export class StepOneClientComponent {
-  @Input() nome!: string;
-  @Output() nomeChange = new EventEmitter<string>();
-
-  @Input() cpfCnpj!: string;
-  @Output() cpfCnpjChange = new EventEmitter<string>();
-
-  @Input() email!: string;
-  @Output() emailChange = new EventEmitter<string>();
-
-  @Input() phone!: string;
-  @Output() phoneChange = new EventEmitter<string>();
-
-  @Input() data: OsData = {
-    loja: null,
-    cliente: null,
-    veiculo: null,
-    dataEntrada: '',
-    dataSaida: '',
-    pintura: '',
-    funilaria: '',
-    valorPintura: '',
-    valorFunilaria: '',
-    peca: '',
-    quantidade: null,
-    valorUnitario: '',
-  };
+  @Input() data!: ClientData;
+  @Input() errors: Record<string, string> = {};
 }

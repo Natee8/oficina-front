@@ -17,27 +17,20 @@
   <ng-container [ngSwitch]="stepIndex">
     <app-step-one-client
       *ngSwitchCase="0"
-      [(nome)]="nome"
-      [(cpfCnpj)]="cpfCnpj"
-      [(email)]="email"
-      [(phone)]="phone"
+      [data]="clientData"
+      [errors]="errors"
     ></app-step-one-client>
 
     <app-step-two-client
       *ngSwitchCase="1"
-      [(addressZip)]="addressZip"
-      [(addressNumber)]="addressNumber"
-      [(addressStreet)]="addressStreet"
-      [(addressDistrict)]="addressDistrict"
-      [(addressCity)]="addressCity"
-      [(addressState)]="addressState"
+      [data]="clientData"
+      [errors]="errors"
     ></app-step-two-client>
 
     <app-step-three-client
       *ngSwitchCase="2"
-      [(loja)]="loja"
-      [(tipoLegal)]="tipoLegal"
-      [(notes)]="notes"
+      [data]="clientData"
+      [errors]="errors"
       [lojas]="lojas"
       [tiposLegais]="tiposLegais"
     ></app-step-three-client>

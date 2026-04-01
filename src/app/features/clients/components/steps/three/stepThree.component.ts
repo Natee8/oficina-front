@@ -4,6 +4,7 @@ import { InputFieldComponent } from '../../../../../shared/components/inputs/fie
 import { CommonModule } from '@angular/common';
 import { SelectFieldComponent } from '../../../../../shared/components/inputs/select/selectField.component';
 import { ClientService } from '../../../service/client.service';
+import { ClientData } from '../../../model/dtos/client.data';
 
 @Component({
   selector: 'app-step-three-client',
@@ -12,14 +13,8 @@ import { ClientService } from '../../../service/client.service';
   templateUrl: './stepThree.component.html',
 })
 export class StepThreeClientComponent implements OnInit {
-  @Input() loja!: number;
-  @Output() lojaChange = new EventEmitter<number>();
-
-  @Input() tipoLegal!: number;
-  @Output() tipoLegalChange = new EventEmitter<number>();
-
-  @Input() notes!: string;
-  @Output() notesChange = new EventEmitter<string>();
+  @Input() data!: ClientData;
+  @Input() errors: Record<string, string> = {};
 
   @Input() lojas: { label: string; value: number }[] = [];
   @Input() tiposLegais: { label: string; value: number }[] = [

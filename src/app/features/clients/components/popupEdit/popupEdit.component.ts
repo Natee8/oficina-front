@@ -11,6 +11,11 @@ import { StepOneClientComponent } from '../steps/one/stepOne.component';
 import { StepTwoClientComponent } from '../steps/two/stepTwo.component';
 import { StepThreeClientComponent } from '../steps/three/stepThree.component';
 import { stepsConfigClient } from '../../../../core/config/stepsPopup.config';
+import { ClientData, createClientData } from '../../model/dtos/client.data';
+import { reviewClientConfig } from '../../../../core/config/reviewsData';
+import { stepThreeClientSchema } from '../../schemas/stepThree.schema';
+import { stepTwoClientSchema } from '../../schemas/stepTwo.schema';
+import { stepOneClientSchema } from '../../schemas/stepOne.schema';
 
 @Component({
   selector: 'app-edit-client-modal',
@@ -32,18 +37,8 @@ import { stepsConfigClient } from '../../../../core/config/stepsPopup.config';
 export class EditClientModalComponent {
   stepIndex = 0;
 
-  nome = '';
-  cpfCnpj = '';
-  email = '';
-  phone = '';
-
-  addressZip = '';
-  addressStreet = '';
-  addressNumber = '';
-  addressDistrict = '';
-  addressCity = '';
-  addressState = '';
-  notes = '';
+  clientData: ClientData = createClientData();
+  errors: Record<string, string> = {};
 
   lojas: { label: string; value: number }[] = [];
   tiposLegais: { label: string; value: number }[] = [
@@ -61,21 +56,23 @@ export class EditClientModalComponent {
 
   ngOnInit() {
     if (this.client) {
-      this.nome = this.client.nome;
-      this.cpfCnpj = this.client.cpfCnpj;
-      this.email = this.client.email;
-      this.phone = this.client.phone;
+      this.clientData = {
+        nome: this.client.nome,
+        cpfCnpj: this.client.cpfCnpj,
+        email: this.client.email,
+        phone: this.client.phone,
 
-      this.addressZip = this.client.addressZip;
-      this.addressStreet = this.client.addressStreet;
-      this.addressNumber = this.client.addressNumber;
-      this.addressDistrict = this.client.addressDistrict;
-      this.addressCity = this.client.addressCity;
-      this.addressState = this.client.addressState;
+        addressZip: this.client.addressZip,
+        addressStreet: this.client.addressStreet,
+        addressNumber: this.client.addressNumber,
+        addressDistrict: this.client.addressDistrict,
+        addressCity: this.client.addressCity,
+        addressState: this.client.addressState,
 
-      this.loja = this.client.loja;
-      this.tipoLegal = this.client.tipoLegal;
-      this.notes = this.client.notes;
+        loja: this.client.loja ?? null,
+        tipoLegal: this.client.tipoLegal ?? null,
+        notes: this.client.notes,
+      };
     }
   }
 
@@ -94,9 +91,54 @@ export class EditClientModalComponent {
     if (this.stepIndex > 0) this.stepIndex--;
   }
 
-  handleNext() {
-    if (this.isLastStep) this.save();
-    else this.next();
+  async handleNext() {
+    this.errors = {};
+
+    let schema;
+    let values = {};
+
+    if (this.stepIndex === 0) {
+      schema = stepOneClientSchema;
+      values = {
+        nome: this.clientData.nome,
+        cpfCnpj: this.clientData.cpfCnpj.replace(/\D/g, ''),
+        phone: this.clientData.phone.replace(/\D/g, ''),
+        email: this.clientData.email,
+      };
+    } else if (this.stepIndex === 1) {
+      schema = stepTwoClientSchema;
+      values = {
+        addressZip: this.clientData.addressZip,
+        addressNumber: this.clientData.addressNumber,
+        addressStreet: this.clientData.addressStreet,
+        addressDistrict: this.clientData.addressDistrict,
+        addressCity: this.clientData.addressCity,
+        addressState: this.clientData.addressState,
+      };
+    } else if (this.stepIndex === 2) {
+      schema = stepThreeClientSchema;
+      values = {
+        loja: this.clientData.loja,
+        tipoLegal: this.clientData.tipoLegal,
+      };
+    }
+
+    if (!schema) return;
+
+    try {
+      await schema.validate(values, { abortEarly: false });
+
+      if (this.isLastStep) {
+        this.save();
+      } else {
+        this.next();
+      }
+    } catch (err: any) {
+      this.errors = {};
+      err.inner.forEach((e: any) => {
+        if (e.path) this.errors[e.path] = e.message;
+      });
+    }
   }
 
   handleBack() {
@@ -106,19 +148,19 @@ export class EditClientModalComponent {
 
   save() {
     const payload = {
-      nome: this.nome,
-      cpfCnpj: this.cpfCnpj,
-      email: this.email,
-      phone: this.phone,
-      addressZip: this.addressZip,
-      addressStreet: this.addressStreet,
-      addressNumber: this.addressNumber,
-      addressDistrict: this.addressDistrict,
-      addressCity: this.addressCity,
-      addressState: this.addressState,
-      loja: this.loja,
-      tipoLegal: this.tipoLegal,
-      notes: this.notes,
+      nome: this.clientData.nome,
+      cpfCnpj: this.clientData.cpfCnpj,
+      email: this.clientData.email,
+      phone: this.clientData.phone,
+      addressZip: this.clientData.addressZip,
+      addressStreet: this.clientData.addressStreet,
+      addressNumber: this.clientData.addressNumber,
+      addressDistrict: this.clientData.addressDistrict,
+      addressCity: this.clientData.addressCity,
+      addressState: this.clientData.addressState,
+      loja: this.clientData.loja,
+      tipoLegal: this.clientData.tipoLegal,
+      notes: this.clientData.notes,
     };
 
     console.log('EDIT CLIENT', payload);
@@ -129,35 +171,12 @@ export class EditClientModalComponent {
   }
 
   get reviewData() {
-    return [
-      {
-        title: 'Dados pessoais',
-        fields: [
-          { label: 'Nome', value: this.nome },
-          { label: 'CPF/CNPJ', value: this.cpfCnpj },
-          { label: 'Email', value: this.email },
-          { label: 'Telefone', value: this.phone },
-        ],
-      },
-      {
-        title: 'Endereço',
-        fields: [
-          { label: 'CEP', value: this.addressZip },
-          { label: 'Rua', value: this.addressStreet },
-          { label: 'Número', value: this.addressNumber },
-          { label: 'Bairro', value: this.addressDistrict },
-          { label: 'Cidade', value: this.addressCity },
-          { label: 'Estado', value: this.addressState },
-        ],
-      },
-      {
-        title: 'Informações adicionais',
-        fields: [
-          { label: 'Loja', value: this.loja },
-          { label: 'Tipo Legal', value: this.tipoLegal },
-          { label: 'Observações', value: this.notes },
-        ],
-      },
-    ];
+    return reviewClientConfig.map((section) => ({
+      title: section.title,
+      fields: section.fields.map((field) => ({
+        label: field.label,
+        value: this.clientData[field.key as keyof ClientData],
+      })),
+    }));
   }
 }
