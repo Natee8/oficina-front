@@ -10,8 +10,8 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { StepOneComponent } from '../steps/one/stepOne.component';
 import { StepTwoComponent } from '../steps/two/stepTwo.component';
 import { StepThreeComponent } from '../steps/three/stepThree.component';
-import { StepOneClientComponent } from '../../../clients/components/steps/one/stepOne.component';
 import { stepsConfigEmployee } from '../../../../core/config/stepsLabel.config';
+import { reviewEmployeeConfig } from '../../../../core/config/reviewsData';
 
 @Component({
   selector: 'app-edit-employee-modal',
@@ -127,34 +127,12 @@ export class EditEmployeeModalComponent {
   }
 
   get reviewData() {
-    return [
-      {
-        title: 'Dados pessoais',
-        fields: [
-          { label: 'Nome', value: this.employeeData.nome },
-          { label: 'CPF', value: this.employeeData.cpf },
-          { label: 'Telefone', value: this.employeeData.telefone },
-        ],
-      },
-      {
-        title: 'Endereço',
-        fields: [
-          { label: 'CEP', value: this.employeeData.addressZip },
-          { label: 'Rua', value: this.employeeData.addressStreet },
-          { label: 'Número', value: this.employeeData.addressNumber },
-          { label: 'Bairro', value: this.employeeData.addressDistrict },
-          { label: 'Cidade', value: this.employeeData.addressCity },
-          { label: 'Estado', value: this.employeeData.addressState },
-        ],
-      },
-      {
-        title: 'Trabalho',
-        fields: [
-          { label: 'Cargo', value: this.employeeData.cargo },
-          { label: 'Loja', value: this.employeeData.loja },
-          { label: 'Email', value: this.employeeData.email },
-        ],
-      },
-    ];
+    return reviewEmployeeConfig.map((section) => ({
+      title: section.title,
+      fields: section.fields.map((field) => ({
+        label: field.label,
+        value: this.employeeData[field.key as keyof typeof this.employeeData],
+      })),
+    }));
   }
 }

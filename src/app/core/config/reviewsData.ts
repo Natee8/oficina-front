@@ -56,16 +56,15 @@ export const reviewOsConfig = [
   },
 ];
 
-//employees
+//funcionarios
 
-// employees
 export const reviewEmployeeConfig = [
   {
     title: 'Dados Pessoais',
     fields: [
-      { label: 'Nome', key: 'name' },
+      { label: 'Nome', key: 'nome' },
       { label: 'CPF', key: 'cpf' },
-      { label: 'Telefone', key: 'phone' },
+      { label: 'Telefone', key: 'telefone' },
     ],
   },
   {
