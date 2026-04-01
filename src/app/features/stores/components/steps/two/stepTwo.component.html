@@ -1,18 +1,19 @@
 <div class="row">
-  <app-input-field label="CEP" [(ngModel)]="data.addressZip"></app-input-field>
-  <div *ngIf="errors['addressZip']">
-    {{ errors['addressZip'] }}
+  <div class="container-w">
+    <app-input-field label="CEP" [(ngModel)]="data.addressZip"></app-input-field>
+    <div class="error" *ngIf="errors['addressZip']">
+      {{ errors['addressZip'] }}
+    </div>
   </div>
 
-  <div class="field small">
+  <div class="container-w">
     <app-input-field
       label="Número"
       labelBgColor="#fff"
       type="text"
       [(ngModel)]="data.addressNumber"
-      (ngModelChange)="data.addressNumberChange.emit($event)"
     ></app-input-field>
-    <div *ngIf="errors['addressNumber']">
+    <div class="error" *ngIf="errors['addressNumber']">
       {{ errors['addressNumber'] }}
     </div>
   </div>
@@ -24,9 +25,8 @@
     labelBgColor="#fff"
     type="text"
     [(ngModel)]="data.addressStreet"
-    (ngModelChange)="data.addressStreetChange.emit($event)"
   ></app-input-field>
-  <div *ngIf="errors['addressStreet']">
+  <div class="error" *ngIf="errors['addressStreet']">
     {{ errors['addressStreet'] }}
   </div>
 </div>
@@ -37,9 +37,8 @@
     type="text"
     labelBgColor="#fff"
     [(ngModel)]="data.addressDistrict"
-    (ngModelChange)="data.addressDistrictChange.emit($event)"
   ></app-input-field>
-  <div *ngIf="errors['addressDistrict']">
+  <div class="error" *ngIf="errors['addressDistrict']">
     {{ errors['addressDistrict'] }}
   </div>
 </div>
@@ -51,9 +50,8 @@
       type="text"
       labelBgColor="#fff"
       [(ngModel)]="data.addressCity"
-      (ngModelChange)="data.addressCityChange.emit($event)"
     ></app-input-field>
-    <div *ngIf="errors['addressCity']">
+    <div class="error" *ngIf="errors['addressCity']">
       {{ errors['addressCity'] }}
     </div>
   </div>
@@ -64,9 +62,8 @@
       type="text"
       labelBgColor="#fff"
       [(ngModel)]="data.addressState"
-      (ngModelChange)="data.addressStateChange.emit($event)"
     ></app-input-field>
-    <div *ngIf="errors['addressState']">
+    <div class="error" *ngIf="errors['addressState']">
       {{ errors['addressState'] }}
     </div>
   </div>

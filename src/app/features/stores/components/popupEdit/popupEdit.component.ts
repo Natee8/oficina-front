@@ -42,7 +42,6 @@ export class EditStoreModalComponent {
   stepsConfig = stepsConfigStore;
 
   get formattedReviewData() {
-    // substitui as keys pelos valores reais do storeData
     return this.reviewData.map((section) => ({
       title: section.title,
       fields: section.fields.map((field) => ({
