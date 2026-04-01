@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { InputFieldComponent } from '../../../../shared/components/inputs/field/inputField.component';
-import { SelectFieldComponent } from '../../../../shared/components/inputs/select/selectField.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/register-card.component';
 import { StepOneComponent } from '../../components/steps/one/stepOne.component';
 import { StepTwoComponent } from '../../components/steps/two/stepTwo.component';
@@ -15,6 +12,8 @@ import { stepTwoEmployersSchema } from '../../schemas/stepTwo.schema';
 import { stepOneEmployersSchema } from '../../schemas/stepOne.schema';
 import { createEmployeeData, EmployeeData } from '../../model/dtos/employer.data';
 import { stepsConfigCreateEmployees } from '../../../../core/config/stepsCreate.config';
+import { buildEmployeePayload } from '../../shared/createPayloadFunction';
+import { EmployeeService } from '../../service/employeer.service';
 
 @Component({
   selector: 'app-create-employee',
@@ -36,6 +35,11 @@ import { stepsConfigCreateEmployees } from '../../../../core/config/stepsCreate.
 export class CreateEmployeeComponent {
   steps = stepsConfigCreateEmployees;
   stepIndex = 0;
+
+  constructor(
+    private employeeService: EmployeeService,
+    private router: Router,
+  ) {}
 
   employeeData: EmployeeData = createEmployeeData();
   errors: Record<string, string> = {};
@@ -96,20 +100,23 @@ export class CreateEmployeeComponent {
   }
 
   finish() {
-    console.log('Cadastro finalizado!', {
-      nome: this.employeeData.nome,
-      cpf: this.employeeData.cpf,
-      telefone: this.employeeData.telefone,
-      addressZip: this.employeeData.addressZip,
-      addressNumber: this.employeeData.addressNumber,
-      addressStreet: this.employeeData.addressStreet,
-      addressDistrict: this.employeeData.addressDistrict,
-      addressCity: this.employeeData.addressCity,
-      addressState: this.employeeData.addressState,
-      cargo: this.employeeData.cargo,
-      loja: this.employeeData.loja,
-      email: this.employeeData.email,
-      senha: this.employeeData.senha,
-    });
+    try {
+      const payload = buildEmployeePayload(this.employeeData);
+
+      console.log('Cadastro finalizado!', payload);
+
+      this.employeeService.createEmployee(payload).subscribe({
+        next: () => {
+          console.log('Funcionário criado com sucesso!');
+        },
+        error: (err) => {
+          console.error('Erro ao criar funcionário', err);
+        },
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error('Erro ao gerar payload do funcionário:', err.message);
+      }
+    }
   }
 }

@@ -13,6 +13,9 @@ import { StepThreeComponent } from '../steps/three/stepThree.component';
 import { stepsConfigEmployee } from '../../../../core/config/stepsPopup.config';
 import { reviewEmployeeConfig } from '../../../../core/config/reviewsData';
 import { createEmployeeData, EmployeeData } from '../../model/dtos/employer.data';
+import { Router } from '@angular/router';
+import { buildEmployeePayload } from '../../shared/createPayloadFunction';
+import { EmployeeService } from '../../service/employeer.service';
 
 @Component({
   selector: 'app-edit-employee-modal',
@@ -45,20 +48,23 @@ export class EditEmployeeModalComponent {
 
   stepsConfig = stepsConfigEmployee;
 
+  constructor(
+    private employeeService: EmployeeService,
+    private router: Router,
+  ) {}
+
   ngOnInit() {
     if (this.employee) {
       this.employeeData = {
         nome: this.employee.name,
         cpf: this.employee.cpfCnpj,
         telefone: this.employee.phoneNumber,
-
         addressZip: this.employee.addressZip,
         addressStreet: this.employee.addressStreet,
         addressNumber: this.employee.addressNumber,
         addressDistrict: this.employee.addressDistrict,
         addressCity: this.employee.addressCity,
         addressState: this.employee.addressState,
-
         cargo: this.employee.role,
         loja: this.employee.unitIds?.[0] ?? null,
         email: this.employee.email,
@@ -76,51 +82,35 @@ export class EditEmployeeModalComponent {
   }
 
   next() {
-    if (this.stepIndex < this.stepsConfig.length - 1) {
-      this.stepIndex++;
-    }
+    if (this.stepIndex < this.stepsConfig.length - 1) this.stepIndex++;
   }
 
   back() {
-    if (this.stepIndex > 0) {
-      this.stepIndex--;
-    }
+    if (this.stepIndex > 0) this.stepIndex--;
   }
 
   handleNext() {
-    if (this.isLastStep) {
-      this.save();
-    } else {
-      this.next();
-    }
+    if (this.isLastStep) this.save();
+    else this.next();
   }
 
   handleBack() {
-    if (this.stepIndex === 0) {
-      this.close();
-      return;
-    }
-
-    this.back();
+    if (this.stepIndex === 0) this.close();
+    else this.back();
   }
-  save() {
-    const payload = {
-      name: this.employeeData.nome,
-      email: this.employeeData.email,
-      phoneNumber: this.employeeData.telefone,
-      password: this.employeeData.senha,
-      role: this.employeeData.cargo,
-      unitIds: this.employeeData.loja ? [this.employeeData.loja] : [],
-      cpfCnpj: this.employeeData.cpf,
-      addressZip: this.employeeData.addressZip,
-      addressStreet: this.employeeData.addressStreet,
-      addressNumber: this.employeeData.addressNumber,
-      addressDistrict: this.employeeData.addressDistrict,
-      addressCity: this.employeeData.addressCity,
-      addressState: this.employeeData.addressState,
-    };
 
-    console.log('EDIT EMPLOYEE', payload);
+  save() {
+    const payload = buildEmployeePayload(this.employeeData);
+
+    this.employeeService.createEmployee(payload).subscribe({
+      next: () => {
+        console.log('Funcionário atualizado com sucesso', payload);
+        this.close();
+      },
+      error: (err: any) => {
+        console.error('Erro ao atualizar funcionário', err);
+      },
+    });
   }
 
   close() {

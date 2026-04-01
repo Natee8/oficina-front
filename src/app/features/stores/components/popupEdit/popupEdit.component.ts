@@ -14,6 +14,8 @@ import { createStoreData } from '../../model/store.data';
 import { stepOneSchema } from '../../schemas/stepOne.schema';
 import { stepTwoSchema } from '../../schemas/stepTwo.schema';
 import { reviewStoreConfig } from '../../../../core/config/reviewsData';
+import { buildStorePayload } from '../../shared/functionPayload';
+import { StoreService } from '../../service/store.service';
 
 @Component({
   selector: 'app-edit-store-modal',
@@ -40,6 +42,8 @@ export class EditStoreModalComponent {
   closeModal = false;
 
   stepsConfig = stepsConfigStore;
+
+  constructor(private storeService: StoreService) {}
 
   get formattedReviewData() {
     return this.reviewData.map((section) => ({
@@ -125,18 +129,17 @@ export class EditStoreModalComponent {
   }
 
   save() {
-    const payload = {
-      name: this.storeData.name,
-      cnpj: this.storeData.cnpj,
-      addressZip: this.storeData.addressZip,
-      addressStreet: this.storeData.addressStreet,
-      addressNumber: this.storeData.addressNumber,
-      addressDistrict: this.storeData.addressDistrict,
-      addressCity: this.storeData.addressCity,
-      addressState: this.storeData.addressState,
-    };
+    const payload = buildStorePayload(this.storeData);
 
-    console.log('EDIT STORE', payload);
+    this.storeService.updateStore(this.store.id, payload).subscribe({
+      next: (res) => {
+        console.log('Loja atualizada!', res);
+        this.close();
+      },
+      error: (err) => {
+        console.error('Erro ao atualizar a loja', err);
+      },
+    });
   }
 
   close() {

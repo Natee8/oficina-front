@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { OsStepOneComponent } from '../../components/steps/one/stepOne.component';
 import { OsStepTwoComponent } from '../../components/steps/two/stepTwo.component';
 import { Router } from '@angular/router';
-import { OsService, CreateOsPayload } from '../../service/os.service';
+import { OsService } from '../../service/os.service';
 import { StoreService } from '../../../stores/service/store.service';
 import { StoreDto } from '../../../stores/model/store.dto';
 import { ClientService } from '../../../clients/service/client.service';
@@ -15,6 +15,7 @@ import { VehicleService } from '../../../car/service/car.service';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 import { createOsData, OsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
+import { buildOsPayload } from '../../shared/functionPayload';
 
 @Component({
   selector: 'app-os-create',
@@ -136,22 +137,7 @@ export class OSsCreateComponent implements OnInit, DoCheck {
   }
 
   finalizar() {
-    const payload: CreateOsPayload = {
-      unitId: this.osData.loja ?? 1,
-      vehicleId: this.osData.veiculo ?? 10,
-      ownerCustomerId: this.osData.cliente ?? 25,
-      entryDate: this.toIsoUtc(this.osData.dataEntrada, 10),
-      estimatedDeliveryDate: this.toIsoUtc(this.osData.dataSaida, 18),
-      bodyworkDescription: this.osData.funilaria,
-      bodyworkValue: this.parseCurrency(this.osData.valorFunilaria),
-      paintDescription: this.osData.pintura,
-      paintValue: this.parseCurrency(this.osData.valorPintura),
-      parts: this.pecasAdicionadas.map((p) => ({
-        description: p.nome,
-        quantity: Number(p.quantidade),
-        unitPrice: this.parseCurrency(p.valorUnitario),
-      })),
-    };
+    const payload = buildOsPayload(this.osData, this.pecasAdicionadas);
 
     this.osService.postServiceOrder(payload).subscribe({
       next: () => this.router.navigate(['/os-list']),

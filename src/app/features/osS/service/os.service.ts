@@ -3,31 +3,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OsDto } from '../model/dtos/os.dto';
 import { StatusOs } from '../model/types/status';
-
-export interface CreateOsPart {
-  description: string;
-  quantity: number;
-  unitPrice: number;
-}
-
-export interface CreateOsPayload {
-  unitId: number;
-  vehicleId: number;
-  ownerCustomerId: number;
-  entryDate: string;
-  estimatedDeliveryDate: string;
-  bodyworkDescription: string;
-  bodyworkValue: number;
-  paintDescription: string;
-  paintValue: number;
-  parts: CreateOsPart[];
-}
-
-export interface UpdateOsPayload extends CreateOsPayload {
-  statusId: number;
-  deliveryDate?: string | null;
-  totalDiscount: number;
-}
+import { CreateOsPayload } from '../model/dtos/osPayload';
+import { UpdateOsPayload } from '../model/dtos/payloadUpdate.dto';
 
 @Injectable({ providedIn: 'root' })
 export class OsService {

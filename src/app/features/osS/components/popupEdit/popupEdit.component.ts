@@ -11,7 +11,7 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { OsStepOneComponent } from '../steps/one/stepOne.component';
 import { OsStepTwoComponent } from '../steps/two/stepTwo.component';
 import { stepsConfigOs } from '../../../../core/config/stepsPopup.config';
-import { OsService, CreateOsPayload, UpdateOsPayload } from '../../service/os.service';
+import { OsService } from '../../service/os.service';
 import { OsDto } from '../../model/dtos/os.dto';
 import { StoreService } from '../../../stores/service/store.service';
 import { StoreDto } from '../../../stores/model/store.dto';
@@ -22,6 +22,7 @@ import { VehicleDto } from '../../../car/model/dtos/vehicle.dto';
 import { OsData, createOsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
 import { reviewOsConfig } from '../../../../core/config/reviewsData';
+import { buildUpdateOsPayload } from '../../shared/functionPayloadUpdate';
 
 @Component({
   selector: 'app-edit-os-modal',
@@ -162,24 +163,7 @@ export class EditOsModalComponent implements OnInit {
   save() {
     if (!this.os) return;
 
-    const payload: UpdateOsPayload = {
-      unitId: this.osData.loja ?? this.os.unitId,
-      vehicleId: this.osData.veiculo ?? this.os.vehicleId,
-      ownerCustomerId: this.osData.cliente ?? this.os.ownerCustomerId,
-      entryDate: this.toIsoUtc(this.osData.dataEntrada, 10),
-      estimatedDeliveryDate: this.toIsoUtc(this.osData.dataSaida, 18),
-      bodyworkDescription: this.osData.funilaria,
-      bodyworkValue: this.parseCurrency(this.osData.valorFunilaria),
-      paintDescription: this.osData.pintura,
-      paintValue: this.parseCurrency(this.osData.valorPintura),
-      parts: this.pecasAdicionadas.map((p) => ({
-        description: p.nome,
-        quantity: Number(p.quantidade),
-        unitPrice: this.parseCurrency(p.valor),
-      })),
-      statusId: this.os.statusId, // só passando o mesmo valor, sem alteração
-      totalDiscount: this.os.totalDiscount ?? 0,
-    };
+    const payload = buildUpdateOsPayload(this.osData, this.os);
 
     this.osService.patchServiceOrder(this.os.id, payload).subscribe({
       next: () => {
@@ -194,7 +178,6 @@ export class EditOsModalComponent implements OnInit {
     this.closeModalEvent.emit();
   }
 
-  // funções auxiliares
   pecasAdicionadas: any[] = [];
 
   adicionarPeca() {
