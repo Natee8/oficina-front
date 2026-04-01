@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
 import { CommonModule } from '@angular/common';
+import { EmployeeData } from '../../../model/dtos/employer.data';
 
 @Component({
   selector: 'app-step-one',
@@ -10,16 +11,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './stepOne.component.html',
 })
 export class StepOneComponent {
-  @Input() name!: string;
-  @Output() nameChange = new EventEmitter<string>();
-
-  @Input() cpf!: string;
-  @Output() cpfChange = new EventEmitter<string>();
-
-  @Input() phone!: string;
-  @Output() phoneChange = new EventEmitter<string>();
-
+  @Input() data!: EmployeeData;
   @Input() errors: Record<string, string> = {};
-
-  @Output() next = new EventEmitter<void>();
 }

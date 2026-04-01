@@ -33,22 +33,7 @@ import { stepsConfigEmployee } from '../../../../core/config/stepsLabel.config';
 export class EditEmployeeModalComponent {
   stepIndex = 0;
   employeeData: any = {};
-
-  name = '';
-  cpf = '';
-  phone = '';
-
-  addressZip = '';
-  addressStreet = '';
-  addressNumber = '';
-  addressDistrict = '';
-  addressCity = '';
-  addressState = '';
-
-  cargo = '';
-  loja = '';
-  email = '';
-  senha = '';
+  errors: Record<string, string> = {};
 
   cargos = ['Gerente', 'Atendente', 'Supervisor'];
   lojas = ['Loja 1', 'Loja 2'];
@@ -61,20 +46,23 @@ export class EditEmployeeModalComponent {
 
   ngOnInit() {
     if (this.employee) {
-      this.name = this.employee.name;
-      this.cpf = this.employee.cpf;
-      this.phone = this.employee.phone;
+      this.employeeData = {
+        nome: this.employee.name,
+        cpf: this.employee.cpfCnpj,
+        telefone: this.employee.phoneNumber,
 
-      this.addressZip = this.employee.zip;
-      this.addressStreet = this.employee.street;
-      this.addressNumber = this.employee.number;
-      this.addressDistrict = this.employee.neighborhood;
-      this.addressCity = this.employee.city;
-      this.addressState = this.employee.state;
+        addressZip: this.employee.addressZip,
+        addressStreet: this.employee.addressStreet,
+        addressNumber: this.employee.addressNumber,
+        addressDistrict: this.employee.addressDistrict,
+        addressCity: this.employee.addressCity,
+        addressState: this.employee.addressState,
 
-      this.cargo = this.employee.cargo;
-      this.loja = this.employee.loja;
-      this.email = this.employee.email;
+        cargo: this.employee.role,
+        loja: this.employee.unitIds?.[0] ?? null,
+        email: this.employee.email,
+        senha: '',
+      };
     }
   }
 
@@ -114,22 +102,21 @@ export class EditEmployeeModalComponent {
 
     this.back();
   }
-
   save() {
     const payload = {
-      name: this.name,
-      cpf: this.cpf,
-      phone: this.phone,
-      addressZip: this.addressZip,
-      addressStreet: this.addressStreet,
-      addressNumber: this.addressNumber,
-      addressDistrict: this.addressDistrict,
-      addressCity: this.addressCity,
-      addressState: this.addressState,
-      cargo: this.cargo,
-      loja: this.loja,
-      email: this.email,
-      senha: this.senha,
+      name: this.employeeData.nome,
+      email: this.employeeData.email,
+      phoneNumber: this.employeeData.telefone,
+      password: this.employeeData.senha,
+      role: this.employeeData.cargo,
+      unitIds: this.employeeData.loja ? [this.employeeData.loja] : [],
+      cpfCnpj: this.employeeData.cpf,
+      addressZip: this.employeeData.addressZip,
+      addressStreet: this.employeeData.addressStreet,
+      addressNumber: this.employeeData.addressNumber,
+      addressDistrict: this.employeeData.addressDistrict,
+      addressCity: this.employeeData.addressCity,
+      addressState: this.employeeData.addressState,
     };
 
     console.log('EDIT EMPLOYEE', payload);
@@ -144,28 +131,28 @@ export class EditEmployeeModalComponent {
       {
         title: 'Dados pessoais',
         fields: [
-          { label: 'Nome', value: this.name },
-          { label: 'CPF', value: this.cpf },
-          { label: 'Telefone', value: this.phone },
+          { label: 'Nome', value: this.employeeData.nome },
+          { label: 'CPF', value: this.employeeData.cpf },
+          { label: 'Telefone', value: this.employeeData.telefone },
         ],
       },
       {
         title: 'Endereço',
         fields: [
-          { label: 'CEP', value: this.addressZip },
-          { label: 'Rua', value: this.addressStreet },
-          { label: 'Número', value: this.addressNumber },
-          { label: 'Bairro', value: this.addressDistrict },
-          { label: 'Cidade', value: this.addressCity },
-          { label: 'Estado', value: this.addressState },
+          { label: 'CEP', value: this.employeeData.addressZip },
+          { label: 'Rua', value: this.employeeData.addressStreet },
+          { label: 'Número', value: this.employeeData.addressNumber },
+          { label: 'Bairro', value: this.employeeData.addressDistrict },
+          { label: 'Cidade', value: this.employeeData.addressCity },
+          { label: 'Estado', value: this.employeeData.addressState },
         ],
       },
       {
         title: 'Trabalho',
         fields: [
-          { label: 'Cargo', value: this.cargo },
-          { label: 'Loja', value: this.loja },
-          { label: 'Email', value: this.email },
+          { label: 'Cargo', value: this.employeeData.cargo },
+          { label: 'Loja', value: this.employeeData.loja },
+          { label: 'Email', value: this.employeeData.email },
         ],
       },
     ];

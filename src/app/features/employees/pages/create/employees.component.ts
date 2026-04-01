@@ -73,8 +73,8 @@ export class CreateEmployeeComponent {
       schema = stepOneEmployersSchema;
       values = {
         nome: this.employeeData.nome,
-        cpf: this.employeeData.cpf,
-        telefone: this.employeeData.telefone,
+        cpf: this.employeeData.cpf.replace(/\D/g, ''),
+        telefone: this.employeeData.telefone.replace(/\D/g, ''),
       };
     } else if (this.stepIndex === 1) {
       schema = stepTwoEmployersSchema;

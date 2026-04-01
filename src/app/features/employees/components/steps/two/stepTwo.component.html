@@ -4,8 +4,7 @@
       label="CEP"
       type="text"
       labelBgColor="#fff"
-      [(ngModel)]="addressZip"
-      (ngModelChange)="addressZipChange.emit($event)"
+      [(ngModel)]="data.addressZip"
     ></app-input-field>
     <div class="error" *ngIf="errors['addressZip']">{{ errors['addressZip'] }}</div>
   </div>
@@ -15,8 +14,7 @@
       label="Número"
       type="text"
       labelBgColor="#fff"
-      [(ngModel)]="addressNumber"
-      (ngModelChange)="addressNumberChange.emit($event)"
+      [(ngModel)]="data.addressNumber"
     ></app-input-field>
     <div class="error" *ngIf="errors['addressNumber']">{{ errors['addressNumber'] }}</div>
   </div>
@@ -27,8 +25,7 @@
     label="Rua"
     type="text"
     labelBgColor="#fff"
-    [(ngModel)]="addressStreet"
-    (ngModelChange)="addressStreetChange.emit($event)"
+    [(ngModel)]="data.addressStreet"
   ></app-input-field>
   <div class="error" *ngIf="errors['addressStreet']">{{ errors['addressStreet'] }}</div>
 </div>
@@ -38,8 +35,7 @@
     label="Bairro"
     type="text"
     labelBgColor="#fff"
-    [(ngModel)]="addressDistrict"
-    (ngModelChange)="addressDistrictChange.emit($event)"
+    [(ngModel)]="data.addressDistrict"
   ></app-input-field>
   <div class="error" *ngIf="errors['addressDistrict']">{{ errors['addressDistrict'] }}</div>
 </div>
@@ -50,8 +46,7 @@
       label="Cidade"
       type="text"
       labelBgColor="#fff"
-      [(ngModel)]="addressCity"
-      (ngModelChange)="addressCityChange.emit($event)"
+      [(ngModel)]="data.addressCity"
     ></app-input-field>
     <div class="error" *ngIf="errors['addressCity']">{{ errors['addressCity'] }}</div>
   </div>
@@ -61,8 +56,7 @@
       label="Estado"
       labelBgColor="#fff"
       type="text"
-      [(ngModel)]="addressState"
-      (ngModelChange)="addressStateChange.emit($event)"
+      [(ngModel)]="data.addressState"
     ></app-input-field>
     <div class="error" *ngIf="errors['addressState']">{{ errors['addressState'] }}</div>
   </div>

@@ -1,26 +1,23 @@
 <app-input-field
   label="Nome"
   type="text"
-  [(ngModel)]="name"
+  [(ngModel)]="data.nome"
   labelBgColor="#fff"
-  (ngModelChange)="nameChange.emit($event)"
 ></app-input-field>
 <div class="error" *ngIf="errors['nome']">{{ errors['nome'] }}</div>
 
 <app-input-field
   label="CPF"
   type="text"
-  [(ngModel)]="cpf"
+  [(ngModel)]="data.cpf"
   labelBgColor="#fff"
-  (ngModelChange)="cpfChange.emit($event)"
 ></app-input-field>
 <div class="error" *ngIf="errors['cpf']">{{ errors['cpf'] }}</div>
 
 <app-input-field
   label="Telefone"
   type="text"
-  [(ngModel)]="phone"
+  [(ngModel)]="data.telefone"
   labelBgColor="#fff"
-  (ngModelChange)="phoneChange.emit($event)"
 ></app-input-field>
 <div class="error" *ngIf="errors['telefone']">{{ errors['telefone'] }}</div>

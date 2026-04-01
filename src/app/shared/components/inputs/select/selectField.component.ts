@@ -38,8 +38,7 @@ export class SelectFieldComponent implements ControlValueAccessor {
   }
 
   getOptionValue(option: any) {
-    const value = typeof option === 'string' ? option : option.value;
-    return Number(value);
+    return typeof option === 'string' ? option : option.value;
   }
 
   get hasValue() {

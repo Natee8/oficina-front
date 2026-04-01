@@ -5,6 +5,7 @@ import { SelectFieldComponent } from '../../../../../shared/components/inputs/se
 import { CommonModule } from '@angular/common';
 import { EmployeeService } from '../../../service/employeer.service';
 import { Unit } from '../../../model/dtos/employerPayload';
+import { EmployeeData } from '../../../model/dtos/employer.data';
 
 @Component({
   selector: 'app-step-three',
@@ -13,18 +14,7 @@ import { Unit } from '../../../model/dtos/employerPayload';
   templateUrl: './stepThree.component.html',
 })
 export class StepThreeComponent implements OnInit {
-  @Input() cargo!: string;
-  @Output() cargoChange = new EventEmitter<string>();
-
-  @Input() loja!: number; // agora é o id da loja
-  @Output() lojaChange = new EventEmitter<number>();
-
-  @Input() email!: string;
-  @Output() emailChange = new EventEmitter<string>();
-
-  @Input() senha!: string;
-  @Output() senhaChange = new EventEmitter<string>();
-
+  @Input() data!: EmployeeData;
   @Input() errors: Record<string, string> = {};
 
   cargosOptions = ['Funcionário', 'Administrador'];
