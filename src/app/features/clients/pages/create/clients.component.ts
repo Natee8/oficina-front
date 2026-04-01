@@ -14,6 +14,7 @@ import { ClientData, createClientData } from '../../model/dtos/client.data';
 import { stepOneClientSchema } from '../../schemas/stepOne.schema';
 import { stepTwoClientSchema } from '../../schemas/stepTwo.schema';
 import { stepThreeClientSchema } from '../../schemas/stepThree.schema';
+import { buildClientPayload } from '../../shared/functionCreatePayload';
 
 @Component({
   selector: 'app-create-client',
@@ -112,25 +113,19 @@ export class CreateClientComponent implements OnInit {
   }
 
   submit() {
-    const payload: CreateClientDto = {
-      unitId: this.clientData.loja!,
-      legalTypeId: this.clientData.tipoLegal!,
-      name: this.clientData.nome,
-      cpfCnpj: this.clientData.cpfCnpj,
-      email: this.clientData.email,
-      phone: this.clientData.phone,
-      addressZip: this.clientData.addressZip,
-      addressStreet: this.clientData.addressStreet,
-      addressNumber: this.clientData.addressNumber,
-      addressDistrict: this.clientData.addressDistrict,
-      addressCity: this.clientData.addressCity,
-      addressState: this.clientData.addressState,
-      notes: this.clientData.notes,
-    };
+    try {
+      const payload = buildClientPayload(this.clientData);
 
-    this.clientService.createClient(payload).subscribe({
-      next: () => this.router.navigate(['/clients-list']),
-      error: (err) => console.error(err),
-    });
+      this.clientService.createClient(payload).subscribe({
+        next: () => this.router.navigate(['/clients-list']),
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error(err.message);
+      }
+    }
   }
 }

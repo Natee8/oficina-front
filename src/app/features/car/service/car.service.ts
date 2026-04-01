@@ -2,19 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { VehicleDto } from '../model/dtos/vehicle.dto';
-
-export interface CreateVehiclePayload {
-  customerId: number;
-  plate: string;
-  brand: string;
-  model: string;
-  year: number;
-  color: string;
-  vin: string;
-  renavam: string;
-  insuranceClaimNumber: string;
-  notes: string;
-}
+import { CreateVehiclePayload } from '../model/dtos/vehiclePayload.dto';
 
 @Injectable({ providedIn: 'root' })
 export class VehicleService {

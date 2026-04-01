@@ -12,7 +12,7 @@ import { StepTwoCarComponent } from '../steps/two/stepTwo.component';
 import { ReviewStepComponent } from '../../../../shared/components/reviewStep/reviewStep.component';
 import { stepsConfigCar } from '../../../../core/config/stepsPopup.config';
 import { ClientService } from '../../../clients/service/client.service';
-import { CreateVehiclePayload, VehicleService } from '../../service/car.service';
+import { VehicleService } from '../../service/car.service';
 import { VehicleDto } from '../../model/dtos/vehicle.dto';
 import { CarData, createCarData } from '../../model/dtos/vehicle.data';
 import { reviewCarConfig } from '../../../../core/config/reviewsData';

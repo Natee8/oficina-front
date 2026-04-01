@@ -1,5 +1,5 @@
 import { CarData } from '../model/dtos/vehicle.data';
-import { CreateVehiclePayload } from '../service/car.service';
+import { CreateVehiclePayload } from '../model/dtos/vehiclePayload.dto';
 
 export function buildVehiclePayload(data: CarData): CreateVehiclePayload {
   if (data.cliente === null) {

@@ -22,4 +22,8 @@ export class ClientService {
   getLojas(): Observable<{ id: number; name: string }[]> {
     return this.http.get<{ id: number; name: string }[]>(this.unitsUrl);
   }
+
+  updateClient(id: number, payload: CreateClientDto): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/${id}`, payload);
+  }
 }

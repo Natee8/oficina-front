@@ -16,6 +16,8 @@ import { reviewClientConfig } from '../../../../core/config/reviewsData';
 import { stepThreeClientSchema } from '../../schemas/stepThree.schema';
 import { stepTwoClientSchema } from '../../schemas/stepTwo.schema';
 import { stepOneClientSchema } from '../../schemas/stepOne.schema';
+import { buildClientPayload } from '../../shared/functionCreatePayload';
+import { ClientService } from '../../service/client.service';
 
 @Component({
   selector: 'app-edit-client-modal',
@@ -36,6 +38,8 @@ import { stepOneClientSchema } from '../../schemas/stepOne.schema';
 })
 export class EditClientModalComponent {
   stepIndex = 0;
+
+  constructor(private clientService: ClientService) {}
 
   clientData: ClientData = createClientData();
   errors: Record<string, string> = {};
@@ -147,25 +151,29 @@ export class EditClientModalComponent {
   }
 
   save() {
-    const payload = {
-      nome: this.clientData.nome,
-      cpfCnpj: this.clientData.cpfCnpj,
-      email: this.clientData.email,
-      phone: this.clientData.phone,
-      addressZip: this.clientData.addressZip,
-      addressStreet: this.clientData.addressStreet,
-      addressNumber: this.clientData.addressNumber,
-      addressDistrict: this.clientData.addressDistrict,
-      addressCity: this.clientData.addressCity,
-      addressState: this.clientData.addressState,
-      loja: this.clientData.loja,
-      tipoLegal: this.clientData.tipoLegal,
-      notes: this.clientData.notes,
-    };
+    if (!this.client?.id) {
+      console.error('Cliente inválido para atualização');
+      return;
+    }
 
-    console.log('EDIT CLIENT', payload);
+    try {
+      const payload = buildClientPayload(this.clientData);
+
+      this.clientService.updateClient(this.client.id, payload).subscribe({
+        next: () => {
+          console.log('Cliente atualizado com sucesso');
+          this.close();
+        },
+        error: (err) => {
+          console.error('Erro ao atualizar cliente', err);
+        },
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error(err.message);
+      }
+    }
   }
-
   close() {
     this.closeModalEvent.emit();
   }
