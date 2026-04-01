@@ -14,10 +14,11 @@ import { stepsConfigCar } from '../../../../core/config/stepsPopup.config';
 import { ClientService } from '../../../clients/service/client.service';
 import { CreateVehiclePayload, VehicleService } from '../../service/car.service';
 import { VehicleDto } from '../../model/dtos/vehicle.dto';
-import { CarData, createCarData } from '../../model/vehicle.data';
+import { CarData, createCarData } from '../../model/dtos/vehicle.data';
 import { reviewCarConfig } from '../../../../core/config/reviewsData';
 import { stepOneSchema } from '../../schemas/stepOne.schema';
 import { stepTwoSchema } from '../../schemas/stepTwo.schema';
+import { buildVehiclePayload } from '../../shared/payloadFunction';
 
 @Component({
   selector: 'app-edit-car-modal',
@@ -144,44 +145,29 @@ export class EditCarModalComponent implements OnInit {
     else this.back();
   }
 
-  private parseYear(value: number | string | null): number {
-    const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : 0;
-  }
-
   save() {
     if (!this.car?.id) {
       this.error = 'Veículo inválido para atualização';
       return;
     }
 
-    if (!this.carData.cliente) {
-      this.error = 'Selecione um cliente';
-      return;
+    try {
+      const payload = buildVehiclePayload(this.carData);
+
+      this.vehicleService.patchVehicle(this.car.id, payload).subscribe({
+        next: (vehicle) => {
+          this.vehicleUpdated.emit(vehicle);
+          this.close();
+        },
+        error: () => {
+          this.error = 'Erro ao atualizar veículo';
+        },
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        this.error = err.message;
+      }
     }
-
-    const payload: CreateVehiclePayload = {
-      customerId: this.carData.cliente,
-      plate: this.carData.plate,
-      year: this.parseYear(this.carData.year),
-      vin: this.carData.vin,
-      renavam: this.carData.renavam,
-      insuranceClaimNumber: this.carData.insuranceClaimNumber,
-      brand: this.carData.brand,
-      model: this.carData.model,
-      color: this.carData.color,
-      notes: this.carData.notes,
-    };
-
-    this.vehicleService.patchVehicle(this.car.id, payload).subscribe({
-      next: (vehicle) => {
-        this.vehicleUpdated.emit(vehicle);
-        this.close();
-      },
-      error: () => {
-        this.error = 'Erro ao atualizar veículo';
-      },
-    });
   }
 
   close() {

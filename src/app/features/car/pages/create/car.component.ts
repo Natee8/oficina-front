@@ -7,11 +7,12 @@ import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/regis
 import { StepOneCarComponent } from '../../components/steps/one/stepOne.component';
 import { StepTwoCarComponent } from '../../components/steps/two/stepTwo.component';
 import { ClientService } from '../../../clients/service/client.service';
-import { CreateVehiclePayload, VehicleService } from '../../service/car.service';
+import { VehicleService } from '../../service/car.service';
 import { stepsConfigCreateCar } from '../../../../core/config/stepsCreate.config';
-import { CarData, createCarData } from '../../model/vehicle.data';
+import { CarData, createCarData } from '../../model/dtos/vehicle.data';
 import { stepOneSchema } from '../../schemas/stepOne.schema';
 import { stepTwoSchema } from '../../schemas/stepTwo.schema';
+import { buildVehiclePayload } from '../../shared/payloadFunction';
 
 @Component({
   selector: 'app-create-car',
@@ -102,37 +103,22 @@ export class CreateCarComponent implements OnInit {
     this.router.navigate(['/car-list']);
   }
 
-  private parseYear(value: number | string | null): number {
-    const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : 0;
-  }
-
   submit() {
-    if (!this.carData.cliente) {
-      this.error = 'Selecione um cliente';
-      return;
+    try {
+      const payload = buildVehiclePayload(this.carData);
+
+      this.vehicleService.postVehicle(payload).subscribe({
+        next: () => {
+          this.router.navigate(['/car-list']);
+        },
+        error: () => {
+          this.error = 'Erro ao cadastrar veículo';
+        },
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        this.error = err.message; // ex: 'Cliente não pode ser nulo'
+      }
     }
-
-    const payload: CreateVehiclePayload = {
-      customerId: this.carData.cliente!,
-      plate: this.carData.plate,
-      year: this.parseYear(this.carData.year),
-      vin: this.carData.vin,
-      renavam: this.carData.renavam,
-      insuranceClaimNumber: this.carData.insuranceClaimNumber,
-      brand: this.carData.brand,
-      model: this.carData.model,
-      color: this.carData.color,
-      notes: this.carData.notes,
-    };
-
-    this.vehicleService.postVehicle(payload).subscribe({
-      next: () => {
-        this.router.navigate(['/car-list']);
-      },
-      error: () => {
-        this.error = 'Erro ao cadastrar veículo';
-      },
-    });
   }
 }
