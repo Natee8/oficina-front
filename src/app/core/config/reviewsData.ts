@@ -87,3 +87,60 @@ export const reviewEmployeeConfig = [
     ],
   },
 ];
+
+//clientes
+
+export const reviewClientConfig = [
+  {
+    title: 'Dados Pessoais',
+    fields: [
+      { label: 'Nome', key: 'nome' },
+      { label: 'CPF/CNPJ', key: 'cpfCnpj' },
+      { label: 'Email', key: 'email' },
+      { label: 'Telefone', key: 'telefone' },
+    ],
+  },
+  {
+    title: 'Endereço',
+    fields: [
+      { label: 'CEP', key: 'addressZip' },
+      { label: 'Número', key: 'addressNumber' },
+      { label: 'Rua', key: 'addressStreet' },
+      { label: 'Bairro', key: 'addressDistrict' },
+      { label: 'Cidade', key: 'addressCity' },
+      { label: 'Estado', key: 'addressState' },
+    ],
+  },
+  {
+    title: 'Informações adicionais',
+    fields: [
+      { label: 'Loja', key: 'loja' },
+      { label: 'Tipo Legal', key: 'tipoLegal' },
+      { label: 'Observações', key: 'notes' },
+    ],
+  },
+];
+
+//car
+export const reviewCarConfig = [
+  {
+    title: 'Dados do veículo',
+    fields: [
+      { label: 'Cliente', key: 'cliente' },
+      { label: 'Placa', key: 'plate' },
+      { label: 'Ano', key: 'year' },
+      { label: 'VIN', key: 'vin' },
+      { label: 'Renavam', key: 'renavam' },
+      { label: 'Sinistro', key: 'insuranceClaimNumber' },
+    ],
+  },
+  {
+    title: 'Informações adicionais',
+    fields: [
+      { label: 'Marca', key: 'brand' },
+      { label: 'Modelo', key: 'model' },
+      { label: 'Cor', key: 'color' },
+      { label: 'Observações', key: 'notes' },
+    ],
+  },
+];

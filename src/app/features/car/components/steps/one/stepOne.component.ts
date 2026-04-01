@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
 import { SelectFieldComponent } from '../../../../../shared/components/inputs/select/selectField.component';
+import { CarData } from '../../../model/vehicle.data';
 
 @Component({
   selector: 'app-step-one-car',
@@ -12,23 +13,9 @@ import { SelectFieldComponent } from '../../../../../shared/components/inputs/se
   styleUrls: ['./stepOne.component.scss'],
 })
 export class StepOneCarComponent {
-  @Input() cliente!: number | null;
-  @Output() clienteChange = new EventEmitter<number | null>();
+  @Input() data!: CarData;
+  @Output() dataChange = new EventEmitter<CarData>();
 
-  @Input() plate!: string;
-  @Output() plateChange = new EventEmitter<string>();
-
-  @Input() year!: number | null;
-  @Output() yearChange = new EventEmitter<number | null>();
-
-  @Input() vin!: string;
-  @Output() vinChange = new EventEmitter<string>();
-
-  @Input() renavam!: string;
-  @Output() renavamChange = new EventEmitter<string>();
-
-  @Input() insuranceClaimNumber!: string;
-  @Output() insuranceClaimNumberChange = new EventEmitter<string>();
-
+  @Input() errors: Record<string, string> = {};
   @Input() clientes: Array<{ label: string; value: number }> = [];
 }

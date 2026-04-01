@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
 import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/register-card.component';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
-
 import { StepOneStoresComponent } from '../../components/steps/one/stepOne.component';
 import { StepTwoStoresComponent } from '../../components/steps/two/stepTwo.component';
 import { stepOneSchema } from '../../schemas/stepOne.schema';

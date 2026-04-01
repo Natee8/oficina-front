@@ -1,27 +1,39 @@
 <app-input-field
   label="Nome"
-  [(ngModel)]="nome"
+  type="text"
+  [(ngModel)]="data.nome"
   labelBgColor="#fff"
-  (ngModelChange)="nomeChange.emit($event)"
 ></app-input-field>
+<div class="error" *ngIf="errors['nome']">
+  {{ errors['nome'] }}
+</div>
 
 <app-input-field
   label="CPF/CNPJ"
-  [(ngModel)]="cpfCnpj"
+  type="text"
+  [(ngModel)]="data.cpfCnpj"
   labelBgColor="#fff"
-  (ngModelChange)="cpfCnpjChange.emit($event)"
 ></app-input-field>
+<div class="error" *ngIf="errors['cpfCnpj']">
+  {{ errors['cpfCnpj'] }}
+</div>
+
+<app-input-field
+  label="phone"
+  type="text"
+  [(ngModel)]="data.phone"
+  labelBgColor="#fff"
+></app-input-field>
+<div class="error" *ngIf="errors['phone']">
+  {{ errors['phone'] }}
+</div>
 
 <app-input-field
   label="Email"
-  [(ngModel)]="email"
+  type="text"
+  [(ngModel)]="data.email"
   labelBgColor="#fff"
-  (ngModelChange)="emailChange.emit($event)"
 ></app-input-field>
-
-<app-input-field
-  label="Telefone"
-  labelBgColor="#fff"
-  [(ngModel)]="phone"
-  (ngModelChange)="phoneChange.emit($event)"
-></app-input-field>
+<div class="error" *ngIf="errors['email']">
+  {{ errors['email'] }}
+</div>

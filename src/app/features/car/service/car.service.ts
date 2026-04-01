@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { VehicleDto } from '../model/vehicle.dto';
+import { VehicleDto } from '../model/dtos/vehicle.dto';
 
 export interface CreateVehiclePayload {
   customerId: number;

@@ -1,17 +1,21 @@
 <app-select-field
   label="Loja"
   [options]="lojas"
-  [(ngModel)]="loja"
+  [(ngModel)]="data.loja"
   labelBgColor="#fff"
-  (ngModelChange)="lojaChange.emit($event)"
 ></app-select-field>
+<div class="error" *ngIf="errors['loja']">
+  {{ errors['loja'] }}
+</div>
 
 <app-select-field
   label="Tipo Legal"
   [options]="tiposLegais"
-  [(ngModel)]="tipoLegal"
+  [(ngModel)]="data.tipoLegal"
   labelBgColor="#fff"
-  (ngModelChange)="tipoLegalChange.emit($event)"
 ></app-select-field>
+<div class="error" *ngIf="errors['tipoLegal']">
+  {{ errors['tipoLegal'] }}
+</div>
 
-<app-input-field label="Observações" [(ngModel)]="notes" labelBgColor="#fff"></app-input-field>
+<app-input-field label="Observações" [(ngModel)]="data.notes" labelBgColor="#fff"></app-input-field>

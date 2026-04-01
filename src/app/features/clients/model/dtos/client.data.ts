@@ -1,8 +1,11 @@
 export interface ClientData {
+  loja: number | null;
+  tipoLegal: number | null;
+
   nome: string;
   cpfCnpj: string;
   email: string;
-  telefone: string;
+  phone: string;
 
   addressZip: string;
   addressNumber: string;
@@ -16,10 +19,13 @@ export interface ClientData {
 
 export function createClientData(): ClientData {
   return {
+    loja: null,
+    tipoLegal: null,
+
     nome: '',
     cpfCnpj: '',
     email: '',
-    telefone: '',
+    phone: '',
 
     addressZip: '',
     addressNumber: '',

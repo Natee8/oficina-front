@@ -10,6 +10,10 @@ import { StepThreeClientComponent } from '../../components/steps/three/stepThree
 import { ClientService } from '../../service/client.service';
 import { CreateClientDto } from '../../model/dtos/createClient.dto';
 import { stepsConfigCreateClients } from '../../../../core/config/stepsCreate.config';
+import { ClientData, createClientData } from '../../model/dtos/client.data';
+import { stepOneClientSchema } from '../../schemas/stepOne.schema';
+import { stepTwoClientSchema } from '../../schemas/stepTwo.schema';
+import { stepThreeClientSchema } from '../../schemas/stepThree.schema';
 
 @Component({
   selector: 'app-create-client',
@@ -30,23 +34,8 @@ export class CreateClientComponent implements OnInit {
   stepIndex = 0;
 
   steps = stepsConfigCreateClients;
-
-  // Campos do cliente
-  nome = '';
-  cpfCnpj = '';
-  email = '';
-  phone = '';
-
-  addressZip = '';
-  addressStreet = '';
-  addressNumber = '';
-  addressDistrict = '';
-  addressCity = '';
-  addressState = '';
-  loja!: number; // <-- agora é number
-  tipoLegal!: number; // <-- agora é number
-
-  notes = '';
+  clientData: ClientData = createClientData();
+  errors: Record<string, string> = {};
 
   lojas: { label: string; value: number }[] = [];
   tiposLegais: { label: string; value: number }[] = [
@@ -64,12 +53,53 @@ export class CreateClientComponent implements OnInit {
       this.lojas = res.map((l) => ({ label: l.name, value: l.id }));
     });
   }
+  async nextStep() {
+    this.errors = {};
 
-  nextStep() {
-    if (this.stepIndex < this.steps.length - 1) {
-      this.stepIndex++;
-    } else {
-      this.submit();
+    let schema;
+    let values = {};
+
+    if (this.stepIndex === 0) {
+      schema = stepOneClientSchema;
+      values = {
+        nome: this.clientData.nome,
+        cpfCnpj: this.clientData.cpfCnpj.replace(/\D/g, ''),
+        phone: this.clientData.phone.replace(/\D/g, ''),
+        email: this.clientData.email,
+      };
+    } else if (this.stepIndex === 1) {
+      schema = stepTwoClientSchema;
+      values = {
+        addressZip: this.clientData.addressZip,
+        addressNumber: this.clientData.addressNumber,
+        addressStreet: this.clientData.addressStreet,
+        addressDistrict: this.clientData.addressDistrict,
+        addressCity: this.clientData.addressCity,
+        addressState: this.clientData.addressState,
+      };
+    } else if (this.stepIndex === 2) {
+      schema = stepThreeClientSchema;
+      values = {
+        loja: this.clientData.loja,
+        tipoLegal: this.clientData.tipoLegal,
+        email: this.clientData.email,
+      };
+    }
+
+    try {
+      if (!schema) return;
+      await schema.validate(values, { abortEarly: false });
+
+      if (this.stepIndex < this.steps.length - 1) {
+        this.stepIndex++;
+      } else {
+        this.submit();
+      }
+    } catch (err: any) {
+      this.errors = {};
+      err.inner.forEach((e: any) => {
+        if (e.path) this.errors[e.path] = e.message;
+      });
     }
   }
 
@@ -82,33 +112,25 @@ export class CreateClientComponent implements OnInit {
   }
 
   submit() {
-    if (!this.loja || !this.tipoLegal) {
-      console.error('Loja ou tipo legal não selecionado!');
-      return;
-    }
-
     const payload: CreateClientDto = {
-      unitId: this.loja,
-      legalTypeId: this.tipoLegal,
-      name: this.nome,
-      cpfCnpj: this.cpfCnpj,
-      email: this.email,
-      phone: this.phone,
-      addressZip: this.addressZip,
-      addressStreet: this.addressStreet,
-      addressNumber: this.addressNumber,
-      addressDistrict: this.addressDistrict,
-      addressCity: this.addressCity,
-      addressState: this.addressState,
-      notes: this.notes,
+      unitId: this.clientData.loja!,
+      legalTypeId: this.clientData.tipoLegal!,
+      name: this.clientData.nome,
+      cpfCnpj: this.clientData.cpfCnpj,
+      email: this.clientData.email,
+      phone: this.clientData.phone,
+      addressZip: this.clientData.addressZip,
+      addressStreet: this.clientData.addressStreet,
+      addressNumber: this.clientData.addressNumber,
+      addressDistrict: this.clientData.addressDistrict,
+      addressCity: this.clientData.addressCity,
+      addressState: this.clientData.addressState,
+      notes: this.clientData.notes,
     };
 
     this.clientService.createClient(payload).subscribe({
-      next: (res) => {
-        console.log('Cliente cadastrado!', res);
-        this.router.navigate(['/clients-list']);
-      },
-      error: (err) => console.error('Erro ao cadastrar cliente', err),
+      next: () => this.router.navigate(['/clients-list']),
+      error: (err) => console.error(err),
     });
   }
 }

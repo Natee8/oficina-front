@@ -12,6 +12,7 @@ import { StepTwoComponent } from '../steps/two/stepTwo.component';
 import { StepThreeComponent } from '../steps/three/stepThree.component';
 import { stepsConfigEmployee } from '../../../../core/config/stepsPopup.config';
 import { reviewEmployeeConfig } from '../../../../core/config/reviewsData';
+import { createEmployeeData, EmployeeData } from '../../model/dtos/employer.data';
 
 @Component({
   selector: 'app-edit-employee-modal',
@@ -32,7 +33,7 @@ import { reviewEmployeeConfig } from '../../../../core/config/reviewsData';
 })
 export class EditEmployeeModalComponent {
   stepIndex = 0;
-  employeeData: any = {};
+  employeeData: EmployeeData = createEmployeeData();
   errors: Record<string, string> = {};
 
   cargos = ['Gerente', 'Atendente', 'Supervisor'];

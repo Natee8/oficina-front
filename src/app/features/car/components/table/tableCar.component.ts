@@ -5,7 +5,7 @@ import { TableHeaderComponent } from '../../../../shared/components/tableHeader/
 import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
 import { EditCarModalComponent } from '../popupEdit/popupEdit.component';
-import { VehicleDto } from '../../model/vehicle.dto';
+import { VehicleDto } from '../../model/dtos/vehicle.dto';
 import { VehicleService } from '../../service/car.service';
 
 const vehicleColumns = [
@@ -98,7 +98,7 @@ export class TableCar implements OnInit {
 
   handleVehicleUpdated(updatedVehicle: VehicleDto) {
     this.vehicles = this.vehicles.map((vehicle) =>
-      vehicle.id === updatedVehicle.id ? updatedVehicle : vehicle
+      vehicle.id === updatedVehicle.id ? updatedVehicle : vehicle,
     );
     this.closeModal();
   }

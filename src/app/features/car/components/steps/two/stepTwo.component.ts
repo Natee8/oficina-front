@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CarData } from '../../../model/vehicle.data';
 
 @Component({
   selector: 'app-step-two-car',
@@ -10,15 +11,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './stepTwo.component.html',
 })
 export class StepTwoCarComponent {
-  @Input() brand!: string;
-  @Output() brandChange = new EventEmitter<string>();
+  @Input() data!: CarData;
+  @Output() dataChange = new EventEmitter<CarData>();
 
-  @Input() model!: string;
-  @Output() modelChange = new EventEmitter<string>();
-
-  @Input() color!: string;
-  @Output() colorChange = new EventEmitter<string>();
-
-  @Input() notes!: string;
-  @Output() notesChange = new EventEmitter<string>();
+  @Input() errors: Record<string, string> = {};
 }
