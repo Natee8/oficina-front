@@ -9,6 +9,9 @@ import { StepTwoCarComponent } from '../../components/steps/two/stepTwo.componen
 import { ClientService } from '../../../clients/service/client.service';
 import { CreateVehiclePayload, VehicleService } from '../../service/car.service';
 import { stepsConfigCreateCar } from '../../../../core/config/stepsCreate.config';
+import { CarData, createCarData } from '../../model/vehicle.data';
+import { stepOneSchema } from '../../schemas/stepOne.schema';
+import { stepTwoSchema } from '../../schemas/stepTwo.schema';
 
 @Component({
   selector: 'app-create-car',
@@ -29,16 +32,8 @@ export class CreateCarComponent implements OnInit {
 
   steps = stepsConfigCreateCar;
 
-  cliente: number | null = null;
-  plate = '';
-  year: number | null = null;
-  vin = '';
-  renavam = '';
-  insuranceClaimNumber = '';
-  brand = '';
-  model = '';
-  color = '';
-  notes = '';
+  carData: CarData = createCarData();
+  errors: Record<string, string> = {};
 
   clientes: Array<{ label: string; value: number }> = [];
   error = '';
@@ -63,7 +58,33 @@ export class CreateCarComponent implements OnInit {
     });
   }
 
-  nextStep() {
+  async validateStep() {
+    try {
+      this.errors = {};
+
+      if (this.stepIndex === 0) {
+        await stepOneSchema.validate(this.carData, { abortEarly: false });
+      }
+
+      if (this.stepIndex === 1) {
+        await stepTwoSchema.validate(this.carData, { abortEarly: false });
+      }
+
+      return true;
+    } catch (err: any) {
+      err.inner.forEach((e: any) => {
+        this.errors[e.path] = e.message;
+      });
+
+      return false;
+    }
+  }
+
+  async nextStep() {
+    const isValid = await this.validateStep();
+
+    if (!isValid) return;
+
     if (this.stepIndex < this.steps.length - 1) {
       this.stepIndex++;
     } else {
@@ -87,22 +108,22 @@ export class CreateCarComponent implements OnInit {
   }
 
   submit() {
-    if (!this.cliente) {
+    if (!this.carData.cliente) {
       this.error = 'Selecione um cliente';
       return;
     }
 
     const payload: CreateVehiclePayload = {
-      customerId: this.cliente,
-      plate: this.plate,
-      year: this.parseYear(this.year),
-      vin: this.vin,
-      renavam: this.renavam,
-      insuranceClaimNumber: this.insuranceClaimNumber,
-      brand: this.brand,
-      model: this.model,
-      color: this.color,
-      notes: this.notes,
+      customerId: this.carData.cliente!,
+      plate: this.carData.plate,
+      year: this.parseYear(this.carData.year),
+      vin: this.carData.vin,
+      renavam: this.carData.renavam,
+      insuranceClaimNumber: this.carData.insuranceClaimNumber,
+      brand: this.carData.brand,
+      model: this.carData.model,
+      color: this.carData.color,
+      notes: this.carData.notes,
     };
 
     this.vehicleService.postVehicle(payload).subscribe({

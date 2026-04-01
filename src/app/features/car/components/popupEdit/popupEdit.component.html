@@ -1,11 +1,19 @@
 <app-modal (close)="close()" minWidth="60%" minHeight="600px">
   <div class="popupContainer">
-    <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div
+      class="modal-header"
+      style="display: flex; justify-content: space-between; align-items: center"
+    >
       <div>
         <h2>Editar veículo</h2>
         <p>Edite um veículo e atualize informações</p>
       </div>
-      <span class="close" (click)="close()" style="cursor:pointer; font-size: 24px; color: #999; margin-left: 16px; transition: 0.2s;">×</span>
+      <span
+        class="close"
+        (click)="close()"
+        style="cursor: pointer; font-size: 24px; color: #999; margin-left: 16px; transition: 0.2s"
+        >×</span
+      >
     </div>
 
     <app-stepper
@@ -19,12 +27,8 @@
         <div *ngSwitchCase="0" class="step-scroll">
           <div class="step-inner">
             <app-step-one-car
-              [(cliente)]="cliente"
-              [(plate)]="plate"
-              [(year)]="year"
-              [(vin)]="vin"
-              [(renavam)]="renavam"
-              [(insuranceClaimNumber)]="insuranceClaimNumber"
+              [data]="carData"
+              [errors]="errors"
               [clientes]="clientes"
             ></app-step-one-car>
           </div>
@@ -32,12 +36,7 @@
 
         <div *ngSwitchCase="1" class="step-scroll">
           <div class="step-inner">
-            <app-step-two-car
-              [(brand)]="brand"
-              [(model)]="model"
-              [(color)]="color"
-              [(notes)]="notes"
-            ></app-step-two-car>
+            <app-step-two-car [data]="carData" [errors]="errors"></app-step-two-car>
           </div>
         </div>
 

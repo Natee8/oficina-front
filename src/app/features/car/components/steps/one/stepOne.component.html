@@ -4,9 +4,12 @@
       label="Cliente"
       [options]="clientes"
       labelBgColor="#fff"
-      [(ngModel)]="cliente"
-      (ngModelChange)="clienteChange.emit($event)"
+      [(ngModel)]="data.cliente"
     ></app-select-field>
+
+    <div class="error" *ngIf="errors['cliente']">
+      {{ errors['cliente'] }}
+    </div>
   </div>
 </div>
 
@@ -16,9 +19,12 @@
       label="Placa"
       labelBgColor="#fff"
       type="text"
-      [(ngModel)]="plate"
-      (ngModelChange)="plateChange.emit($event)"
+      [(ngModel)]="data.plate"
     ></app-input-field>
+
+    <div class="error" *ngIf="errors['plate']">
+      {{ errors['plate'] }}
+    </div>
   </div>
 
   <div class="field small">
@@ -26,9 +32,12 @@
       label="Ano"
       labelBgColor="#fff"
       type="text"
-      [(ngModel)]="year"
-      (ngModelChange)="yearChange.emit($event)"
+      [(ngModel)]="data.year"
     ></app-input-field>
+
+    <div class="error" *ngIf="errors['year']">
+      {{ errors['year'] }}
+    </div>
   </div>
 </div>
 
@@ -38,9 +47,12 @@
       label="VIN"
       type="text"
       labelBgColor="#fff"
-      [(ngModel)]="vin"
-      (ngModelChange)="vinChange.emit($event)"
+      [(ngModel)]="data.vin"
     ></app-input-field>
+
+    <div class="error" *ngIf="errors['vin']">
+      {{ errors['vin'] }}
+    </div>
   </div>
 </div>
 
@@ -50,9 +62,12 @@
       label="Renavam"
       type="text"
       labelBgColor="#fff"
-      [(ngModel)]="renavam"
-      (ngModelChange)="renavamChange.emit($event)"
+      [(ngModel)]="data.renavam"
     ></app-input-field>
+
+    <div class="error" *ngIf="errors['renavam']">
+      {{ errors['renavam'] }}
+    </div>
   </div>
 </div>
 
@@ -62,8 +77,11 @@
       label="Nº Sinistro"
       type="text"
       labelBgColor="#fff"
-      [(ngModel)]="insuranceClaimNumber"
-      (ngModelChange)="insuranceClaimNumberChange.emit($event)"
+      [(ngModel)]="data.insuranceClaimNumber"
     ></app-input-field>
+
+    <div class="error" *ngIf="errors['insuranceClaimNumber']">
+      {{ errors['insuranceClaimNumber'] }}
+    </div>
   </div>
 </div>

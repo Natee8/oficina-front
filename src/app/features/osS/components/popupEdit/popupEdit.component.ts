@@ -18,7 +18,7 @@ import { StoreDto } from '../../../stores/model/store.dto';
 import { ClientService } from '../../../clients/service/client.service';
 import { ClientDto } from '../../../clients/model/dtos/client.dto';
 import { VehicleService } from '../../../car/service/car.service';
-import { VehicleDto } from '../../../car/model/vehicle.dto';
+import { VehicleDto } from '../../../car/model/dtos/vehicle.dto';
 import { OsData, createOsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
 import { reviewOsConfig } from '../../../../core/config/reviewsData';

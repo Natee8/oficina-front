@@ -15,23 +15,15 @@
   (back)="previousStep()"
 >
   <ng-container [ngSwitch]="stepIndex">
-    <app-step-one-car
-      *ngSwitchCase="0"
-      [(cliente)]="cliente"
-      [(plate)]="plate"
-      [(year)]="year"
-      [(vin)]="vin"
-      [(renavam)]="renavam"
-      [(insuranceClaimNumber)]="insuranceClaimNumber"
-      [clientes]="clientes"
-    ></app-step-one-car>
+    <ng-container [ngSwitch]="stepIndex">
+      <app-step-one-car
+        *ngSwitchCase="0"
+        [(data)]="carData"
+        [errors]="errors"
+        [clientes]="clientes"
+      ></app-step-one-car>
 
-    <app-step-two-car
-      *ngSwitchCase="1"
-      [(brand)]="brand"
-      [(model)]="model"
-      [(color)]="color"
-      [(notes)]="notes"
-    ></app-step-two-car>
+      <app-step-two-car *ngSwitchCase="1" [(data)]="carData" [errors]="errors"></app-step-two-car>
+    </ng-container>
   </ng-container>
 </app-register-card>

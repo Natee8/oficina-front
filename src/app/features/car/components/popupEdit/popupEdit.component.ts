@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import * as yup from 'yup';
 
 import { ModalComponent } from '../../../../shared/components/popup/popup.component';
 import { StepperComponent } from '../../../../shared/components/stepsPopup.ts/stepsPopup.component';
@@ -12,7 +13,11 @@ import { ReviewStepComponent } from '../../../../shared/components/reviewStep/re
 import { stepsConfigCar } from '../../../../core/config/stepsPopup.config';
 import { ClientService } from '../../../clients/service/client.service';
 import { CreateVehiclePayload, VehicleService } from '../../service/car.service';
-import { VehicleDto } from '../../model/vehicle.dto';
+import { VehicleDto } from '../../model/dtos/vehicle.dto';
+import { CarData, createCarData } from '../../model/vehicle.data';
+import { reviewCarConfig } from '../../../../core/config/reviewsData';
+import { stepOneSchema } from '../../schemas/stepOne.schema';
+import { stepTwoSchema } from '../../schemas/stepTwo.schema';
 
 @Component({
   selector: 'app-edit-car-modal',
@@ -33,18 +38,10 @@ import { VehicleDto } from '../../model/vehicle.dto';
 export class EditCarModalComponent implements OnInit {
   stepIndex = 0;
 
-  cliente: number | null = null;
-  plate = '';
-  year: number | null = null;
-  vin = '';
-  renavam = '';
-  insuranceClaimNumber = '';
-  clientes: Array<{ label: string; value: number }> = [];
+  carData: CarData = createCarData();
+  errors: Record<string, string> = {};
 
-  brand = '';
-  model = '';
-  color = '';
-  notes = '';
+  clientes: Array<{ label: string; value: number }> = [];
   error = '';
 
   @Input() car: VehicleDto | null = null;
@@ -62,27 +59,25 @@ export class EditCarModalComponent implements OnInit {
     this.loadClients();
 
     if (this.car) {
-      this.cliente = this.car.customerId;
-      this.plate = this.car.plate;
-      this.year = this.car.year;
-      this.vin = this.car.vin;
-      this.renavam = this.car.renavam;
-      this.insuranceClaimNumber = this.car.insuranceClaimNumber;
-
-      this.brand = this.car.brand;
-      this.model = this.car.model;
-      this.color = this.car.color;
-      this.notes = this.car.notes;
+      this.carData = {
+        cliente: this.car.customerId,
+        plate: this.car.plate,
+        year: this.car.year,
+        vin: this.car.vin,
+        renavam: this.car.renavam,
+        insuranceClaimNumber: this.car.insuranceClaimNumber,
+        brand: this.car.brand,
+        model: this.car.model,
+        color: this.car.color,
+        notes: this.car.notes,
+      };
     }
   }
 
   private loadClients() {
     this.clientService.getCustomers().subscribe({
       next: (customers) => {
-        this.clientes = customers.map((customer) => ({
-          label: customer.name,
-          value: customer.id,
-        }));
+        this.clientes = customers.map((c) => ({ label: c.name, value: c.id }));
       },
       error: () => {
         this.clientes =
@@ -93,9 +88,30 @@ export class EditCarModalComponent implements OnInit {
     });
   }
 
+  private validateStep(): boolean {
+    this.errors = {};
+
+    let schema: yup.ObjectSchema<any>;
+    if (this.stepIndex === 0) schema = stepOneSchema;
+    else if (this.stepIndex === 1) schema = stepTwoSchema;
+    else return true;
+
+    try {
+      schema.validateSync(this.carData, { abortEarly: false });
+      return true;
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        err.inner.forEach((e) => {
+          if (e.path) this.errors[e.path] = e.message;
+        });
+      }
+      return false;
+    }
+  }
+
   get clienteLabel() {
     return (
-      this.clientes.find((client) => client.value === this.cliente)?.label ??
+      this.clientes.find((c) => c.value === this.carData.cliente)?.label ??
       this.car?.customerName ??
       ''
     );
@@ -117,6 +133,8 @@ export class EditCarModalComponent implements OnInit {
   }
 
   handleNext() {
+    if (!this.validateStep()) return;
+
     if (this.isLastStep) this.save();
     else this.next();
   }
@@ -137,22 +155,22 @@ export class EditCarModalComponent implements OnInit {
       return;
     }
 
-    if (!this.cliente) {
+    if (!this.carData.cliente) {
       this.error = 'Selecione um cliente';
       return;
     }
 
     const payload: CreateVehiclePayload = {
-      customerId: this.cliente,
-      plate: this.plate,
-      year: this.parseYear(this.year),
-      vin: this.vin,
-      renavam: this.renavam,
-      insuranceClaimNumber: this.insuranceClaimNumber,
-      brand: this.brand,
-      model: this.model,
-      color: this.color,
-      notes: this.notes,
+      customerId: this.carData.cliente,
+      plate: this.carData.plate,
+      year: this.parseYear(this.carData.year),
+      vin: this.carData.vin,
+      renavam: this.carData.renavam,
+      insuranceClaimNumber: this.carData.insuranceClaimNumber,
+      brand: this.carData.brand,
+      model: this.carData.model,
+      color: this.carData.color,
+      notes: this.carData.notes,
     };
 
     this.vehicleService.patchVehicle(this.car.id, payload).subscribe({
@@ -171,27 +189,12 @@ export class EditCarModalComponent implements OnInit {
   }
 
   get reviewData() {
-    return [
-      {
-        title: 'Dados do veículo',
-        fields: [
-          { label: 'Cliente', value: this.clienteLabel },
-          { label: 'Placa', value: this.plate },
-          { label: 'Ano', value: this.year },
-          { label: 'VIN', value: this.vin },
-          { label: 'Renavam', value: this.renavam },
-          { label: 'Sinistro', value: this.insuranceClaimNumber },
-        ],
-      },
-      {
-        title: 'Informações adicionais',
-        fields: [
-          { label: 'Marca', value: this.brand },
-          { label: 'Modelo', value: this.model },
-          { label: 'Cor', value: this.color },
-          { label: 'Observações', value: this.notes },
-        ],
-      },
-    ];
+    return reviewCarConfig.map((section) => ({
+      ...section,
+      fields: section.fields.map((f) => ({
+        ...f,
+        value: this.carData[f.key as keyof CarData],
+      })),
+    }));
   }
 }

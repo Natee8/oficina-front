@@ -2,30 +2,38 @@
   label="Marca"
   type="text"
   labelBgColor="#fff"
-  [(ngModel)]="brand"
-  (ngModelChange)="brandChange.emit($event)"
+  [(ngModel)]="data.brand"
 ></app-input-field>
+<div class="error" *ngIf="errors['brand']">
+  {{ errors['brand'] }}
+</div>
 
 <app-input-field
   label="Modelo"
   type="text"
   labelBgColor="#fff"
-  [(ngModel)]="model"
-  (ngModelChange)="modelChange.emit($event)"
+  [(ngModel)]="data.model"
 ></app-input-field>
+<div class="error" *ngIf="errors['model']">
+  {{ errors['model'] }}
+</div>
 
 <app-input-field
   label="Cor"
   type="text"
   labelBgColor="#fff"
-  [(ngModel)]="color"
-  (ngModelChange)="colorChange.emit($event)"
+  [(ngModel)]="data.color"
 ></app-input-field>
+<div class="error" *ngIf="errors['color']">
+  {{ errors['color'] }}
+</div>
 
 <app-input-field
   label="Observações"
   type="text"
   labelBgColor="#fff"
-  [(ngModel)]="notes"
-  (ngModelChange)="notesChange.emit($event)"
+  [(ngModel)]="data.notes"
 ></app-input-field>
+<div class="error" *ngIf="errors['notes']">
+  {{ errors['notes'] }}
+</div>

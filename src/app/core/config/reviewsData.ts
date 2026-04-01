@@ -120,3 +120,27 @@ export const reviewClientConfig = [
     ],
   },
 ];
+
+//car
+export const reviewCarConfig = [
+  {
+    title: 'Dados do veículo',
+    fields: [
+      { label: 'Cliente', key: 'cliente' },
+      { label: 'Placa', key: 'plate' },
+      { label: 'Ano', key: 'year' },
+      { label: 'VIN', key: 'vin' },
+      { label: 'Renavam', key: 'renavam' },
+      { label: 'Sinistro', key: 'insuranceClaimNumber' },
+    ],
+  },
+  {
+    title: 'Informações adicionais',
+    fields: [
+      { label: 'Marca', key: 'brand' },
+      { label: 'Modelo', key: 'model' },
+      { label: 'Cor', key: 'color' },
+      { label: 'Observações', key: 'notes' },
+    ],
+  },
+];
