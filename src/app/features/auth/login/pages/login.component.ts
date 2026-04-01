@@ -45,7 +45,7 @@ export class LoginComponent {
       const result = await login(data);
 
       TokenService.saveToken(result.token);
-      await this.router.navigate(['/tenant-list']);
+      await this.router.navigate(['/os-list']);
 
       this.snackBar.open('Login realizado com sucesso!', 'Fechar', {
         duration: 3000,

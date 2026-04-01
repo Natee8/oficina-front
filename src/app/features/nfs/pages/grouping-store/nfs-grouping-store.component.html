@@ -12,16 +12,91 @@
   <p>Gerencie e visualize aqui os clientes referentes as suas lojas</p>
 
   <div class="upload-actions">
-    <input id="excel-upload" class="hidden-input" type="file" accept=".xlsx,.xls,.csv" />
+    <input
+      id="excel-upload"
+      class="hidden-input"
+      type="file"
+      accept=".xlsx,.xls,.csv"
+      (change)="onFileChange($event)"
+    />
 
     <label for="excel-upload" class="upload-button upscale">
       <i class="fa-solid fa-folder-open"></i>
-      <span>Selecionar Excel</span>
+      <span>Selecionar arquivo</span>
     </label>
 
     <button type="button" class="format-link">
       <span>Ver formato esperado</span>
       <i class="fa-solid fa-circle-info"></i>
     </button>
+  </div>
+</section>
+
+<div class="upload-loading" *ngIf="loading">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <span>Processando arquivo...</span>
+</div>
+
+<p class="error" *ngIf="error">{{ error }}</p>
+
+<section class="results-section" *ngIf="uploadDone">
+  <p class="results-label">Conteudo do upload <span class="required">*</span></p>
+
+  <div class="result-card" *ngFor="let group of groups; let i = index">
+    <div class="result-card-header">
+      <div class="result-file-info">
+        <div class="file-icon">
+          <i class="fa-solid fa-file-arrow-up"></i>
+        </div>
+        <span class="file-name">{{ group.loja }}</span>
+      </div>
+      <button type="button" class="copy-all-btn" (click)="copyAll(group)">
+        <i class="fa-regular fa-copy"></i>
+        Copiar tudo
+      </button>
+    </div>
+
+    <button type="button" class="toggle-details" (click)="toggleGroup(i)">
+      Ver Detalhes
+      <i
+        class="fa-solid"
+        [ngClass]="expandedGroups[i] ? 'fa-chevron-up' : 'fa-chevron-down'"
+      ></i>
+    </button>
+
+    <div class="result-card-body" *ngIf="expandedGroups[i]">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          type="text"
+          placeholder="Pesquisar"
+          [(ngModel)]="searchTerms[i]"
+        />
+      </div>
+
+      <div class="plate-card" *ngFor="let placa of filteredPlacas(i)">
+        <div class="plate-header">
+          <span class="plate-number">{{ placa.placa }}</span>
+          <button type="button" class="copy-btn" (click)="copyPlaca(placa)">
+            <i class="fa-regular fa-copy"></i>
+            Copiar
+          </button>
+        </div>
+
+        <div class="service-row" *ngFor="let svc of placa.servicos">
+          <span class="service-name">{{ svc.tpServico }}</span>
+          <span class="service-value">{{ formatCurrency(svc.valor) }}</span>
+        </div>
+
+        <div class="plate-total">
+          TOTAL DE R$: {{ formatValue(placa.totalPlaca) }} REAIS
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card-footer">
+      <span>{{ group.quantidadePlacas }} placas</span>
+      <span>Total de R$: {{ formatValue(group.totalLoja) }}</span>
+    </div>
   </div>
 </section>
