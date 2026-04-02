@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NfsService } from '../../service/nfs.service';
 import { NfLojaDto, NfPlacaDto } from '../../model/nfs.dto';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-nfs-grouping-store',
@@ -13,6 +15,8 @@ import { NfLojaDto, NfPlacaDto } from '../../model/nfs.dto';
   providers: [NfsService],
 })
 export class NfsGroupingStoreComponent {
+  private readonly templateFilePath = '/assets/planilhas/planilha_exemplo.xlsx';
+
   groups: NfLojaDto[] = [];
   totalGeral = 0;
   totalLinhas = 0;
@@ -21,7 +25,10 @@ export class NfsGroupingStoreComponent {
   expandedGroups: boolean[] = [];
   searchTerms: Record<number, string> = {};
 
-  constructor(private nfsService: NfsService) {}
+  constructor(
+    private nfsService: NfsService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   get uploadDone(): boolean {
     return this.groups.length > 0;
@@ -44,10 +51,12 @@ export class NfsGroupingStoreComponent {
         this.expandedGroups = res.lojas.map(() => false);
         this.searchTerms = {};
         this.loading = false;
+        this.snackBar.open('Agrupamento realizado com sucesso!', 'Fechar', snackBarSuccessConfig);
       },
-      error: () => {
-        this.error = 'Erro ao processar o arquivo. Verifique se está no formato correto.';
+      error: (err) => {
+        this.error = err?.error?.message || 'Erro ao processar o arquivo. Verifique se está no formato correto.';
         this.loading = false;
+        this.snackBar.open(this.error, 'Fechar', snackBarErrorConfig);
       },
     });
   }
@@ -89,5 +98,17 @@ export class NfsGroupingStoreComponent {
       lines.push(`  Total: ${this.formatCurrency(p.totalPlaca)}`);
     });
     navigator.clipboard.writeText(lines.join('\n'));
+  }
+
+  downloadTemplate(): void {
+    try {
+      const anchor = document.createElement('a');
+      anchor.href = this.templateFilePath;
+      anchor.download = 'planilha_exemplo.xlsx';
+      anchor.click();
+      this.snackBar.open('Planilha baixada com sucesso!', 'Fechar', snackBarSuccessConfig);
+    } catch {
+      this.snackBar.open('Erro ao baixar a planilha de exemplo.', 'Fechar', snackBarErrorConfig);
+    }
   }
 }

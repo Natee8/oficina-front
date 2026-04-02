@@ -123,10 +123,17 @@ export class TableOs implements OnInit {
               }
             : os
         );
+        this.snackBar.open('Status da OS atualizado com sucesso!', 'Fechar', snackBarSuccessConfig);
         this.closeModal();
       },
-      error: () => {
+      error: (err) => {
         this.error = 'Erro ao alterar status da OS';
+        this.snackBar.open(
+          err?.error?.message || this.error,
+          'Fechar',
+          snackBarErrorConfig,
+        );
+        this.closeModal();
       },
     });
   }
@@ -177,9 +184,11 @@ export class TableOs implements OnInit {
         anchor.download = fileName;
         anchor.click();
         window.URL.revokeObjectURL(fileUrl);
+        this.snackBar.open('Documento baixado com sucesso!', 'Fechar', snackBarSuccessConfig);
       },
-      error: () => {
+      error: (err) => {
         this.error = 'Erro ao baixar PDF da OS';
+        this.snackBar.open(err?.error?.message || 'Erro ao baixar documento da OS', 'Fechar', snackBarErrorConfig);
       },
     });
   }

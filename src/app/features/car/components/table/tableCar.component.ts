@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableFooterComponent } from '../../../../shared/components/tableFooter/tableFooter.component';
 import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
 import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
@@ -7,6 +8,7 @@ import { ModalDelete } from '../../../../shared/components/modalDelete/modalDele
 import { EditCarModalComponent } from '../popupEdit/popupEdit.component';
 import { VehicleDto } from '../../model/dtos/vehicle.dto';
 import { VehicleService } from '../../service/car.service';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 const vehicleColumns = [
   { key: 'customerName', label: 'Cliente' },
@@ -43,7 +45,10 @@ export class TableCar implements OnInit {
   columns = vehicleColumns;
   vehicles: VehicleDto[] = [];
 
-  constructor(private vehicleService: VehicleService) {}
+  constructor(
+    private vehicleService: VehicleService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   ngOnInit() {
     this.loading = true;
@@ -88,10 +93,12 @@ export class TableCar implements OnInit {
     this.vehicleService.deleteVehicle(selectedId).subscribe({
       next: () => {
         this.vehicles = this.vehicles.filter((vehicle) => vehicle.id !== selectedId);
+        this.snackBar.open('Veiculo excluido com sucesso!', 'Fechar', snackBarSuccessConfig);
         this.closeModal();
       },
-      error: () => {
+      error: (err) => {
         this.error = 'Erro ao excluir veículo';
+        this.snackBar.open(err?.error?.message || this.error, 'Fechar', snackBarErrorConfig);
       },
     });
   }
