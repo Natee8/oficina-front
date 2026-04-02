@@ -5,18 +5,27 @@
   </div>
 
   <div class="header-bottom">
-    <div class="containerButtons">
-      <div class="buttonContainer">
-        <button class="button upscale" [routerLink]="['/car-create']">
-          <p>Novo Veículo</p>
-          <i class="fa-solid fa-plus"></i>
-        </button>
+    <!-- ESQUERDA -->
+    <div class="buttonContainer">
+      <button class="button upscale" [routerLink]="['/car-create']">
+        <p>Novo Veículo</p>
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
+
+    <!-- DIREITA -->
+    <div class="filters">
+      <div class="select">
+        <app-input-field label="Placa"></app-input-field>
       </div>
 
-      <div class="filters">
-        <app-input-field label="Placa"></app-input-field>
+      <div class="select">
         <app-select-field label="Lojas"></app-select-field>
       </div>
+
+      <button class="button btn-primary">
+        <p>Filtrar</p>
+      </button>
     </div>
   </div>
 </div>

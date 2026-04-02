@@ -35,9 +35,9 @@
       display: flex;
       width: 100%;
       align-items: start;
+      margin-top: 2rem;
       justify-content: space-between;
       gap: 12px;
-      flex-wrap: wrap;
 
       app-input-field,
       app-select-field {
@@ -47,9 +47,19 @@
     }
 
     .filters {
-      width: 50%;
+      width: 60%;
       display: flex;
-      gap: 2rem;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+    }
+
+    .select {
+      width: 100%;
+    }
+
+    .btn-primary p {
+      margin: 0;
     }
 
     .buttonContainer {
