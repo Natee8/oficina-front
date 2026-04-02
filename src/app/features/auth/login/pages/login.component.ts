@@ -8,6 +8,8 @@ import { LoginData } from '../model/auth.dto';
 import { login } from '../services/loginService';
 import { loginSchema } from '../schemas/login.schema';
 import { NgIf } from '@angular/common';
+import { UserService } from '../../../../core/services/user.service';
+import { PartialUser } from '../model/user.dto';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +28,7 @@ export class LoginComponent {
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
+    private userService: UserService,
   ) {}
 
   handleBack() {
@@ -39,12 +42,15 @@ export class LoginComponent {
 
     try {
       await loginSchema.validate(data, { abortEarly: false });
-
       this.errors = {};
 
       const result = await login(data);
 
       TokenService.saveToken(result.token);
+
+      this.userService.setUser(result.user as PartialUser);
+      console.log('Usuário definido no UserService:', result.user);
+
       await this.router.navigate(['/os-list']);
 
       this.snackBar.open('Login realizado com sucesso!', 'Fechar', {
