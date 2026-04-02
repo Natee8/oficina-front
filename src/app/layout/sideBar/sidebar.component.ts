@@ -4,6 +4,7 @@ import { NgClass, NgIf } from '@angular/common';
 import { TokenService } from '../../core/services/token.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JwtService } from '../../core/services/jwt.service';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -29,14 +30,15 @@ export class SideBarComponent {
 
   constructor(
     private router: Router,
+    private userService: UserService,
     private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
-    console.log('Token:', TokenService.getToken()); // deve exibir o JWT
-    console.log('Email do token:', JwtService.getEmail()); // deve exibir o email
-    this.emailLogged = JwtService.getEmail() || '';
-    this.isAdmin = JwtService.isAdmin();
+    this.userService.user$.subscribe((user) => {
+      this.emailLogged = user?.email || '';
+      this.isAdmin = user?.role === 'admin';
+    });
   }
 
   get storesOpen() {
