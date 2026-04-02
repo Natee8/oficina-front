@@ -15,6 +15,8 @@ import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/con
   providers: [NfsService],
 })
 export class NfsGroupingStoreComponent {
+  private readonly templateFilePath = '/assets/planilhas/planilha_exemplo.xlsx';
+
   groups: NfLojaDto[] = [];
   totalGeral = 0;
   totalLinhas = 0;
@@ -96,5 +98,17 @@ export class NfsGroupingStoreComponent {
       lines.push(`  Total: ${this.formatCurrency(p.totalPlaca)}`);
     });
     navigator.clipboard.writeText(lines.join('\n'));
+  }
+
+  downloadTemplate(): void {
+    try {
+      const anchor = document.createElement('a');
+      anchor.href = this.templateFilePath;
+      anchor.download = 'planilha_exemplo.xlsx';
+      anchor.click();
+      this.snackBar.open('Planilha baixada com sucesso!', 'Fechar', snackBarSuccessConfig);
+    } catch {
+      this.snackBar.open('Erro ao baixar a planilha de exemplo.', 'Fechar', snackBarErrorConfig);
+    }
   }
 }
