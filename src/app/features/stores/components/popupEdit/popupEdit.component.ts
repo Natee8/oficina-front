@@ -16,6 +16,8 @@ import { stepTwoSchema } from '../../schemas/stepTwo.schema';
 import { reviewStoreConfig } from '../../../../core/config/reviewsData';
 import { buildStorePayload } from '../../shared/functionPayload';
 import { StoreService } from '../../service/store.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-edit-store-modal',
@@ -43,7 +45,10 @@ export class EditStoreModalComponent {
 
   stepsConfig = stepsConfigStore;
 
-  constructor(private storeService: StoreService) {}
+  constructor(
+    private storeService: StoreService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   get formattedReviewData() {
     return this.reviewData.map((section) => ({
@@ -56,19 +61,21 @@ export class EditStoreModalComponent {
   }
 
   @Input() store: any;
-  @Output() closeModalEvent = new EventEmitter<void>();
+  @Output() closeModalEvent = new EventEmitter<boolean>();
 
   ngOnInit() {
     if (this.store) {
       this.storeData.name = this.store.name;
       this.storeData.cnpj = this.store.cnpj;
+      this.storeData.phone = this.store.phone ?? '';
+      this.storeData.email = this.store.email ?? '';
 
-      this.storeData.addressZip = this.store.zip;
-      this.storeData.addressStreet = this.store.street;
-      this.storeData.addressNumber = this.store.number;
-      this.storeData.addressDistrict = this.store.neighborhood;
-      this.storeData.addressCity = this.store.city;
-      this.storeData.addressState = this.store.state;
+      this.storeData.addressZip = this.store.addressZip ?? this.store.zip ?? '';
+      this.storeData.addressStreet = this.store.addressStreet ?? this.store.street ?? '';
+      this.storeData.addressNumber = this.store.addressNumber ?? this.store.number ?? '';
+      this.storeData.addressDistrict = this.store.addressDistrict ?? this.store.neighborhood ?? '';
+      this.storeData.addressCity = this.store.addressCity ?? this.store.city ?? '';
+      this.storeData.addressState = this.store.addressState ?? this.store.state ?? '';
     }
   }
 
@@ -129,20 +136,25 @@ export class EditStoreModalComponent {
   }
 
   save() {
+    if (!this.store?.id) {
+      this.snackBar.open('Loja inválida para atualização.', 'Fechar', snackBarErrorConfig);
+      return;
+    }
+
     const payload = buildStorePayload(this.storeData);
 
     this.storeService.updateStore(this.store.id, payload).subscribe({
-      next: (res) => {
-        console.log('Loja atualizada!', res);
-        this.close();
+      next: () => {
+        this.snackBar.open('Loja atualizada com sucesso!', 'Fechar', snackBarSuccessConfig);
+        this.close(true);
       },
       error: (err) => {
-        console.error('Erro ao atualizar a loja', err);
+        this.snackBar.open(err?.error?.message || 'Erro ao atualizar a loja.', 'Fechar', snackBarErrorConfig);
       },
     });
   }
 
-  close() {
-    this.closeModalEvent.emit();
+  close(updated = false) {
+    this.closeModalEvent.emit(updated);
   }
 }

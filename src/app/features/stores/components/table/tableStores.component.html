@@ -14,10 +14,10 @@
       >
         <div class="table-cell">{{ store.name }}</div>
         <div class="table-cell">{{ store.cnpj }}</div>
-        <div class="table-cell">{{ store.street }}</div>
-        <div class="table-cell">{{ store.number }}</div>
-        <div class="table-cell">{{ store.city }}</div>
-        <div class="table-cell">{{ store.neighborhood }}</div>
+        <div class="table-cell">{{ store.addressStreet }}</div>
+        <div class="table-cell">{{ store.addressNumber }}</div>
+        <div class="table-cell">{{ store.addressCity }}</div>
+        <div class="table-cell">{{ store.addressDistrict }}</div>
 
         <div class="table-cell">
           <app-table-actions (onEdit)="handleEdit(store)" (onDelete)="handleDelete(store)" />
@@ -28,7 +28,7 @@
 
   <app-edit-store-modal
     *ngIf="activeModal === 'edit'"
-    (closeModalEvent)="closeModal()"
+    (closeModalEvent)="handleModalClose($event)"
     [store]="selectedStore"
   ></app-edit-store-modal>
 
