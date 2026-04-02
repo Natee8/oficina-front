@@ -8,6 +8,8 @@ export interface OsData {
   funilaria: string;
   valorPintura: string;
   valorFunilaria: string;
+  mecanica: string;
+  valorMecanica: string;
 
   peca: string;
   quantidade: number | null;
@@ -25,6 +27,8 @@ export function createOsData(): OsData {
     funilaria: '',
     valorPintura: '',
     valorFunilaria: '',
+    mecanica: '',
+    valorMecanica: '',
     peca: '',
     quantidade: null,
     valorUnitario: '',

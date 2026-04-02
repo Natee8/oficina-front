@@ -86,10 +86,12 @@ export class EditOsModalComponent implements OnInit {
       veiculo: os.vehicleId,
       dataEntrada: os.entryDate ? os.entryDate.split('T')[0] : '',
       dataSaida: os.estimatedDeliveryDate ? os.estimatedDeliveryDate.split('T')[0] : '',
-      pintura: os.paintDescription,
+      pintura: os.paintDescription ?? '',
       valorPintura: os.paintValue ? String(os.paintValue) : '',
-      funilaria: os.bodyworkDescription,
+      funilaria: os.bodyworkDescription ?? '',
       valorFunilaria: os.bodyworkValue ? String(os.bodyworkValue) : '',
+      mecanica: os.mechanicsDescription ?? '',
+      valorMecanica: os.mechanicsValue ? String(os.mechanicsValue) : '',
       peca: '',
       quantidade: null,
       valorUnitario: '',
@@ -130,11 +132,15 @@ export class EditOsModalComponent implements OnInit {
         if (this.stepIndex === 0) {
           const dataToValidate = {
             ...this.osData,
-            valorPintura: this.parseCurrency(this.osData.valorPintura),
-            valorFunilaria: this.parseCurrency(this.osData.valorFunilaria),
+            valorPintura: this.osData.valorPintura ? this.parseCurrency(this.osData.valorPintura) : undefined,
+            valorFunilaria: this.osData.valorFunilaria ? this.parseCurrency(this.osData.valorFunilaria) : undefined,
+            valorMecanica: this.osData.valorMecanica ? this.parseCurrency(this.osData.valorMecanica) : undefined,
           };
 
-          await StepOneOsSchema.validate(dataToValidate, { abortEarly: false });
+          await StepOneOsSchema.validate(dataToValidate, {
+            abortEarly: false,
+            context: { hasParts: this.pecasAdicionadas.length > 0 },
+          });
         }
       }
 
@@ -163,7 +169,7 @@ export class EditOsModalComponent implements OnInit {
   save() {
     if (!this.os) return;
 
-    const payload = buildUpdateOsPayload(this.osData, this.os);
+    const payload = buildUpdateOsPayload(this.osData, this.os, this.pecasAdicionadas);
 
     this.osService.patchServiceOrder(this.os.id, payload).subscribe({
       next: () => {

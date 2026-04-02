@@ -25,6 +25,8 @@ export interface OsDto {
   bodyworkValue: number;
   paintDescription: string;
   paintValue: number;
+  mechanicsDescription: string;
+  mechanicsValue: number;
   partsValue: number;
   totalDiscount: number;
   totalAmount: number;

@@ -23,6 +23,8 @@ export class OsStepOneComponent {
     valorPintura: '',
     funilaria: '',
     valorFunilaria: '',
+    mecanica: '',
+    valorMecanica: '',
     peca: '',
     quantidade: null,
     valorUnitario: '',
