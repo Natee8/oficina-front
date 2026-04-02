@@ -27,4 +27,11 @@ export class StoreService {
 
     return this.http.patch<StoreDto>(`${this.baseUrl}/${id}`, storeData, { headers });
   }
+
+  deleteStore(id: number): Observable<void> {
+    const token = TokenService.getToken();
+    const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
+
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers });
+  }
 }

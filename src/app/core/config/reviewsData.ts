@@ -5,6 +5,8 @@ export const reviewStoreConfig = [
     fields: [
       { label: 'Nome', key: 'name' },
       { label: 'CNPJ', key: 'cnpj' },
+      { label: 'Telefone', key: 'phone' },
+      { label: 'Email', key: 'email' },
     ],
   },
   {
