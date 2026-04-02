@@ -1,32 +1,33 @@
 <div class="containerHeader">
-  <h1>Bem vindo! {{ tenantName }}</h1>
-  <p>Seja bem vindo ao modulo de administrador do Gestão Oficina</p>
+  <h1>Bem vindo! {{ displayTenantName }}</h1>
+  <p>Seja bem-vindo ao módulo de administrador do Gestão Oficina</p>
+
   <form class="tenant-form" (submit)="onSubmit($event)">
     <app-input-field
       type="text"
-      id="tenantName"
+      id="editTenantName"
       label="Nome da Empresa"
       placeholder="Digite o nome da empresa"
       [maxlength]="255"
       width="100%"
-      [(ngModel)]="tenantName"
-      name="tenantName"
+      [(ngModel)]="editTenantName"
+      name="editTenantName"
       required
     ></app-input-field>
 
     <app-input-field
       type="text"
-      id="cnpj"
+      id="editCnpj"
       label="CNPJ"
       placeholder="Digite o CNPJ da empresa"
       [maxlength]="18"
       width="100%"
-      [(ngModel)]="cnpj"
-      name="cnpj"
+      [(ngModel)]="editCnpj"
+      name="editCnpj"
       mask="cnpj"
       required
     ></app-input-field>
+
     <button type="submit" class="btn-primary upscale">Editar empresa</button>
   </form>
 </div>
-

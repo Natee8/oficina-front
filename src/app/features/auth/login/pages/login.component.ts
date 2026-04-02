@@ -45,11 +45,14 @@ export class LoginComponent {
       this.errors = {};
 
       const result = await login(data);
-
       TokenService.saveToken(result.token);
 
-      this.userService.setUser(result.user as PartialUser);
-      console.log('Usuário definido no UserService:', result.user);
+      const user = await this.userService.loadUser();
+      if (!user) throw new Error('Não foi possível carregar os dados do usuário');
+
+      this.userService.setUser(user);
+
+      console.log('Usuário logado:', this.userService.getUser()); // aqui já vai ter email e demais campos
 
       await this.router.navigate(['/os-list']);
 
@@ -59,8 +62,6 @@ export class LoginComponent {
         verticalPosition: 'top',
         panelClass: ['snackbar-success'],
       });
-
-      console.log('Usuário logado:', result.user);
     } catch (err: any) {
       if (err.inner) {
         const fieldErrors: any = {};

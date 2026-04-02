@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../features/auth/login/model/user.dto';
 import { TokenService } from './token.service';
@@ -11,17 +11,23 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  loadUser() {
+  async loadUser(): Promise<User | null> {
     const token = TokenService.getToken();
-    if (!token) return;
+    if (!token) return null;
 
-    return this.http
-      .get<User>('http://localhost:5233/api/users/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .subscribe((user) => this.userSubject.next(user));
+    try {
+      const user = await firstValueFrom(
+        this.http.get<User>('http://localhost:5233/api/users/me', {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+      );
+      console.log('Usuário do /me:', user);
+      this.userSubject.next(user);
+      return user;
+    } catch (err) {
+      console.log('Erro ao buscar /me:', err);
+      return null;
+    }
   }
 
   setUser(user: User | Partial<User>) {

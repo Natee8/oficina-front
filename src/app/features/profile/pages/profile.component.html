@@ -1,36 +1,46 @@
 <div class="containerHeader">
-  <h1>Bem vindo! {{ profile.name }}</h1>
-  <p>Seja bem vindo ao modulo de administrador do Gestão Oficina</p>
   <form class="profile-form" (submit)="onSubmit($event)">
+    <h1>Bem vindo! {{ profile.name }}</h1>
+    <p>Seja bem vindo ao módulo de administrador do Gestão Oficina</p>
     <app-input-field
       type="text"
       id="profileName"
       label="Nome"
       placeholder="Digite seu nome"
       [maxlength]="100"
-      [(ngModel)]="profile.name"
+      [(ngModel)]="editProfile.name"
       name="profileName"
       required
     ></app-input-field>
-    
+
     <app-input-field
       type="text"
       id="profileEmail"
       label="Email"
       placeholder="Digite seu email"
       [maxlength]="100"
-      [(ngModel)]="profile.email"
+      [(ngModel)]="editProfile.email"
       name="profileEmail"
-    />
+    ></app-input-field>
 
     <app-input-field
       type="text"
       id="profileRole"
       label="Cargo"
-      [(ngModel)]="profile.role"
+      [ngModel]="profile.role"
       name="profileRole"
       [disabled]="true"
-    />
+    ></app-input-field>
+
+    <app-input-field
+      type="text"
+      id="profileRole"
+      label="Cargo"
+      [ngModel]="profile.role"
+      name="profileRole"
+      [disabled]="true"
+    ></app-input-field>
+
     <button type="submit" class="btn-primary upscale">Editar dados</button>
   </form>
 </div>
