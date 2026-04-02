@@ -40,6 +40,8 @@ export const reviewOsConfig = [
       { label: 'Valor Pintura', key: 'valorPintura', prefix: 'R$ ' },
       { label: 'Funilaria', key: 'funilaria' },
       { label: 'Valor Funilaria', key: 'valorFunilaria', prefix: 'R$ ' },
+      { label: 'Mecânica', key: 'mecanica' },
+      { label: 'Valor Mecânica', key: 'valorMecanica', prefix: 'R$ ' },
     ],
   },
   {

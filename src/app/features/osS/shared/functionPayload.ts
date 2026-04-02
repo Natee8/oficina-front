@@ -7,10 +7,11 @@ export function buildOsPayload(
   osData: OsData,
   pecasAdicionadas: { nome: string; quantidade: number; valorUnitario: number }[],
 ): CreateOsPayload {
-  const parseCurrency = (value: string | number | null | undefined): number => {
-    if (value == null) return 0;
+  const parseCurrency = (value: string | number | null | undefined): number | null => {
+    if (value == null || value === '') return null;
     if (typeof value === 'number') return value;
-    return Number(value.toString().trim().replace(/\./g, '').replace(',', '.')) || 0;
+    const parsed = Number(value.toString().trim().replace(/\./g, '').replace(',', '.'));
+    return isNaN(parsed) || parsed === 0 ? null : parsed;
   };
 
   const toIsoUtc = (dateValue: string, hour: number): string => {
@@ -18,20 +19,24 @@ export function buildOsPayload(
     return `${dateValue}T${String(hour).padStart(2, '0')}:00:00Z`;
   };
 
+  const nullIfEmpty = (s: string): string | null => (s && s.trim() ? s.trim() : null);
+
   return {
     unitId: osData.loja ?? 1,
     vehicleId: osData.veiculo ?? 10,
     ownerCustomerId: osData.cliente ?? 25,
     entryDate: toIsoUtc(osData.dataEntrada, 10),
     estimatedDeliveryDate: toIsoUtc(osData.dataSaida, 18),
-    bodyworkDescription: osData.funilaria,
+    bodyworkDescription: nullIfEmpty(osData.funilaria),
     bodyworkValue: parseCurrency(osData.valorFunilaria),
-    paintDescription: osData.pintura,
+    paintDescription: nullIfEmpty(osData.pintura),
     paintValue: parseCurrency(osData.valorPintura),
+    mechanicsDescription: nullIfEmpty(osData.mecanica),
+    mechanicsValue: parseCurrency(osData.valorMecanica),
     parts: pecasAdicionadas.map((p) => ({
       description: p.nome,
       quantity: Number(p.quantidade),
-      unitPrice: parseCurrency(p.valorUnitario),
+      unitPrice: parseCurrency(p.valorUnitario) ?? 0,
     })),
   };
 }

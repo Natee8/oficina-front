@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { ModalComponent } from '../../../../shared/components/popup/popup.component';
@@ -23,6 +24,7 @@ import { OsData, createOsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
 import { reviewOsConfig } from '../../../../core/config/reviewsData';
 import { buildUpdateOsPayload } from '../../shared/functionPayloadUpdate';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-edit-os-modal',
@@ -63,6 +65,7 @@ export class EditOsModalComponent implements OnInit {
     private clientService: ClientService,
     private vehicleService: VehicleService,
     private router: Router,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -86,10 +89,12 @@ export class EditOsModalComponent implements OnInit {
       veiculo: os.vehicleId,
       dataEntrada: os.entryDate ? os.entryDate.split('T')[0] : '',
       dataSaida: os.estimatedDeliveryDate ? os.estimatedDeliveryDate.split('T')[0] : '',
-      pintura: os.paintDescription,
+      pintura: os.paintDescription ?? '',
       valorPintura: os.paintValue ? String(os.paintValue) : '',
-      funilaria: os.bodyworkDescription,
+      funilaria: os.bodyworkDescription ?? '',
       valorFunilaria: os.bodyworkValue ? String(os.bodyworkValue) : '',
+      mecanica: os.mechanicsDescription ?? '',
+      valorMecanica: os.mechanicsValue ? String(os.mechanicsValue) : '',
       peca: '',
       quantidade: null,
       valorUnitario: '',
@@ -130,11 +135,15 @@ export class EditOsModalComponent implements OnInit {
         if (this.stepIndex === 0) {
           const dataToValidate = {
             ...this.osData,
-            valorPintura: this.parseCurrency(this.osData.valorPintura),
-            valorFunilaria: this.parseCurrency(this.osData.valorFunilaria),
+            valorPintura: this.osData.valorPintura ? this.parseCurrency(this.osData.valorPintura) : undefined,
+            valorFunilaria: this.osData.valorFunilaria ? this.parseCurrency(this.osData.valorFunilaria) : undefined,
+            valorMecanica: this.osData.valorMecanica ? this.parseCurrency(this.osData.valorMecanica) : undefined,
           };
 
-          await StepOneOsSchema.validate(dataToValidate, { abortEarly: false });
+          await StepOneOsSchema.validate(dataToValidate, {
+            abortEarly: false,
+            context: { hasParts: this.pecasAdicionadas.length > 0 },
+          });
         }
       }
 
@@ -163,14 +172,22 @@ export class EditOsModalComponent implements OnInit {
   save() {
     if (!this.os) return;
 
-    const payload = buildUpdateOsPayload(this.osData, this.os);
+    const payload = buildUpdateOsPayload(this.osData, this.os, this.pecasAdicionadas);
 
     this.osService.patchServiceOrder(this.os.id, payload).subscribe({
       next: () => {
+        this.snackBar.open('OS atualizada com sucesso!', 'Fechar', snackBarSuccessConfig);
         this.router.navigate(['/os-list']);
         this.close();
       },
-      error: (error) => console.error('Error updating OS:', error),
+      error: (error) => {
+        console.error('Error updating OS:', error);
+        this.snackBar.open(
+          error?.error?.message || 'Erro ao atualizar OS',
+          'Fechar',
+          snackBarErrorConfig,
+        );
+      },
     });
   }
 

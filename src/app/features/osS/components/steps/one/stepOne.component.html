@@ -77,6 +77,7 @@
           labelBgColor="#fff"
           [(ngModel)]="data.pintura"
           name="pintura"
+          [maxlength]="100"
         ></app-input-field>
         <div *ngIf="errors['pintura']" class="error">{{ errors['pintura'] }}</div>
       </div>
@@ -99,11 +100,40 @@
     <div class="os-field-group">
       <div class="field">
         <app-input-field
+          label="Mecânica"
+          type="text"
+          labelBgColor="#fff"
+          [(ngModel)]="data.mecanica"
+          name="mecanica"
+          [maxlength]="100"
+        ></app-input-field>
+        <div *ngIf="errors['mecanica']" class="error">{{ errors['mecanica'] }}</div>
+      </div>
+
+      <div class="field small-input">
+        <app-input-field
+          label="Valor da Mecânica"
+          type="text"
+          labelBgColor="#fff"
+          [(ngModel)]="data.valorMecanica"
+          name="valorMecanica"
+          mask="currency"
+        ></app-input-field>
+        <div *ngIf="errors['valorMecanica']" class="error">{{ errors['valorMecanica'] }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="os-row">
+    <div class="os-field-group">
+      <div class="field">
+        <app-input-field
           label="Funilaria"
           type="text"
           labelBgColor="#fff"
           [(ngModel)]="data.funilaria"
           name="funilaria"
+          [maxlength]="100"
         ></app-input-field>
         <div *ngIf="errors['funilaria']" class="error">{{ errors['funilaria'] }}</div>
       </div>
