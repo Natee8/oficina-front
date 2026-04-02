@@ -6,7 +6,10 @@
 
   <ul class="menu">
     <li *ngIf="isAdmin">
-      <div class="menu-item" (click)="collapsed ? navigate('/tenant-list') : toggleSubmenu('tenants')">
+      <div
+        class="menu-item"
+        (click)="collapsed ? navigate('/tenant-list') : toggleSubmenu('tenants')"
+      >
         <img src="assets/icons/tenant.svg" />
         <span>Empresa</span>
         <i
@@ -25,7 +28,7 @@
         (click)="collapsed ? navigate('/stores-list') : toggleSubmenu('stores')"
       >
         <img src="assets/icons/building.svg" />
-        <span>Loja</span>
+        <span>Lojas</span>
         <i
           *ngIf="!collapsed"
           class="fa-solid"
