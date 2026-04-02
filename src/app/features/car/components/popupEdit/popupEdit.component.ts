@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import * as yup from 'yup';
 
 import { ModalComponent } from '../../../../shared/components/popup/popup.component';
@@ -19,6 +20,7 @@ import { reviewCarConfig } from '../../../../core/config/reviewsData';
 import { stepOneSchema } from '../../schemas/stepOne.schema';
 import { stepTwoSchema } from '../../schemas/stepTwo.schema';
 import { buildVehiclePayload } from '../../shared/payloadFunction';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-edit-car-modal',
@@ -54,6 +56,7 @@ export class EditCarModalComponent implements OnInit {
   constructor(
     private clientService: ClientService,
     private vehicleService: VehicleService,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -148,6 +151,7 @@ export class EditCarModalComponent implements OnInit {
   save() {
     if (!this.car?.id) {
       this.error = 'Veículo inválido para atualização';
+      this.snackBar.open(this.error, 'Fechar', snackBarErrorConfig);
       return;
     }
 
@@ -156,16 +160,19 @@ export class EditCarModalComponent implements OnInit {
 
       this.vehicleService.patchVehicle(this.car.id, payload).subscribe({
         next: (vehicle) => {
+          this.snackBar.open('Veiculo atualizado com sucesso!', 'Fechar', snackBarSuccessConfig);
           this.vehicleUpdated.emit(vehicle);
           this.close();
         },
-        error: () => {
-          this.error = 'Erro ao atualizar veículo';
+        error: (err) => {
+          this.error = err?.error?.message || 'Erro ao atualizar veículo';
+          this.snackBar.open(this.error, 'Fechar', snackBarErrorConfig);
         },
       });
     } catch (err) {
       if (err instanceof Error) {
         this.error = err.message;
+        this.snackBar.open(this.error, 'Fechar', snackBarErrorConfig);
       }
     }
   }

@@ -10,6 +10,8 @@
       (focus)="inputFocused = true"
       (blur)="onBlur()"
       [attr.maxlength]="maxlength"
+      [attr.min]="min || null"
+      [attr.max]="max || null"
       [disabled]="disabled"
       [appMask]="mask"
       required

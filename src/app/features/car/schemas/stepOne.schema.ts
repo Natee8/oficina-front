@@ -11,10 +11,4 @@ export const stepOneSchema = yup.object({
     .required('Ano é obrigatório')
     .min(1900, 'Ano inválido')
     .max(new Date().getFullYear(), 'Ano inválido'),
-
-  vin: yup.string().required('VIN é obrigatório').min(5, 'VIN inválido'),
-
-  renavam: yup.string().required('Renavam é obrigatório').min(5, 'Renavam inválido'),
-
-  insuranceClaimNumber: yup.string().nullable().notRequired(),
 });

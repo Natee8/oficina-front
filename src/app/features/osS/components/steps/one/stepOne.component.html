@@ -51,6 +51,8 @@
         labelBgColor="#fff"
         [(ngModel)]="data.dataEntrada"
         name="dataEntrada"
+        [min]="today"
+        (ngModelChange)="onDataEntradaChange($event)"
       ></app-input-field>
       <div *ngIf="errors['dataEntrada']" class="error">{{ errors['dataEntrada'] }}</div>
     </div>
@@ -62,6 +64,9 @@
         labelBgColor="#fff"
         [(ngModel)]="data.dataSaida"
         name="dataSaida"
+        [min]="minDataSaida"
+        [max]="maxDataSaida"
+        (ngModelChange)="onDataSaidaChange($event)"
       ></app-input-field>
       <div *ngIf="errors['dataSaida']" class="error">{{ errors['dataSaida'] }}</div>
     </div>

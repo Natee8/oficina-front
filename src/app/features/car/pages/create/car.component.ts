@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BackButtonComponent } from '../../../../shared/components/backButton/back-button.component';
 import { Router } from '@angular/router';
 import { RegisterCardComponent } from '../../../../layout/CardCreateLayout/register-card.component';
@@ -13,6 +14,7 @@ import { CarData, createCarData } from '../../model/dtos/vehicle.data';
 import { stepOneSchema } from '../../schemas/stepOne.schema';
 import { stepTwoSchema } from '../../schemas/stepTwo.schema';
 import { buildVehiclePayload } from '../../shared/payloadFunction';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-create-car',
@@ -43,6 +45,7 @@ export class CreateCarComponent implements OnInit {
     private router: Router,
     private clientService: ClientService,
     private vehicleService: VehicleService,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -109,15 +112,18 @@ export class CreateCarComponent implements OnInit {
 
       this.vehicleService.postVehicle(payload).subscribe({
         next: () => {
+          this.snackBar.open('Veiculo cadastrado com sucesso!', 'Fechar', snackBarSuccessConfig);
           this.router.navigate(['/car-list']);
         },
-        error: () => {
-          this.error = 'Erro ao cadastrar veículo';
+        error: (err) => {
+          this.error = err?.error?.message || 'Erro ao cadastrar veículo';
+          this.snackBar.open(this.error, 'Fechar', snackBarErrorConfig);
         },
       });
     } catch (err) {
       if (err instanceof Error) {
         this.error = err.message; // ex: 'Cliente não pode ser nulo'
+        this.snackBar.open(this.error, 'Fechar', snackBarErrorConfig);
       }
     }
   }

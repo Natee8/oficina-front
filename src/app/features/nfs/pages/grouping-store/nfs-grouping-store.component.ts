@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NfsService } from '../../service/nfs.service';
 import { NfLojaDto, NfPlacaDto } from '../../model/nfs.dto';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-nfs-grouping-store',
@@ -21,7 +23,10 @@ export class NfsGroupingStoreComponent {
   expandedGroups: boolean[] = [];
   searchTerms: Record<number, string> = {};
 
-  constructor(private nfsService: NfsService) {}
+  constructor(
+    private nfsService: NfsService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   get uploadDone(): boolean {
     return this.groups.length > 0;
@@ -44,10 +49,12 @@ export class NfsGroupingStoreComponent {
         this.expandedGroups = res.lojas.map(() => false);
         this.searchTerms = {};
         this.loading = false;
+        this.snackBar.open('Agrupamento realizado com sucesso!', 'Fechar', snackBarSuccessConfig);
       },
-      error: () => {
-        this.error = 'Erro ao processar o arquivo. Verifique se está no formato correto.';
+      error: (err) => {
+        this.error = err?.error?.message || 'Erro ao processar o arquivo. Verifique se está no formato correto.';
         this.loading = false;
+        this.snackBar.open(this.error, 'Fechar', snackBarErrorConfig);
       },
     });
   }
