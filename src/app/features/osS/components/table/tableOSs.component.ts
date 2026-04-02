@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
 import { TableFooterComponent } from '../../../../shared/components/tableFooter/tableFooter.component';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
@@ -9,6 +10,7 @@ import { StatusModalComponent } from '../modelStatus/modelStatus.component';
 import { OsService } from '../../service/os.service';
 import { OsDto } from '../../model/dtos/os.dto';
 import { StatusOs } from '../../model/types/status';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 const OsColumns = [
   { label: 'ID' },
@@ -51,7 +53,10 @@ export class TableOs implements OnInit {
   loading = false;
   error = '';
 
-  constructor(private osService: OsService) {}
+  constructor(
+    private osService: OsService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   normalizeStatus(status: string | null | undefined): StatusOs | '' {
     if (!status) return '';
@@ -200,10 +205,16 @@ export class TableOs implements OnInit {
     this.osService.deleteServiceOrder(selectedId).subscribe({
       next: () => {
         this.osList = this.osList.filter((os) => os.id !== selectedId);
+        this.snackBar.open('OS excluída com sucesso!', 'Fechar', snackBarSuccessConfig);
         this.closeModal();
       },
-      error: () => {
+      error: (err) => {
         this.error = 'Erro ao excluir OS';
+        this.snackBar.open(
+          err?.error?.message || 'Erro ao excluir OS',
+          'Fechar',
+          snackBarErrorConfig,
+        );
       },
     });
   }

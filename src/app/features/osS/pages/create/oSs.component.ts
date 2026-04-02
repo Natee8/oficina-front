@@ -1,6 +1,7 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { OsStepOneComponent } from '../../components/steps/one/stepOne.component';
 import { OsStepTwoComponent } from '../../components/steps/two/stepTwo.component';
@@ -16,6 +17,7 @@ import { BackButtonComponent } from '../../../../shared/components/backButton/ba
 import { createOsData, OsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
 import { buildOsPayload } from '../../shared/functionPayload';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-os-create',
@@ -46,6 +48,7 @@ export class OSsCreateComponent implements OnInit, DoCheck {
     private storeService: StoreService,
     private clientService: ClientService,
     private vehicleService: VehicleService,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -142,8 +145,18 @@ export class OSsCreateComponent implements OnInit, DoCheck {
     const payload = buildOsPayload(this.osData, this.pecasAdicionadas);
 
     this.osService.postServiceOrder(payload).subscribe({
-      next: () => this.router.navigate(['/os-list']),
-      error: (err) => console.error('Erro ao criar OS:', err),
+      next: () => {
+        this.snackBar.open('OS criada com sucesso!', 'Fechar', snackBarSuccessConfig);
+        this.router.navigate(['/os-list']);
+      },
+      error: (err) => {
+        console.error('Erro ao criar OS:', err);
+        this.snackBar.open(
+          err?.error?.message || 'Erro ao criar OS',
+          'Fechar',
+          snackBarErrorConfig,
+        );
+      },
     });
 
     console.log('CREATE OS', payload);
