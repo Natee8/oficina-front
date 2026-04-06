@@ -35,6 +35,7 @@ export class OSsCreateComponent implements OnInit, DoCheck {
   veiculos: VehicleDto[] = [];
 
   errors: Record<string, string> = {};
+  pieceErrors: Record<string, string> = {};
   osData: OsData = createOsData();
 
   pecasAdicionadas: { nome: string; quantidade: number; valorUnitario: number }[] = [];
@@ -174,16 +175,45 @@ export class OSsCreateComponent implements OnInit, DoCheck {
   }
 
   adicionarPeca() {
-    if (this.osData.peca && this.osData.quantidade && this.osData.valorUnitario) {
-      this.pecasAdicionadas.push({
-        nome: this.osData.peca,
-        quantidade: Number(this.osData.quantidade),
-        valorUnitario: this.parseCurrency(this.osData.valorUnitario),
-      });
-      this.osData.peca = '';
-      this.osData.quantidade = null;
-      this.osData.valorUnitario = '';
+    if (!this.validatePartFields()) {
+      return;
     }
+
+    this.pecasAdicionadas.push({
+      nome: this.osData.peca.trim(),
+      quantidade: Number(this.osData.quantidade),
+      valorUnitario: this.parseCurrency(this.osData.valorUnitario),
+    });
+    this.pieceErrors = {};
+    this.osData.peca = '';
+    this.osData.quantidade = null;
+    this.osData.valorUnitario = '';
+  }
+
+  private validatePartFields(): boolean {
+    const nextErrors: Record<string, string> = {};
+    const pieceName = this.osData.peca?.trim();
+    const quantity = Number(this.osData.quantidade);
+    const unitPrice = this.parseCurrency(this.osData.valorUnitario);
+
+    if (!pieceName) {
+      nextErrors['peca'] = 'Peça é obrigatória.';
+    }
+
+    if (!this.osData.quantidade) {
+      nextErrors['quantidade'] = 'Quantidade é obrigatória.';
+    } else if (!Number.isFinite(quantity) || quantity <= 0) {
+      nextErrors['quantidade'] = 'Quantidade deve ser maior que zero.';
+    }
+
+    if (!this.osData.valorUnitario?.trim()) {
+      nextErrors['valorUnitario'] = 'Valor unitário é obrigatório.';
+    } else if (!Number.isFinite(unitPrice) || unitPrice <= 0) {
+      nextErrors['valorUnitario'] = 'Valor unitário deve ser maior que zero.';
+    }
+
+    this.pieceErrors = nextErrors;
+    return Object.keys(nextErrors).length === 0;
   }
 
   aumentarQuantidade(peca: { nome: string; quantidade: number; valorUnitario: number }) {
