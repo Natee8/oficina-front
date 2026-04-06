@@ -8,6 +8,27 @@
   border-bottom: 1px solid #eee;
 }
 
+.table-head-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-head-cell.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-head-cell.active-sort {
+  color: #1b1f3b;
+  font-weight: 600;
+}
+
+.sort-indicator {
+  font-size: 12px;
+  line-height: 1;
+}
+
 .table-row {
   grid-template-columns: 2fr 1.5fr 1.5fr 1fr 1.5fr 2fr 2fr 120px;
 

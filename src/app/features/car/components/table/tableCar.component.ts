@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableFooterComponent } from '../../../../shared/components/tableFooter/tableFooter.component';
 import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
@@ -9,16 +9,21 @@ import { EditCarModalComponent } from '../popupEdit/popupEdit.component';
 import { VehicleDto } from '../../model/dtos/vehicle.dto';
 import { VehicleService } from '../../service/car.service';
 import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import { ClientService } from '../../../clients/service/client.service';
+import { ClientDto } from '../../../clients/model/dtos/client.dto';
+
+type VehicleSortKey = 'customerName' | 'plate' | 'brand' | 'model' | 'year' | 'color' | 'renavam';
+type SortDirection = 'asc' | 'desc';
 
 const vehicleColumns = [
-  { key: 'customerName', label: 'Cliente' },
-  { key: 'plate', label: 'Placa' },
-  { key: 'brand', label: 'Marca' },
-  { key: 'model', label: 'Modelo' },
-  { key: 'year', label: 'Ano' },
-  { key: 'color', label: 'Cor' },
-  { key: 'renavam', label: 'Renavam' },
-  { key: 'actions', label: 'Ações' },
+  { key: 'customerName', label: 'Cliente', sortKey: 'customerName' as VehicleSortKey },
+  { key: 'plate', label: 'Placa', sortKey: 'plate' as VehicleSortKey },
+  { key: 'brand', label: 'Marca', sortKey: 'brand' as VehicleSortKey },
+  { key: 'model', label: 'Modelo', sortKey: 'model' as VehicleSortKey },
+  { key: 'year', label: 'Ano', sortKey: 'year' as VehicleSortKey },
+  { key: 'color', label: 'Cor', sortKey: 'color' as VehicleSortKey },
+  { key: 'renavam', label: 'Renavam', sortKey: 'renavam' as VehicleSortKey },
+  { key: 'actions', label: 'Ações', sortKey: null },
 ];
 
 @Component({
@@ -37,35 +42,106 @@ const vehicleColumns = [
 })
 export class TableCar implements OnInit {
   page = 1;
-  totalPages = 5;
+  totalPages = 1;
+  pageSize = 5;
   activeModal: 'edit' | 'delete' | null = null;
   selectedOs: VehicleDto | null = null;
   loading = false;
   error = '';
   columns = vehicleColumns;
   vehicles: VehicleDto[] = [];
+  allVehicles: VehicleDto[] = [];
+  customers: ClientDto[] = [];
+  searchTerm = '';
+  sortColumn: VehicleSortKey | null = null;
+  sortDirection: SortDirection = 'asc';
+
+  @Input() filters: { unitId: number | null } = {
+    unitId: null,
+  };
 
   constructor(
     private vehicleService: VehicleService,
+    private clientService: ClientService,
     private snackBar: MatSnackBar,
   ) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['filters'] && !changes['filters'].firstChange) {
+      this.page = 1;
+      this.applyFiltersAndSearch();
+    }
+  }
+
   ngOnInit() {
+    this.loadCustomers();
+    this.loadVehicles();
+  }
+
+  private loadVehicles(): void {
     this.loading = true;
     this.vehicleService.getVehicles().subscribe({
       next: (vehicles) => {
-        this.vehicles = vehicles;
+        this.allVehicles = vehicles;
+        this.applyFiltersAndSearch();
         this.loading = false;
       },
       error: () => {
         this.error = 'Erro ao carregar veículos';
+        this.allVehicles = [];
+        this.vehicles = [];
+        this.totalPages = 1;
         this.loading = false;
       },
     });
   }
 
+  private loadCustomers(): void {
+    this.clientService.getCustomers().subscribe({
+      next: (customers) => {
+        this.customers = customers;
+        this.applyFiltersAndSearch();
+      },
+      error: () => {
+        this.customers = [];
+        this.applyFiltersAndSearch();
+      },
+    });
+  }
+
   handleSearch(value: string) {
-    console.log('buscar:', value);
+    this.searchTerm = value.trim().toLowerCase();
+    this.page = 1;
+    this.applyFiltersAndSearch();
+  }
+
+  toggleSort(column: { key: string; label: string; sortKey: VehicleSortKey | null }): void {
+    if (!column.sortKey) {
+      return;
+    }
+
+    if (this.sortColumn === column.sortKey) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column.sortKey;
+      this.sortDirection = 'asc';
+    }
+
+    this.page = 1;
+    this.applyFiltersAndSearch();
+  }
+
+  getSortIndicator(column: { key: string; label: string; sortKey: VehicleSortKey | null }): string {
+    if (!column.sortKey || this.sortColumn !== column.sortKey) {
+      return '';
+    }
+
+    return this.sortDirection === 'asc' ? '↑' : '↓';
+  }
+
+  get paginatedVehicles(): VehicleDto[] {
+    const startIndex = (this.page - 1) * this.pageSize;
+    return this.vehicles.slice(startIndex, startIndex + this.pageSize);
   }
 
   changePage(newPage: number) {
@@ -92,7 +168,8 @@ export class TableCar implements OnInit {
 
     this.vehicleService.deleteVehicle(selectedId).subscribe({
       next: () => {
-        this.vehicles = this.vehicles.filter((vehicle) => vehicle.id !== selectedId);
+        this.allVehicles = this.allVehicles.filter((vehicle) => vehicle.id !== selectedId);
+        this.applyFiltersAndSearch();
         this.snackBar.open('Veiculo excluido com sucesso!', 'Fechar', snackBarSuccessConfig);
         this.closeModal();
       },
@@ -104,14 +181,100 @@ export class TableCar implements OnInit {
   }
 
   handleVehicleUpdated(updatedVehicle: VehicleDto) {
-    this.vehicles = this.vehicles.map((vehicle) =>
+    this.allVehicles = this.allVehicles.map((vehicle) =>
       vehicle.id === updatedVehicle.id ? updatedVehicle : vehicle,
     );
+    this.applyFiltersAndSearch();
     this.closeModal();
   }
 
   closeModal() {
     this.activeModal = null;
     this.selectedOs = null;
+  }
+
+  private applyFiltersAndSearch(): void {
+    const filteredVehicles = this.allVehicles.filter((vehicle) => {
+      if (!this.matchesSelectedStore(vehicle)) {
+        return false;
+      }
+
+      if (!this.searchTerm) {
+        return true;
+      }
+
+      const searchableValues = [
+        vehicle.customerName,
+        vehicle.plate,
+        vehicle.brand,
+        vehicle.model,
+        vehicle.year,
+        vehicle.color,
+        vehicle.renavam,
+      ];
+
+      return searchableValues.some((item) => String(item ?? '').toLowerCase().includes(this.searchTerm));
+    });
+
+    this.vehicles = this.sortVehicles(filteredVehicles);
+    this.totalPages = Math.max(1, Math.ceil(this.vehicles.length / this.pageSize));
+    this.page = Math.min(this.page, this.totalPages);
+  }
+
+  private matchesSelectedStore(vehicle: VehicleDto): boolean {
+    if (this.filters.unitId == null) {
+      return true;
+    }
+
+    const customer = this.customers.find((item) => item.id === vehicle.customerId);
+    return customer?.unitIds?.includes(this.filters.unitId) ?? false;
+  }
+
+  private sortVehicles(vehicles: VehicleDto[]): VehicleDto[] {
+    if (!this.sortColumn) {
+      return [...vehicles];
+    }
+
+    const sortColumn = this.sortColumn;
+    const direction = this.sortDirection === 'asc' ? 1 : -1;
+
+    return [...vehicles].sort((firstVehicle, secondVehicle) => {
+      const firstValue = this.getSortableValue(firstVehicle, sortColumn);
+      const secondValue = this.getSortableValue(secondVehicle, sortColumn);
+
+      return this.compareValues(firstValue, secondValue) * direction;
+    });
+  }
+
+  private getSortableValue(vehicle: VehicleDto, sortColumn: VehicleSortKey): string | number {
+    switch (sortColumn) {
+      case 'customerName':
+        return vehicle.customerName ?? '';
+      case 'plate':
+        return vehicle.plate ?? '';
+      case 'brand':
+        return vehicle.brand ?? '';
+      case 'model':
+        return vehicle.model ?? '';
+      case 'year':
+        return vehicle.year ?? 0;
+      case 'color':
+        return vehicle.color ?? '';
+      case 'renavam':
+        return vehicle.renavam ?? '';
+      default:
+        return '';
+    }
+  }
+
+  private compareValues(firstValue: string | number, secondValue: string | number): number {
+    if (typeof firstValue === 'number' && typeof secondValue === 'number') {
+      return firstValue - secondValue;
+    }
+
+    return String(firstValue ?? '').localeCompare(String(secondValue ?? ''), 'pt-BR', {
+      numeric: true,
+      sensitivity: 'base',
+    });
   }
 }
