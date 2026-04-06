@@ -1,7 +1,11 @@
 import * as yup from 'yup';
 
 export const stepThreeClientSchema = yup.object({
-  loja: yup.number().typeError('Loja é obrigatória').required('Loja é obrigatória'),
+  loja: yup
+    .array()
+    .of(yup.number().typeError('Loja inválida'))
+    .min(1, 'Selecione ao menos uma loja')
+    .required('Selecione ao menos uma loja'),
 
   tipoLegal: yup
     .number()

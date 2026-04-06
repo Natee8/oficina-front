@@ -4,8 +4,11 @@ import { ClientData } from '../model/dtos/client.data';
 import { CreateClientDto } from '../model/dtos/createClient.dto';
 
 export function buildClientPayload(data: ClientData): CreateClientDto {
+  const unitIds = [...new Set(data.loja.map(Number).filter((unitId) => Number.isInteger(unitId) && unitId > 0))];
+
   return {
-    unitId: Number(data.loja),
+    unitId: unitIds[0] ?? 0,
+    unitIds,
     legalTypeId: Number(data.tipoLegal),
     name: data.nome,
     cpfCnpj: data.cpfCnpj,

@@ -14,7 +14,7 @@ export function mapClientToForm(client: any): ClientData {
     addressCity: client.addressCity,
     addressState: client.addressState,
 
-    loja: client.unitIds?.[0] ?? null,
+    loja: client.unitIds ?? [],
     tipoLegal: client.legalTypeId ?? null,
     notes: client.notes ?? '',
   };

@@ -1,5 +1,5 @@
 export interface ClientData {
-  loja: number | null;
+  loja: number[];
   tipoLegal: number | null;
 
   nome: string;
@@ -19,7 +19,7 @@ export interface ClientData {
 
 export function createClientData(): ClientData {
   return {
-    loja: null,
+    loja: [],
     tipoLegal: null,
 
     nome: '',

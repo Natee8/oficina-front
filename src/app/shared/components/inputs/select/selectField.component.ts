@@ -34,7 +34,7 @@ export class SelectFieldComponent implements ControlValueAccessor {
   constructor(private elementRef: ElementRef<HTMLElement>) {}
 
   writeValue(value: any): void {
-    this.value = this.multiple ? (Array.isArray(value) ? value : []) : value;
+    this.value = this.multiple ? (Array.isArray(value) ? [...value] : []) : value;
   }
 
   getOptionLabel(option: string | { label: string; value: any }): string {
@@ -68,7 +68,7 @@ export class SelectFieldComponent implements ControlValueAccessor {
   }
 
   handleChange(value: any) {
-    this.value = value;
+    this.value = this.multiple && Array.isArray(value) ? [...value] : value;
     this.onChange(this.value);
     this.onTouched();
   }

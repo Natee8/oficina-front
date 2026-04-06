@@ -8,13 +8,14 @@ import { StepOneClientComponent } from '../../components/steps/one/stepOne.compo
 import { StepTwoClientComponent } from '../../components/steps/two/stepTwo.component';
 import { StepThreeClientComponent } from '../../components/steps/three/stepThree.component';
 import { ClientService } from '../../service/client.service';
-import { CreateClientDto } from '../../model/dtos/createClient.dto';
 import { stepsConfigCreateClients } from '../../../../core/config/stepsCreate.config';
 import { ClientData, createClientData } from '../../model/dtos/client.data';
 import { stepOneClientSchema } from '../../schemas/stepOne.schema';
 import { stepTwoClientSchema } from '../../schemas/stepTwo.schema';
 import { stepThreeClientSchema } from '../../schemas/stepThree.schema';
 import { buildClientPayload } from '../../shared/functionCreatePayload';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-create-client',
@@ -47,6 +48,7 @@ export class CreateClientComponent implements OnInit {
   constructor(
     private router: Router,
     private clientService: ClientService,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -83,7 +85,6 @@ export class CreateClientComponent implements OnInit {
       values = {
         loja: this.clientData.loja,
         tipoLegal: this.clientData.tipoLegal,
-        email: this.clientData.email,
       };
     }
 
@@ -117,15 +118,55 @@ export class CreateClientComponent implements OnInit {
       const payload = buildClientPayload(this.clientData);
 
       this.clientService.createClient(payload).subscribe({
-        next: () => this.router.navigate(['/clients-list']),
+        next: () => {
+          this.snackBar.open('Cliente criado com sucesso!', 'Fechar', snackBarSuccessConfig);
+          this.router.navigate(['/clients-list']);
+        },
         error: (err) => {
-          console.error(err);
+          this.snackBar.open(this.getErrorMessage(err), 'Fechar', snackBarErrorConfig);
         },
       });
     } catch (err) {
       if (err instanceof Error) {
-        console.error(err.message);
+        this.snackBar.open(err.message, 'Fechar', snackBarErrorConfig);
       }
     }
+  }
+
+  private getErrorMessage(error: unknown): string {
+    if (typeof error === 'string' && error.trim()) {
+      return error.trim();
+    }
+
+    if (error && typeof error === 'object') {
+      const apiError = error as {
+        error?: { message?: string; errors?: Record<string, string[]> } | string;
+        message?: string;
+      };
+
+      if (typeof apiError.error === 'string' && apiError.error.trim()) {
+        return apiError.error.trim();
+      }
+
+      if (apiError.error && typeof apiError.error === 'object') {
+        if (apiError.error.message?.trim()) {
+          return apiError.error.message.trim();
+        }
+
+        const validationMessage = Object.values(apiError.error.errors ?? {})
+          .flat()
+          .find((message) => message?.trim());
+
+        if (validationMessage) {
+          return validationMessage;
+        }
+      }
+
+      if (apiError.message?.trim()) {
+        return apiError.message.trim();
+      }
+    }
+
+    return 'Erro ao criar cliente.';
   }
 }

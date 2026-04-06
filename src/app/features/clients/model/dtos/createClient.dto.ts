@@ -1,6 +1,7 @@
 export interface CreateClientDto {
   unitId: number;
-  legalTypeId: number; 
+  unitIds: number[];
+  legalTypeId: number;
   name: string;
   cpfCnpj: string;
   email: string;

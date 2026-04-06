@@ -27,8 +27,7 @@ export class ClientService {
     return this.http.patch(`${this.baseUrl}/${id}`, payload);
   }
 
-  deleteClient(id: number, unitIds: number[]): Observable<any> {
-    const query = unitIds.join(',');
-    return this.http.delete(`${this.baseUrl}/${id}?unitId=${query}`);
+  deleteClient(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }

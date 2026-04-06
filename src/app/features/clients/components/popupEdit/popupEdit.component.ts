@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -19,6 +19,8 @@ import { stepOneClientSchema } from '../../schemas/stepOne.schema';
 import { buildClientPayload } from '../../shared/functionCreatePayload';
 import { ClientService } from '../../service/client.service';
 import { ClientDto } from '../../model/dtos/client.dto';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-edit-client-modal',
@@ -37,10 +39,13 @@ import { ClientDto } from '../../model/dtos/client.dto';
   templateUrl: './popupEdit.component.html',
   styleUrls: ['./popupEdit.component.scss'],
 })
-export class EditClientModalComponent {
+export class EditClientModalComponent implements OnInit {
   stepIndex = 0;
 
-  constructor(private clientService: ClientService) {}
+  constructor(
+    private clientService: ClientService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   clientData: ClientData = createClientData();
   errors: Record<string, string> = {};
@@ -51,14 +56,15 @@ export class EditClientModalComponent {
     { label: 'Cliente Empresa', value: 2 },
   ];
 
-  loja!: number;
-  tipoLegal!: number;
-
   @Input() client!: ClientDto;
   @Output() closeModalEvent = new EventEmitter<void>();
   @Output() clientUpdated = new EventEmitter<void>();
 
   stepsConfig = stepsConfigClient;
+
+  ngOnInit(): void {
+    this.loadLojas();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['client']) {
@@ -83,7 +89,7 @@ export class EditClientModalComponent {
           addressCity: currentClient.addressCity,
           addressState: currentClient.addressState,
 
-          loja: currentClient.unitIds?.[0] ?? null,
+          loja: [...(currentClient.unitIds ?? [])],
           tipoLegal: currentClient.legalTypeId ?? null,
           notes: currentClient.notes ?? '',
         };
@@ -177,27 +183,29 @@ export class EditClientModalComponent {
 
   save() {
     if (!this.client?.id) {
-      console.error('Cliente inválido para atualização');
+      this.snackBar.open('Cliente inválido para atualização.', 'Fechar', snackBarErrorConfig);
       return;
     }
 
     try {
-      const payload = buildClientPayload(this.clientData);
+      const payload = buildClientPayload({
+        ...this.clientData,
+        loja: [...this.clientData.loja],
+      });
 
       this.clientService.updateClient(this.client.id, payload).subscribe({
         next: () => {
           this.clientUpdated.emit();
-          console.log('Cliente atualizado com sucesso');
+          this.snackBar.open('Cliente atualizado com sucesso!', 'Fechar', snackBarSuccessConfig);
           this.close();
-          console.log(this.clientData);
         },
         error: (err) => {
-          console.error('Erro ao atualizar cliente', err);
+          this.snackBar.open(this.getErrorMessage(err), 'Fechar', snackBarErrorConfig);
         },
       });
     } catch (err) {
       if (err instanceof Error) {
-        console.error(err.message);
+        this.snackBar.open(err.message, 'Fechar', snackBarErrorConfig);
       }
     }
   }
@@ -214,8 +222,58 @@ export class EditClientModalComponent {
       title: section.title,
       fields: section.fields.map((field) => ({
         label: field.label,
-        value: this.clientData[field.key as keyof ClientData],
+        value: field.key === 'loja'
+          ? this.getSelectedStoreLabels()
+          : this.clientData[field.key as keyof ClientData],
       })),
     }));
+  }
+
+  private getSelectedStoreLabels(): string {
+    if (!this.clientData.loja.length) {
+      return '-';
+    }
+
+    return this.lojas
+      .filter((store) => this.clientData.loja.includes(store.value))
+      .map((store) => store.label)
+      .join(', ');
+  }
+
+  private getErrorMessage(error: unknown): string {
+    if (typeof error === 'string' && error.trim()) {
+      return error.trim();
+    }
+
+    if (error && typeof error === 'object') {
+      const apiError = error as {
+        error?: { message?: string; errors?: Record<string, string[]> } | string;
+        message?: string;
+      };
+
+      if (typeof apiError.error === 'string' && apiError.error.trim()) {
+        return apiError.error.trim();
+      }
+
+      if (apiError.error && typeof apiError.error === 'object') {
+        if (apiError.error.message?.trim()) {
+          return apiError.error.message.trim();
+        }
+
+        const validationMessage = Object.values(apiError.error.errors ?? {})
+          .flat()
+          .find((message) => message?.trim());
+
+        if (validationMessage) {
+          return validationMessage;
+        }
+      }
+
+      if (apiError.message?.trim()) {
+        return apiError.message.trim();
+      }
+    }
+
+    return 'Erro ao atualizar cliente.';
   }
 }
