@@ -8,7 +8,10 @@ import { ModalDelete } from '../../../../shared/components/modalDelete/modalDele
 import { EditCarModalComponent } from '../popupEdit/popupEdit.component';
 import { VehicleDto } from '../../model/dtos/vehicle.dto';
 import { VehicleService } from '../../service/car.service';
-import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import {
+  snackBarErrorConfig,
+  snackBarSuccessConfig,
+} from '../../../../core/config/snackbar.config';
 
 const vehicleColumns = [
   { key: 'customerName', label: 'Cliente' },

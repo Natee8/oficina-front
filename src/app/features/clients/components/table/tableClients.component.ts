@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
 import { TableFooterComponent } from '../../../../shared/components/tableFooter/tableFooter.component';
-import { ClientColumns, ClientListMock } from '../../service/mock';
 import { TableActionsComponent } from '../../../../shared/components/buttonTable/buttonTable.component';
-import { ModalComponent } from '../../../../shared/components/popup/popup.component';
 import { ModalDelete } from '../../../../shared/components/modalDelete/modalDelete.component';
 import { EditClientModalComponent } from '../popupEdit/popupEdit.component';
+import { ClientService } from '../../service/client.service';
+import { ClientDto } from '../../model/dtos/client.dto';
+import { columnsClient } from '../../../../core/config/columnsTable';
 
 @Component({
   selector: 'app-table-clients',
@@ -22,7 +23,8 @@ import { EditClientModalComponent } from '../popupEdit/popupEdit.component';
     EditClientModalComponent,
   ],
 })
-export class TableClients {
+export class TableClients implements OnInit {
+  constructor(private clientService: ClientService) {}
   page = 1;
   totalPages = 5;
   pageSize = 5;
@@ -31,8 +33,8 @@ export class TableClients {
   selectedOs: any = null;
   selectedClient: any;
 
-  columns = ClientColumns;
-  clientList = ClientListMock;
+  clientList: ClientDto[] = [];
+  columns = columnsClient;
 
   handleSearch(value: string) {
     console.log('buscar:', value);
@@ -42,23 +44,56 @@ export class TableClients {
     this.page = newPage;
   }
 
-  handleEdit(os: any) {
-    this.selectedOs = os;
+  handleEdit(client: ClientDto) {
+    this.selectedClient = { ...client };
     this.activeModal = 'edit';
   }
 
-  handleDelete(os: any) {
-    this.selectedOs = os;
+  loadClients() {
+    this.clientService.getCustomers().subscribe({
+      next: (clients) => {
+        console.log('CLIENTES DA API:', clients);
+        this.clientList = clients;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar clientes:', err);
+      },
+    });
+  }
+
+  onClientUpdated() {
+    this.loadClients();
+  }
+
+  handleDelete(client: ClientDto) {
+    this.selectedClient = client;
     this.activeModal = 'delete';
   }
 
   confirmDelete() {
-    console.log('Deletar OS:', this.selectedOs);
-    this.closeModal();
+    if (!this.selectedClient) return;
+
+    const unitIds = this.selectedClient.unitIds ?? [];
+
+    this.clientService.deleteClient(this.selectedClient.id, unitIds).subscribe({
+      next: () => {
+        console.log('Cliente deletado com sucesso');
+
+        this.loadClients();
+        this.closeModal();
+      },
+      error: (err) => {
+        console.error('Erro ao deletar cliente', err);
+      },
+    });
   }
 
   closeModal() {
     this.activeModal = null;
     this.selectedOs = null;
+    this.selectedClient = null;
+  }
+  ngOnInit() {
+    this.loadClients();
   }
 }

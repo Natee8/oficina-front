@@ -23,13 +23,13 @@
           'minmax(160px,1fr) minmax(180px,1.2fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(200px,1.5fr) minmax(140px,1fr) 120px'
         "
       >
-        <div class="table-cell">{{ client.nome }}</div>
+        <div class="table-cell">{{ client.name }}</div>
         <div class="table-cell">{{ client.cpfCnpj }}</div>
-        <div class="table-cell">{{ client.nascimento }}</div>
-        <div class="table-cell">{{ client.cidade }}</div>
-        <div class="table-cell">{{ client.bairro }}</div>
+        <div class="table-cell">-</div>
+        <div class="table-cell">{{ client.addressCity }}</div>
+        <div class="table-cell">{{ client.addressDistrict }}</div>
         <div class="table-cell">{{ client.email }}</div>
-        <div class="table-cell">{{ client.telefone }}</div>
+        <div class="table-cell">{{ client.phone }}</div>
 
         <div class="table-cell">
           <app-table-actions (onEdit)="handleEdit(client)" (onDelete)="handleDelete(client)" />
@@ -40,14 +40,14 @@
 
   <app-edit-client-modal
     *ngIf="activeModal === 'edit'"
-    +
     [client]="selectedClient"
     (closeModalEvent)="closeModal()"
+    (clientUpdated)="onClientUpdated()"
   ></app-edit-client-modal>
 
   <app-modal-delete
     *ngIf="activeModal === 'delete'"
-    [registro]="selectedOs?.id"
+    [registro]="selectedClient?.id"
     (confirm)="confirmDelete()"
     (cancel)="closeModal()"
   ></app-modal-delete>
