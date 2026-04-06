@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
 import { TableFooterComponent } from '../../../../shared/components/tableFooter/tableFooter.component';
@@ -10,15 +10,18 @@ import { EmployeeListItem, Unit } from '../../model/dtos/employerPayload';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
+type EmployeeSortKey = 'name' | 'email' | 'phoneNumber' | 'role' | 'isActive' | 'fullAccess' | 'unitIds';
+type SortDirection = 'asc' | 'desc';
+
 const EMPLOYEE_COLUMNS = [
-  { label: 'Nome' },
-  { label: 'Email' },
-  { label: 'Telefone' },
-  { label: 'Cargo' },
-  { label: 'Status' },
-  { label: 'Acesso Total' },
-  { label: 'Lojas' },
-  { label: 'Ações' },
+  { label: 'Nome', sortKey: 'name' as EmployeeSortKey },
+  { label: 'Email', sortKey: 'email' as EmployeeSortKey },
+  { label: 'Telefone', sortKey: 'phoneNumber' as EmployeeSortKey },
+  { label: 'Cargo', sortKey: 'role' as EmployeeSortKey },
+  { label: 'Status', sortKey: 'isActive' as EmployeeSortKey },
+  { label: 'Acesso Total', sortKey: 'fullAccess' as EmployeeSortKey },
+  { label: 'Lojas', sortKey: 'unitIds' as EmployeeSortKey },
+  { label: 'Ações', sortKey: null },
 ];
 
 @Component({
@@ -35,18 +38,26 @@ const EMPLOYEE_COLUMNS = [
     EditEmployeeModalComponent,
   ],
 })
-export class TableEmployees implements OnInit {
+export class TableEmployees implements OnInit, OnChanges {
   page = 1;
   totalPages = 1;
   pageSize = 5;
   activeModal: 'edit' | 'delete' | null = null;
   selectedEmployeer: EmployeeListItem | null = null;
+  allUsers: EmployeeListItem[] = [];
   userList: EmployeeListItem[] = [];
   unitsMap: Record<number, string> = {};
+  searchTerm = '';
+  sortColumn: EmployeeSortKey | null = null;
+  sortDirection: SortDirection = 'asc';
 
   columns = EMPLOYEE_COLUMNS;
 
   @Input() store: any;
+  @Input() filters: { unitId: number | null; role: string | null } = {
+    unitId: null,
+    role: null,
+  };
 
   constructor(
     private employeeService: EmployeeService,
@@ -58,13 +69,21 @@ export class TableEmployees implements OnInit {
     this.loadEmployees();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['filters'] && !changes['filters'].firstChange) {
+      this.page = 1;
+      this.loadEmployees();
+    }
+  }
+
   private loadEmployees(): void {
-    this.employeeService.getEmployees().subscribe({
+    this.employeeService.getEmployees(this.filters).subscribe({
       next: (employees) => {
-        this.userList = employees;
-        this.totalPages = Math.max(1, Math.ceil(this.userList.length / this.pageSize));
+        this.allUsers = employees;
+        this.applySearch();
       },
       error: () => {
+        this.allUsers = [];
         this.userList = [];
         this.totalPages = 1;
       },
@@ -78,9 +97,11 @@ export class TableEmployees implements OnInit {
           accumulator[unit.id] = unit.name;
           return accumulator;
         }, {});
+        this.applySearch();
       },
       error: () => {
         this.unitsMap = {};
+        this.applySearch();
       },
     });
   }
@@ -107,7 +128,17 @@ export class TableEmployees implements OnInit {
       employee: 'Funcionario',
     };
 
-    return roleMap[role?.toLowerCase()] ?? role;
+    const normalizedRole = role?.trim().toLowerCase();
+
+    if (normalizedRole && roleMap[normalizedRole]) {
+      return roleMap[normalizedRole];
+    }
+
+    if (!role?.trim()) {
+      return '-';
+    }
+
+    return role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
   }
 
   private getErrorMessage(error: unknown): string {
@@ -138,7 +169,113 @@ export class TableEmployees implements OnInit {
   }
 
   handleSearch(value: string) {
-    console.log('buscar:', value);
+    this.searchTerm = value.trim().toLowerCase();
+    this.page = 1;
+    this.applySearch();
+  }
+
+  toggleSort(column: { label: string; sortKey: EmployeeSortKey | null }): void {
+    if (!column.sortKey) {
+      return;
+    }
+
+    if (this.sortColumn === column.sortKey) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column.sortKey;
+      this.sortDirection = 'asc';
+    }
+
+    this.page = 1;
+    this.applySearch();
+  }
+
+  getSortIndicator(column: { label: string; sortKey: EmployeeSortKey | null }): string {
+    if (!column.sortKey || this.sortColumn !== column.sortKey) {
+      return '';
+    }
+
+    return this.sortDirection === 'asc' ? '↑' : '↓';
+  }
+
+  private applySearch(): void {
+    const filteredUsers = !this.searchTerm
+      ? [...this.allUsers]
+      : this.allUsers.filter((user) => {
+          const searchableValues = [
+            user.name,
+            user.email,
+            user.phoneNumber,
+            this.getRoleLabel(user.role),
+            this.getStatusLabel(user.isActive),
+            this.getAccessLabel(user.fullAccess),
+            this.getUnitNames(user.unitIds),
+          ];
+
+          return searchableValues.some((item) => item?.toLowerCase().includes(this.searchTerm));
+        });
+
+    this.userList = this.sortUsers(filteredUsers);
+    this.totalPages = Math.max(1, Math.ceil(this.userList.length / this.pageSize));
+  }
+
+  private sortUsers(users: EmployeeListItem[]): EmployeeListItem[] {
+    if (!this.sortColumn) {
+      return users;
+    }
+
+    const sortColumn = this.sortColumn;
+    const direction = this.sortDirection === 'asc' ? 1 : -1;
+
+    return [...users].sort((firstUser, secondUser) => {
+      const firstValue = this.getSortableValue(firstUser, sortColumn);
+      const secondValue = this.getSortableValue(secondUser, sortColumn);
+
+      return this.compareValues(firstValue, secondValue) * direction;
+    });
+  }
+
+  private getSortableValue(user: EmployeeListItem, column: EmployeeSortKey): string | number {
+    switch (column) {
+      case 'name':
+        return user.name ?? '';
+      case 'email':
+        return user.email ?? '';
+      case 'phoneNumber':
+        return user.phoneNumber ?? '';
+      case 'role':
+        return this.getRoleLabel(user.role);
+      case 'isActive':
+        return this.getStatusLabel(user.isActive);
+      case 'fullAccess':
+        return this.getAccessLabel(user.fullAccess);
+      case 'unitIds':
+        return this.getUnitNames(user.unitIds);
+      default:
+        return '';
+    }
+  }
+
+  private compareValues(firstValue: string | number, secondValue: string | number): number {
+    const normalizedFirst = this.normalizeSortValue(firstValue);
+    const normalizedSecond = this.normalizeSortValue(secondValue);
+
+    const firstNumber = Number(normalizedFirst);
+    const secondNumber = Number(normalizedSecond);
+    const bothAreNumbers = !Number.isNaN(firstNumber) && !Number.isNaN(secondNumber);
+
+    if (bothAreNumbers) {
+      return firstNumber - secondNumber;
+    }
+
+    return normalizedFirst.localeCompare(normalizedSecond, 'pt-BR', {
+      numeric: true,
+      sensitivity: 'base',
+    });
+  }
+
+  private normalizeSortValue(value: string | number): string {
+    return String(value ?? '').trim();
   }
 
   changePage(newPage: number) {

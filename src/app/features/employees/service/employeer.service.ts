@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
   CreateEmployeePayload,
@@ -18,8 +18,18 @@ export class EmployeeService {
     return this.http.get<Unit[]>(`${this.apiUrl}/units`);
   }
 
-  getEmployees(): Observable<EmployeeListItem[]> {
-    return this.http.get<EmployeeListItem[]>(`${this.apiUrl}/users`);
+  getEmployees(filters?: { unitId?: number | null; role?: string | null }): Observable<EmployeeListItem[]> {
+    let params = new HttpParams();
+
+    if (filters?.unitId != null) {
+      params = params.set('unitId', filters.unitId.toString());
+    }
+
+    if (filters?.role) {
+      params = params.set('role', filters.role);
+    }
+
+    return this.http.get<EmployeeListItem[]>(`${this.apiUrl}/users`, { params });
   }
 
   createEmployee(payload: CreateEmployeePayload) {

@@ -8,7 +8,7 @@
 
     <div class="search">
       <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Pesquisar" />
+      <input type="text" placeholder="Pesquisar" (input)="search.emit($any($event.target).value)" />
     </div>
   </header>
 </div>

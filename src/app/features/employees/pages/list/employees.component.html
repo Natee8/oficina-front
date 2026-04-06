@@ -15,14 +15,14 @@
 
       <div class="filters">
         <div class="select">
-          <app-select-field label="Lojas"></app-select-field>
+          <app-select-field label="Lojas" [options]="lojasOptions" [(ngModel)]="filters.unitId"></app-select-field>
         </div>
 
         <div class="select">
-          <app-select-field label="Cargos"></app-select-field>
+          <app-select-field label="Cargos" [options]="cargosOptions" [(ngModel)]="filters.role"></app-select-field>
         </div>
 
-        <button class="btn-primary">
+        <button class="btn-primary" type="button" (click)="applyFilters()">
           <p>Filtrar</p>
         </button>
       </div>
@@ -30,4 +30,4 @@
   </div>
 </div>
 
-<app-table-employees></app-table-employees>
+<app-table-employees [filters]="appliedFilters"></app-table-employees>
