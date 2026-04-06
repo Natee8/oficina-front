@@ -13,7 +13,16 @@
           'minmax(160px,1fr) minmax(220px,1.5fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) 120px'
         "
       >
-        <div *ngFor="let col of columns">{{ col.label }}</div>
+        <div
+          *ngFor="let col of columns"
+          class="table-head-cell"
+          [class.sortable]="!!col.sortKey"
+          [class.active-sort]="sortColumn === col.sortKey"
+          (click)="toggleSort(col)"
+        >
+          <span>{{ col.label }}</span>
+          <span class="sort-indicator" *ngIf="getSortIndicator(col)">{{ getSortIndicator(col) }}</span>
+        </div>
       </div>
 
       <div
@@ -23,13 +32,13 @@
           'minmax(160px,1fr) minmax(220px,1.5fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) 120px'
         "
       >
-        <div class="table-cell">{{ user.nome }}</div>
+        <div class="table-cell">{{ user.name }}</div>
         <div class="table-cell">{{ user.email }}</div>
-        <div class="table-cell">{{ user.cpf }}</div>
-        <div class="table-cell">{{ user.nascimento }}</div>
-        <div class="table-cell">{{ user.cidade }}</div>
-        <div class="table-cell">{{ user.bairro }}</div>
-        <div class="table-cell">{{ user.cargo }}</div>
+        <div class="table-cell">{{ user.phoneNumber }}</div>
+        <div class="table-cell">{{ getRoleLabel(user.role) }}</div>
+        <div class="table-cell">{{ getStatusLabel(user.isActive) }}</div>
+        <div class="table-cell">{{ getAccessLabel(user.fullAccess) }}</div>
+        <div class="table-cell">{{ getUnitNames(user.unitIds) }}</div>
 
         <div class="table-cell">
           <app-table-actions (onEdit)="handleEdit(user)" (onDelete)="handleDelete(user)" />
@@ -40,8 +49,8 @@
 
   <app-edit-employee-modal
     *ngIf="activeModal === 'edit'"
-    [store]="selectedEmployeer"
-    (closeModalEvent)="closeModal()"
+    [employee]="selectedEmployeer"
+    (closeModalEvent)="handleModalClose($event)"
   ></app-edit-employee-modal>
 
   <app-modal-delete

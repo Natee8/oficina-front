@@ -13,9 +13,11 @@ import { StepThreeComponent } from '../steps/three/stepThree.component';
 import { stepsConfigEmployee } from '../../../../core/config/stepsPopup.config';
 import { reviewEmployeeConfig } from '../../../../core/config/reviewsData';
 import { createEmployeeData, EmployeeData } from '../../model/dtos/employer.data';
-import { Router } from '@angular/router';
-import { buildEmployeePayload } from '../../shared/createPayloadFunction';
+import { buildEmployeeUpdatePayload } from '../../shared/createPayloadFunction';
 import { EmployeeService } from '../../service/employeer.service';
+import { EmployeeListItem } from '../../model/dtos/employerPayload';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-edit-employee-modal',
@@ -42,31 +44,46 @@ export class EditEmployeeModalComponent {
   cargos = ['Gerente', 'Atendente', 'Supervisor'];
   lojas = ['Loja 1', 'Loja 2'];
 
-  @Input() employee: any;
+  @Input() employee: EmployeeListItem | null = null;
   @Input() store: any;
-  @Output() closeModalEvent = new EventEmitter<void>();
+  @Output() closeModalEvent = new EventEmitter<boolean>();
 
   stepsConfig = stepsConfigEmployee;
 
   constructor(
     private employeeService: EmployeeService,
-    private router: Router,
+    private snackBar: MatSnackBar,
   ) {}
+
+  private normalizeRole(role: string | null | undefined): string {
+    const normalizedRole = role?.trim().toLowerCase();
+
+    const roleMap: Record<string, string> = {
+      administrador: 'admin',
+      admin: 'admin',
+      funcionario: 'employee',
+      'funcionário': 'employee',
+      comum: 'employee',
+      employee: 'employee',
+    };
+
+    return roleMap[normalizedRole ?? ''] ?? (role ?? '');
+  }
 
   ngOnInit() {
     if (this.employee) {
       this.employeeData = {
         nome: this.employee.name,
-        cpf: this.employee.cpfCnpj,
+        cpf: this.employee.cpfCnpj ?? '',
         telefone: this.employee.phoneNumber,
-        addressZip: this.employee.addressZip,
-        addressStreet: this.employee.addressStreet,
-        addressNumber: this.employee.addressNumber,
-        addressDistrict: this.employee.addressDistrict,
-        addressCity: this.employee.addressCity,
-        addressState: this.employee.addressState,
-        cargo: this.employee.role,
-        loja: this.employee.unitIds?.[0] ?? null,
+        addressZip: this.employee.addressZip ?? '',
+        addressStreet: this.employee.addressStreet ?? '',
+        addressNumber: this.employee.addressNumber ?? '',
+        addressDistrict: this.employee.addressDistrict ?? '',
+        addressCity: this.employee.addressCity ?? '',
+        addressState: this.employee.addressState ?? '',
+        cargo: this.normalizeRole(this.employee.role),
+        loja: this.employee.unitIds ?? [],
         email: this.employee.email,
         senha: '',
       };
@@ -99,22 +116,54 @@ export class EditEmployeeModalComponent {
     else this.back();
   }
 
-  save() {
-    const payload = buildEmployeePayload(this.employeeData);
+  private getErrorMessage(error: unknown): string {
+    if (typeof error === 'string' && error.trim()) {
+      return error.split('\n')[0].replace(/^.*?Exception:\s*/i, '').trim() || 'Erro ao atualizar funcionário.';
+    }
 
-    this.employeeService.createEmployee(payload).subscribe({
+    if (error && typeof error === 'object') {
+      const apiError = error as {
+        error?: { message?: string } | string;
+        message?: string;
+      };
+
+      if (typeof apiError.error === 'string' && apiError.error.trim()) {
+        return apiError.error.split('\n')[0].replace(/^.*?Exception:\s*/i, '').trim() || 'Erro ao atualizar funcionário.';
+      }
+
+      if (apiError.error && typeof apiError.error === 'object' && apiError.error.message?.trim()) {
+        return apiError.error.message.split('\n')[0].replace(/^.*?Exception:\s*/i, '').trim() || 'Erro ao atualizar funcionário.';
+      }
+
+      if (apiError.message?.trim()) {
+        return apiError.message.split('\n')[0].replace(/^.*?Exception:\s*/i, '').trim() || 'Erro ao atualizar funcionário.';
+      }
+    }
+
+    return 'Erro ao atualizar funcionário.';
+  }
+
+  save() {
+    if (!this.employee?.id) {
+      this.snackBar.open('Funcionário inválido para atualização.', 'Fechar', snackBarErrorConfig);
+      return;
+    }
+
+    const payload = buildEmployeeUpdatePayload(this.employeeData, this.employee);
+
+    this.employeeService.updateEmployee(this.employee.id, payload).subscribe({
       next: () => {
-        console.log('Funcionário atualizado com sucesso', payload);
-        this.close();
+        this.snackBar.open('Funcionário atualizado com sucesso!', 'Fechar', snackBarSuccessConfig);
+        this.close(true);
       },
       error: (err: any) => {
-        console.error('Erro ao atualizar funcionário', err);
+        this.snackBar.open(this.getErrorMessage(err), 'Fechar', snackBarErrorConfig);
       },
     });
   }
 
-  close() {
-    this.closeModalEvent.emit();
+  close(updated = false) {
+    this.closeModalEvent.emit(updated);
   }
 
   get reviewData() {

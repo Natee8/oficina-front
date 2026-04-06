@@ -14,6 +14,8 @@ import { createEmployeeData, EmployeeData } from '../../model/dtos/employer.data
 import { stepsConfigCreateEmployees } from '../../../../core/config/stepsCreate.config';
 import { buildEmployeePayload } from '../../shared/createPayloadFunction';
 import { EmployeeService } from '../../service/employeer.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-create-employee',
@@ -39,6 +41,7 @@ export class CreateEmployeeComponent {
   constructor(
     private employeeService: EmployeeService,
     private router: Router,
+    private snackBar: MatSnackBar,
   ) {}
 
   employeeData: EmployeeData = createEmployeeData();
@@ -96,26 +99,59 @@ export class CreateEmployeeComponent {
   }
 
   goBackList() {
-    console.log('logica aqui');
+    this.router.navigate(['/employees-list']);
+  }
+
+  private sanitizeErrorMessage(message: string): string {
+    const firstLine = message.split('\n')[0].trim();
+    const cleanedMessage = firstLine.replace(/^.*?Exception:\s*/i, '').trim();
+
+    return cleanedMessage || 'Erro ao cadastrar funcionário';
+  }
+
+  private getErrorMessage(error: unknown): string {
+    if (typeof error === 'string' && error.trim()) {
+      return this.sanitizeErrorMessage(error);
+    }
+
+    if (error && typeof error === 'object') {
+      const apiError = error as {
+        error?: { message?: string } | string;
+        message?: string;
+      };
+
+      if (typeof apiError.error === 'string' && apiError.error.trim()) {
+        return this.sanitizeErrorMessage(apiError.error);
+      }
+
+      if (apiError.error && typeof apiError.error === 'object' && apiError.error.message?.trim()) {
+        return this.sanitizeErrorMessage(apiError.error.message);
+      }
+
+      if (apiError.message?.trim()) {
+        return this.sanitizeErrorMessage(apiError.message);
+      }
+    }
+
+    return 'Erro ao cadastrar funcionário';
   }
 
   finish() {
     try {
       const payload = buildEmployeePayload(this.employeeData);
 
-      console.log('Cadastro finalizado!', payload);
-
       this.employeeService.createEmployee(payload).subscribe({
         next: () => {
-          console.log('Funcionário criado com sucesso!');
+          this.snackBar.open('Funcionário cadastrado com sucesso!', 'Fechar', snackBarSuccessConfig);
+          this.router.navigate(['/employees-list']);
         },
         error: (err) => {
-          console.error('Erro ao criar funcionário', err);
+          this.snackBar.open(this.getErrorMessage(err), 'Fechar', snackBarErrorConfig);
         },
       });
     } catch (err) {
       if (err instanceof Error) {
-        console.error('Erro ao gerar payload do funcionário:', err.message);
+        this.snackBar.open(err.message, 'Fechar', snackBarErrorConfig);
       }
     }
   }

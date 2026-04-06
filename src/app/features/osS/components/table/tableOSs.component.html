@@ -1,5 +1,6 @@
 <app-table-header
   icon="fa-solid fa-file-invoice"
+  iconSrc="assets/icons/chart.svg"
   title="Ordens de Serviço"
   (search)="handleSearch($event)"
 ></app-table-header>
@@ -13,12 +14,21 @@
             '80px minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(160px,1fr) minmax(160px,1fr) 140px 120px'
         "
       >
-        <div *ngFor="let col of columns">{{ col.label }}</div>
+        <div
+          *ngFor="let col of columns"
+          class="table-head-cell"
+          [class.sortable]="!!col.sortKey"
+          [class.active-sort]="sortColumn === col.sortKey"
+          (click)="toggleSort(col)"
+        >
+          <span>{{ col.label }}</span>
+          <span class="sort-indicator" *ngIf="getSortIndicator(col)">{{ getSortIndicator(col) }}</span>
+        </div>
       </div>
 
       <div
         class="table-row"
-        *ngFor="let os of osList"
+        *ngFor="let os of paginatedOsList"
         [style.grid-template-columns]="
             '80px minmax(120px,1fr) minmax(120px,1fr) minmax(120px,1fr) minmax(160px,1fr) minmax(160px,1fr) 140px 120px'
         "
@@ -72,7 +82,7 @@
     [page]="page"
     [totalPages]="totalPages"
     [totalItems]="osList.length"
-    [pageSize]="5"
+    [pageSize]="pageSize"
     (pageChange)="changePage($event)"
   ></app-table-footer>
 </div>

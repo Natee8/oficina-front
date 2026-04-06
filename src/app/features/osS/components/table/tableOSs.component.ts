@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
@@ -12,14 +12,17 @@ import { OsDto } from '../../model/dtos/os.dto';
 import { StatusOs } from '../../model/types/status';
 import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
+type OsSortKey = 'id' | 'unitName' | 'totalAmount' | 'vehiclePlate' | 'ownerCustomerName' | 'statusName';
+type SortDirection = 'asc' | 'desc';
+
 const OsColumns = [
-  { label: 'ID' },
-  { label: 'Loja' },
-  { label: 'Valor' },
-  { label: 'Placa' },
-  { label: 'Cliente' },
-  { label: 'Status' },
-  { label: 'Ações' },
+  { label: 'ID', sortKey: 'id' as OsSortKey },
+  { label: 'Loja', sortKey: 'unitName' as OsSortKey },
+  { label: 'Valor', sortKey: 'totalAmount' as OsSortKey },
+  { label: 'Placa', sortKey: 'vehiclePlate' as OsSortKey },
+  { label: 'Cliente', sortKey: 'ownerCustomerName' as OsSortKey },
+  { label: 'Status', sortKey: 'statusName' as OsSortKey },
+  { label: 'Ações', sortKey: null },
 ];
 @Component({
   selector: 'app-table-os',
@@ -37,9 +40,9 @@ const OsColumns = [
   ],
   providers: [OsService],
 })
-export class TableOs implements OnInit {
+export class TableOs implements OnInit, OnChanges {
   page = 1;
-  totalPages = 5;
+  totalPages = 1;
   pageSize = 5;
   selectedOs: OsDto | null = null;
   activeModal: 'edit' | 'delete' | 'status' | null = null;
@@ -50,13 +53,28 @@ export class TableOs implements OnInit {
 
   columns = OsColumns;
   osList: OsDto[] = [];
+  allOsList: OsDto[] = [];
   loading = false;
   error = '';
+  searchTerm = '';
+  sortColumn: OsSortKey | null = null;
+  sortDirection: SortDirection = 'asc';
+
+  @Input() filters: { unitId: number | null } = {
+    unitId: null,
+  };
 
   constructor(
     private osService: OsService,
     private snackBar: MatSnackBar,
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['filters'] && !changes['filters'].firstChange) {
+      this.page = 1;
+      this.applyFiltersAndSearch();
+    }
+  }
 
   normalizeStatus(status: string | null | undefined): StatusOs | '' {
     if (!status) return '';
@@ -78,11 +96,15 @@ export class TableOs implements OnInit {
     this.loading = true;
     this.osService.getServiceOrders().subscribe({
       next: (data) => {
-        this.osList = data;
+        this.allOsList = data;
+        this.applyFiltersAndSearch();
         this.loading = false;
       },
       error: () => {
         this.error = 'Erro ao carregar OSs';
+        this.allOsList = [];
+        this.osList = [];
+        this.totalPages = 1;
         this.loading = false;
       }
     });
@@ -114,7 +136,7 @@ export class TableOs implements OnInit {
 
     this.osService.patchServiceOrderStatus(this.selectedOs.id, normalizedStatus).subscribe({
       next: () => {
-        this.osList = this.osList.map((os) =>
+        this.allOsList = this.allOsList.map((os) =>
           os.id === this.selectedOs?.id
             ? {
                 ...os,
@@ -123,6 +145,7 @@ export class TableOs implements OnInit {
               }
             : os
         );
+        this.applyFiltersAndSearch();
         this.snackBar.open('Status da OS atualizado com sucesso!', 'Fechar', snackBarSuccessConfig);
         this.closeModal();
       },
@@ -139,7 +162,38 @@ export class TableOs implements OnInit {
   }
 
   handleSearch(value: string) {
-    console.log('buscar:', value);
+    this.searchTerm = value.trim().toLowerCase();
+    this.page = 1;
+    this.applyFiltersAndSearch();
+  }
+
+  toggleSort(column: { label: string; sortKey: OsSortKey | null }): void {
+    if (!column.sortKey) {
+      return;
+    }
+
+    if (this.sortColumn === column.sortKey) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column.sortKey;
+      this.sortDirection = 'asc';
+    }
+
+    this.page = 1;
+    this.applyFiltersAndSearch();
+  }
+
+  getSortIndicator(column: { label: string; sortKey: OsSortKey | null }): string {
+    if (!column.sortKey || this.sortColumn !== column.sortKey) {
+      return '';
+    }
+
+    return this.sortDirection === 'asc' ? '↑' : '↓';
+  }
+
+  get paginatedOsList(): OsDto[] {
+    const startIndex = (this.page - 1) * this.pageSize;
+    return this.osList.slice(startIndex, startIndex + this.pageSize);
   }
 
   changePage(newPage: number) {
@@ -213,7 +267,8 @@ export class TableOs implements OnInit {
 
     this.osService.deleteServiceOrder(selectedId).subscribe({
       next: () => {
-        this.osList = this.osList.filter((os) => os.id !== selectedId);
+        this.allOsList = this.allOsList.filter((os) => os.id !== selectedId);
+        this.applyFiltersAndSearch();
         this.snackBar.open('OS excluída com sucesso!', 'Fechar', snackBarSuccessConfig);
         this.closeModal();
       },
@@ -231,5 +286,80 @@ export class TableOs implements OnInit {
   closeModal() {
     this.activeModal = null;
     this.selectedOs = null;
+  }
+
+  private applyFiltersAndSearch(): void {
+    const filteredOrders = this.allOsList.filter((os) => {
+      const matchesStore = this.filters.unitId == null || os.unitId === this.filters.unitId;
+
+      if (!matchesStore) {
+        return false;
+      }
+
+      if (!this.searchTerm) {
+        return true;
+      }
+
+      const searchableValues = [
+        os.id,
+        os.unitName,
+        os.totalAmount,
+        os.vehiclePlate,
+        os.ownerCustomerName,
+        os.statusName,
+      ];
+
+      return searchableValues.some((item) => String(item ?? '').toLowerCase().includes(this.searchTerm));
+    });
+
+    this.osList = this.sortServiceOrders(filteredOrders);
+    this.totalPages = Math.max(1, Math.ceil(this.osList.length / this.pageSize));
+    this.page = Math.min(this.page, this.totalPages);
+  }
+
+  private sortServiceOrders(orders: OsDto[]): OsDto[] {
+    if (!this.sortColumn) {
+      return [...orders];
+    }
+
+    const sortColumn = this.sortColumn;
+    const direction = this.sortDirection === 'asc' ? 1 : -1;
+
+    return [...orders].sort((firstOrder, secondOrder) => {
+      const firstValue = this.getSortableValue(firstOrder, sortColumn);
+      const secondValue = this.getSortableValue(secondOrder, sortColumn);
+
+      return this.compareValues(firstValue, secondValue) * direction;
+    });
+  }
+
+  private getSortableValue(order: OsDto, column: OsSortKey): string | number {
+    switch (column) {
+      case 'id':
+        return order.id;
+      case 'unitName':
+        return order.unitName ?? '';
+      case 'totalAmount':
+        return order.totalAmount ?? 0;
+      case 'vehiclePlate':
+        return order.vehiclePlate ?? '';
+      case 'ownerCustomerName':
+        return order.ownerCustomerName ?? '';
+      case 'statusName':
+        return order.statusName ?? '';
+      default:
+        return '';
+    }
+  }
+
+  private compareValues(firstValue: string | number, secondValue: string | number): number {
+    if (typeof firstValue === 'number' && typeof secondValue === 'number') {
+      return firstValue - secondValue;
+    }
+
+    return String(firstValue ?? '').localeCompare(String(secondValue ?? ''), 'pt-BR', {
+      numeric: true,
+      sensitivity: 'base',
+    });
   }
 }
