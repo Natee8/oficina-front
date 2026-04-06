@@ -12,12 +12,21 @@
         class="table-head"
         [style.grid-template-columns]="'2fr 1.5fr 1.5fr 1fr 1.5fr 2fr 2fr 120px'"
       >
-        <div *ngFor="let col of columns">{{ col.label }}</div>
+        <div
+          *ngFor="let col of columns"
+          class="table-head-cell"
+          [class.sortable]="!!col.sortKey"
+          [class.active-sort]="sortColumn === col.sortKey"
+          (click)="toggleSort(col)"
+        >
+          <span>{{ col.label }}</span>
+          <span class="sort-indicator" *ngIf="getSortIndicator(col)">{{ getSortIndicator(col) }}</span>
+        </div>
       </div>
 
       <div
         class="table-row"
-        *ngFor="let vehicle of vehicles"
+        *ngFor="let vehicle of paginatedVehicles"
         [style.grid-template-columns]="'2fr 1.5fr 1.5fr 1fr 1.5fr 2fr 2fr 120px'"
       >
         <div class="table-cell">{{ vehicle.customerName }}</div>
@@ -53,7 +62,7 @@
     [page]="page"
     [totalPages]="totalPages"
     [totalItems]="vehicles.length"
-    [pageSize]="5"
+    [pageSize]="pageSize"
     (pageChange)="changePage($event)"
   ></app-table-footer>
 </div>

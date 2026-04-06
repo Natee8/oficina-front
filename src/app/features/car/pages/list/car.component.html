@@ -5,29 +5,24 @@
   </div>
 
   <div class="header-bottom">
-    <!-- ESQUERDA -->
-    <div class="buttonContainer">
-      <button class="button upscale" [routerLink]="['/car-create']">
-        <p>Novo Veículo</p>
-        <i class="fa-solid fa-plus"></i>
-      </button>
-    </div>
-
-    <!-- DIREITA -->
-    <div class="filters">
-      <div class="select">
-        <app-input-field label="Placa"></app-input-field>
+    <div class="containerButtons">
+      <div class="buttonContainer">
+        <button class="button upscale" [routerLink]="['/car-create']">
+          <p>Novo Veículo</p>
+          <i class="fa-solid fa-plus"></i>
+        </button>
       </div>
 
-      <div class="select">
-        <app-select-field label="Lojas"></app-select-field>
+      <div class="filters">
+        <div class="select">
+          <app-select-field label="Lojas" [options]="lojasOptions" [(ngModel)]="filters.unitId"></app-select-field>
+        </div>
+        <button class="btn-primary" type="button" (click)="applyFilters()">
+          <p>Filtrar</p>
+        </button>
       </div>
-
-      <button class="button btn-primary">
-        <p>Filtrar</p>
-      </button>
     </div>
   </div>
 </div>
 
-<app-table-car></app-table-car>
+<app-table-car [filters]="appliedFilters"></app-table-car>

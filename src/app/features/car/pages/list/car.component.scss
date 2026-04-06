@@ -27,7 +27,7 @@
   .header-bottom {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 12px;
     flex-wrap: wrap;
 
@@ -35,9 +35,10 @@
       display: flex;
       width: 100%;
       align-items: start;
-      margin-top: 2rem;
       justify-content: space-between;
+      margin-top: 2rem;
       gap: 12px;
+      flex-wrap: wrap;
 
       app-input-field,
       app-select-field {
@@ -47,25 +48,20 @@
     }
 
     .filters {
-      width: 50%;
+      width: 40%;
       display: flex;
       align-items: center;
-      gap: 1rem;
-    }
-
-    .select {
-      width: 100%;
-    }
-
-    .btn-primary p {
-      margin: 0;
+      justify-content: center;
+      gap: 2rem;
     }
 
     .buttonContainer {
-      width: 40%;
-      display: flex;
-      align-self: center;
-      align-items: center;
+      width: 50%;
+      gap: 2rem;
     }
   }
+}
+
+.select {
+  width: 100%;
 }
