@@ -5,8 +5,8 @@ import { CreateClientDto } from '../model/dtos/createClient.dto';
 
 export function buildClientPayload(data: ClientData): CreateClientDto {
   return {
-    unitId: data.loja!,
-    legalTypeId: data.tipoLegal!,
+    unitId: Number(data.loja),
+    legalTypeId: Number(data.tipoLegal),
     name: data.nome,
     cpfCnpj: data.cpfCnpj,
     email: data.email,

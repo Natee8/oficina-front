@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -18,6 +18,7 @@ import { stepTwoClientSchema } from '../../schemas/stepTwo.schema';
 import { stepOneClientSchema } from '../../schemas/stepOne.schema';
 import { buildClientPayload } from '../../shared/functionCreatePayload';
 import { ClientService } from '../../service/client.service';
+import { ClientDto } from '../../model/dtos/client.dto';
 
 @Component({
   selector: 'app-edit-client-modal',
@@ -53,31 +54,55 @@ export class EditClientModalComponent {
   loja!: number;
   tipoLegal!: number;
 
-  @Input() client: any;
+  @Input() client!: ClientDto;
   @Output() closeModalEvent = new EventEmitter<void>();
+  @Output() clientUpdated = new EventEmitter<void>();
 
   stepsConfig = stepsConfigClient;
 
-  ngOnInit() {
-    if (this.client) {
-      this.clientData = {
-        nome: this.client.nome,
-        cpfCnpj: this.client.cpfCnpj,
-        email: this.client.email,
-        phone: this.client.phone,
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['client']) {
+      const currentClient = changes['client'].currentValue;
 
-        addressZip: this.client.addressZip,
-        addressStreet: this.client.addressStreet,
-        addressNumber: this.client.addressNumber,
-        addressDistrict: this.client.addressDistrict,
-        addressCity: this.client.addressCity,
-        addressState: this.client.addressState,
+      this.clientData = createClientData();
+      console.log('INIT DATA', this.clientData);
 
-        loja: this.client.loja ?? null,
-        tipoLegal: this.client.tipoLegal ?? null,
-        notes: this.client.notes,
-      };
+      if (currentClient) {
+        this.clientData = {
+          ...this.clientData,
+
+          nome: currentClient.name,
+          cpfCnpj: currentClient.cpfCnpj,
+          email: currentClient.email,
+          phone: currentClient.phone,
+
+          addressZip: currentClient.addressZip,
+          addressStreet: currentClient.addressStreet,
+          addressNumber: currentClient.addressNumber,
+          addressDistrict: currentClient.addressDistrict,
+          addressCity: currentClient.addressCity,
+          addressState: currentClient.addressState,
+
+          loja: currentClient.unitIds?.[0] ?? null,
+          tipoLegal: currentClient.legalTypeId ?? null,
+          notes: currentClient.notes ?? '',
+        };
+      }
     }
+  }
+
+  private loadLojas() {
+    this.clientService.getLojas().subscribe({
+      next: (lojas) => {
+        this.lojas = lojas.map((l) => ({
+          label: l.name,
+          value: l.id,
+        }));
+      },
+      error: (err) => {
+        console.error('Erro ao carregar lojas', err);
+      },
+    });
   }
 
   setStep(index: number) {
@@ -161,8 +186,10 @@ export class EditClientModalComponent {
 
       this.clientService.updateClient(this.client.id, payload).subscribe({
         next: () => {
+          this.clientUpdated.emit();
           console.log('Cliente atualizado com sucesso');
           this.close();
+          console.log(this.clientData);
         },
         error: (err) => {
           console.error('Erro ao atualizar cliente', err);
@@ -175,6 +202,10 @@ export class EditClientModalComponent {
     }
   }
   close() {
+    this.clientData = createClientData();
+    this.stepIndex = 0;
+    this.errors = {};
+
     this.closeModalEvent.emit();
   }
 

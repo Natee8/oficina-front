@@ -26,4 +26,9 @@ export class ClientService {
   updateClient(id: number, payload: CreateClientDto): Observable<any> {
     return this.http.patch(`${this.baseUrl}/${id}`, payload);
   }
+
+  deleteClient(id: number, unitIds: number[]): Observable<any> {
+    const query = unitIds.join(',');
+    return this.http.delete(`${this.baseUrl}/${id}?unitId=${query}`);
+  }
 }
