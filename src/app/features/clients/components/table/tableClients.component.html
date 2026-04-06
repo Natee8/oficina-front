@@ -13,12 +13,12 @@
           'minmax(160px,1fr) minmax(180px,1.2fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(200px,1.5fr) minmax(140px,1fr) 120px'
         "
       >
-        <div *ngFor="let col of columns">{{ col.label }}</div>
+        <div *ngFor="let col of columns" class="table-head-cell">{{ col.label }}</div>
       </div>
 
       <div
         class="table-row"
-        *ngFor="let client of clientList"
+        *ngFor="let client of paginatedClients"
         [style.grid-template-columns]="
           'minmax(160px,1fr) minmax(180px,1.2fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(200px,1.5fr) minmax(140px,1fr) 120px'
         "
@@ -40,9 +40,9 @@
 
   <app-edit-client-modal
     *ngIf="activeModal === 'edit'"
-    [client]="selectedClient"
-    (closeModalEvent)="closeModal()"
-    (clientUpdated)="onClientUpdated()"
+    [client]="selectedClient!"
+    (closeModalEvent)="handleModalClose()"
+    (clientUpdated)="handleModalClose(true)"
   ></app-edit-client-modal>
 
   <app-modal-delete
@@ -52,11 +52,12 @@
     (cancel)="closeModal()"
   ></app-modal-delete>
 
+  <!-- Footer de paginação -->
   <app-table-footer
     [page]="page"
     [totalPages]="totalPages"
     [totalItems]="clientList.length"
-    [pageSize]="5"
+    [pageSize]="pageSize"
     (pageChange)="changePage($event)"
   ></app-table-footer>
 </div>
