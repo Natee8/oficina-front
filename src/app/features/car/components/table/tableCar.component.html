@@ -20,7 +20,9 @@
           (click)="toggleSort(col)"
         >
           <span>{{ col.label }}</span>
-          <span class="sort-indicator" *ngIf="getSortIndicator(col)">{{ getSortIndicator(col) }}</span>
+          <span class="sort-indicator" *ngIf="getSortIndicator(col)">{{
+            getSortIndicator(col)
+          }}</span>
         </div>
       </div>
 

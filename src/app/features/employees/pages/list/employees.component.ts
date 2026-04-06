@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { SelectFieldComponent } from '../../../../shared/components/inputs/select/selectField.component';
 import { FormsModule } from '@angular/forms';
 import { EmployeeService } from '../../service/employeer.service';
+import { DropdownComponent } from '../../../../shared/components/dropdownField/dropownField.component';
+import { CommonModule } from '@angular/common';
 
 type EmployeeFilters = {
   unitId: number | null;
@@ -15,7 +17,14 @@ type EmployeeFilters = {
   standalone: true,
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss'],
-  imports: [TableEmployees, RouterModule, SelectFieldComponent, FormsModule],
+  imports: [
+    TableEmployees,
+    CommonModule,
+    RouterModule,
+    SelectFieldComponent,
+    FormsModule,
+    DropdownComponent,
+  ],
 })
 export class EmployeesComponent implements OnInit {
   lojasOptions: Array<{ label: string; value: number | null }> = [{ label: 'Todas', value: null }];
@@ -25,15 +34,10 @@ export class EmployeesComponent implements OnInit {
     { label: 'Comum', value: 'Comum' },
   ];
 
-  filters: EmployeeFilters = {
-    unitId: null,
-    role: null,
-  };
+  filters: EmployeeFilters = { unitId: null, role: null };
+  appliedFilters: EmployeeFilters = { unitId: null, role: null };
 
-  appliedFilters: EmployeeFilters = {
-    unitId: null,
-    role: null,
-  };
+  openDropdown = false;
 
   constructor(private employeeService: EmployeeService) {}
 
@@ -51,10 +55,19 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
+  toggleDropdown(): void {
+    this.openDropdown = !this.openDropdown;
+  }
+
+  closeDropdown(): void {
+    this.openDropdown = false;
+  }
+
   applyFilters(): void {
     this.appliedFilters = {
       unitId: this.filters.unitId,
       role: this.filters.role,
     };
+    this.closeDropdown();
   }
 }

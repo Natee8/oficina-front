@@ -1,0 +1,10 @@
+<div class="dropdown-container">
+  <button type="button" class="btn-primary" (click)="toggle()">
+    {{ label }}
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+
+  <div class="dropdown-panel" [class.show]="open">
+    <ng-content></ng-content>
+  </div>
+</div>
