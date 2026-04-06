@@ -10,7 +10,6 @@ export interface OsData {
   valorFunilaria: string;
   mecanica: string;
   valorMecanica: string;
-
   peca: string;
   quantidade: number | null;
   valorUnitario: string;

@@ -24,7 +24,10 @@ import { OsData, createOsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
 import { reviewOsConfig } from '../../../../core/config/reviewsData';
 import { buildUpdateOsPayload } from '../../shared/functionPayloadUpdate';
-import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import {
+  snackBarErrorConfig,
+  snackBarSuccessConfig,
+} from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-edit-os-modal',
@@ -55,6 +58,7 @@ export class EditOsModalComponent implements OnInit {
   reviewData = reviewOsConfig;
 
   stepOneErrors: Record<string, string> = {};
+  stepTwoErrors: Record<string, string> = {};
 
   @Input() os: OsDto | null = null;
   @Output() closeModalEvent = new EventEmitter<void>();
@@ -132,19 +136,14 @@ export class EditOsModalComponent implements OnInit {
       this.stepOneErrors = {};
 
       if (this.stepIndex === 0) {
-        if (this.stepIndex === 0) {
-          const dataToValidate = {
-            ...this.osData,
-            valorPintura: this.osData.valorPintura ? this.parseCurrency(this.osData.valorPintura) : undefined,
-            valorFunilaria: this.osData.valorFunilaria ? this.parseCurrency(this.osData.valorFunilaria) : undefined,
-            valorMecanica: this.osData.valorMecanica ? this.parseCurrency(this.osData.valorMecanica) : undefined,
-          };
+        const dataToValidate = {
+          ...this.osData,
+          hasParts: this.pecasAdicionadas.length > 0,
+        };
 
-          await StepOneOsSchema.validate(dataToValidate, {
-            abortEarly: false,
-            context: { hasParts: this.pecasAdicionadas.length > 0 },
-          });
-        }
+        await StepOneOsSchema.validate(dataToValidate, {
+          abortEarly: false,
+        });
       }
 
       if (this.isLastStep) {
@@ -154,6 +153,7 @@ export class EditOsModalComponent implements OnInit {
       }
     } catch (err: any) {
       this.stepOneErrors = {};
+
       err.inner.forEach((e: any) => {
         this.stepOneErrors[e.path] = e.message;
       });

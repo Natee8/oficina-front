@@ -16,3 +16,7 @@ export interface CreateOsPayload {
     unitPrice: number;
   }[];
 }
+
+export type StepOneContext = {
+  hasParts: boolean;
+};
