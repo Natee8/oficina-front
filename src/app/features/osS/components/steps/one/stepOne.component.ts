@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
 import { SelectFieldComponent } from '../../../../../shared/components/inputs/select/selectField.component';
 import { CommonModule } from '@angular/common';
-import { OsData } from '../../../model/dtos/os.data';
+import { OsData, createOsData } from '../../../model/dtos/os.data';
 
 @Component({
   selector: 'app-os-step-one',
@@ -15,22 +15,8 @@ import { OsData } from '../../../model/dtos/os.data';
 export class OsStepOneComponent {
   private readonly maxRangeDays = 60;
 
-  @Input() data: OsData = {
-    loja: null,
-    cliente: null,
-    veiculo: null,
-    dataEntrada: '',
-    dataSaida: '',
-    pintura: '',
-    valorPintura: '',
-    funilaria: '',
-    valorFunilaria: '',
-    mecanica: '',
-    valorMecanica: '',
-    peca: '',
-    quantidade: null,
-    valorUnitario: '',
-  };
+  // Usando createOsData() para inicializar
+  @Input() data: OsData = createOsData();
   @Input() errors: Record<string, string> = {};
 
   @Input() lojas: any[] = [];

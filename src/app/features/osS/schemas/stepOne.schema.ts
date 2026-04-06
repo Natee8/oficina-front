@@ -4,20 +4,16 @@ const MAX_DATE_RANGE_DAYS = 60;
 
 const normalizeDate = (value: string | null | undefined): Date | null => {
   if (!value) return null;
-
   const [year, month, day] = value.split('-').map(Number);
   if (!year || !month || !day) return null;
-
   const date = new Date(year, month - 1, day);
   if (
     Number.isNaN(date.getTime()) ||
     date.getFullYear() !== year ||
     date.getMonth() !== month - 1 ||
     date.getDate() !== day
-  ) {
+  )
     return null;
-  }
-
   date.setHours(0, 0, 0, 0);
   return date;
 };
@@ -28,106 +24,134 @@ const getToday = (): Date => {
   return today;
 };
 
-const isWeekend = (date: Date): boolean => {
-  const day = date.getDay();
-  return day === 0 || day === 6;
-};
+const isWeekend = (date: Date) => date.getDay() === 0 || date.getDay() === 6;
 
-export const StepOneOsSchema = yup.object({
-  loja: yup.number().required('Selecione a loja'),
-  cliente: yup.number().required('Selecione o cliente'),
-  veiculo: yup.number().required('Selecione o veículo'),
+// Defina a interface do seu form
+export interface OsData {
+  loja: number | null;
+  cliente: number | null;
+  veiculo: number | null;
+  dataEntrada: string | null;
+  dataSaida: string | null;
+  pintura: string | null;
+  valorPintura: string | null;
+  funilaria: string | null;
+  valorFunilaria: string | null;
+  mecanica: string | null;
+  valorMecanica: string | null;
+  peca?: string | null;
+  quantidade?: number | null;
+  valorUnitario?: string | null;
+}
 
-  dataEntrada: yup
-    .string()
-    .required('Informe a data de entrada')
-    .test('data-entrada-valida', 'Informe uma data de entrada válida', (value) => !!normalizeDate(value))
-    .test('data-entrada-passado', 'Data de entrada não pode ser no passado', (value) => {
-      const entryDate = normalizeDate(value);
-      if (!entryDate) return true;
-      return entryDate >= getToday();
-    })
-    .test('data-entrada-fim-semana', 'Data de entrada não pode ser fim de semana', (value) => {
-      const entryDate = normalizeDate(value);
-      if (!entryDate) return true;
-      return !isWeekend(entryDate);
-    }),
-  dataSaida: yup
-    .string()
-    .required('Informe a data de saída')
-    .test('data-saida-valida', 'Informe uma data de saída válida', (value) => !!normalizeDate(value))
-    .test('data-saida-passado', 'Data de saída não pode ser no passado', (value) => {
-      const exitDate = normalizeDate(value);
-      if (!exitDate) return true;
-      return exitDate >= getToday();
-    })
-    .test('data-saida-fim-semana', 'Data de saída não pode ser fim de semana', (value) => {
-      const exitDate = normalizeDate(value);
-      if (!exitDate) return true;
-      return !isWeekend(exitDate);
-    })
-    .test('data-saida-maior', 'Data de saída deve ser maior que a data de entrada', function (value) {
-      const { dataEntrada } = this.parent;
-      const entryDate = normalizeDate(dataEntrada);
-      const exitDate = normalizeDate(value);
-      if (!entryDate || !exitDate) return true;
-      return exitDate > entryDate;
-    })
-    .test(
-      'data-saida-limite',
-      `Data de saída não pode ultrapassar ${MAX_DATE_RANGE_DAYS} dias da data de entrada`,
-      function (value) {
-        const { dataEntrada } = this.parent;
-        const entryDate = normalizeDate(dataEntrada);
-        const exitDate = normalizeDate(value);
-        if (!entryDate || !exitDate) return true;
+export const StepOneOsSchema = yup
+  .object<OsData>({
+    loja: yup.number().nullable().required('Selecione a loja'),
+    cliente: yup.number().nullable().required('Selecione o cliente'),
+    veiculo: yup.number().nullable().required('Selecione o veículo'),
 
-        const diffInMs = exitDate.getTime() - entryDate.getTime();
-        const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-        return diffInDays <= MAX_DATE_RANGE_DAYS;
-      },
-    ),
+    dataEntrada: yup
+      .string()
+      .required('Informe a data de entrada')
+      .test('data-entrada-valida', 'Data inválida', (value) => !!normalizeDate(value))
+      .test('data-entrada-passado', 'Data de entrada não pode ser no passado', (value) => {
+        const date = normalizeDate(value);
+        return !date || date >= getToday();
+      })
+      .test('data-entrada-fim-semana', 'Data de entrada não pode ser fim de semana', (value) => {
+        const date = normalizeDate(value);
+        return !date || !isWeekend(date);
+      }),
 
-  pintura: yup.string().test('pintura-par', 'Informe a pintura junto ao valor', function (value) {
-    const hasValor = !!this.parent.valorPintura && this.parent.valorPintura > 0;
-    if (hasValor && !value) return false;
-    return true;
-  }),
-  valorPintura: yup.number().typeError('Valor inválido').test('valor-pintura-par', 'Informe o valor junto à descrição da pintura', function (value) {
-    const hasDesc = !!this.parent.pintura;
-    if (hasDesc && (!value || value <= 0)) return false;
-    return true;
-  }),
+    dataSaida: yup
+      .string()
+      .required('Informe a data de saída')
+      .test('data-saida-valida', 'Data inválida', (value) => !!normalizeDate(value))
+      .test('data-saida-passado', 'Data de saída não pode ser no passado', (value) => {
+        const date = normalizeDate(value);
+        return !date || date >= getToday();
+      })
+      .test('data-saida-fim-semana', 'Data de saída não pode ser fim de semana', (value) => {
+        const date = normalizeDate(value);
+        return !date || !isWeekend(date);
+      })
+      .test('data-saida-maior', 'Data de saída deve ser maior que a entrada', function (value) {
+        const parent = this.parent as OsData;
+        const entry = normalizeDate(parent.dataEntrada);
+        const exit = normalizeDate(value);
+        if (!entry || !exit) return true;
+        return exit > entry;
+      })
+      .test(
+        'data-saida-limite',
+        `Data de saída não pode ultrapassar ${MAX_DATE_RANGE_DAYS} dias da entrada`,
+        function (value) {
+          const parent = this.parent as OsData;
+          const entry = normalizeDate(parent.dataEntrada);
+          const exit = normalizeDate(value);
+          if (!entry || !exit) return true;
+          return (exit.getTime() - entry.getTime()) / (1000 * 60 * 60 * 24) <= MAX_DATE_RANGE_DAYS;
+        },
+      ),
 
-  funilaria: yup.string().test('funilaria-par', 'Informe a funilaria junto ao valor', function (value) {
-    const hasValor = !!this.parent.valorFunilaria && this.parent.valorFunilaria > 0;
-    if (hasValor && !value) return false;
-    return true;
-  }),
-  valorFunilaria: yup.number().typeError('Valor inválido').test('valor-funilaria-par', 'Informe o valor junto à descrição da funilaria', function (value) {
-    const hasDesc = !!this.parent.funilaria;
-    if (hasDesc && (!value || value <= 0)) return false;
-    return true;
-  }),
+    pintura: yup.string().nullable(),
+    valorPintura: yup
+      .string()
+      .nullable()
+      .test('valor-pintura-par', 'Informe valor junto da pintura', function (value) {
+        const parent = this.parent as OsData;
+        if (!!parent.pintura && (!value || Number(value) <= 0)) return false;
+        return true;
+      }),
 
-  mecanica: yup.string().test('mecanica-par', 'Informe a mecânica junto ao valor', function (value) {
-    const hasValor = !!this.parent.valorMecanica && this.parent.valorMecanica > 0;
-    if (hasValor && !value) return false;
-    return true;
-  }),
-  valorMecanica: yup.number().typeError('Valor inválido').test('valor-mecanica-par', 'Informe o valor junto à descrição da mecânica', function (value) {
-    const hasDesc = !!this.parent.mecanica;
-    if (hasDesc && (!value || value <= 0)) return false;
-    return true;
-  }),
-}).test('ao-menos-um', 'Informe ao menos: funilaria completa, pintura completa ou mecânica completa', function (values) {
-  const hasPintura = !!values.pintura && !!values.valorPintura && values.valorPintura > 0;
-  const hasFunilaria = !!values.funilaria && !!values.valorFunilaria && values.valorFunilaria > 0;
-  const hasMecanica = !!values.mecanica && !!values.valorMecanica && values.valorMecanica > 0;
-  const hasParts = !!(this.options as any)?.context?.hasParts;
-  if (!hasPintura && !hasFunilaria && !hasMecanica && !hasParts) {
-    return this.createError({ path: 'funilaria', message: 'Informe ao menos: funilaria completa, pintura completa ou mecânica completa' });
-  }
-  return true;
-});
+    funilaria: yup.string().nullable(),
+    valorFunilaria: yup
+      .string()
+      .nullable()
+      .test('valor-funilaria-par', 'Informe valor junto da funilaria', function (value) {
+        const parent = this.parent as OsData;
+        if (!!parent.funilaria && (!value || Number(value) <= 0)) return false;
+        return true;
+      }),
 
+    mecanica: yup.string().nullable(),
+    valorMecanica: yup
+      .string()
+      .nullable()
+      .test('valor-mecanica-par', 'Informe valor junto da mecânica', function (value) {
+        const parent = this.parent as OsData;
+        if (!!parent.mecanica && (!value || Number(value) <= 0)) return false;
+        return true;
+      }),
+
+    peca: yup.string().nullable(),
+    quantidade: yup.number().nullable(),
+    valorUnitario: yup.string().nullable(),
+  })
+  .test(
+    'ao-menos-um',
+    'Informe ao menos: funilaria, pintura, mecânica ou peças',
+    function (values) {
+      const parent = values as OsData;
+
+      const hasPintura =
+        !!parent.pintura && !!parent.valorPintura && Number(parent.valorPintura) > 0;
+
+      const hasFunilaria =
+        !!parent.funilaria && !!parent.valorFunilaria && Number(parent.valorFunilaria) > 0;
+
+      const hasMecanica =
+        !!parent.mecanica && !!parent.valorMecanica && Number(parent.valorMecanica) > 0;
+
+      const hasParts = (this.options.context as { hasParts: boolean } | undefined)?.hasParts;
+
+      if (!hasPintura && !hasFunilaria && !hasMecanica && !hasParts) {
+        return this.createError({
+          path: 'funilaria',
+          message: 'Informe ao menos: funilaria, pintura, mecânica ou peças',
+        });
+      }
+
+      return true;
+    },
+  );

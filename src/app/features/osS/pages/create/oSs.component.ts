@@ -17,7 +17,10 @@ import { BackButtonComponent } from '../../../../shared/components/backButton/ba
 import { createOsData, OsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
 import { buildOsPayload } from '../../shared/functionPayload';
-import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import {
+  snackBarErrorConfig,
+  snackBarSuccessConfig,
+} from '../../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-os-create',
@@ -56,7 +59,6 @@ export class OSsCreateComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
-    // Atualização de clientes quando muda a loja
     if (this.osData.loja !== this.lastLoja) {
       this.lastLoja = this.osData.loja;
 
@@ -111,14 +113,19 @@ export class OSsCreateComponent implements OnInit, DoCheck {
       try {
         const parsedData = {
           ...this.osData,
-          valorPintura: this.osData.valorPintura ? parseFloat(this.osData.valorPintura.replace(/\./g, '').replace(',', '.')) : undefined,
-          valorFunilaria: this.osData.valorFunilaria ? parseFloat(this.osData.valorFunilaria.replace(/\./g, '').replace(',', '.')) : undefined,
-          valorMecanica: this.osData.valorMecanica ? parseFloat(this.osData.valorMecanica.replace(/\./g, '').replace(',', '.')) : undefined,
+          valorPintura: this.osData.valorPintura
+            ? parseFloat(this.osData.valorPintura.replace(/\./g, '').replace(',', '.'))
+            : undefined,
+          valorFunilaria: this.osData.valorFunilaria
+            ? parseFloat(this.osData.valorFunilaria.replace(/\./g, '').replace(',', '.'))
+            : undefined,
+          valorMecanica: this.osData.valorMecanica
+            ? parseFloat(this.osData.valorMecanica.replace(/\./g, '').replace(',', '.'))
+            : undefined,
         };
 
         await StepOneOsSchema.validate(parsedData, {
           abortEarly: false,
-          context: { hasParts: this.pecasAdicionadas.length > 0 },
         });
         this.stepAtual++;
       } catch (err: any) {
