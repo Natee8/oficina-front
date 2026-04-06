@@ -1,7 +1,8 @@
 <div class="table">
   <header class="table-header">
     <div class="title">
-      <i [class]="icon"></i>
+      <img *ngIf="iconSrc" [src]="iconSrc" [alt]="title" class="title-image" />
+      <i *ngIf="!iconSrc" [class]="icon"></i>
       <p>{{ title }}</p>
     </div>
 

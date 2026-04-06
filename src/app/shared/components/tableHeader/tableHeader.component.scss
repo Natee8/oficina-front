@@ -31,6 +31,12 @@
   font-size: 2rem;
 }
 
+.title-image {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+}
+
 .search {
   display: flex;
   align-items: center;
