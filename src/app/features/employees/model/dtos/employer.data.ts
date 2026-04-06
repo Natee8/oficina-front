@@ -11,7 +11,7 @@ export interface EmployeeData {
   addressState: string;
 
   cargo: string;
-  loja: number | null;
+  loja: number[];
   email: string;
   senha: string;
 }
@@ -30,7 +30,7 @@ export function createEmployeeData(): EmployeeData {
     addressState: '',
 
     cargo: '',
-    loja: null,
+    loja: [],
     email: '',
     senha: '',
   };

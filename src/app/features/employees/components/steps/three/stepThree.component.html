@@ -2,17 +2,22 @@
   label="Cargo"
   [options]="cargosOptions"
   [(ngModel)]="data.cargo"
+  (ngModelChange)="onCargoChange($event)"
 ></app-select-field>
 <div class="error" *ngIf="errors['cargo']">{{ errors['cargo'] }}</div>
 
-<app-select-field
-  label="Loja"
-  type="text"
-  labelBgColor="#fff"
-  [(ngModel)]="data.loja"
-  [options]="lojasOptionsSelect"
-></app-select-field>
-<div class="error" *ngIf="errors['loja']">{{ errors['loja'] }}</div>
+<ng-container *ngIf="shouldShowUnitField">
+  <app-select-field
+    class="employee-unit-field"
+    label="Loja"
+    type="text"
+    labelBgColor="#fff"
+    [(ngModel)]="data.loja"
+    [options]="lojasOptionsSelect"
+    [multiple]="true"
+  ></app-select-field>
+  <div class="error" *ngIf="errors['loja']">{{ errors['loja'] }}</div>
+</ng-container>
 
 <app-input-field label="Email" labelBgColor="#fff" [(ngModel)]="data.email"></app-input-field>
 <div class="error" *ngIf="errors['email']">{{ errors['email'] }}</div>

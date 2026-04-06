@@ -1,1 +1,6 @@
 @import '../../../../style/styles.scss';
+
+:host ::ng-deep app-step-three .employee-unit-field {
+	display: block;
+	margin-top: 1.5rem;
+}

@@ -40,12 +40,123 @@ select {
     cursor: not-allowed;
     opacity: 0.6;
   }
-
-  // 🔥 simula o comportamento do input
+  
   &:focus,
   &.has-value {
     padding-top: 1.2rem;
     padding-bottom: 0.8rem;
+  }
+}
+
+.multi-select-container {
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.95rem 3rem 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background-color: transparent;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  cursor: pointer;
+
+  &.is-open {
+    border-color: var(--color-primary);
+  }
+
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.multi-select-value {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 1.5rem;
+}
+
+.multi-select-placeholder {
+  color: transparent;
+}
+
+.multi-select-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.8rem;
+  border: none;
+  border-radius: 999px;
+  background: rgba(49, 110, 221, 0.12);
+  color: var(--color-primary);
+  font-size: 0.95rem;
+  cursor: default;
+}
+
+.chip-remove {
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.multi-select-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  color: gray;
+  transition: transform 0.2s ease;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.multi-select-dropdown {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  width: 100%;
+  max-height: 14rem;
+  overflow-y: auto;
+  padding: 0.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: var(--color-bg);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+  z-index: 30;
+}
+
+.multi-select-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 0.9rem;
+  border: none;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: inherit;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(49, 110, 221, 0.08);
+  }
+
+  &.selected {
+    color: var(--color-primary);
+    background: rgba(49, 110, 221, 0.12);
   }
 }
 
@@ -78,24 +189,26 @@ select {
   border-radius: 0.3rem;
 }
 
-// 🔥 ativa quando tem valor
 select:focus ~ .floating-label .label-content,
-select.has-value ~ .floating-label .label-content {
+select.has-value ~ .floating-label .label-content,
+.multi-select-container.has-value ~ .floating-label .label-content,
+.multi-select-container.is-open ~ .floating-label .label-content {
   transform: translateY(-1.6rem) scale(0.85);
   color: var(--color-primary);
   background-color: var(--bg-color, var(--color-bg));
   padding: 0 0.4rem;
 }
 
-// quando NÃO tem valor → label fica no lugar de placeholder
-select:not(.has-value):not(:focus) ~ .floating-label .label-content {
+select:not(.has-value):not(:focus) ~ .floating-label .label-content,
+.multi-select-container:not(.has-value):not(.is-open) ~ .floating-label .label-content {
   transform: translateY(0) scale(1);
   color: gray;
 }
 
-// quando foca OU tem valor → sobe
 select:focus ~ .floating-label .label-content,
-select.has-value ~ .floating-label .label-content {
+select.has-value ~ .floating-label .label-content,
+.multi-select-container.has-value ~ .floating-label .label-content,
+.multi-select-container.is-open ~ .floating-label .label-content {
   transform: translateY(-1.6rem) scale(0.85);
   color: var(--color-primary);
 }

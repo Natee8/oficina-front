@@ -1,6 +1,7 @@
 <div class="input-simple">
   <div class="input-field-wrapper">
     <select
+      *ngIf="!multiple"
       [id]="id"
       [(ngModel)]="value"
       (ngModelChange)="handleChange($event)"
@@ -15,6 +16,51 @@
         {{ getOptionLabel(option) }}
       </option>
     </select>
+
+    <div
+      *ngIf="multiple"
+      [id]="id"
+      class="multi-select-container"
+      [class.has-value]="hasValue"
+      [class.is-open]="dropdownOpen"
+      [class.is-disabled]="disabled"
+      (click)="toggleDropdown()"
+      tabindex="0"
+      (blur)="onTouched()"
+    >
+      <div class="multi-select-value">
+        <span class="multi-select-placeholder" *ngIf="!selectedOptions.length">Selecione</span>
+
+        <div class="multi-select-chips" *ngIf="selectedOptions.length">
+          <button
+            type="button"
+            class="chip"
+            *ngFor="let option of selectedOptions"
+            (click)="$event.stopPropagation()"
+          >
+            <span>{{ getOptionLabel(option) }}</span>
+            <span class="chip-remove" (click)="removeOption(option, $event)">×</span>
+          </button>
+        </div>
+
+        <span class="multi-select-arrow" [class.open]="dropdownOpen">
+          <i class="fa-solid fa-chevron-down"></i>
+        </span>
+      </div>
+
+      <div class="multi-select-dropdown" *ngIf="dropdownOpen">
+        <button
+          type="button"
+          class="multi-select-option"
+          *ngFor="let option of options"
+          [class.selected]="isSelected(option)"
+          (mousedown)="$event.preventDefault(); toggleOption(option, $event)"
+        >
+          <span>{{ getOptionLabel(option) }}</span>
+          <i class="fa-solid fa-check" *ngIf="isSelected(option)"></i>
+        </button>
+      </div>
+    </div>
 
     <label [for]="id" class="floating-label">
       <span class="label-content" [style.--bg-color]="labelBgColor">
