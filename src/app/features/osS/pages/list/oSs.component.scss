@@ -32,19 +32,13 @@
     flex-wrap: wrap;
 
     .containerButtons {
-      display: flex;
       width: 100%;
-      align-items: start;
-      justify-content: space-between;
-      margin-top: 2rem;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 1rem;
       gap: 12px;
       flex-wrap: wrap;
-
-      app-input-field,
-      app-select-field {
-        flex: 1;
-        min-width: 120px;
-      }
     }
 
     .filters {
