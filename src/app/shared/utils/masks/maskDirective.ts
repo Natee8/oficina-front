@@ -9,6 +9,7 @@ export class MaskDirective {
     | 'cnpj'
     | 'phone'
     | 'cpf'
+    | 'cep'
     | 'email'
     | 'custom'
     | 'currency'
@@ -57,6 +58,11 @@ export class MaskDirective {
         value = value.replace(/^(\d{3})(\d)/, '$1.$2');
         value = value.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
         value = value.replace(/\.(\d{3})(\d)/, '.$1-$2');
+        break;
+
+      case 'cep':
+        if (value.length > 8) value = value.slice(0, 8);
+        value = value.replace(/^(\d{5})(\d)/, '$1-$2');
         break;
 
       case 'custom':

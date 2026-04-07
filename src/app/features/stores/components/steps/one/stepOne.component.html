@@ -3,12 +3,12 @@
   {{ errors['name'] }}
 </div>
 
-<app-input-field label="CNPJ" [(ngModel)]="data.cnpj"></app-input-field>
+<app-input-field label="CNPJ" mask="cnpj" [(ngModel)]="data.cnpj"></app-input-field>
 <div *ngIf="errors['cnpj']" class="error">
   {{ errors['cnpj'] }}
 </div>
 
-<app-input-field label="Telefone" [(ngModel)]="data.phone"></app-input-field>
+<app-input-field label="Telefone" mask="phone" [(ngModel)]="data.phone"></app-input-field>
 <div *ngIf="errors['phone']" class="error">
   {{ errors['phone'] }}
 </div>

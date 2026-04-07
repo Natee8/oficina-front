@@ -18,6 +18,7 @@ import { buildStorePayload } from '../../shared/functionPayload';
 import { StoreService } from '../../service/store.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import { getStoreErrorMessage } from '../../shared/getStoreErrorMessage';
 
 @Component({
   selector: 'app-edit-store-modal',
@@ -149,7 +150,7 @@ export class EditStoreModalComponent {
         this.close(true);
       },
       error: (err) => {
-        this.snackBar.open(err?.error?.message || 'Erro ao atualizar a loja.', 'Fechar', snackBarErrorConfig);
+        this.snackBar.open(getStoreErrorMessage(err), 'Fechar', snackBarErrorConfig);
       },
     });
   }
