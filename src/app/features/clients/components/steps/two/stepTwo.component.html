@@ -1,8 +1,10 @@
 <div style="display: flex; gap: 1rem">
-  <div style="flex: 1">
+  <div style="flex: 1; display: flex; flex-direction: column">
     <app-input-field
       label="CEP"
+      mask="cep"
       [(ngModel)]="data.addressZip"
+      (ngModelChange)="searchCep($event)"
       labelBgColor="#fff"
     ></app-input-field>
     <div class="error" *ngIf="errors['addressZip']">
@@ -10,7 +12,7 @@
     </div>
   </div>
 
-  <div style="flex: 0.5">
+  <div style="flex: 0.5; display: flex; flex-direction: column">
     <app-input-field
       label="Número"
       [(ngModel)]="data.addressNumber"
@@ -22,22 +24,33 @@
   </div>
 </div>
 
-<app-input-field label="Rua" [(ngModel)]="data.addressStreet" labelBgColor="#fff"></app-input-field>
-<div class="error" *ngIf="errors['addressStreet']">
-  {{ errors['addressStreet'] }}
+<!-- Rua -->
+<div style="display: flex; flex-direction: column">
+  <app-input-field
+    label="Rua"
+    [(ngModel)]="data.addressStreet"
+    labelBgColor="#fff"
+  ></app-input-field>
+  <div class="error" *ngIf="errors['addressStreet']">
+    {{ errors['addressStreet'] }}
+  </div>
 </div>
 
-<app-input-field
-  label="Bairro"
-  [(ngModel)]="data.addressDistrict"
-  labelBgColor="#fff"
-></app-input-field>
-<div class="error" *ngIf="errors['addressDistrict']">
-  {{ errors['addressDistrict'] }}
+<!-- Bairro -->
+<div style="display: flex; flex-direction: column">
+  <app-input-field
+    label="Bairro"
+    [(ngModel)]="data.addressDistrict"
+    labelBgColor="#fff"
+  ></app-input-field>
+  <div class="error" *ngIf="errors['addressDistrict']">
+    {{ errors['addressDistrict'] }}
+  </div>
 </div>
 
+<!-- Cidade e Estado -->
 <div style="display: flex; gap: 1rem">
-  <div style="flex: 1">
+  <div style="flex: 1; display: flex; flex-direction: column">
     <app-input-field
       label="Cidade"
       [(ngModel)]="data.addressCity"
@@ -48,7 +61,7 @@
     </div>
   </div>
 
-  <div style="flex: 0.5">
+  <div style="flex: 0.5; display: flex; flex-direction: column">
     <app-input-field
       label="Estado"
       [(ngModel)]="data.addressState"

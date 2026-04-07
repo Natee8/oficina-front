@@ -10,7 +10,7 @@
         <div class="dropdown-options">
           <button
             *ngFor="let option of group.options"
-            [class.active]="filters[group.key] === option.value"
+            [class.active]="filters[group.key]?.includes(option.value)"
             (click)="selectOption(group.key, option.value)"
           >
             {{ option.label }}
@@ -18,7 +18,6 @@
         </div>
       </div>
 
-      <!-- ✅ classe corrigida -->
       <div class="dropdown-divider" *ngIf="i < groups.length - 1"></div>
     </ng-container>
 

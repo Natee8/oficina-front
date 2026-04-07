@@ -18,7 +18,22 @@ export class DropdownComponent {
   @Output() clearFilters = new EventEmitter<void>();
 
   selectOption(key: string, value: any) {
-    this.filters[key] = value;
+    if (!Array.isArray(this.filters[key])) {
+      this.filters[key] = [];
+    }
+
+    const index = this.filters[key].indexOf(value);
+
+    if (index > -1) {
+      this.filters[key].splice(index, 1);
+    } else {
+      if (value === null) {
+        this.filters[key] = [null];
+      } else {
+        this.filters[key] = this.filters[key].filter((v: any) => v !== null);
+        this.filters[key].push(value);
+      }
+    }
 
     this.filtersChange.emit(this.filters);
   }

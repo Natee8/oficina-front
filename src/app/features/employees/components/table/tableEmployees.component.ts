@@ -8,9 +8,19 @@ import { EditEmployeeModalComponent } from '../popupEdit/popupEdit.component';
 import { EmployeeService } from '../../service/employeer.service';
 import { EmployeeListItem, Unit } from '../../model/dtos/employerPayload';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import {
+  snackBarErrorConfig,
+  snackBarSuccessConfig,
+} from '../../../../core/config/snackbar.config';
 
-type EmployeeSortKey = 'name' | 'email' | 'phoneNumber' | 'role' | 'isActive' | 'fullAccess' | 'unitIds';
+type EmployeeSortKey =
+  | 'name'
+  | 'email'
+  | 'phoneNumber'
+  | 'role'
+  | 'isActive'
+  | 'fullAccess'
+  | 'unitIds';
 type SortDirection = 'asc' | 'desc';
 
 const EMPLOYEE_COLUMNS = [
@@ -56,8 +66,8 @@ export class TableEmployees implements OnInit, OnChanges {
   columns = EMPLOYEE_COLUMNS;
 
   @Input() store: any;
-  @Input() filters: { unitId: number | null; role: string | null } = {
-    unitId: null,
+  @Input() filters: { unitId: number[]; role: string | null } = {
+    unitId: [],
     role: null,
   };
 
@@ -157,7 +167,12 @@ export class TableEmployees implements OnInit, OnChanges {
 
   private getErrorMessage(error: unknown): string {
     if (typeof error === 'string' && error.trim()) {
-      return error.split('\n')[0].replace(/^.*?Exception:\s*/i, '').trim() || 'Erro ao excluir funcionário.';
+      return (
+        error
+          .split('\n')[0]
+          .replace(/^.*?Exception:\s*/i, '')
+          .trim() || 'Erro ao excluir funcionário.'
+      );
     }
 
     if (error && typeof error === 'object') {
@@ -167,15 +182,30 @@ export class TableEmployees implements OnInit, OnChanges {
       };
 
       if (typeof apiError.error === 'string' && apiError.error.trim()) {
-        return apiError.error.split('\n')[0].replace(/^.*?Exception:\s*/i, '').trim() || 'Erro ao excluir funcionário.';
+        return (
+          apiError.error
+            .split('\n')[0]
+            .replace(/^.*?Exception:\s*/i, '')
+            .trim() || 'Erro ao excluir funcionário.'
+        );
       }
 
       if (apiError.error && typeof apiError.error === 'object' && apiError.error.message?.trim()) {
-        return apiError.error.message.split('\n')[0].replace(/^.*?Exception:\s*/i, '').trim() || 'Erro ao excluir funcionário.';
+        return (
+          apiError.error.message
+            .split('\n')[0]
+            .replace(/^.*?Exception:\s*/i, '')
+            .trim() || 'Erro ao excluir funcionário.'
+        );
       }
 
       if (apiError.message?.trim()) {
-        return apiError.message.split('\n')[0].replace(/^.*?Exception:\s*/i, '').trim() || 'Erro ao excluir funcionário.';
+        return (
+          apiError.message
+            .split('\n')[0]
+            .replace(/^.*?Exception:\s*/i, '')
+            .trim() || 'Erro ao excluir funcionário.'
+        );
       }
     }
 
@@ -213,21 +243,35 @@ export class TableEmployees implements OnInit, OnChanges {
   }
 
   private applySearch(): void {
-    const filteredUsers = !this.searchTerm
-      ? [...this.allUsers]
-      : this.allUsers.filter((user) => {
-          const searchableValues = [
-            user.name,
-            user.email,
-            user.phoneNumber,
-            this.getRoleLabel(user.role),
-            this.getStatusLabel(user.isActive),
-            this.getAccessLabel(user.fullAccess),
-            this.getUnitNames(user.unitIds),
-          ];
+    let filteredUsers = [...this.allUsers];
 
-          return searchableValues.some((item) => item?.toLowerCase().includes(this.searchTerm));
-        });
+    if (this.filters.role) {
+      filteredUsers = filteredUsers.filter(
+        (user) => user.role?.toLowerCase() === this.filters.role?.toLowerCase(),
+      );
+    }
+
+    if (this.filters.unitId?.length) {
+      filteredUsers = filteredUsers.filter((user) =>
+        this.filters.unitId.every((filterId) => user.unitIds.includes(filterId)),
+      );
+    }
+
+    if (this.searchTerm) {
+      filteredUsers = filteredUsers.filter((user) => {
+        const searchableValues = [
+          user.name,
+          user.email,
+          user.phoneNumber,
+          this.getRoleLabel(user.role),
+          this.getStatusLabel(user.isActive),
+          this.getAccessLabel(user.fullAccess),
+          this.getUnitNames(user.unitIds),
+        ];
+
+        return searchableValues.some((item) => item?.toLowerCase().includes(this.searchTerm));
+      });
+    }
 
     this.userList = this.sortUsers(filteredUsers);
     this.totalPages = Math.max(1, Math.ceil(this.userList.length / this.pageSize));

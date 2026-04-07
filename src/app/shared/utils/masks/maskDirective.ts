@@ -13,7 +13,9 @@ export class MaskDirective {
     | 'email'
     | 'custom'
     | 'currency'
-    | 'integer';
+    | 'cpfCnpj'
+    | 'integer'
+    | 'cep';
   @Input() customPattern?: (value: string) => string;
 
   private isUpdating = false;
@@ -36,14 +38,6 @@ export class MaskDirective {
         value = rawValue.replace(/\s+/g, '').toLowerCase();
         break;
 
-      case 'cnpj':
-        if (value.length > 14) value = value.slice(0, 14);
-        value = value.replace(/^(\d{2})(\d)/, '$1.$2');
-        value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-        value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
-        value = value.replace(/(\d{4})(\d)/, '$1-$2');
-        break;
-
       case 'phone':
         if (value.length > 11) value = value.slice(0, 11);
         value = value.replace(/^(\d{2})(\d)/, '($1) $2');
@@ -51,6 +45,13 @@ export class MaskDirective {
           value.length <= 10
             ? value.replace(/(\d{4})(\d)/, '$1-$2')
             : value.replace(/(\d{5})(\d)/, '$1-$2');
+        break;
+      case 'cnpj':
+        if (value.length > 14) value = value.slice(0, 14);
+        value = value.replace(/^(\d{2})(\d)/, '$1.$2');
+        value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+        value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
+        value = value.replace(/(\d{4})(\d)/, '$1-$2');
         break;
 
       case 'cpf':
@@ -63,6 +64,22 @@ export class MaskDirective {
       case 'cep':
         if (value.length > 8) value = value.slice(0, 8);
         value = value.replace(/^(\d{5})(\d)/, '$1-$2');
+        break;
+
+      case 'cpfCnpj':
+        if (value.length <= 11) {
+          // CPF
+          value = value.slice(0, 11);
+          value = value.replace(/^(\d{3})(\d)/, '$1.$2');
+          value = value.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+          value = value.replace(/\.(\d{3})(\d)/, '.$1-$2');
+        } else {
+          value = value.slice(0, 14);
+          value = value.replace(/^(\d{2})(\d)/, '$1.$2');
+          value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+          value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
+          value = value.replace(/(\d{4})(\d)/, '$1-$2');
+        }
         break;
 
       case 'custom':
@@ -93,10 +110,8 @@ export class MaskDirective {
 
     this.isUpdating = true;
 
-    // Atualiza o DOM
     input.value = value;
 
-    // Atualiza o Angular forms corretamente
     if (this.ngControl && this.ngControl.control) {
       this.ngControl.control.setValue(value, { emitEvent: true });
     }

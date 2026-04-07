@@ -7,7 +7,7 @@ import { DropdownComponent } from '../../../../shared/components/dropdownField/d
 import { ActionButtonComponent } from '../../../../shared/components/dropdownField/dropdownButtonFilter/buttonFilter.component';
 
 type CarFilters = {
-  unitId: number | null;
+  unitIds: number[];
 };
 
 @Component({
@@ -21,9 +21,8 @@ export class CarComponent implements OnInit {
   lojasOptions: Array<{ label: string; value: number | null }> = [{ label: 'Todas', value: null }];
 
   filterGroups: any[] = [];
-
-  filters: CarFilters = { unitId: null };
-  appliedFilters: CarFilters = { unitId: null };
+  filters: CarFilters = { unitIds: [] };
+  appliedFilters: CarFilters = { unitIds: [] };
 
   openDropdown = false;
 
@@ -54,8 +53,9 @@ export class CarComponent implements OnInit {
       {
         title: 'Lojas',
         icon: 'fa-solid fa-store',
-        key: 'unitId',
+        key: 'unitIds',
         options: this.lojasOptions,
+        multiple: true, // 👈 IMPORTANTE
       },
     ];
   }
@@ -70,14 +70,14 @@ export class CarComponent implements OnInit {
 
   applyFilters(): void {
     this.appliedFilters = {
-      unitId: this.filters.unitId,
+      unitIds: [...this.filters.unitIds],
     };
     this.closeDropdown();
   }
 
   clearFilters(): void {
-    this.filters = { unitId: null };
-    this.appliedFilters = { unitId: null };
+    this.filters = { unitIds: [] };
+    this.appliedFilters = { unitIds: [] };
     this.closeDropdown();
   }
 }

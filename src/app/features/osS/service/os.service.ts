@@ -12,7 +12,7 @@ export class OsService {
 
   constructor(private http: HttpClient) {}
 
-  getServiceOrders(filters?: { unitId?: number | null }) {
+  getServiceOrders(filters?: { unitId?: number[] }) {
     let params: any = {};
 
     if (filters?.unitId) {

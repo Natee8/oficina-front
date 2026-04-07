@@ -15,6 +15,10 @@ import {
   snackBarSuccessConfig,
 } from '../../../../core/config/snackbar.config';
 
+type OsFilters = {
+  unitId: number[];
+};
+
 type OsSortKey =
   | 'id'
   | 'unitName'
@@ -55,6 +59,7 @@ export class TableOs implements OnInit, OnChanges {
   pageSize = 5;
   selectedOs: OsDto | null = null;
   activeModal: 'edit' | 'delete' | 'status' | null = null;
+  @Input() filters: OsFilters = { unitId: [] };
 
   lojas: any[] = [];
   clientes: any[] = [];
@@ -68,10 +73,6 @@ export class TableOs implements OnInit, OnChanges {
   searchTerm = '';
   sortColumn: OsSortKey | null = null;
   sortDirection: SortDirection = 'asc';
-
-  @Input() filters: { unitId: number | null } = {
-    unitId: null,
-  };
 
   constructor(
     private osService: OsService,
@@ -304,15 +305,16 @@ export class TableOs implements OnInit, OnChanges {
 
   private applyFiltersAndSearch(): void {
     const filteredOrders = this.allOsList.filter((os) => {
-      const matchesStore = true;
-
-      if (!matchesStore) {
-        return false;
+      if (this.filters.unitId?.length) {
+        if (!this.filters.unitId.includes(os.unitId)) {
+          return false;
+        }
+        if (this.filters.unitId.length > 1) {
+          return false;
+        }
       }
 
-      if (!this.searchTerm) {
-        return true;
-      }
+      if (!this.searchTerm) return true;
 
       const searchableValues = [
         os.id,
