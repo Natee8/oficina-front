@@ -38,7 +38,9 @@
         <div class="table-cell">{{ getRoleLabel(user.role) }}</div>
         <div class="table-cell">{{ getStatusLabel(user.isActive) }}</div>
         <div class="table-cell">{{ getAccessLabel(user.fullAccess) }}</div>
-        <div class="table-cell">{{ getUnitNames(user.unitIds) }}</div>
+        <div class="table-cell" [title]="getUnitNames(user.unitIds)">
+          {{ getTruncatedUnitNames(user.unitIds) }}
+        </div>
 
         <div class="table-cell">
           <app-table-actions (onEdit)="handleEdit(user)" (onDelete)="handleDelete(user)" />

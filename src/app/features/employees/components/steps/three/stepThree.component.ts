@@ -18,8 +18,8 @@ export class StepThreeComponent implements OnInit {
   @Input() errors: Record<string, string> = {};
 
   cargosOptions = [
-    { label: 'Funcionário', value: 'employee' },
-    { label: 'Administrador', value: 'admin' },
+    { label: 'Comum', value: 'Comum' },
+    { label: 'Admin', value: 'Admin' },
   ];
   lojasOptions: Unit[] = [];
 

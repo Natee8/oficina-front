@@ -31,10 +31,6 @@ export class LoginComponent {
     private userService: UserService,
   ) {}
 
-  handleBack() {
-    console.log('Botão de voltar clicado');
-  }
-
   async handleLogin(event: Event) {
     event.preventDefault();
 
@@ -51,8 +47,6 @@ export class LoginComponent {
       if (!user) throw new Error('Não foi possível carregar os dados do usuário');
 
       this.userService.setUser(user);
-
-      console.log('Usuário logado:', this.userService.getUser()); // aqui já vai ter email e demais campos
 
       await this.router.navigate(['/os-list']);
 

@@ -11,7 +11,7 @@ import { OsData } from '../../../model/dtos/os.data';
   styleUrls: ['./stepTwo.component.scss'],
   imports: [FormsModule, InputFieldComponent, CommonModule],
 })
-export class OsStepTwoComponent implements OnChanges {
+export class OsStepTwoComponent {
   @Input() data!: OsData;
 
   @Input() pecasAdicionadas: { nome: string; quantidade: number; valorUnitario: number }[] = [];
@@ -22,12 +22,6 @@ export class OsStepTwoComponent implements OnChanges {
   @Output() aumentarQtd = new EventEmitter<any>();
   @Output() diminuirQtd = new EventEmitter<any>();
   @Output() voltarStep = new EventEmitter<void>();
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['pecasAdicionadas']) {
-      console.log('pecasAdicionadas atualizado:', this.pecasAdicionadas);
-    }
-  }
 
   adicionar() {
     this.adicionarPeca.emit();
