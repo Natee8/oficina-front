@@ -24,7 +24,16 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() maxlength?: number;
   @Input() min?: string;
   @Input() max?: string;
-  @Input() mask?: 'cnpj' | 'phone' | 'cpf' | 'email' | 'custom' | 'currency' | 'integer';
+  @Input() mask?:
+    | 'cnpj'
+    | 'phone'
+    | 'cpf'
+    | 'email'
+    | 'custom'
+    | 'cep'
+    | 'cpfCnpj'
+    | 'currency'
+    | 'integer';
   @Input() errorMessage?: string;
   @Input() labelBgColor = 'var(--color-bg)';
   @ViewChild('input', { static: true }) inputRef!: ElementRef<HTMLInputElement>;
