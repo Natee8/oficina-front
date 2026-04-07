@@ -1,7 +1,10 @@
 import * as yup from 'yup';
 
 export const stepTwoSchema = yup.object({
-  addressZip: yup.string().required('CEP é obrigatório'),
+  addressZip: yup
+    .string()
+    .required('CEP é obrigatório')
+    .matches(/^\d{5}-\d{3}$/, 'CEP inválido'),
 
   addressStreet: yup.string().required('Rua é obrigatória'),
 

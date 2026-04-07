@@ -1,15 +1,24 @@
-<app-table-header icon="fa-solid fa-store" title="Lojas"></app-table-header>
+<app-table-header icon="fa-solid fa-store" title="Lojas" (search)="handleSearch($event)"></app-table-header>
 
 <div class="table-container">
   <div class="table-scroll">
     <div class="table table-grid">
       <div class="table-head" [style.grid-template-columns]="'2fr 2fr 2fr 1fr 2fr 2fr 120px'">
-        <div *ngFor="let col of columns">{{ col.label }}</div>
+        <div
+          *ngFor="let col of columns"
+          class="table-head-cell"
+          [class.sortable]="!!col.sortKey"
+          [class.active-sort]="sortColumn === col.sortKey"
+          (click)="toggleSort(col)"
+        >
+          <span>{{ col.label }}</span>
+          <span class="sort-indicator" *ngIf="getSortIndicator(col)">{{ getSortIndicator(col) }}</span>
+        </div>
       </div>
 
       <div
         class="table-row"
-        *ngFor="let store of stores"
+        *ngFor="let store of paginatedStores"
         [style.grid-template-columns]="'2fr 2fr 2fr 1fr 2fr 2fr 120px'"
       >
         <div class="table-cell">{{ store.name }}</div>
@@ -43,6 +52,7 @@
     [page]="page"
     [totalPages]="totalPages"
     [totalItems]="stores.length"
-    [pageSize]="5"
+    [pageSize]="pageSize"
+    (pageChange)="changePage($event)"
   ></app-table-footer>
 </div>

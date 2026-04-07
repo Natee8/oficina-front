@@ -9,6 +9,7 @@ export class MaskDirective {
     | 'cnpj'
     | 'phone'
     | 'cpf'
+    | 'cep'
     | 'email'
     | 'custom'
     | 'currency'
