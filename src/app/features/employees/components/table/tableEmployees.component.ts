@@ -211,6 +211,10 @@ export class TableEmployees implements OnInit, OnChanges {
 
     return 'Erro ao excluir funcionário.';
   }
+  get paginatedUsers(): EmployeeListItem[] {
+    const startIndex = (this.page - 1) * this.pageSize;
+    return this.userList.slice(startIndex, startIndex + this.pageSize);
+  }
 
   handleSearch(value: string) {
     this.searchTerm = value.trim().toLowerCase();
@@ -271,6 +275,9 @@ export class TableEmployees implements OnInit, OnChanges {
 
         return searchableValues.some((item) => item?.toLowerCase().includes(this.searchTerm));
       });
+
+      this.totalPages = Math.max(1, Math.ceil(this.userList.length / this.pageSize));
+      this.page = Math.min(this.page, this.totalPages);
     }
 
     this.userList = this.sortUsers(filteredUsers);

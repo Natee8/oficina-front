@@ -21,13 +21,15 @@
           (click)="toggleSort(col)"
         >
           <span>{{ col.label }}</span>
-          <span class="sort-indicator" *ngIf="getSortIndicator(col)">{{ getSortIndicator(col) }}</span>
+          <span class="sort-indicator" *ngIf="getSortIndicator(col)">{{
+            getSortIndicator(col)
+          }}</span>
         </div>
       </div>
 
       <div
         class="table-row"
-        *ngFor="let user of userList"
+        *ngFor="let user of paginatedUsers"
         [style.grid-template-columns]="
           'minmax(160px,1fr) minmax(220px,1.5fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) 120px'
         "
