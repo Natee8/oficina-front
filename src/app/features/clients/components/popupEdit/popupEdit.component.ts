@@ -71,8 +71,7 @@ export class EditClientModalComponent implements OnInit {
       const currentClient = changes['client'].currentValue;
 
       this.clientData = createClientData();
-      console.log('INIT DATA', this.clientData);
-
+  
       if (currentClient) {
         this.clientData = {
           ...this.clientData,

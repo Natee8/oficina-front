@@ -21,11 +21,9 @@ export class UserService {
           headers: { Authorization: `Bearer ${token}` },
         }),
       );
-      console.log('Usuário do /me:', user);
       this.userSubject.next(user);
       return user;
     } catch (err) {
-      console.log('Erro ao buscar /me:', err);
       return null;
     }
   }

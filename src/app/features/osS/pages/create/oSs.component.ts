@@ -166,8 +166,6 @@ export class OSsCreateComponent implements OnInit, DoCheck {
         );
       },
     });
-
-    console.log('CREATE OS', payload);
   }
 
   goBackList() {

@@ -49,6 +49,8 @@ const EMPLOYEE_COLUMNS = [
   ],
 })
 export class TableEmployees implements OnInit, OnChanges {
+  private readonly unitNamesMaxLength = 30;
+
   page = 1;
   totalPages = 1;
   pageSize = 5;
@@ -124,6 +126,16 @@ export class TableEmployees implements OnInit, OnChanges {
     return unitIds.map((unitId) => this.unitsMap[unitId] ?? `Loja ${unitId}`).join(', ');
   }
 
+  getTruncatedUnitNames(unitIds: number[]): string {
+    const unitNames = this.getUnitNames(unitIds);
+
+    if (unitNames.length <= this.unitNamesMaxLength) {
+      return unitNames;
+    }
+
+    return `${unitNames.slice(0, this.unitNamesMaxLength)}...`;
+  }
+
   getStatusLabel(isActive: boolean): string {
     return isActive ? 'Ativo' : 'Inativo';
   }
@@ -134,8 +146,10 @@ export class TableEmployees implements OnInit, OnChanges {
 
   getRoleLabel(role: string): string {
     const roleMap: Record<string, string> = {
-      admin: 'Administrador',
-      employee: 'Funcionario',
+      admin: 'Admin',
+      administrador: 'Admin',
+      employee: 'Comum',
+      comum: 'Comum',
     };
 
     const normalizedRole = role?.trim().toLowerCase();

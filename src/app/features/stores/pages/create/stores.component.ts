@@ -149,8 +149,6 @@ export class CreateStoreComponent {
           verticalPosition: 'top',
           panelClass: ['snackbar-success'],
         });
-
-        console.log('Loja cadastrada!', res);
         this.router.navigate(['/stores-list']);
       },
       error: (err) => {

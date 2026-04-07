@@ -38,10 +38,18 @@ export interface UpdateEmployeePayload {
   name: string;
   email: string;
   phoneNumber: string;
+  cpfCnpj: string;
   role: string;
   isActive: boolean;
   fullAccess: boolean;
   unitIds: number[];
+  addressZip: string;
+  addressStreet: string;
+  addressNumber: string;
+  addressDistrict: string;
+  addressCity: string;
+  addressState: string;
+  newPassword?: string;
 }
 
 export interface Unit {
