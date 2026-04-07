@@ -8,8 +8,8 @@ import { CommonModule } from '@angular/common';
 import { ActionButtonComponent } from '../../../../shared/components/dropdownField/dropdownButtonFilter/buttonFilter.component';
 
 type EmployeeFilters = {
-  unitId: number | null;
-  role: string | null;
+  unitId: number[]; // múltiplas lojas
+  role: string | null; // apenas uma role
 };
 
 @Component({
@@ -28,7 +28,6 @@ type EmployeeFilters = {
 })
 export class EmployeesComponent implements OnInit {
   lojasOptions: Array<{ label: string; value: number | null }> = [{ label: 'Todas', value: null }];
-
   cargosOptions: Array<{ label: string; value: string | null }> = [
     { label: 'Todos', value: null },
     { label: 'Administrador', value: 'Admin' },
@@ -36,10 +35,8 @@ export class EmployeesComponent implements OnInit {
   ];
 
   filterGroups: any[] = [];
-
-  filters: EmployeeFilters = { unitId: null, role: null };
-  appliedFilters: EmployeeFilters = { unitId: null, role: null };
-
+  filters: { unitId: number[]; role: string[] } = { unitId: [], role: [] }; // temporário para seleção
+  appliedFilters: EmployeeFilters = { unitId: [], role: null };
   openDropdown = false;
 
   constructor(private employeeService: EmployeeService) {}
@@ -51,11 +48,9 @@ export class EmployeesComponent implements OnInit {
           { label: 'Todas', value: null },
           ...units.map((unit) => ({ label: unit.name, value: unit.id })),
         ];
-
         this.buildFilterGroups();
       },
       error: () => {
-        this.lojasOptions = [{ label: 'Todas', value: null }];
         this.buildFilterGroups();
       },
     });
@@ -78,12 +73,6 @@ export class EmployeesComponent implements OnInit {
     ];
   }
 
-  clearFilters(): void {
-    this.filters = { unitId: null, role: null };
-    this.appliedFilters = { unitId: null, role: null };
-    this.closeDropdown();
-  }
-
   closeDropdown(): void {
     this.openDropdown = false;
   }
@@ -93,10 +82,26 @@ export class EmployeesComponent implements OnInit {
   }
 
   applyFilters(): void {
+    if (this.filters.role.length > 1) {
+      alert('Só é permitido filtrar por uma Cargo de cada vez.');
+      return;
+    }
+
     this.appliedFilters = {
-      unitId: this.filters.unitId,
-      role: this.filters.role,
+      unitId: [...this.filters.unitId],
+      role: this.filters.role[0] ?? null,
     };
+
+    this.closeDropdown();
+
+    this.employeeService.getEmployees(this.appliedFilters).subscribe({
+      next: (employees) => {},
+    });
+  }
+
+  clearFilters(): void {
+    this.filters = { unitId: [], role: [] };
+    this.appliedFilters = { unitId: [], role: null };
     this.closeDropdown();
   }
 }

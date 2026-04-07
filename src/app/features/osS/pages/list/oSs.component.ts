@@ -7,7 +7,7 @@ import { DropdownComponent } from '../../../../shared/components/dropdownField/d
 import { ActionButtonComponent } from '../../../../shared/components/dropdownField/dropdownButtonFilter/buttonFilter.component';
 
 type OsFilters = {
-  unitId: number | null;
+  unitId: number[];
 };
 
 @Component({
@@ -22,8 +22,8 @@ export class OSsComponent implements OnInit {
 
   filterGroups: any[] = [];
 
-  filters: OsFilters = { unitId: null };
-  appliedFilters: OsFilters = { unitId: null };
+  filters: OsFilters = { unitId: [] };
+  appliedFilters: OsFilters = { unitId: [] };
 
   openDropdown = false;
 
@@ -72,15 +72,14 @@ export class OSsComponent implements OnInit {
   }
 
   applyFilters(): void {
-    this.appliedFilters = {
-      unitId: this.filters.unitId,
-    };
+    this.appliedFilters = { unitId: [...this.filters.unitId] };
     this.closeDropdown();
+    console.log('Filtros aplicados:', this.appliedFilters);
   }
 
   clearFilters(): void {
-    this.filters = { unitId: null };
-    this.appliedFilters = { unitId: null };
+    this.filters = { unitId: [] };
+    this.appliedFilters = { unitId: [] };
     this.closeDropdown();
   }
 

@@ -59,8 +59,8 @@ export class TableCar implements OnInit {
   sortColumn: VehicleSortKey | null = null;
   sortDirection: SortDirection = 'asc';
 
-  @Input() filters: { unitId: number | null } = {
-    unitId: null,
+  @Input() filters: { unitIds: number[] } = {
+    unitIds: [],
   };
 
   constructor(
@@ -84,7 +84,7 @@ export class TableCar implements OnInit {
   private loadVehicles(): void {
     this.loading = true;
 
-    this.vehicleService.getVehicles(this.filters).subscribe({
+    this.vehicleService.getVehicles().subscribe({
       next: (vehicles) => {
         this.allVehicles = vehicles;
         this.applyFiltersAndSearch();
@@ -198,6 +198,12 @@ export class TableCar implements OnInit {
 
   private applyFiltersAndSearch(): void {
     const filteredVehicles = this.allVehicles.filter((vehicle) => {
+      // 👇 PRIMEIRO filtra por loja
+      if (!this.matchesSelectedStore(vehicle)) {
+        return false;
+      }
+
+      // 👇 depois aplica busca
       if (!this.searchTerm) {
         return true;
       }
@@ -225,12 +231,11 @@ export class TableCar implements OnInit {
   }
 
   private matchesSelectedStore(vehicle: VehicleDto): boolean {
-    if (this.filters.unitId == null) {
-      return true;
-    }
+    if (!this.filters.unitIds?.length) return true;
 
     const customer = this.customers.find((item) => item.id === vehicle.customerId);
-    return customer?.unitIds?.includes(this.filters.unitId) ?? false;
+
+    return customer?.unitIds?.some((id) => this.filters.unitIds.includes(id)) ?? false;
   }
 
   private sortVehicles(vehicles: VehicleDto[]): VehicleDto[] {

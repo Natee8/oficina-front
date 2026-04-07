@@ -11,11 +11,11 @@ export class ClientService {
 
   constructor(private http: HttpClient) {}
 
-  getCustomers(filters?: { unitId?: number | null }): Observable<ClientDto[]> {
+  getCustomers(filters?: { unitIds?: number[] }): Observable<ClientDto[]> {
     let params: any = {};
 
-    if (filters?.unitId) {
-      params.unitId = filters.unitId;
+    if (filters?.unitIds?.length) {
+      params.unitIds = filters.unitIds.join(',');
     }
 
     return this.http.get<ClientDto[]>(this.baseUrl, { params });

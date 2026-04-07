@@ -22,6 +22,7 @@ type ClientSortKey =
   | 'addressDistrict'
   | 'email'
   | 'phone';
+
 type SortDirection = 'asc' | 'desc';
 
 const CLIENT_COLUMNS = [
@@ -57,18 +58,19 @@ export class TableClients implements OnInit, OnChanges {
   clientList: ClientDto[] = [];
   allClients: ClientDto[] = [];
   paginatedClients: ClientDto[] = [];
+
   columns = CLIENT_COLUMNS;
+
   searchTerm = '';
   sortColumn: ClientSortKey | null = null;
   sortDirection: SortDirection = 'asc';
+
   storeMap: Record<number, string> = {};
 
   activeModal: 'edit' | 'delete' | null = null;
   selectedClient: ClientDto | null = null;
 
-  @Input() filters: { unitId: number | null } = {
-    unitId: null,
-  };
+  @Input() filters: { unitIds?: number[] } = { unitIds: [] };
 
   constructor(
     private clientService: ClientService,
@@ -79,7 +81,7 @@ export class TableClients implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filters'] && !changes['filters'].firstChange) {
       this.page = 1;
-      this.loadClients();
+      this.loadClients(); // 🔥 recarrega com filtro da API
     }
   }
 
@@ -91,15 +93,13 @@ export class TableClients implements OnInit, OnChanges {
   private loadStores(): void {
     this.storeService.getStores().subscribe({
       next: (stores) => {
-        this.storeMap = stores.reduce<Record<number, string>>((accumulator, store) => {
-          accumulator[store.id] = store.name;
-          return accumulator;
+        this.storeMap = stores.reduce<Record<number, string>>((acc, store) => {
+          acc[store.id] = store.name;
+          return acc;
         }, {});
-        this.applyFiltersAndSearch();
       },
       error: () => {
         this.storeMap = {};
-        this.applyFiltersAndSearch();
       },
     });
   }
@@ -123,9 +123,11 @@ export class TableClients implements OnInit, OnChanges {
   applyPagination() {
     this.totalPages = Math.max(1, Math.ceil(this.clientList.length / this.pageSize));
     this.page = Math.min(this.page, this.totalPages);
-    const startIndex = (this.page - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.paginatedClients = this.clientList.slice(startIndex, endIndex);
+
+    const start = (this.page - 1) * this.pageSize;
+    const end = start + this.pageSize;
+
+    this.paginatedClients = this.clientList.slice(start, end);
   }
 
   changePage(newPage: number) {
@@ -141,9 +143,7 @@ export class TableClients implements OnInit, OnChanges {
   }
 
   toggleSort(column: { label: string; sortKey: ClientSortKey | null }): void {
-    if (!column.sortKey) {
-      return;
-    }
+    if (!column.sortKey) return;
 
     if (this.sortColumn === column.sortKey) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -157,10 +157,7 @@ export class TableClients implements OnInit, OnChanges {
   }
 
   getSortIndicator(column: { label: string; sortKey: ClientSortKey | null }): string {
-    if (!column.sortKey || this.sortColumn !== column.sortKey) {
-      return '';
-    }
-
+    if (!column.sortKey || this.sortColumn !== column.sortKey) return '';
     return this.sortDirection === 'asc' ? '↑' : '↓';
   }
 
@@ -205,26 +202,24 @@ export class TableClients implements OnInit, OnChanges {
   }
 
   getStoreNames(unitIds: number[]): string {
-    if (!unitIds?.length) {
-      return '-';
-    }
-
-    return unitIds.map((unitId) => this.storeMap[unitId] ?? `Loja ${unitId}`).join(', ');
+    if (!unitIds?.length) return '-';
+    return unitIds.map((id) => this.storeMap[id] ?? `Loja ${id}`).join(', ');
   }
 
+  // 🔥 FILTRO + BUSCA + SORT
   private applyFiltersAndSearch(): void {
     const filteredClients = this.allClients.filter((client) => {
-      const matchesStore = true;
-
-      if (!matchesStore) {
-        return false;
+      // 🔥 FILTRO POR LOJAS
+      if (this.filters.unitIds?.length) {
+        const matchesStore = client.unitIds.some((id) => this.filters.unitIds!.includes(id));
+        if (!matchesStore) return false;
       }
 
-      if (!this.searchTerm) {
-        return true;
-      }
+      // 🔥 FILTRO DE BUSCA POR TEXTO
+      if (!this.searchTerm) return true;
 
       const address = `${client.addressStreet} ${client.addressNumber} ${client.addressDistrict} ${client.addressCity} ${client.addressState} ${client.addressZip}`;
+
       const searchableValues = [
         client.name,
         client.cpfCnpj,
@@ -248,23 +243,20 @@ export class TableClients implements OnInit, OnChanges {
   }
 
   private sortClients(clients: ClientDto[]): ClientDto[] {
-    if (!this.sortColumn) {
-      return [...clients];
-    }
+    if (!this.sortColumn) return [...clients];
 
-    const sortColumn = this.sortColumn;
     const direction = this.sortDirection === 'asc' ? 1 : -1;
 
-    return [...clients].sort((firstClient, secondClient) => {
-      const firstValue = this.getSortableValue(firstClient, sortColumn);
-      const secondValue = this.getSortableValue(secondClient, sortColumn);
+    return [...clients].sort((a, b) => {
+      const aValue = this.getSortableValue(a, this.sortColumn!);
+      const bValue = this.getSortableValue(b, this.sortColumn!);
 
-      return this.compareValues(firstValue, secondValue) * direction;
+      return this.compareValues(aValue, bValue) * direction;
     });
   }
 
-  private getSortableValue(client: ClientDto, sortColumn: ClientSortKey): string {
-    switch (sortColumn) {
+  private getSortableValue(client: ClientDto, key: ClientSortKey): string {
+    switch (key) {
       case 'name':
         return client.name ?? '';
       case 'cpfCnpj':
@@ -284,45 +276,22 @@ export class TableClients implements OnInit, OnChanges {
     }
   }
 
-  private compareValues(firstValue: string, secondValue: string): number {
-    return firstValue.localeCompare(secondValue, 'pt-BR', {
+  private compareValues(a: string, b: string): number {
+    return a.localeCompare(b, 'pt-BR', {
       numeric: true,
       sensitivity: 'base',
     });
   }
 
   private getErrorMessage(error: unknown): string {
-    if (typeof error === 'string' && error.trim()) {
-      return error.trim();
-    }
+    if (typeof error === 'string' && error.trim()) return error.trim();
 
     if (error && typeof error === 'object') {
-      const apiError = error as {
-        error?: { message?: string; errors?: Record<string, string[]> } | string;
-        message?: string;
-      };
+      const apiError = error as any;
 
-      if (typeof apiError.error === 'string' && apiError.error.trim()) {
-        return apiError.error.trim();
-      }
-
-      if (apiError.error && typeof apiError.error === 'object') {
-        if (apiError.error.message?.trim()) {
-          return apiError.error.message.trim();
-        }
-
-        const validationMessage = Object.values(apiError.error.errors ?? {})
-          .flat()
-          .find((message) => message?.trim());
-
-        if (validationMessage) {
-          return validationMessage;
-        }
-      }
-
-      if (apiError.message?.trim()) {
-        return apiError.message.trim();
-      }
+      if (typeof apiError.error === 'string') return apiError.error;
+      if (apiError.error?.message) return apiError.error.message;
+      if (apiError.message) return apiError.message;
     }
 
     return 'Erro ao excluir cliente.';

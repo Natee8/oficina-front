@@ -7,7 +7,7 @@ import { DropdownComponent } from '../../../../shared/components/dropdownField/d
 import { ActionButtonComponent } from '../../../../shared/components/dropdownField/dropdownButtonFilter/buttonFilter.component';
 
 type ClientFilters = {
-  unitId: number | null;
+  unitIds: number[];
 };
 
 @Component({
@@ -22,8 +22,8 @@ export class ClientsComponent implements OnInit {
 
   filterGroups: any[] = [];
 
-  filters: ClientFilters = { unitId: null };
-  appliedFilters: ClientFilters = { unitId: null };
+  filters: ClientFilters = { unitIds: [] };
+  appliedFilters: ClientFilters = { unitIds: [] };
 
   openDropdown = false;
 
@@ -54,7 +54,7 @@ export class ClientsComponent implements OnInit {
       {
         title: 'Lojas',
         icon: 'fa-solid fa-store',
-        key: 'unitId',
+        key: 'unitIds',
         options: this.lojasOptions,
       },
     ];
@@ -69,15 +69,13 @@ export class ClientsComponent implements OnInit {
   }
 
   applyFilters(): void {
-    this.appliedFilters = {
-      unitId: this.filters.unitId,
-    };
+    this.appliedFilters = { unitIds: [...this.filters.unitIds] };
     this.closeDropdown();
   }
 
   clearFilters(): void {
-    this.filters = { unitId: null };
-    this.appliedFilters = { unitId: null };
+    this.filters = { unitIds: [] };
+    this.appliedFilters = { unitIds: [] };
     this.closeDropdown();
   }
 }

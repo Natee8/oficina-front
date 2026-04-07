@@ -18,11 +18,13 @@ export class EmployeeService {
     return this.http.get<Unit[]>(`${this.apiUrl}/units`);
   }
 
-  getEmployees(filters?: { unitId?: number | null; role?: string | null }): Observable<EmployeeListItem[]> {
+  getEmployees(filters?: { unitId?: number[] | null; role?: string | null }) {
     let params = new HttpParams();
 
-    if (filters?.unitId != null) {
-      params = params.set('unitId', filters.unitId.toString());
+    if (filters?.unitId?.length) {
+      filters.unitId.forEach((id) => {
+        params = params.append('unitId', id.toString());
+      });
     }
 
     if (filters?.role) {
