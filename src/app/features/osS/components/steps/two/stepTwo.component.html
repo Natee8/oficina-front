@@ -10,7 +10,9 @@
       type="text"
       labelBgColor="#fff"
       [(ngModel)]="data.peca"
+      (ngModelChange)="clearFieldError('peca')"
       name="peca"
+      [errorMessage]="errors['peca']"
       class="input-peca input-flex"
     ></app-input-field>
 
@@ -19,7 +21,9 @@
       type="text"
       labelBgColor="#fff"
       [(ngModel)]="data.quantidade"
+      (ngModelChange)="clearFieldError('quantidade')"
       name="quantidade"
+      [errorMessage]="errors['quantidade']"
       class="input-qtd input-flex"
       mask="integer"
     ></app-input-field>
@@ -29,7 +33,9 @@
       type="text"
       labelBgColor="#fff"
       [(ngModel)]="data.valorUnitario"
+      (ngModelChange)="clearFieldError('valorUnitario')"
       name="valorUnitario"
+      [errorMessage]="errors['valorUnitario']"
       class="input-qtd input-flex"
       mask="currency"
     ></app-input-field>

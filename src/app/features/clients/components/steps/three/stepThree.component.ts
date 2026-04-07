@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
 import { CommonModule } from '@angular/common';
 import { SelectFieldComponent } from '../../../../../shared/components/inputs/select/selectField.component';
-import { ClientService } from '../../../service/client.service';
 import { ClientData } from '../../../model/dtos/client.data';
 
 @Component({
@@ -12,7 +11,7 @@ import { ClientData } from '../../../model/dtos/client.data';
   imports: [CommonModule, FormsModule, InputFieldComponent, SelectFieldComponent],
   templateUrl: './stepThree.component.html',
 })
-export class StepThreeClientComponent implements OnInit {
+export class StepThreeClientComponent {
   @Input() data!: ClientData;
   @Input() errors: Record<string, string> = {};
 
@@ -21,12 +20,4 @@ export class StepThreeClientComponent implements OnInit {
     { label: 'Cliente Físico', value: 1 },
     { label: 'Cliente Empresa', value: 2 },
   ];
-
-  constructor(private clientService: ClientService) {}
-
-  ngOnInit() {
-    this.clientService.getLojas().subscribe((lojas) => {
-      this.lojas = lojas.map((l) => ({ label: l.name, value: l.id }));
-    });
-  }
 }

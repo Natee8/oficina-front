@@ -52,9 +52,9 @@ export const reviewOsConfig = [
     fields: [
       {
         labelKey: 'nome',
-        valueKey: 'valor',
+        valueKey: 'valorUnitario',
         prefix: 'Qtd: ',
-        format: (p: any) => `Qtd: ${p.quantidade} | R$ ${p.valor}`,
+        format: (p: any) => `Qtd: ${p.quantidade} | R$ ${p.valorUnitario}`,
       },
     ],
   },

@@ -15,6 +15,7 @@ export class OsStepTwoComponent implements OnChanges {
   @Input() data!: OsData;
 
   @Input() pecasAdicionadas: { nome: string; quantidade: number; valorUnitario: number }[] = [];
+  @Input() errors: Record<string, string> = {};
 
   @Output() adicionarPeca = new EventEmitter<void>();
   @Output() removerPecaEvent = new EventEmitter<any>();
@@ -46,5 +47,11 @@ export class OsStepTwoComponent implements OnChanges {
 
   voltar() {
     this.voltarStep.emit();
+  }
+
+  clearFieldError(field: 'peca' | 'quantidade' | 'valorUnitario') {
+    if (this.errors[field]) {
+      delete this.errors[field];
+    }
   }
 }

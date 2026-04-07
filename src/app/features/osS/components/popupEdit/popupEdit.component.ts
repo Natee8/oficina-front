@@ -63,6 +63,8 @@ export class EditOsModalComponent implements OnInit {
   @Input() os: OsDto | null = null;
   @Output() closeModalEvent = new EventEmitter<void>();
 
+  pecasAdicionadas: { nome: string; quantidade: number; valorUnitario: number }[] = [];
+
   constructor(
     private osService: OsService,
     private storeService: StoreService,
@@ -107,7 +109,7 @@ export class EditOsModalComponent implements OnInit {
     this.pecasAdicionadas = (os.parts || []).map((part) => ({
       nome: part.description,
       quantidade: part.quantity,
-      valor: String(part.unitPrice),
+      valorUnitario: part.unitPrice,
     }));
   }
 
@@ -195,32 +197,60 @@ export class EditOsModalComponent implements OnInit {
     this.closeModalEvent.emit();
   }
 
-  pecasAdicionadas: any[] = [];
-
   adicionarPeca() {
-    if (!this.osData.peca || !this.osData.quantidade) return;
+    const valorUnitario = this.parseCurrency(this.osData.valorUnitario);
+
+    if (!this.validatePartFields(valorUnitario)) {
+      return;
+    }
 
     this.pecasAdicionadas.push({
-      nome: this.osData.peca,
-      quantidade: this.osData.quantidade,
-      valor: this.osData.valorUnitario,
+      nome: this.osData.peca.trim(),
+      quantidade: Number(this.osData.quantidade),
+      valorUnitario,
     });
 
+    this.stepTwoErrors = {};
     this.osData.peca = '';
     this.osData.quantidade = null;
     this.osData.valorUnitario = '';
   }
 
-  aumentarQtd(peca: any) {
+  aumentarQtd(peca: { nome: string; quantidade: number; valorUnitario: number }) {
     peca.quantidade++;
   }
 
-  diminuirQtd(peca: any) {
+  diminuirQtd(peca: { nome: string; quantidade: number; valorUnitario: number }) {
     if (peca.quantidade > 1) peca.quantidade--;
   }
 
-  removerPeca(peca: any) {
+  removerPeca(peca: { nome: string; quantidade: number; valorUnitario: number }) {
     this.pecasAdicionadas = this.pecasAdicionadas.filter((p) => p !== peca);
+  }
+
+  private validatePartFields(parsedUnitPrice: number): boolean {
+    const nextErrors: Record<string, string> = {};
+    const pieceName = this.osData.peca?.trim();
+    const quantity = Number(this.osData.quantidade);
+
+    if (!pieceName) {
+      nextErrors['peca'] = 'Peça é obrigatória.';
+    }
+
+    if (!this.osData.quantidade) {
+      nextErrors['quantidade'] = 'Quantidade é obrigatória.';
+    } else if (!Number.isFinite(quantity) || quantity <= 0) {
+      nextErrors['quantidade'] = 'Quantidade deve ser maior que zero.';
+    }
+
+    if (!this.osData.valorUnitario?.trim()) {
+      nextErrors['valorUnitario'] = 'Valor unitário é obrigatório.';
+    } else if (!Number.isFinite(parsedUnitPrice) || parsedUnitPrice <= 0) {
+      nextErrors['valorUnitario'] = 'Valor unitário deve ser maior que zero.';
+    }
+
+    this.stepTwoErrors = nextErrors;
+    return Object.keys(nextErrors).length === 0;
   }
 
   private parseCurrency(value: string | number | null | undefined): number {
@@ -246,7 +276,7 @@ export class EditOsModalComponent implements OnInit {
             .map((p) =>
               section.fields.map((f) => ({
                 label: f.labelKey,
-                value: f.format ? f.format(p) : p[f.valueKey],
+                value: f.format ? f.format(p) : (p as Record<string, string | number>)[f.valueKey],
               })),
             )
             .flat(),

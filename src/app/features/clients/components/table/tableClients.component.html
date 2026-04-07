@@ -13,7 +13,16 @@
           'minmax(160px,1fr) minmax(180px,1.2fr) minmax(140px,1fr) minmax(140px,1fr) minmax(140px,1fr) minmax(200px,1.5fr) minmax(140px,1fr) 120px'
         "
       >
-        <div *ngFor="let col of columns" class="table-head-cell">{{ col.label }}</div>
+        <div
+          *ngFor="let col of columns"
+          class="table-head-cell"
+          [class.sortable]="!!col.sortKey"
+          [class.active-sort]="sortColumn === col.sortKey"
+          (click)="toggleSort(col)"
+        >
+          <span>{{ col.label }}</span>
+          <span class="sort-indicator" *ngIf="getSortIndicator(col)">{{ getSortIndicator(col) }}</span>
+        </div>
       </div>
 
       <div
@@ -25,7 +34,7 @@
       >
         <div class="table-cell">{{ client.name }}</div>
         <div class="table-cell">{{ client.cpfCnpj }}</div>
-        <div class="table-cell">-</div>
+        <div class="table-cell">{{ getStoreNames(client.unitIds) }}</div>
         <div class="table-cell">{{ client.addressCity }}</div>
         <div class="table-cell">{{ client.addressDistrict }}</div>
         <div class="table-cell">{{ client.email }}</div>
