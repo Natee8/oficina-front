@@ -92,11 +92,25 @@
 }
 
 // Nome
-.peca-nome {
+.peca-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.peca-nome {
   font-weight: 600;
   color: #555a6a;
   font-size: 1.1rem;
+}
+
+.peca-valores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  color: #7a7e8c;
+  font-size: 0.95rem;
 }
 
 // Controles

@@ -18,14 +18,15 @@
 
     <app-input-field
       label="Quantidade"
-      type="text"
+      type="number"
       labelBgColor="#fff"
       [(ngModel)]="data.quantidade"
       (ngModelChange)="clearFieldError('quantidade')"
       name="quantidade"
       [errorMessage]="errors['quantidade']"
       class="input-qtd input-flex"
-      mask="integer"
+      min="1"
+      step="1"
     ></app-input-field>
 
     <app-input-field
@@ -53,7 +54,13 @@
 
   <div class="pecas-lista">
     <div class="peca-card" *ngFor="let peca of pecasAdicionadas">
-      <div class="peca-nome">{{ peca.nome }}</div>
+      <div class="peca-info">
+        <div class="peca-nome">{{ peca.nome }}</div>
+        <div class="peca-valores">
+          <span>Unitário: {{ formatCurrency(peca.valorUnitario) }}</span>
+          <span>Total: {{ formatCurrency(getTotalValue(peca)) }}</span>
+        </div>
+      </div>
 
       <div class="peca-controles">
         <button type="button" class="peca-btn" (click)="diminuir(peca)">-</button>

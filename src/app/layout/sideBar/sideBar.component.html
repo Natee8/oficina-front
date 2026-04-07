@@ -1,6 +1,6 @@
 <nav class="sidebar" [class.collapsed]="collapsed">
   <div class="user" (click)="expandSidebar()">
-    <div class="avatar">E</div>
+    <div class="avatar">{{ userInitial }}</div>
     <p class="email">{{ emailLogged }}</p>
   </div>
 
@@ -41,7 +41,7 @@
       </ul>
     </li>
 
-    <li>
+    <li *ngIf="isAdmin">
       <div
         class="menu-item"
         (click)="collapsed ? navigate('/employees-list') : toggleSubmenu('employees')"

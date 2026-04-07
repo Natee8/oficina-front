@@ -49,14 +49,14 @@ export const routes: Routes = [
     children: [
       { path: 'stores-list', component: StoresComponent, canActivate: [adminGuard] },
       { path: 'os-list', component: OSsComponent },
-      { path: 'employees-list', component: EmployeesComponent },
+      { path: 'employees-list', component: EmployeesComponent, canActivate: [adminGuard] },
       { path: 'clients-list', component: ClientsComponent },
       { path: 'car-list', component: CarComponent },
       { path: 'nfs-grouping-store', component: NfsGroupingStoreComponent },
       { path: 'tenant-list', component: TenantListComponent, canActivate: [adminGuard] },
       { path: 'profile', component: ProfileComponent },
 
-      { path: 'employees-create', component: CreateEmployeeComponent },
+      { path: 'employees-create', component: CreateEmployeeComponent, canActivate: [adminGuard] },
       { path: 'clients-create', component: CreateClientComponent },
       { path: 'stores-create', component: CreateStoreComponent, canActivate: [adminGuard] },
       { path: 'car-create', component: CreateCarComponent },

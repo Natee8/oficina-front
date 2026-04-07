@@ -13,9 +13,9 @@ const parseCurrency = (value: string | number | null | undefined): number | null
 const nullIfEmpty = (s: string | null | undefined): string | null =>
   s && s.trim() ? s.trim() : null;
 
-const toIsoUtc = (dateValue: string | null | undefined, hour: number): string => {
+const toIsoDateTime = (dateValue: string | null | undefined, hour: number): string => {
   if (!dateValue) return '';
-  return `${dateValue}T${String(hour).padStart(2, '0')}:00:00Z`;
+  return `${dateValue}T${String(hour).padStart(2, '0')}:00:00`;
 };
 
 export function buildUpdateOsPayload(
@@ -27,8 +27,10 @@ export function buildUpdateOsPayload(
     unitId: osData.loja ?? original.unitId,
     vehicleId: osData.veiculo ?? original.vehicleId,
     ownerCustomerId: osData.cliente ?? original.ownerCustomerId,
-    entryDate: toIsoUtc(osData.dataEntrada, 10),
-    estimatedDeliveryDate: toIsoUtc(osData.dataSaida, 18),
+    statusId: original.statusId,
+    entryDate: toIsoDateTime(osData.dataEntrada, 10),
+    estimatedDeliveryDate: toIsoDateTime(osData.dataSaida, 18),
+    deliveryDate: null,
     bodyworkDescription: nullIfEmpty(osData.funilaria),
     bodyworkValue: parseCurrency(osData.valorFunilaria),
     paintDescription: nullIfEmpty(osData.pintura),
@@ -40,7 +42,5 @@ export function buildUpdateOsPayload(
       quantity: Number(p.quantidade),
       unitPrice: parseCurrency(p.valorUnitario) ?? 0,
     })),
-    statusId: original.statusId,
-    totalDiscount: original.totalDiscount ?? 0,
   };
 }
