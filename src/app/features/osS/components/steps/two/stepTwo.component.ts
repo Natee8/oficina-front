@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from '../../../../../shared/components/inputs/field/inputField.component';
 import { CommonModule } from '@angular/common';
@@ -47,5 +47,16 @@ export class OsStepTwoComponent {
     if (this.errors[field]) {
       delete this.errors[field];
     }
+  }
+
+  formatCurrency(value: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value ?? 0);
+  }
+
+  getTotalValue(peca: { quantidade: number; valorUnitario: number }): number {
+    return (peca.quantidade ?? 0) * (peca.valorUnitario ?? 0);
   }
 }

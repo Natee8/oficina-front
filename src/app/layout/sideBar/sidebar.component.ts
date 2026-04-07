@@ -16,6 +16,7 @@ import { UserService } from '../../core/services/user.service';
 export class SideBarComponent {
   collapsed = false;
   emailLogged = '';
+  userInitial = 'U';
   isAdmin = false;
 
   submenus: { [key: string]: boolean } = {
@@ -37,7 +38,9 @@ export class SideBarComponent {
   ngOnInit() {
     this.userService.user$.subscribe((user) => {
       this.emailLogged = user?.email || '';
-      this.isAdmin = user?.role === 'admin';
+      const displayName = user?.name || user?.userName || user?.email || '';
+      this.userInitial = displayName.trim().charAt(0).toUpperCase() || 'U';
+      this.isAdmin = JwtService.isAdmin() || String(user?.role || '').trim().toLowerCase() === 'admin';
     });
   }
 

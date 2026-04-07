@@ -3,6 +3,8 @@ import { InputFieldComponent } from './../../../shared/components/inputs/field/i
 import { FormsModule } from '@angular/forms';
 import { ProfileService } from '../service/profile.service';
 import { ProfileDto } from '../model/profile.dto';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../core/config/snackbar.config';
 
 @Component({
   selector: 'app-profile',
@@ -29,7 +31,10 @@ export class ProfileComponent implements OnInit {
   loading = false;
   error = '';
 
-  constructor(private profileService: ProfileService) {}
+  constructor(
+    private profileService: ProfileService,
+    private snackBar: MatSnackBar,
+  ) {}
 
   ngOnInit() {
     this.profileService.getProfile().subscribe({
@@ -66,10 +71,16 @@ export class ProfileComponent implements OnInit {
           name: data.name,
           email: data.email,
         };
+        this.snackBar.open('Perfil atualizado com sucesso!', 'Fechar', snackBarSuccessConfig);
         this.loading = false;
       },
-      error: () => {
+      error: (error) => {
         this.error = 'Erro ao atualizar perfil';
+        this.snackBar.open(
+          error?.error?.message || this.error,
+          'Fechar',
+          snackBarErrorConfig,
+        );
         this.loading = false;
       },
     });

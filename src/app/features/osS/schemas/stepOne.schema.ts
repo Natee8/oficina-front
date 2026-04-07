@@ -26,6 +26,15 @@ const getToday = (): Date => {
 
 const isWeekend = (date: Date) => date.getDay() === 0 || date.getDay() === 6;
 
+const parseCurrency = (value: string | null | undefined): number => {
+  if (!value) return 0;
+
+  const normalized = value.toString().trim().replace(/\./g, '').replace(',', '.');
+  const parsed = Number(normalized);
+
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
 // Defina a interface do seu form
 export interface OsData {
   loja: number | null;
@@ -100,7 +109,7 @@ export const StepOneOsSchema = yup
       .nullable()
       .test('valor-pintura-par', 'Informe valor junto da pintura', function (value) {
         const parent = this.parent as OsData;
-        if (!!parent.pintura && (!value || Number(value) <= 0)) return false;
+        if (!!parent.pintura && parseCurrency(value) <= 0) return false;
         return true;
       }),
 
@@ -110,7 +119,7 @@ export const StepOneOsSchema = yup
       .nullable()
       .test('valor-funilaria-par', 'Informe valor junto da funilaria', function (value) {
         const parent = this.parent as OsData;
-        if (!!parent.funilaria && (!value || Number(value) <= 0)) return false;
+        if (!!parent.funilaria && parseCurrency(value) <= 0) return false;
         return true;
       }),
 
@@ -120,7 +129,7 @@ export const StepOneOsSchema = yup
       .nullable()
       .test('valor-mecanica-par', 'Informe valor junto da mecânica', function (value) {
         const parent = this.parent as OsData;
-        if (!!parent.mecanica && (!value || Number(value) <= 0)) return false;
+        if (!!parent.mecanica && parseCurrency(value) <= 0) return false;
         return true;
       }),
 
@@ -135,13 +144,13 @@ export const StepOneOsSchema = yup
       const parent = values as OsData;
 
       const hasPintura =
-        !!parent.pintura && !!parent.valorPintura && Number(parent.valorPintura) > 0;
+        !!parent.pintura && parseCurrency(parent.valorPintura) > 0;
 
       const hasFunilaria =
-        !!parent.funilaria && !!parent.valorFunilaria && Number(parent.valorFunilaria) > 0;
+        !!parent.funilaria && parseCurrency(parent.valorFunilaria) > 0;
 
       const hasMecanica =
-        !!parent.mecanica && !!parent.valorMecanica && Number(parent.valorMecanica) > 0;
+        !!parent.mecanica && parseCurrency(parent.valorMecanica) > 0;
 
       const hasParts = (this.options.context as { hasParts: boolean } | undefined)?.hasParts;
 
