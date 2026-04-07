@@ -12,8 +12,14 @@ export class OsService {
 
   constructor(private http: HttpClient) {}
 
-  getServiceOrders(): Observable<OsDto[]> {
-    return this.http.get<OsDto[]>(this.apiUrl);
+  getServiceOrders(filters?: { unitId?: number | null }) {
+    let params: any = {};
+
+    if (filters?.unitId) {
+      params.unitId = filters.unitId;
+    }
+
+    return this.http.get<OsDto[]>(this.apiUrl, { params });
   }
 
   postServiceOrder(payload: CreateOsPayload) {

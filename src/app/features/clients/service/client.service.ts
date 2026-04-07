@@ -11,8 +11,14 @@ export class ClientService {
 
   constructor(private http: HttpClient) {}
 
-  getCustomers(): Observable<ClientDto[]> {
-    return this.http.get<ClientDto[]>(this.baseUrl);
+  getCustomers(filters?: { unitId?: number | null }): Observable<ClientDto[]> {
+    let params: any = {};
+
+    if (filters?.unitId) {
+      params.unitId = filters.unitId;
+    }
+
+    return this.http.get<ClientDto[]>(this.baseUrl, { params });
   }
 
   createClient(payload: CreateClientDto): Observable<any> {

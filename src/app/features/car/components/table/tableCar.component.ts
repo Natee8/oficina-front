@@ -8,7 +8,10 @@ import { ModalDelete } from '../../../../shared/components/modalDelete/modalDele
 import { EditCarModalComponent } from '../popupEdit/popupEdit.component';
 import { VehicleDto } from '../../model/dtos/vehicle.dto';
 import { VehicleService } from '../../service/car.service';
-import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import {
+  snackBarErrorConfig,
+  snackBarSuccessConfig,
+} from '../../../../core/config/snackbar.config';
 import { ClientService } from '../../../clients/service/client.service';
 import { ClientDto } from '../../../clients/model/dtos/client.dto';
 
@@ -69,7 +72,7 @@ export class TableCar implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filters'] && !changes['filters'].firstChange) {
       this.page = 1;
-      this.applyFiltersAndSearch();
+      this.loadVehicles();
     }
   }
 
@@ -80,7 +83,8 @@ export class TableCar implements OnInit {
 
   private loadVehicles(): void {
     this.loading = true;
-    this.vehicleService.getVehicles().subscribe({
+
+    this.vehicleService.getVehicles(this.filters).subscribe({
       next: (vehicles) => {
         this.allVehicles = vehicles;
         this.applyFiltersAndSearch();
@@ -95,7 +99,6 @@ export class TableCar implements OnInit {
       },
     });
   }
-
   private loadCustomers(): void {
     this.clientService.getCustomers().subscribe({
       next: (customers) => {
@@ -195,10 +198,6 @@ export class TableCar implements OnInit {
 
   private applyFiltersAndSearch(): void {
     const filteredVehicles = this.allVehicles.filter((vehicle) => {
-      if (!this.matchesSelectedStore(vehicle)) {
-        return false;
-      }
-
       if (!this.searchTerm) {
         return true;
       }
@@ -213,7 +212,11 @@ export class TableCar implements OnInit {
         vehicle.renavam,
       ];
 
-      return searchableValues.some((item) => String(item ?? '').toLowerCase().includes(this.searchTerm));
+      return searchableValues.some((item) =>
+        String(item ?? '')
+          .toLowerCase()
+          .includes(this.searchTerm),
+      );
     });
 
     this.vehicles = this.sortVehicles(filteredVehicles);

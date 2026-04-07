@@ -1,27 +1,33 @@
 <div class="containerHeader">
   <div class="header-top">
     <h1>OSs</h1>
-    <p>Gerencie e visualize aqui suas OSs referentes as suas lojas</p>
+    <p>Gerencie e visualize aqui suas OSs referentes às suas lojas</p>
   </div>
 
   <div class="header-bottom">
     <div class="containerButtons">
-      <div class="buttonContainer">
-        <button class="button upscale" (click)="goToCreate()">
-          <p>Nova OSs</p>
-          <i class="fa-solid fa-plus"></i>
-        </button>
-      </div>
-      <div class="filters">
-        <div class="select">
-          <app-select-field label="Lojas" [options]="lojasOptions" [(ngModel)]="filters.unitId"></app-select-field>
-        </div>
-        <button class="btn-primary" type="button" (click)="applyFilters()">
-          <p>Filtrar</p>
-        </button>
-      </div>
+      <app-action-button
+        label="Filtros"
+        icon="fa-solid fa-sliders"
+        (clickAction)="toggleDropdown()"
+      ></app-action-button>
+
+      <app-action-button
+        label="Nova OS"
+        icon="fa-solid fa-plus"
+        (clickAction)="goToCreate()"
+        variant="primary"
+      ></app-action-button>
     </div>
   </div>
 </div>
+
+<app-dropdown
+  [open]="openDropdown"
+  [groups]="filterGroups"
+  [(filters)]="filters"
+  (applyFilters)="applyFilters()"
+  (clearFilters)="clearFilters()"
+></app-dropdown>
 
 <app-table-os [filters]="appliedFilters"></app-table-os>

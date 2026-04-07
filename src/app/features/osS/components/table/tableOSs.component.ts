@@ -10,9 +10,18 @@ import { StatusModalComponent } from '../modelStatus/modelStatus.component';
 import { OsService } from '../../service/os.service';
 import { OsDto } from '../../model/dtos/os.dto';
 import { StatusOs } from '../../model/types/status';
-import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import {
+  snackBarErrorConfig,
+  snackBarSuccessConfig,
+} from '../../../../core/config/snackbar.config';
 
-type OsSortKey = 'id' | 'unitName' | 'totalAmount' | 'vehiclePlate' | 'ownerCustomerName' | 'statusName';
+type OsSortKey =
+  | 'id'
+  | 'unitName'
+  | 'totalAmount'
+  | 'vehiclePlate'
+  | 'ownerCustomerName'
+  | 'statusName';
 type SortDirection = 'asc' | 'desc';
 
 const OsColumns = [
@@ -72,7 +81,7 @@ export class TableOs implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filters'] && !changes['filters'].firstChange) {
       this.page = 1;
-      this.applyFiltersAndSearch();
+      this.loadOs();
     }
   }
 
@@ -92,9 +101,10 @@ export class TableOs implements OnInit, OnChanges {
     return '';
   }
 
-  ngOnInit() {
+  loadOs() {
     this.loading = true;
-    this.osService.getServiceOrders().subscribe({
+
+    this.osService.getServiceOrders(this.filters).subscribe({
       next: (data) => {
         this.allOsList = data;
         this.applyFiltersAndSearch();
@@ -106,8 +116,12 @@ export class TableOs implements OnInit, OnChanges {
         this.osList = [];
         this.totalPages = 1;
         this.loading = false;
-      }
+      },
     });
+  }
+
+  ngOnInit() {
+    this.loadOs();
   }
 
   alterarStatus(os: OsDto) {
@@ -143,7 +157,7 @@ export class TableOs implements OnInit, OnChanges {
                 statusCode: normalizedStatus,
                 statusName: statusLabelMap[normalizedStatus],
               }
-            : os
+            : os,
         );
         this.applyFiltersAndSearch();
         this.snackBar.open('Status da OS atualizado com sucesso!', 'Fechar', snackBarSuccessConfig);
@@ -151,11 +165,7 @@ export class TableOs implements OnInit, OnChanges {
       },
       error: (err) => {
         this.error = 'Erro ao alterar status da OS';
-        this.snackBar.open(
-          err?.error?.message || this.error,
-          'Fechar',
-          snackBarErrorConfig,
-        );
+        this.snackBar.open(err?.error?.message || this.error, 'Fechar', snackBarErrorConfig);
         this.closeModal();
       },
     });
@@ -242,7 +252,11 @@ export class TableOs implements OnInit, OnChanges {
       },
       error: (err) => {
         this.error = 'Erro ao baixar PDF da OS';
-        this.snackBar.open(err?.error?.message || 'Erro ao baixar documento da OS', 'Fechar', snackBarErrorConfig);
+        this.snackBar.open(
+          err?.error?.message || 'Erro ao baixar documento da OS',
+          'Fechar',
+          snackBarErrorConfig,
+        );
       },
     });
   }
@@ -290,7 +304,7 @@ export class TableOs implements OnInit, OnChanges {
 
   private applyFiltersAndSearch(): void {
     const filteredOrders = this.allOsList.filter((os) => {
-      const matchesStore = this.filters.unitId == null || os.unitId === this.filters.unitId;
+      const matchesStore = true;
 
       if (!matchesStore) {
         return false;
@@ -309,7 +323,11 @@ export class TableOs implements OnInit, OnChanges {
         os.statusName,
       ];
 
-      return searchableValues.some((item) => String(item ?? '').toLowerCase().includes(this.searchTerm));
+      return searchableValues.some((item) =>
+        String(item ?? '')
+          .toLowerCase()
+          .includes(this.searchTerm),
+      );
     });
 
     this.osList = this.sortServiceOrders(filteredOrders);

@@ -8,10 +8,20 @@ import { EditClientModalComponent } from '../popupEdit/popupEdit.component';
 import { ClientService } from '../../service/client.service';
 import { ClientDto } from '../../model/dtos/client.dto';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import {
+  snackBarErrorConfig,
+  snackBarSuccessConfig,
+} from '../../../../core/config/snackbar.config';
 import { StoreService } from '../../../stores/service/store.service';
 
-type ClientSortKey = 'name' | 'cpfCnpj' | 'stores' | 'addressCity' | 'addressDistrict' | 'email' | 'phone';
+type ClientSortKey =
+  | 'name'
+  | 'cpfCnpj'
+  | 'stores'
+  | 'addressCity'
+  | 'addressDistrict'
+  | 'email'
+  | 'phone';
 type SortDirection = 'asc' | 'desc';
 
 const CLIENT_COLUMNS = [
@@ -69,7 +79,7 @@ export class TableClients implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filters'] && !changes['filters'].firstChange) {
       this.page = 1;
-      this.applyFiltersAndSearch();
+      this.loadClients();
     }
   }
 
@@ -95,7 +105,7 @@ export class TableClients implements OnInit, OnChanges {
   }
 
   loadClients() {
-    this.clientService.getCustomers().subscribe({
+    this.clientService.getCustomers(this.filters).subscribe({
       next: (clients) => {
         this.allClients = clients;
         this.applyFiltersAndSearch();
@@ -178,15 +188,15 @@ export class TableClients implements OnInit, OnChanges {
     }
 
     this.clientService.deleteClient(this.selectedClient.id).subscribe({
-        next: () => {
-          this.snackBar.open('Cliente excluído com sucesso!', 'Fechar', snackBarSuccessConfig);
-          this.loadClients();
-          this.closeModal();
-        },
-        error: (err) => {
-          this.snackBar.open(this.getErrorMessage(err), 'Fechar', snackBarErrorConfig);
-        },
-      });
+      next: () => {
+        this.snackBar.open('Cliente excluído com sucesso!', 'Fechar', snackBarSuccessConfig);
+        this.loadClients();
+        this.closeModal();
+      },
+      error: (err) => {
+        this.snackBar.open(this.getErrorMessage(err), 'Fechar', snackBarErrorConfig);
+      },
+    });
   }
 
   closeModal() {
@@ -204,7 +214,7 @@ export class TableClients implements OnInit, OnChanges {
 
   private applyFiltersAndSearch(): void {
     const filteredClients = this.allClients.filter((client) => {
-      const matchesStore = this.filters.unitId == null || client.unitIds?.includes(this.filters.unitId);
+      const matchesStore = true;
 
       if (!matchesStore) {
         return false;
@@ -226,7 +236,11 @@ export class TableClients implements OnInit, OnChanges {
         address,
       ];
 
-      return searchableValues.some((item) => String(item ?? '').toLowerCase().includes(this.searchTerm));
+      return searchableValues.some((item) =>
+        String(item ?? '')
+          .toLowerCase()
+          .includes(this.searchTerm),
+      );
     });
 
     this.clientList = this.sortClients(filteredClients);

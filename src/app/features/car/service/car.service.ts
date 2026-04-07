@@ -10,8 +10,14 @@ export class VehicleService {
 
   constructor(private http: HttpClient) {}
 
-  getVehicles(): Observable<VehicleDto[]> {
-    return this.http.get<VehicleDto[]>(this.apiUrl);
+  getVehicles(filters?: { unitId?: number | null }): Observable<VehicleDto[]> {
+    let params: any = {};
+
+    if (filters?.unitId) {
+      params.unitId = filters.unitId;
+    }
+
+    return this.http.get<VehicleDto[]>(this.apiUrl, { params });
   }
 
   postVehicle(payload: CreateVehiclePayload): Observable<VehicleDto> {

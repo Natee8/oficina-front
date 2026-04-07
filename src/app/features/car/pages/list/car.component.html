@@ -6,23 +6,28 @@
 
   <div class="header-bottom">
     <div class="containerButtons">
-      <div class="buttonContainer">
-        <button class="button upscale" [routerLink]="['/car-create']">
-          <p>Novo Veículo</p>
-          <i class="fa-solid fa-plus"></i>
-        </button>
-      </div>
+      <app-action-button
+        label="Filtros"
+        icon="fa-solid fa-sliders"
+        (clickAction)="toggleDropdown()"
+      ></app-action-button>
 
-      <div class="filters">
-        <div class="select">
-          <app-select-field label="Lojas" [options]="lojasOptions" [(ngModel)]="filters.unitId"></app-select-field>
-        </div>
-        <button class="btn-primary" type="button" (click)="applyFilters()">
-          <p>Filtrar</p>
-        </button>
-      </div>
+      <app-action-button
+        label="Novo Veículo"
+        icon="fa-solid fa-plus"
+        route="/car-create"
+        variant="primary"
+      ></app-action-button>
     </div>
   </div>
 </div>
+
+<app-dropdown
+  [open]="openDropdown"
+  [groups]="filterGroups"
+  [(filters)]="filters"
+  (applyFilters)="applyFilters()"
+  (clearFilters)="clearFilters()"
+></app-dropdown>
 
 <app-table-car [filters]="appliedFilters"></app-table-car>
