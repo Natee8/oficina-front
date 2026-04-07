@@ -235,7 +235,10 @@ export class TableCar implements OnInit {
 
     const customer = this.customers.find((item) => item.id === vehicle.customerId);
 
-    return customer?.unitIds?.some((id) => this.filters.unitIds.includes(id)) ?? false;
+    return !!(
+      customer?.unitIds &&
+      this.filters.unitIds.every((filterId) => customer.unitIds.includes(filterId))
+    );
   }
 
   private sortVehicles(vehicles: VehicleDto[]): VehicleDto[] {

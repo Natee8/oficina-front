@@ -206,16 +206,15 @@ export class TableClients implements OnInit, OnChanges {
     return unitIds.map((id) => this.storeMap[id] ?? `Loja ${id}`).join(', ');
   }
 
-  // 🔥 FILTRO + BUSCA + SORT
   private applyFiltersAndSearch(): void {
     const filteredClients = this.allClients.filter((client) => {
-      // 🔥 FILTRO POR LOJAS
       if (this.filters.unitIds?.length) {
-        const matchesStore = client.unitIds.some((id) => this.filters.unitIds!.includes(id));
+        const matchesStore = this.filters.unitIds.every((filterId) =>
+          client.unitIds.includes(filterId),
+        );
         if (!matchesStore) return false;
       }
 
-      // 🔥 FILTRO DE BUSCA POR TEXTO
       if (!this.searchTerm) return true;
 
       const address = `${client.addressStreet} ${client.addressNumber} ${client.addressDistrict} ${client.addressCity} ${client.addressState} ${client.addressZip}`;

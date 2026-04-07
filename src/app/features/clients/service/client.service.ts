@@ -8,16 +8,15 @@ import { CreateClientDto } from '../model/dtos/createClient.dto';
 export class ClientService {
   private baseUrl = 'http://localhost:5233/api/customers';
   private unitsUrl = 'http://localhost:5233/api/units';
+  private viaCepUrl = 'https://viacep.com.br/ws';
 
   constructor(private http: HttpClient) {}
 
   getCustomers(filters?: { unitIds?: number[] }): Observable<ClientDto[]> {
     let params: any = {};
-
     if (filters?.unitIds?.length) {
       params.unitIds = filters.unitIds.join(',');
     }
-
     return this.http.get<ClientDto[]>(this.baseUrl, { params });
   }
 
@@ -35,5 +34,13 @@ export class ClientService {
 
   deleteClient(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
+  }
+
+  getAddressByCep(cep: string): Observable<any> {
+    const sanitizedCep = cep.replace(/\D/g, '');
+    if (sanitizedCep.length !== 8) {
+      throw new Error('CEP inválido');
+    }
+    return this.http.get(`${this.viaCepUrl}/${sanitizedCep}/json/`);
   }
 }
