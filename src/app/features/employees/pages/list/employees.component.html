@@ -6,66 +6,28 @@
 
   <div class="header-bottom">
     <div class="containerButtons">
-      <!-- Botão Filtros com ícone -->
-      <button class="button upscale" (click)="toggleDropdown()">
-        <i class="fa-solid fa-filter"></i>
-        Filtros
-      </button>
+      <app-action-button
+        label="Filtros"
+        icon="fa-solid fa-sliders"
+        (clickAction)="toggleDropdown()"
+      ></app-action-button>
 
-      <!-- Botão Novo Funcionário -->
-      <button class="button upscale" [routerLink]="['/employees-create']">
-        <p>Novo Funcionário</p>
-        <i class="fa-solid fa-plus"></i>
-      </button>
+      <app-action-button
+        label="Novo Funcionário"
+        icon="fa-solid fa-plus"
+        route="/employees-create"
+        variant="primary"
+      ></app-action-button>
     </div>
   </div>
 </div>
 
-<!-- Dropdown independente -->
-<div class="dropdown-panel-wrapper" *ngIf="openDropdown">
-  <div class="dropdown-panel">
-    <div class="dropdown-group">
-      <div class="dropdown-header">
-        <i class="fa-solid fa-store"></i>
-        <h4>Lojas</h4>
-      </div>
-      <div class="dropdown-options">
-        <button
-          *ngFor="let loja of lojasOptions"
-          [class.active]="filters.unitId === loja.value"
-          (click)="filters.unitId = loja.value"
-        >
-          {{ loja.label }}
-        </button>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="dropdown-group">
-      <div class="dropdown-header">
-        <i class="fa-solid fa-user-tie"></i>
-        <h4>Cargos</h4>
-      </div>
-      <div class="dropdown-options">
-        <button
-          *ngFor="let cargo of cargosOptions"
-          [class.active]="filters.role === cargo.value"
-          (click)="filters.role = cargo.value"
-        >
-          {{ cargo.label }}
-        </button>
-      </div>
-    </div>
-
-    <div class="dropdown-footer">
-      <div><p>Selecione os filtros desejados</p></div>
-      <i class="fa-solid fa-star"></i>
-      <button class="btn-primary buttonapply" type="button" (click)="applyFilters()">
-        Aplicar
-      </button>
-    </div>
-  </div>
-</div>
+<app-dropdown
+  [open]="openDropdown"
+  [groups]="filterGroups"
+  [(filters)]="filters"
+  (applyFilters)="applyFilters()"
+  (clearFilters)="clearFilters()"
+></app-dropdown>
 
 <app-table-employees [filters]="appliedFilters"></app-table-employees>

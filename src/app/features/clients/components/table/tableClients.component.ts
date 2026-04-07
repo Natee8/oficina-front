@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableHeaderComponent } from '../../../../shared/components/tableHeader/tableHeader.component';
 import { TableFooterComponent } from '../../../../shared/components/tableFooter/tableFooter.component';
@@ -34,6 +34,7 @@ export class TableClients implements OnInit {
 
   activeModal: 'edit' | 'delete' | null = null;
   selectedClient: ClientDto | null = null;
+  @Input() filters!: { unitId: number | null };
 
   constructor(private clientService: ClientService) {}
 

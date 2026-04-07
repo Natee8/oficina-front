@@ -1,0 +1,38 @@
+<div class="dropdown-panel-wrapper" *ngIf="open">
+  <div class="dropdown-panel">
+    <ng-container *ngFor="let group of groups; let i = index">
+      <div class="dropdown-group">
+        <div class="dropdown-header">
+          <i [class]="group.icon"></i>
+          <h4>{{ group.title }}</h4>
+        </div>
+
+        <div class="dropdown-options">
+          <button
+            *ngFor="let option of group.options"
+            [class.active]="filters[group.key] === option.value"
+            (click)="selectOption(group.key, option.value)"
+          >
+            {{ option.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- ✅ classe corrigida -->
+      <div class="dropdown-divider" *ngIf="i < groups.length - 1"></div>
+    </ng-container>
+
+    <!-- footer -->
+    <div class="dropdown-footer">
+      <div class="p-footer">
+        <p>Selecione os filtros desejados</p>
+        <i class="fa-solid fa-star"></i>
+      </div>
+
+      <div class="footer-actions">
+        <button class="button secondary" (click)="clear()">Limpar</button>
+        <button class="btn-primary" (click)="apply()">Aplicar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,6 @@
 
 .containerHeader {
   width: 100%;
-  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -15,55 +14,27 @@
     h1 {
       margin: 0;
       font-weight: 700;
+      font-size: 1.8rem;
     }
 
     p {
       margin: 0;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--color-default);
+      font-size: 1rem;
     }
   }
 
   .header-bottom {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    margin-top: 1rem;
 
     .containerButtons {
-      display: flex;
       width: 100%;
-      align-items: start;
-      margin-top: 2rem;
-      justify-content: space-between;
+      display: flex;
       gap: 12px;
-
-      app-input-field,
-      app-select-field {
-        flex: 1;
-        min-width: 120px;
-      }
-    }
-
-    .filters {
-      width: 50%;
-      display: flex;
+      margin-bottom: 2rem;
       align-items: center;
-      justify-content: flex-start;
-      gap: 1rem;
-    }
-
-    .select {
-      width: 100%;
-    }
-
-    .btn-primary p {
-      margin: 0;
-    }
-
-    .buttonContainer {
-      width: 40%;
     }
   }
 }

@@ -6,24 +6,28 @@
 
   <div class="header-bottom">
     <div class="containerButtons">
-      <div class="buttonContainer">
-        <button class="button upscale" [routerLink]="['/clients-create']">
-          <p>Novo Cliente</p>
-          <i class="fa-solid fa-plus"></i>
-        </button>
-      </div>
+      <app-action-button
+        label="Filtros"
+        icon="fa-solid fa-sliders"
+        (clickAction)="toggleDropdown()"
+      ></app-action-button>
 
-      <div class="filters">
-        <div class="select">
-          <app-select-field label="Lojas"></app-select-field>
-        </div>
-
-        <button class="btn-primary">
-          <p>Filtrar</p>
-        </button>
-      </div>
+      <app-action-button
+        label="Novo Cliente"
+        icon="fa-solid fa-plus"
+        route="/clients-create"
+        variant="primary"
+      ></app-action-button>
     </div>
   </div>
 </div>
 
-<app-table-clients></app-table-clients>
+<app-dropdown
+  [open]="openDropdown"
+  [groups]="filterGroups"
+  [(filters)]="filters"
+  (applyFilters)="applyFilters()"
+  (clearFilters)="clearFilters()"
+></app-dropdown>
+
+<app-table-clients [filters]="appliedFilters"></app-table-clients>

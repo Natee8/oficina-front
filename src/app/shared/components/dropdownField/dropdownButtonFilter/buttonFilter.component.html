@@ -1,0 +1,9 @@
+<button
+  class="action-button"
+  [ngClass]="variant"
+  [routerLink]="route || null"
+  (click)="clickAction.emit()"
+>
+  <i [class]="icon"></i>
+  <span>{{ label }}</span>
+</button>

@@ -1,0 +1,124 @@
+/* styles.scss */
+
+/* WRAPPER */
+.dropdown-panel-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 2rem;
+}
+
+/* PANEL */
+.dropdown-panel {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* GROUP */
+.dropdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* HEADER */
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  i {
+    font-size: 1rem;
+    color: var(--color-primary);
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+}
+
+/* OPTIONS */
+.dropdown-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.dropdown-options button {
+  min-width: 140px;
+  padding: 12px 20px;
+  border-radius: 25px;
+  background-color: var(--color-white-default);
+  color: #333;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown-options button:hover {
+  background-color: var(--color-secondary);
+  color: #fff;
+}
+
+.dropdown-options button.active {
+  background: var(--color-secondary);
+  color: #fff;
+  border-color: var(--color-secondary);
+}
+
+/* DIVIDER */
+.dropdown-divider {
+  height: 1px;
+  background: #e0e0e0;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+/* FOOTER */
+.dropdown-footer {
+  display: flex;
+  margin-top: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-footer .p-footer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dropdown-footer p {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.dropdown-footer i {
+  font-size: 1rem;
+  color: #ff6536e5;
+}
+
+.dropdown-footer .footer-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.dropdown-footer .footer-actions button {
+  width: 12rem;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+}
