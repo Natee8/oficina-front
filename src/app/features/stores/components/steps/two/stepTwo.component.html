@@ -1,6 +1,11 @@
 <div class="row">
   <div class="container-w">
-    <app-input-field label="CEP" mask="cep" [(ngModel)]="data.addressZip"></app-input-field>
+    <app-input-field
+      label="CEP"
+      mask="cep"
+      [(ngModel)]="data.addressZip"
+      (ngModelChange)="searchCep($event)"
+    ></app-input-field>
     <div class="error" *ngIf="errors['addressZip']">
       {{ errors['addressZip'] }}
     </div>

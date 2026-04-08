@@ -6,6 +6,7 @@
       mask="cep"
       labelBgColor="#fff"
       [(ngModel)]="data.addressZip"
+      (ngModelChange)="searchCep($event)"
     ></app-input-field>
     <div class="error" *ngIf="errors['addressZip']">{{ errors['addressZip'] }}</div>
   </div>

@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import { onlyNumbers } from '../../../shared/functions/functionRemoveMask';
+import { isValidCnpj } from '../../../shared/functions/valitedCNPJ';
 
 function isValidCpf(value: string | null | undefined): boolean {
   const cpf = onlyNumbers(value);
@@ -37,6 +38,20 @@ function isValidCpf(value: string | null | undefined): boolean {
   return result === Number(cpf.charAt(10));
 }
 
+function isValidCpfOrCnpj(value: string | null | undefined): boolean {
+  const document = onlyNumbers(value);
+
+  if (document.length === 11) {
+    return isValidCpf(document);
+  }
+
+  if (document.length === 14) {
+    return isValidCnpj(document);
+  }
+
+  return false;
+}
+
 function isValidPhone(value: string | null | undefined): boolean {
   const phone = onlyNumbers(value);
 
@@ -59,8 +74,8 @@ export const stepOneEmployersSchema = yup.object().shape({
   nome: yup.string().required('O nome é obrigatório'),
   cpf: yup
     .string()
-    .required('O CPF é obrigatório')
-    .test('cpf-valid', 'CPF inválido', (value) => isValidCpf(value)),
+    .required('O CPF/CNPJ é obrigatório')
+    .test('cpf-cnpj-valid', 'CPF/CNPJ inválido', (value) => isValidCpfOrCnpj(value)),
   telefone: yup
     .string()
     .required('O telefone é obrigatório')

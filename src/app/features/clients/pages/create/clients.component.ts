@@ -14,6 +14,7 @@ import { stepOneClientSchema } from '../../schemas/stepOne.schema';
 import { stepTwoClientSchema } from '../../schemas/stepTwo.schema';
 import { stepThreeClientSchema } from '../../schemas/stepThree.schema';
 import { buildClientPayload } from '../../shared/functionCreatePayload';
+import { detectClientLegalTypeId } from '../../shared/legalType';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
 
@@ -81,6 +82,7 @@ export class CreateClientComponent implements OnInit {
         addressState: this.clientData.addressState,
       };
     } else if (this.stepIndex === 2) {
+      this.updateLegalTypeFromDocument();
       schema = stepThreeClientSchema;
       values = {
         loja: this.clientData.loja,
@@ -115,6 +117,7 @@ export class CreateClientComponent implements OnInit {
 
   submit() {
     try {
+      this.updateLegalTypeFromDocument();
       const payload = buildClientPayload(this.clientData);
 
       this.clientService.createClient(payload).subscribe({
@@ -168,5 +171,14 @@ export class CreateClientComponent implements OnInit {
     }
 
     return 'Erro ao criar cliente.';
+  }
+
+  onCpfCnpjChange(value: string): void {
+    this.clientData.cpfCnpj = value;
+    this.updateLegalTypeFromDocument();
+  }
+
+  private updateLegalTypeFromDocument(): void {
+    this.clientData.tipoLegal = detectClientLegalTypeId(this.clientData.cpfCnpj);
   }
 }

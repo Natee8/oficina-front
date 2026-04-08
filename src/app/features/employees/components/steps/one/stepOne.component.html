@@ -7,9 +7,9 @@
 <div class="error" *ngIf="errors['nome']">{{ errors['nome'] }}</div>
 
 <app-input-field
-  label="CPF"
+  label="CPF/CNPJ"
   type="text"
-  mask="cpf"
+  mask="cpfCnpj"
   [(ngModel)]="data.cpf"
   labelBgColor="#fff"
 ></app-input-field>

@@ -1,4 +1,5 @@
 import { ClientData } from '../model/dtos/client.data';
+import { detectClientLegalTypeId } from './legalType';
 
 export function mapClientToForm(client: any): ClientData {
   return {
@@ -15,7 +16,7 @@ export function mapClientToForm(client: any): ClientData {
     addressState: client.addressState,
 
     loja: client.unitIds ?? [],
-    tipoLegal: client.legalTypeId ?? null,
+    tipoLegal: detectClientLegalTypeId(client.cpfCnpj) ?? client.legalTypeId ?? null,
     notes: client.notes ?? '',
   };
 }

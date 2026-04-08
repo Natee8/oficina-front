@@ -19,6 +19,7 @@
       *ngSwitchCase="0"
       [data]="clientData"
       [errors]="errors"
+      (cpfCnpjChange)="onCpfCnpjChange($event)"
     ></app-step-one-client>
 
     <app-step-two-client

@@ -67,7 +67,7 @@ export const reviewEmployeeConfig = [
     title: 'Dados Pessoais',
     fields: [
       { label: 'Nome', key: 'nome' },
-      { label: 'CPF', key: 'cpf' },
+      { label: 'CPF/CNPJ', key: 'cpf' },
       { label: 'Telefone', key: 'telefone' },
     ],
   },

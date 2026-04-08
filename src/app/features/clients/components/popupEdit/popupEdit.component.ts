@@ -21,6 +21,7 @@ import { ClientService } from '../../service/client.service';
 import { ClientDto } from '../../model/dtos/client.dto';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import { detectClientLegalTypeId, getClientLegalTypeLabel } from '../../shared/legalType';
 
 @Component({
   selector: 'app-edit-client-modal',
@@ -89,7 +90,7 @@ export class EditClientModalComponent implements OnInit {
           addressState: currentClient.addressState,
 
           loja: [...(currentClient.unitIds ?? [])],
-          tipoLegal: currentClient.legalTypeId ?? null,
+          tipoLegal: detectClientLegalTypeId(currentClient.cpfCnpj) ?? currentClient.legalTypeId ?? null,
           notes: currentClient.notes ?? '',
         };
       }
@@ -150,6 +151,7 @@ export class EditClientModalComponent implements OnInit {
         addressState: this.clientData.addressState,
       };
     } else if (this.stepIndex === 2) {
+      this.updateLegalTypeFromDocument();
       schema = stepThreeClientSchema;
       values = {
         loja: this.clientData.loja,
@@ -187,6 +189,7 @@ export class EditClientModalComponent implements OnInit {
     }
 
     try {
+      this.updateLegalTypeFromDocument();
       const payload = buildClientPayload({
         ...this.clientData,
         loja: [...this.clientData.loja],
@@ -223,9 +226,16 @@ export class EditClientModalComponent implements OnInit {
         label: field.label,
         value: field.key === 'loja'
           ? this.getSelectedStoreLabels()
+          : field.key === 'tipoLegal'
+            ? getClientLegalTypeLabel(this.clientData.tipoLegal)
           : this.clientData[field.key as keyof ClientData],
       })),
     }));
+  }
+
+  onCpfCnpjChange(value: string): void {
+    this.clientData.cpfCnpj = value;
+    this.updateLegalTypeFromDocument();
   }
 
   private getSelectedStoreLabels(): string {
@@ -274,5 +284,9 @@ export class EditClientModalComponent implements OnInit {
     }
 
     return 'Erro ao atualizar cliente.';
+  }
+
+  private updateLegalTypeFromDocument(): void {
+    this.clientData.tipoLegal = detectClientLegalTypeId(this.clientData.cpfCnpj);
   }
 }

@@ -13,6 +13,7 @@
   type="text"
   mask="cpfCnpj"
   [(ngModel)]="data.cpfCnpj"
+  (ngModelChange)="onCpfCnpjChange($event)"
   labelBgColor="#fff"
 ></app-input-field>
 <div class="error" *ngIf="errors['cpfCnpj']">
