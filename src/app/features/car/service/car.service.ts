@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { VehicleDto } from '../model/dtos/vehicle.dto';
 import { CreateVehiclePayload } from '../model/dtos/vehiclePayload.dto';
+import { buildApiUrl } from '../../../core/api/buildApiUrl';
 
 @Injectable({ providedIn: 'root' })
 export class VehicleService {
-  private readonly apiUrl = 'http://localhost:5233/api/vehicles';
+  private readonly apiUrl = buildApiUrl('vehicles');
 
   constructor(private http: HttpClient) {}
 

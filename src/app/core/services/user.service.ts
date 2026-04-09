@@ -3,6 +3,7 @@ import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../features/auth/login/model/user.dto';
 import { TokenService } from './token.service';
+import { buildApiUrl } from '../api/buildApiUrl';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -17,7 +18,7 @@ export class UserService {
 
     try {
       const user = await firstValueFrom(
-        this.http.get<User>('http://localhost:5233/api/users/me', {
+        this.http.get<User>(buildApiUrl('users/me'), {
           headers: { Authorization: `Bearer ${token}` },
         }),
       );

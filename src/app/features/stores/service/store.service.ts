@@ -3,10 +3,11 @@ import { StoreDto } from '../model/store.dto';
 import { Observable } from 'rxjs';
 import { TokenService } from '../../../core/services/token.service';
 import { Injectable } from '@angular/core';
+import { buildApiUrl } from '../../../core/api/buildApiUrl';
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {
-  private baseUrl = 'http://localhost:5233/api/units';
+  private baseUrl = buildApiUrl('units');
 
   constructor(private http: HttpClient) {}
 

@@ -1,15 +1,16 @@
-import api from '../../../../core/api/apiConfig';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { buildApiUrl } from '../../../../core/api/buildApiUrl';
 import { LoginData, LoginResponse } from '../model/auth.dto';
 
-export const login = async (data: LoginData): Promise<LoginResponse> => {
-  try {
-    const response = await api.post('/auth/login', data);
-    return response.data;
-  } catch (error: any) {
-    if (error.response) {
-      throw new Error(error.response.data.message || 'Erro ao fazer login');
-    } else {
-      throw new Error('Erro de conexão');
-    }
+@Injectable({ providedIn: 'root' })
+export class LoginService {
+  private readonly apiUrl = buildApiUrl('auth/login');
+
+  constructor(private http: HttpClient) {}
+
+  login(data: LoginData): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.apiUrl, data);
   }
-};
+}

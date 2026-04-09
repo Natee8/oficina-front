@@ -34,6 +34,11 @@ export const routes: Routes = [
         children: [{ path: '', component: LoginComponent }],
       },
       {
+        path: 'login',
+        component: MainLayoutComponent,
+        children: [{ path: '', component: LoginComponent }],
+      },
+      {
         path: 'register',
         component: MainLayoutComponent,
         children: [{ path: '', component: RegisterComponent }],

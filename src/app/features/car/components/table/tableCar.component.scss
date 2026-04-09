@@ -1,4 +1,4 @@
-@import '../../../../style/styles.scss';
+@use '../../../../style/styles.scss' as *;
 
 .table-head {
   grid-template-columns: 2fr 1.5fr 1.5fr 1fr 1.5fr 2fr 2fr 120px;

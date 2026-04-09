@@ -5,10 +5,11 @@ import { OsDto } from '../model/dtos/os.dto';
 import { StatusOs } from '../model/types/status';
 import { CreateOsPayload } from '../model/dtos/osPayload';
 import { UpdateOsPayload } from '../model/dtos/payloadUpdate.dto';
+import { buildApiUrl } from '../../../core/api/buildApiUrl';
 
 @Injectable({ providedIn: 'root' })
 export class OsService {
-  private readonly apiUrl = 'http://localhost:5233/api/ServiceOrders';
+  private readonly apiUrl = buildApiUrl('ServiceOrders');
 
   constructor(private http: HttpClient) {}
 

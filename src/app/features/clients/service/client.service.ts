@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ClientDto } from '../model/dtos/client.dto';
 import { CreateClientDto } from '../model/dtos/createClient.dto';
+import { buildApiUrl } from '../../../core/api/buildApiUrl';
 
 @Injectable({ providedIn: 'root' })
 export class ClientService {
-  private baseUrl = 'http://localhost:5233/api/customers';
-  private unitsUrl = 'http://localhost:5233/api/units';
+  private baseUrl = buildApiUrl('customers');
+  private unitsUrl = buildApiUrl('units');
   private viaCepUrl = 'https://viacep.com.br/ws';
 
   constructor(private http: HttpClient) {}

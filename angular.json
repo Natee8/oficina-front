@@ -27,6 +27,11 @@
             "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "property-expr",
+              "tiny-case",
+              "toposort"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets",

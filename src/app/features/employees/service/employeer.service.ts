@@ -7,10 +7,11 @@ import {
   Unit,
   UpdateEmployeePayload,
 } from '../model/dtos/employerPayload';
+import { buildApiUrl } from '../../../core/api/buildApiUrl';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeService {
-  private readonly apiUrl = 'http://localhost:5233/api';
+  private readonly apiUrl = buildApiUrl();
 
   constructor(private http: HttpClient) {}
 

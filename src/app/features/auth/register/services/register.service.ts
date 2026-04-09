@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegisterFormService } from '../model/state/stateForm';
 import { onlyNumbers } from '../../../../shared/functions/functionRemoveMask';
+import { buildApiUrl } from '../../../../core/api/buildApiUrl';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OnboardingService {
-  private apiUrl = 'http://localhost:5233/api/onboarding';
+  private apiUrl = buildApiUrl('onboarding');
 
   constructor(
     private http: HttpClient,

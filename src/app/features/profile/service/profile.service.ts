@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProfileDto } from '../model/profile.dto';
+import { buildApiUrl } from '../../../core/api/buildApiUrl';
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
-  private readonly apiUrl = 'http://localhost:5233/api/users/me';
+  private readonly apiUrl = buildApiUrl('users/me');
 
   constructor(private http: HttpClient) {}
 

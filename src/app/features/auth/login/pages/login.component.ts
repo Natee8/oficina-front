@@ -5,11 +5,11 @@ import { Router, RouterLink } from '@angular/router';
 import { TokenService } from '../../../../core/services/token.service';
 import { InputFieldComponent } from '../../../../shared/components/inputs/field/inputField.component';
 import { LoginData } from '../model/auth.dto';
-import { login } from '../services/loginService';
+import { LoginService } from '../services/loginService';
 import { loginSchema } from '../schemas/login.schema';
 import { NgIf } from '@angular/common';
 import { UserService } from '../../../../core/services/user.service';
-import { PartialUser } from '../model/user.dto';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +29,7 @@ export class LoginComponent {
     private snackBar: MatSnackBar,
     private router: Router,
     private userService: UserService,
+    private loginService: LoginService,
   ) {}
 
   async handleLogin(event: Event) {
@@ -40,7 +41,7 @@ export class LoginComponent {
       await loginSchema.validate(data, { abortEarly: false });
       this.errors = {};
 
-      const result = await login(data);
+      const result = await firstValueFrom(this.loginService.login(data));
       TokenService.saveToken(result.token);
 
       const user = await this.userService.loadUser();

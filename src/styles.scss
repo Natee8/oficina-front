@@ -1,5 +1,7 @@
 // Angular Material Theme
 @use '@angular/material' as mat;
+@use 'app/style/buttonForm.scss';
+@use 'app/style/snackbar.scss';
 
 html {
   @include mat.theme(
@@ -17,10 +19,6 @@ html {
     )
   );
 }
-
-// Import de estilos externos
-@import 'app/style/buttonForm.scss';
-@import 'app/style/snackbar.scss';
 
 // Reset global
 *,

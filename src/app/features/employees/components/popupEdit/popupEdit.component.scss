@@ -1,4 +1,4 @@
-@import '../../../../style/styles.scss';
+@use '../../../../style/styles.scss' as *;
 
 :host ::ng-deep app-step-three .employee-unit-field {
 	display: block;
