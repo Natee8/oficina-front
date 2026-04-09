@@ -4,8 +4,11 @@ import { ClientData } from '../model/dtos/client.data';
 import { CreateClientDto } from '../model/dtos/createClient.dto';
 import { detectClientLegalTypeId } from './legalType';
 
-export function buildClientPayload(data: ClientData): CreateClientDto {
-  const unitIds = [...new Set(data.loja.map(Number).filter((unitId) => Number.isInteger(unitId) && unitId > 0))];
+export function buildClientPayload(data: ClientData, allowedUnitIds: number[]): CreateClientDto {
+  const selectedUnitIds = Array.isArray(data.loja)
+    ? data.loja.map(Number).filter((unitId) => Number.isInteger(unitId) && unitId > 0)
+    : [];
+  const filteredUnitIds = selectedUnitIds.filter((id) => allowedUnitIds.includes(id));
   const legalTypeId = detectClientLegalTypeId(data.cpfCnpj);
 
   if (!legalTypeId) {
@@ -13,8 +16,8 @@ export function buildClientPayload(data: ClientData): CreateClientDto {
   }
 
   return {
-    unitId: unitIds[0] ?? 0,
-    unitIds,
+    unitId: filteredUnitIds[0] ?? 0, // primeira loja permitida selecionada ou 0
+    unitIds: filteredUnitIds, // todas as lojas selecionadas e permitidas
     legalTypeId,
     name: data.nome,
     cpfCnpj: data.cpfCnpj,

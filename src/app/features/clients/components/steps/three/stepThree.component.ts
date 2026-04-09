@@ -14,6 +14,7 @@ import { ClientData } from '../../../model/dtos/client.data';
 export class StepThreeClientComponent {
   @Input() data!: ClientData;
   @Input() errors: Record<string, string> = {};
+  @Input() fieldsDisabled = false;
 
   @Input() lojas: { label: string; value: number }[] = [];
   @Input() tiposLegais: { label: string; value: number }[] = [

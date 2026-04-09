@@ -17,6 +17,7 @@ import { stepThreeClientSchema } from '../../schemas/stepThree.schema';
 import { stepTwoClientSchema } from '../../schemas/stepTwo.schema';
 import { stepOneClientSchema } from '../../schemas/stepOne.schema';
 import { buildClientPayload } from '../../shared/functionCreatePayload';
+import { UnitAccessService } from '../../../../core/services/unit-access.service';
 import { ClientService } from '../../service/client.service';
 import { ClientDto } from '../../model/dtos/client.dto';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -46,6 +47,7 @@ export class EditClientModalComponent implements OnInit {
   constructor(
     private clientService: ClientService,
     private snackBar: MatSnackBar,
+    private unitAccessService: UnitAccessService,
   ) {}
 
   clientData: ClientData = createClientData();
@@ -190,10 +192,12 @@ export class EditClientModalComponent implements OnInit {
 
     try {
       this.updateLegalTypeFromDocument();
+
+      const allowedUnitIds = this.unitAccessService.getAccessibleUnitIds();
       const payload = buildClientPayload({
         ...this.clientData,
         loja: [...this.clientData.loja],
-      });
+      }, allowedUnitIds);
 
       this.clientService.updateClient(this.client.id, payload).subscribe({
         next: () => {

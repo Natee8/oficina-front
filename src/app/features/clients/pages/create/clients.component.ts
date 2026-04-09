@@ -14,9 +14,12 @@ import { stepOneClientSchema } from '../../schemas/stepOne.schema';
 import { stepTwoClientSchema } from '../../schemas/stepTwo.schema';
 import { stepThreeClientSchema } from '../../schemas/stepThree.schema';
 import { buildClientPayload } from '../../shared/functionCreatePayload';
+import { UnitAccessService } from '../../../../core/services/unit-access.service';
 import { detectClientLegalTypeId } from '../../shared/legalType';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/config/snackbar.config';
+import { ClientDto } from '../../model/dtos/client.dto';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-client',
@@ -35,6 +38,9 @@ import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../../core/con
 })
 export class CreateClientComponent implements OnInit {
   stepIndex = 0;
+  areNonDocumentFieldsDisabled = true;
+  isLoadingCustomerByDocument = false;
+  private lastDocumentLookup = '';
 
   steps = stepsConfigCreateClients;
   clientData: ClientData = createClientData();
@@ -50,6 +56,7 @@ export class CreateClientComponent implements OnInit {
     private router: Router,
     private clientService: ClientService,
     private snackBar: MatSnackBar,
+    private unitAccessService: UnitAccessService,
   ) {}
 
   ngOnInit() {
@@ -118,7 +125,8 @@ export class CreateClientComponent implements OnInit {
   submit() {
     try {
       this.updateLegalTypeFromDocument();
-      const payload = buildClientPayload(this.clientData);
+      const allowedUnitIds = this.unitAccessService.getAccessibleUnitIds();
+      const payload = buildClientPayload(this.clientData, allowedUnitIds);
 
       this.clientService.createClient(payload).subscribe({
         next: () => {
@@ -176,9 +184,78 @@ export class CreateClientComponent implements OnInit {
   onCpfCnpjChange(value: string): void {
     this.clientData.cpfCnpj = value;
     this.updateLegalTypeFromDocument();
+
+    const sanitizedDocument = value.replace(/\D/g, '');
+
+    if (!this.isDocumentLookupReady(sanitizedDocument)) {
+      this.lastDocumentLookup = '';
+      this.areNonDocumentFieldsDisabled = true;
+      this.resetFieldsExceptDocument();
+      return;
+    }
+
+    if (this.lastDocumentLookup === sanitizedDocument) {
+      this.areNonDocumentFieldsDisabled = false;
+      return;
+    }
+
+    this.lastDocumentLookup = sanitizedDocument;
+    this.areNonDocumentFieldsDisabled = true;
+    this.isLoadingCustomerByDocument = true;
+    this.resetFieldsExceptDocument();
+
+    this.clientService.getCustomerByDocument(sanitizedDocument).subscribe({
+      next: (customer) => {
+        this.fillClientData(customer);
+        this.areNonDocumentFieldsDisabled = false;
+        this.isLoadingCustomerByDocument = false;
+        this.snackBar.open('Cliente encontrado no sistema!', 'Fechar', snackBarSuccessConfig);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isLoadingCustomerByDocument = false;
+        this.areNonDocumentFieldsDisabled = false;
+
+        if (error.status !== 404) {
+          this.snackBar.open('Não foi possível buscar os dados do cliente pelo CPF/CNPJ.', 'Fechar', snackBarErrorConfig);
+        }
+      },
+    });
   }
 
   private updateLegalTypeFromDocument(): void {
     this.clientData.tipoLegal = detectClientLegalTypeId(this.clientData.cpfCnpj);
+  }
+
+  private isDocumentLookupReady(document: string): boolean {
+    return document.length === 11 || document.length === 14;
+  }
+
+  private resetFieldsExceptDocument(): void {
+    this.clientData.nome = '';
+    this.clientData.email = '';
+    this.clientData.phone = '';
+    this.clientData.addressZip = '';
+    this.clientData.addressNumber = '';
+    this.clientData.addressStreet = '';
+    this.clientData.addressDistrict = '';
+    this.clientData.addressCity = '';
+    this.clientData.addressState = '';
+    this.clientData.loja = [];
+    this.clientData.notes = '';
+  }
+
+  private fillClientData(customer: ClientDto): void {
+    this.clientData.nome = customer.name ?? '';
+    this.clientData.email = customer.email ?? '';
+    this.clientData.phone = customer.phone ?? '';
+    this.clientData.addressZip = customer.addressZip ?? '';
+    this.clientData.addressNumber = customer.addressNumber ?? '';
+    this.clientData.addressStreet = customer.addressStreet ?? '';
+    this.clientData.addressDistrict = customer.addressDistrict ?? '';
+    this.clientData.addressCity = customer.addressCity ?? '';
+    this.clientData.addressState = customer.addressState ?? '';
+    this.clientData.loja = [...(customer.unitIds ?? [])];
+    this.clientData.notes = customer.notes ?? '';
+    this.clientData.tipoLegal = detectClientLegalTypeId(this.clientData.cpfCnpj) ?? customer.legalTypeId ?? null;
   }
 }

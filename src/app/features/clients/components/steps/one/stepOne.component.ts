@@ -13,6 +13,7 @@ import { ClientData } from '../../../model/dtos/client.data';
 export class StepOneClientComponent {
   @Input() data!: ClientData;
   @Input() errors: Record<string, string> = {};
+  @Input() fieldsDisabled = false;
   @Output() cpfCnpjChange = new EventEmitter<string>();
 
   onCpfCnpjChange(value: string): void {

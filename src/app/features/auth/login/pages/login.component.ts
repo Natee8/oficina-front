@@ -52,7 +52,7 @@ export class LoginComponent {
       await this.router.navigate(['/os-list']);
 
       this.snackBar.open('Login realizado com sucesso!', 'Fechar', {
-        duration: 3000,
+        duration: 5000,
         horizontalPosition: 'right',
         verticalPosition: 'top',
         panelClass: ['snackbar-success'],
@@ -66,7 +66,7 @@ export class LoginComponent {
         this.errors = fieldErrors;
       } else {
         this.snackBar.open(err?.error?.message || err?.message || 'Erro ao fazer login', 'Fechar', {
-          duration: 3000,
+          duration: 5000,
           horizontalPosition: 'right',
           verticalPosition: 'top',
           panelClass: ['snackbar-error'],

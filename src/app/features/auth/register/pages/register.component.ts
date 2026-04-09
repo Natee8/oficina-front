@@ -66,7 +66,7 @@ export class RegisterComponent {
 
   private showSnackbar(message: string, type: 'success' | 'error') {
     this.snackBar.open(message, 'Fechar', {
-      duration: 3000,
+      duration: 5000,
       horizontalPosition: 'right',
       verticalPosition: 'top',
       panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error'],

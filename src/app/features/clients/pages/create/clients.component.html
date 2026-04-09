@@ -19,6 +19,7 @@
       *ngSwitchCase="0"
       [data]="clientData"
       [errors]="errors"
+      [fieldsDisabled]="areNonDocumentFieldsDisabled"
       (cpfCnpjChange)="onCpfCnpjChange($event)"
     ></app-step-one-client>
 
@@ -26,6 +27,7 @@
       *ngSwitchCase="1"
       [data]="clientData"
       [errors]="errors"
+      [fieldsDisabled]="areNonDocumentFieldsDisabled"
     ></app-step-two-client>
 
     <app-step-three-client
@@ -34,6 +36,7 @@
       [errors]="errors"
       [lojas]="lojas"
       [tiposLegais]="tiposLegais"
+      [fieldsDisabled]="areNonDocumentFieldsDisabled"
     ></app-step-three-client>
   </ng-container>
 </app-register-card>

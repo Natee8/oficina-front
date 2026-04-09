@@ -123,7 +123,11 @@ export class TableEmployees implements OnInit, OnChanges {
       return '-';
     }
 
-    return unitIds.map((unitId) => this.unitsMap[unitId] ?? `Loja ${unitId}`).join(', ');
+    const unitNames = unitIds
+      .map((unitId) => this.unitsMap[unitId])
+      .filter((unitName): unitName is string => Boolean(unitName));
+
+    return unitNames.length ? unitNames.join(', ') : '-';
   }
 
   getTruncatedUnitNames(unitIds: number[]): string {

@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ClientDto } from '../model/dtos/client.dto';
 import { CreateClientDto } from '../model/dtos/createClient.dto';
 import { buildApiUrl } from '../../../core/api/buildApiUrl';
+import { StoreService } from '../../stores/service/store.service';
 
 @Injectable({ providedIn: 'root' })
 export class ClientService {
   private baseUrl = buildApiUrl('customers');
-  private unitsUrl = buildApiUrl('units');
   private viaCepUrl = 'https://viacep.com.br/ws';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private storeService: StoreService,
+  ) {}
 
   getCustomers(filters?: { unitIds?: number[] }): Observable<ClientDto[]> {
     let params: any = {};
@@ -21,12 +24,19 @@ export class ClientService {
     return this.http.get<ClientDto[]>(this.baseUrl, { params });
   }
 
+  getCustomerByDocument(cpfCnpj: string): Observable<ClientDto> {
+    const sanitizedDocument = cpfCnpj.replace(/\D/g, '');
+    return this.http.get<ClientDto>(`${this.baseUrl}/by-document/${sanitizedDocument}`);
+  }
+
   createClient(payload: CreateClientDto): Observable<any> {
     return this.http.post(this.baseUrl, payload);
   }
 
   getLojas(): Observable<{ id: number; name: string }[]> {
-    return this.http.get<{ id: number; name: string }[]>(this.unitsUrl);
+    return this.storeService
+      .getStores()
+      .pipe(map((stores) => stores.map(({ id, name }) => ({ id, name }))));
   }
 
   updateClient(id: number, payload: CreateClientDto): Observable<any> {

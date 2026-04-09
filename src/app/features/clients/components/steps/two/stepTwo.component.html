@@ -5,6 +5,7 @@
       mask="cep"
       [(ngModel)]="data.addressZip"
       (ngModelChange)="searchCep($event)"
+      [disabled]="fieldsDisabled"
       labelBgColor="#fff"
     ></app-input-field>
     <div class="error" *ngIf="errors['addressZip']">
@@ -16,6 +17,7 @@
     <app-input-field
       label="Número"
       [(ngModel)]="data.addressNumber"
+      [disabled]="fieldsDisabled"
       labelBgColor="#fff"
     ></app-input-field>
     <div class="error" *ngIf="errors['addressNumber']">
@@ -29,6 +31,7 @@
   <app-input-field
     label="Rua"
     [(ngModel)]="data.addressStreet"
+    [disabled]="fieldsDisabled"
     labelBgColor="#fff"
   ></app-input-field>
   <div class="error" *ngIf="errors['addressStreet']">
@@ -41,6 +44,7 @@
   <app-input-field
     label="Bairro"
     [(ngModel)]="data.addressDistrict"
+    [disabled]="fieldsDisabled"
     labelBgColor="#fff"
   ></app-input-field>
   <div class="error" *ngIf="errors['addressDistrict']">
@@ -54,6 +58,7 @@
     <app-input-field
       label="Cidade"
       [(ngModel)]="data.addressCity"
+      [disabled]="fieldsDisabled"
       labelBgColor="#fff"
     ></app-input-field>
     <div class="error" *ngIf="errors['addressCity']">
@@ -65,6 +70,7 @@
     <app-input-field
       label="Estado"
       [(ngModel)]="data.addressState"
+      [disabled]="fieldsDisabled"
       labelBgColor="#fff"
     ></app-input-field>
     <div class="error" *ngIf="errors['addressState']">

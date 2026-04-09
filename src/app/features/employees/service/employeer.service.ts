@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import {
   CreateEmployeePayload,
   EmployeeListItem,
@@ -8,15 +8,21 @@ import {
   UpdateEmployeePayload,
 } from '../model/dtos/employerPayload';
 import { buildApiUrl } from '../../../core/api/buildApiUrl';
+import { StoreService } from '../../stores/service/store.service';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeService {
   private readonly apiUrl = buildApiUrl();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private storeService: StoreService,
+  ) {}
 
   getUnits(): Observable<Unit[]> {
-    return this.http.get<Unit[]>(`${this.apiUrl}/units`);
+    return this.storeService
+      .getStores()
+      .pipe(map((stores) => stores.map(({ id, name }) => ({ id, name }))));
   }
 
   getEmployees(filters?: { unitId?: number[] | null; role?: string | null }) {

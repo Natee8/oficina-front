@@ -144,7 +144,7 @@ export class CreateStoreComponent {
     this.storeService.createStore(payload).subscribe({
       next: (res) => {
         this.snackBar.open('Loja cadastrada com sucesso!', 'Fechar', {
-          duration: 3000,
+          duration: 5000,
           horizontalPosition: 'right',
           verticalPosition: 'top',
           panelClass: ['snackbar-success'],
@@ -155,7 +155,7 @@ export class CreateStoreComponent {
         console.error('Erro ao cadastrar a loja', err);
 
         this.snackBar.open(this.getErrorMessage(err), 'Fechar', {
-          duration: 3000,
+          duration: 5000,
           horizontalPosition: 'right',
           verticalPosition: 'top',
           panelClass: ['snackbar-error'],

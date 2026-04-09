@@ -24,6 +24,7 @@ import { OsData, createOsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
 import { reviewOsConfig } from '../../../../core/config/reviewsData';
 import { buildUpdateOsPayload } from '../../shared/functionPayloadUpdate';
+import { getOsErrorMessage } from '../../shared/getOsErrorMessage';
 import {
   snackBarErrorConfig,
   snackBarSuccessConfig,
@@ -184,11 +185,7 @@ export class EditOsModalComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error updating OS:', error);
-        this.snackBar.open(
-          error?.error?.message || 'Erro ao atualizar OS',
-          'Fechar',
-          snackBarErrorConfig,
-        );
+        this.snackBar.open(getOsErrorMessage(error), 'Fechar', snackBarErrorConfig);
       },
     });
   }

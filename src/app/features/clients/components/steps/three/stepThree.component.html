@@ -3,6 +3,7 @@
   [options]="lojas"
   [multiple]="true"
   [(ngModel)]="data.loja"
+  [disabled]="fieldsDisabled"
   [errorMessage]="errors['loja']"
   labelBgColor="#fff"
 ></app-select-field>
@@ -16,4 +17,9 @@
   labelBgColor="#fff"
 ></app-select-field>
 
-<app-input-field label="Observações" [(ngModel)]="data.notes" labelBgColor="#fff"></app-input-field>
+<app-input-field
+  label="Observações"
+  [(ngModel)]="data.notes"
+  [disabled]="fieldsDisabled"
+  labelBgColor="#fff"
+></app-input-field>

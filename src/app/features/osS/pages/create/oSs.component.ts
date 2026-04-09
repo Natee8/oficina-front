@@ -17,6 +17,7 @@ import { BackButtonComponent } from '../../../../shared/components/backButton/ba
 import { createOsData, OsData } from '../../model/dtos/os.data';
 import { StepOneOsSchema } from '../../schemas/stepOne.schema';
 import { buildOsPayload } from '../../shared/functionPayload';
+import { getOsErrorMessage } from '../../shared/getOsErrorMessage';
 import {
   snackBarErrorConfig,
   snackBarSuccessConfig,
@@ -159,11 +160,7 @@ export class OSsCreateComponent implements OnInit, DoCheck {
       },
       error: (err) => {
         console.error('Erro ao criar OS:', err);
-        this.snackBar.open(
-          err?.error?.message || 'Erro ao criar OS',
-          'Fechar',
-          snackBarErrorConfig,
-        );
+        this.snackBar.open(getOsErrorMessage(err), 'Fechar', snackBarErrorConfig);
       },
     });
   }

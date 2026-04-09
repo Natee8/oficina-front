@@ -21,6 +21,7 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() type: 'text' | 'password' | 'date' | 'number' = 'text';
   @Input() id = '';
   @Input() label = '';
+  @Input() disabled = false;
   @Input() maxlength?: number;
   @Input() min?: string;
   @Input() max?: string;
@@ -31,7 +32,6 @@ export class InputFieldComponent implements ControlValueAccessor {
   @ViewChild('input', { static: true }) inputRef!: ElementRef<HTMLInputElement>;
 
   value: any = '';
-  disabled = false;
 
   showPassword = false;
   inputFocused = false;

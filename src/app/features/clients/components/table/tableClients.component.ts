@@ -203,7 +203,12 @@ export class TableClients implements OnInit, OnChanges {
 
   getStoreNames(unitIds: number[]): string {
     if (!unitIds?.length) return '-';
-    return unitIds.map((id) => this.storeMap[id] ?? `Loja ${id}`).join(', ');
+
+    const storeNames = unitIds
+      .map((id) => this.storeMap[id])
+      .filter((storeName): storeName is string => Boolean(storeName));
+
+    return storeNames.length ? storeNames.join(', ') : '-';
   }
 
   private applyFiltersAndSearch(): void {

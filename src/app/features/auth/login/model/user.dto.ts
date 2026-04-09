@@ -7,6 +7,7 @@ export interface User {
   role: string;
   isActive: boolean;
   fullAccess: boolean;
+  unitIds?: number[];
   createdAt: string;
 }
 

@@ -1,6 +1,22 @@
 import { TokenService } from './token.service';
 
 export class JwtService {
+  private static getNormalizedClaim(...claimNames: string[]): unknown {
+    const payload = this.getPayload();
+
+    if (!payload) {
+      return null;
+    }
+
+    for (const claimName of claimNames) {
+      if (payload[claimName] !== undefined && payload[claimName] !== null) {
+        return payload[claimName];
+      }
+    }
+
+    return null;
+  }
+
   private static decodeBase64Url(value: string): string {
     const normalized = value.replace(/-/g, '+').replace(/_/g, '/');
     const padding = '='.repeat((4 - (normalized.length % 4)) % 4);
@@ -24,6 +40,50 @@ export class JwtService {
   static getClaim(claimName: string): any | null {
     const payload = this.getPayload();
     return payload?.[claimName] || null;
+  }
+
+  static hasFullAccess(): boolean {
+    const fullAccessClaim = this.getNormalizedClaim('fullAccess', 'FullAccess');
+
+    if (typeof fullAccessClaim === 'boolean') {
+      return fullAccessClaim;
+    }
+
+    if (typeof fullAccessClaim === 'string') {
+      return fullAccessClaim.trim().toLowerCase() === 'true';
+    }
+
+    return false;
+  }
+
+  static getUnitIds(): number[] {
+    const unitIdsClaim = this.getNormalizedClaim(
+      'unitIds',
+      'UnitIds',
+      'units',
+      'Units',
+      'unitId',
+      'UnitId',
+    );
+
+    if (Array.isArray(unitIdsClaim)) {
+      return unitIdsClaim
+        .map((item) => Number(item))
+        .filter((item) => Number.isInteger(item) && item > 0);
+    }
+
+    if (typeof unitIdsClaim === 'string') {
+      return unitIdsClaim
+        .split(',')
+        .map((item) => Number(item.trim()))
+        .filter((item) => Number.isInteger(item) && item > 0);
+    }
+
+    if (typeof unitIdsClaim === 'number' && Number.isInteger(unitIdsClaim) && unitIdsClaim > 0) {
+      return [unitIdsClaim];
+    }
+
+    return [];
   }
 
   static getEmail(): string | null {

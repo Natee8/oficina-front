@@ -14,10 +14,13 @@ import { CepService, ViaCepResponse } from '../../../../../core/services/cep.ser
 export class StepTwoClientComponent {
   @Input() data!: ClientData;
   @Input() errors: Record<string, string> = {};
+  @Input() fieldsDisabled = false;
 
   constructor(private cepService: CepService) {}
 
   searchCep(value: string) {
+    if (this.fieldsDisabled) return;
+
     const cep = value.replace(/\D/g, '');
     if (!cep || cep.length !== 8) return;
 

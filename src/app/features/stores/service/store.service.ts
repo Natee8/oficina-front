@@ -1,18 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StoreDto } from '../model/store.dto';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { TokenService } from '../../../core/services/token.service';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { buildApiUrl } from '../../../core/api/buildApiUrl';
+import { UnitAccessService } from '../../../core/services/unit-access.service';
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {
   private baseUrl = buildApiUrl('units');
-
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+  private unitAccessService = inject(UnitAccessService);
 
   getStores(): Observable<StoreDto[]> {
-    return this.http.get<StoreDto[]>(this.baseUrl);
+    return this.http
+      .get<StoreDto[]>(this.baseUrl)
+      .pipe(map((stores) => this.unitAccessService.filterAllowedUnits(stores)));
   }
 
   createStore(storeData: Partial<StoreDto>): Observable<StoreDto> {

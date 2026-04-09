@@ -1,14 +1,4 @@
 <app-input-field
-  label="Nome"
-  type="text"
-  [(ngModel)]="data.nome"
-  labelBgColor="#fff"
-></app-input-field>
-<div class="error" *ngIf="errors['nome']">
-  {{ errors['nome'] }}
-</div>
-
-<app-input-field
   label="CPF/CNPJ"
   type="text"
   mask="cpfCnpj"
@@ -21,10 +11,22 @@
 </div>
 
 <app-input-field
+  label="Nome"
+  type="text"
+  [(ngModel)]="data.nome"
+  [disabled]="fieldsDisabled"
+  labelBgColor="#fff"
+></app-input-field>
+<div class="error" *ngIf="errors['nome']">
+  {{ errors['nome'] }}
+</div>
+
+<app-input-field
   label="phone"
   mask="phone"
   type="text"
   [(ngModel)]="data.phone"
+  [disabled]="fieldsDisabled"
   labelBgColor="#fff"
 ></app-input-field>
 <div class="error" *ngIf="errors['phone']">
@@ -36,6 +38,7 @@
   type="text"
   mask="email"
   [(ngModel)]="data.email"
+  [disabled]="fieldsDisabled"
   labelBgColor="#fff"
 ></app-input-field>
 <div class="error" *ngIf="errors['email']">

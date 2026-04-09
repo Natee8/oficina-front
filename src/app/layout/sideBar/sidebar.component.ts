@@ -70,7 +70,7 @@ export class SideBarComponent {
     TokenService.removeToken();
 
     this.snackBar.open('Deslogado com sucesso!', 'Fechar', {
-      duration: 3000,
+      duration: 5000,
       horizontalPosition: 'right',
       verticalPosition: 'top',
       panelClass: ['snackbar-success'],
