@@ -193,11 +193,10 @@ export class EditClientModalComponent implements OnInit {
     try {
       this.updateLegalTypeFromDocument();
 
-      const allowedUnitIds = this.unitAccessService.getAccessibleUnitIds();
       const payload = buildClientPayload({
         ...this.clientData,
         loja: [...this.clientData.loja],
-      }, allowedUnitIds);
+      });
 
       this.clientService.updateClient(this.client.id, payload).subscribe({
         next: () => {

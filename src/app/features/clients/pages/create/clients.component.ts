@@ -125,8 +125,7 @@ export class CreateClientComponent implements OnInit {
   submit() {
     try {
       this.updateLegalTypeFromDocument();
-      const allowedUnitIds = this.unitAccessService.getAccessibleUnitIds();
-      const payload = buildClientPayload(this.clientData, allowedUnitIds);
+      const payload = buildClientPayload(this.clientData);
 
       this.clientService.createClient(payload).subscribe({
         next: () => {
