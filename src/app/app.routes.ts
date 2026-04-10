@@ -21,6 +21,7 @@ import { SideBarLayout } from './layout/sideBarLayout/sideBarLayout.component';
 import { NotFoundComponent } from './pages/notfound/notfound.component';
 import { ServerErrorComponent } from './pages/serverError/serverError.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
+import { ForgotPasswordComponent } from './features/auth/forgot-password/pages/forgot-password.component';
 
 export const routes: Routes = [
   // ROTAS COM NAVBAR
@@ -36,7 +37,16 @@ export const routes: Routes = [
       {
         path: 'login',
         component: MainLayoutComponent,
-        children: [{ path: '', component: LoginComponent }],
+        children: [
+          { path: '', component: LoginComponent }
+        ],
+      },
+      {
+        path: 'login/forgot-password',
+        component: MainLayoutComponent,
+        children: [
+          { path: '', component: ForgotPasswordComponent }
+        ],
       },
       {
         path: 'register',

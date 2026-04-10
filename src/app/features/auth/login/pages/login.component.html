@@ -16,7 +16,7 @@
     ></app-input-field>
     <div class="error" *ngIf="errors['email']">{{ errors['email'] }}</div>
 
-    <a class="forgot-password">Esqueci a senha</a>
+    <a class="forgot-password" [routerLink]="['/login/forgot-password']">Esqueci a senha</a>
 
     <app-input-field
       type="password"

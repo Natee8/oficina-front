@@ -1,0 +1,18 @@
+<div class="form-container">
+    <form class="form-content">
+        <app-input-field
+        type="text"
+        id="email"
+        name="email"
+        label="Email"
+        placeholder="Digite seu Email aqui"
+        [maxlength]="50"
+        mask="email"
+        width="100%"
+        [(ngModel)]="email"
+        (ngModelChange)="onEmailChange($event)"
+        required
+        ></app-input-field>
+        <div class="error" *ngIf="stepOneErrors['email']">{{ stepOneErrors['email'] }}</div>
+    </form>
+</div>

@@ -1,0 +1,30 @@
+<div class="form-container">
+    <form class="form-content">
+        <app-input-field
+        type="password"
+        id="senha"
+        name="senha"
+        label="Nova Senha"
+        placeholder="Digite sua nova senha aqui"
+        [maxlength]="50"
+        width="100%"
+        [(ngModel)]="newPassword"
+        (ngModelChange)="onNewPasswordChange($event)"
+        required
+        ></app-input-field>
+        <div class="error" *ngIf="stepThreeErrors['newPassword']">{{ stepThreeErrors['newPassword'] }}</div>
+        <app-input-field
+        type="password"
+        id="confirmar-senha"
+        name="confirmar-senha"
+        label="Confirmar Nova Senha"
+        placeholder="Digite novamente sua nova senha"
+        [maxlength]="50"
+        width="100%"
+        [(ngModel)]="confirmNewPassword"
+        (ngModelChange)="onConfirmNewPasswordChange($event)"
+        required
+        ></app-input-field>
+        <div class="error" *ngIf="stepThreeErrors['confirmNewPassword']">{{ stepThreeErrors['confirmNewPassword'] }}</div>
+    </form>
+</div>
