@@ -80,6 +80,10 @@ export class CreateStoreComponent {
   private getErrorMessage(error: unknown): string {
     const messages = this.extractMessages(error);
 
+    if (messages.some((msg) => msg.includes('Limite de lojas atingido') || msg.includes('Limite do plano atingido'))) {
+      return 'Limite do plano atingido: não é possível criar mais lojas neste plano. Faça um upgrade ou exclua lojas antigas.';
+    }
+
     if (
       messages.some(
         (message) =>

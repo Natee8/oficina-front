@@ -6,7 +6,10 @@ export const stepOneSchema = yup.object({
   plate: yup
     .string()
     .required('Placa é obrigatória')
-    .matches(/^[A-Z]{3}[0-9][A-Z][0-9]{2}$/, 'Placa inválida. Formato correto: ABC1D23'),
+    .matches(
+      /^([A-Z]{3}[0-9][A-Z][0-9]{2}|[A-Z]{3}[0-9]{4})$/,
+      'Placa inválida. Formato correto: ABC1D23 ou ABC1234',
+    ),
 
   year: yup
     .number()

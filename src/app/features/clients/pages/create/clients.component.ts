@@ -154,12 +154,23 @@ export class CreateClientComponent implements OnInit {
         message?: string;
       };
 
+      const planLimitMsg = 'Limite do plano atingido';
+      if (typeof apiError.error === 'string' && apiError.error.includes(planLimitMsg)) {
+        return 'Limite do plano atingido: não é possível criar mais clientes neste plano. Faça um upgrade ou exclua clientes antigos.';
+      }
+      if (apiError.message?.includes(planLimitMsg)) {
+        return 'Limite do plano atingido: não é possível criar mais clientes neste plano. Faça um upgrade ou exclua clientes antigos.';
+      }
+
       if (typeof apiError.error === 'string' && apiError.error.trim()) {
         return apiError.error.trim();
       }
 
       if (apiError.error && typeof apiError.error === 'object') {
         if (apiError.error.message?.trim()) {
+          if (apiError.error.message.includes(planLimitMsg)) {
+            return 'Limite do plano atingido: não é possível criar mais clientes neste plano. Faça um upgrade ou exclua clientes antigos.';
+          }
           return apiError.error.message.trim();
         }
 

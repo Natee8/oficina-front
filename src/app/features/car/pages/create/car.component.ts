@@ -116,13 +116,23 @@ export class CreateCarComponent implements OnInit {
           this.router.navigate(['/car-list']);
         },
         error: (err) => {
-          this.error = err?.error?.message || 'Erro ao cadastrar veículo';
+          const limitMsg = 'Limite de veículos atingido';
+          const planMsg = 'Limite do plano atingido';
+          const checkLimit = (msg: string) =>
+            typeof msg === 'string' && (msg.includes(limitMsg) || msg.includes(planMsg));
+
+          let msg = err?.error?.message || err?.message || '';
+          if (checkLimit(msg)) {
+            this.error = 'Limite do plano atingido: não é possível criar mais veículos neste plano. Faça um upgrade ou exclua veículos antigos.';
+          } else {
+            this.error = msg || 'Erro ao cadastrar veículo';
+          }
           this.snackBar.open(this.error, 'Fechar', snackBarErrorConfig);
         },
       });
     } catch (err) {
       if (err instanceof Error) {
-        this.error = err.message; // ex: 'Cliente não pode ser nulo'
+        this.error = err.message; 
         this.snackBar.open(this.error, 'Fechar', snackBarErrorConfig);
       }
     }

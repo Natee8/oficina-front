@@ -110,7 +110,16 @@ export class CreateEmployeeComponent {
   }
 
   private getErrorMessage(error: unknown): string {
+    const limitMsg = 'Limite de funcionários atingido';
+    const planMsg = 'Limite do plano atingido';
+
+    const checkLimit = (msg: string) =>
+      msg.includes(limitMsg) || msg.includes(planMsg);
+
     if (typeof error === 'string' && error.trim()) {
+      if (checkLimit(error)) {
+        return 'Limite do plano atingido: não é possível criar mais funcionários neste plano. Faça um upgrade ou exclua funcionários antigos.';
+      }
       return this.sanitizeErrorMessage(error);
     }
 
@@ -121,14 +130,23 @@ export class CreateEmployeeComponent {
       };
 
       if (typeof apiError.error === 'string' && apiError.error.trim()) {
+        if (checkLimit(apiError.error)) {
+          return 'Limite do plano atingido: não é possível criar mais funcionários neste plano. Faça um upgrade ou exclua funcionários antigos.';
+        }
         return this.sanitizeErrorMessage(apiError.error);
       }
 
       if (apiError.error && typeof apiError.error === 'object' && apiError.error.message?.trim()) {
+        if (checkLimit(apiError.error.message)) {
+          return 'Limite do plano atingido: não é possível criar mais funcionários neste plano. Faça um upgrade ou exclua funcionários antigos.';
+        }
         return this.sanitizeErrorMessage(apiError.error.message);
       }
 
       if (apiError.message?.trim()) {
+        if (checkLimit(apiError.message)) {
+          return 'Limite do plano atingido: não é possível criar mais funcionários neste plano. Faça um upgrade ou exclua funcionários antigos.';
+        }
         return this.sanitizeErrorMessage(apiError.message);
       }
     }
