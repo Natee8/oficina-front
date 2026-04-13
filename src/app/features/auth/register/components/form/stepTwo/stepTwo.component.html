@@ -8,6 +8,7 @@
           type="text"
           label="CEP"
           [(ngModel)]="formService.stepTwoData.cep"
+          (ngModelChange)="onCepChange($event)"
         ></app-input-field>
         <div class="error" *ngIf="stepTwoErrors['cep']">
           {{ stepTwoErrors['cep'] }}
