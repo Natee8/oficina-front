@@ -1,33 +1,71 @@
-<div class="containerHeader">
-  <h1>Bem vindo! {{ displayTenantName }}</h1>
-  <p>Seja bem-vindo ao módulo de administrador do MotorCore </p>
+<div class="containerHeader-row">
+  <div class="containerHeader-left">
+    <h1>Bem vindo! {{ displayTenantName }}</h1>
+    <p>Seja bem-vindo ao módulo de administrador do MotorCore </p>
 
-  <form class="tenant-form" (submit)="onSubmit($event)">
-    <app-input-field
-      type="text"
-      id="editTenantName"
-      label="Nome da Empresa"
-      placeholder="Digite o nome da empresa"
-      [maxlength]="255"
-      width="100%"
-      [(ngModel)]="editTenantName"
-      name="editTenantName"
-      required
-    ></app-input-field>
+    <form class="tenant-form" (submit)="onSubmit($event)">
+      <app-input-field
+        type="text"
+        id="editTenantName"
+        label="Nome da Empresa"
+        placeholder="Digite o nome da empresa"
+        [maxlength]="255"
+        width="100%"
+        [(ngModel)]="editTenantName"
+        name="editTenantName"
+        required
+      ></app-input-field>
 
-    <app-input-field
-      type="text"
-      id="editCnpj"
-      label="CNPJ"
-      placeholder="Digite o CNPJ da empresa"
-      [maxlength]="18"
-      width="100%"
-      [(ngModel)]="editCnpj"
-      name="editCnpj"
-      mask="cnpj"
-      required
-    ></app-input-field>
+      <app-input-field
+        type="text"
+        id="editCnpj"
+        label="CNPJ"
+        placeholder="Digite o CNPJ da empresa"
+        [maxlength]="18"
+        width="100%"
+        [(ngModel)]="editCnpj"
+        name="editCnpj"
+        mask="cnpj"
+        required
+      ></app-input-field>
 
-    <button type="submit" class="btn-primary upscale">Editar empresa</button>
-  </form>
-</div>
+      <button type="submit" class="btn-primary upscale">Editar empresa</button>
+    </form>
+  </div>
+  <div class="containerHeader-right">
+    <div class="plan-card-premium">
+      <div class="plan-card-header">
+        <div class="plan-icon-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+        </div>
+        <div class="plan-status">
+          <span class="status-badge active">Ativo</span>
+        </div>
+      </div>
+      <div class="plan-card-body">
+        <p class="plan-subtitle">Seu plano atual</p>
+        <h2 class="plan-title">{{ currentPlanName }}</h2>
+        <div class="plan-features">
+          <div class="feature-item" *ngFor="let benefit of currentPlanBenefits">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <span>{{ benefit }}</span>
+          </div>
+        </div>
+        <div class="plan-info-divider"></div>
+        <div class="plan-renewal-info">
+          <span class="renewal-label">Próxima renovação:</span>
+          <span class="renewal-date">{{ planRenewalDate }}</span>
+        </div>
+      </div>
+      <div class="plan-card-footer">
+        <button class="btn-upgrade">
+          Fazer Upgrade
+        </button>
+        <a href="javascript:void(0)" class="view-all-plans">
+          Ver todos os planos
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+

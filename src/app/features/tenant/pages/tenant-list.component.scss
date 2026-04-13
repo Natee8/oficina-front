@@ -1,9 +1,49 @@
-.containerHeader {
+@media (max-width: 1200px) {
+  .containerHeader-row {
+    flex-direction: column;
+    gap: 2.5rem;
+    align-items: stretch;
+  }
+  .containerHeader-left, .containerHeader-right {
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+  .containerHeader-right {
+    align-items: stretch;
+    margin-top: 0;
+  }
+}
+.containerHeader-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.containerHeader-left {
+  flex: 1 1 0;
+  min-width: 320px;
+}
+
+.containerHeader-left h1 {
+  margin-bottom: 0.6rem;
+  color: var(--color-title, #222);
+}
+
+.containerHeader-left p {
+  color: var(--color-default);
+  font-weight: 600;
+  margin-bottom: 3rem;
+}
+
+.containerHeader-right {
   display: flex;
   flex-direction: column;
-  width: 60%;
-  margin-bottom: 2rem;
-  gap: 10px;
+  align-items: flex-end;
+  min-width: 380px;
 }
 
 .containerHeader p {
@@ -34,5 +74,195 @@
   font-size: medium;
   background-color: var(--color-secondary);
 }
+
+.plan-card-premium {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 380px;
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  margin-top: 0;
+}
+
+.plan-card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-secondary, #ff5722), #ff8a65);
+}
+
+.plan-card-premium:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.plan-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 1.5rem 0.5rem;
+}
+
+.plan-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: rgba(255, 87, 34, 0.1);
+  color: var(--color-secondary, #ff5722);
+  border-radius: 12px;
+}
+
+.plan-status {
+  display: flex;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.active {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: #2e7d32;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.plan-card-body {
+  padding: 0 1.5rem;
+}
+
+.plan-subtitle {
+  font-size: 0.875rem;
+  color: #757575;
+  margin: 1rem 0 0.25rem 0;
+  font-weight: 500;
+}
+
+.plan-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 1.25rem 0;
+  letter-spacing: -0.5px;
+}
+
+.plan-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #424242;
+  font-size: 0.95rem;
+}
+
+.feature-item svg {
+  color: var(--color-secondary, #ff5722);
+  flex-shrink: 0;
+}
+
+.plan-info-divider {
+  height: 1px;
+  background-color: #eeeeee;
+  margin: 1.25rem 0;
+}
+
+.plan-renewal-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.renewal-label {
+  color: #757575;
+}
+
+.renewal-date {
+  font-weight: 600;
+  color: #333;
+}
+
+.plan-card-footer {
+  padding: 1.5rem;
+  background-color: #fcfcfc;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.btn-upgrade {
+  width: 100%;
+  padding: 0.875rem;
+  border-radius: 8px;
+  background-color: var(--color-secondary, #ff5722);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(255, 87, 34, 0.2);
+}
+
+.btn-upgrade:hover {
+  background-color: #e64a19;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(255, 87, 34, 0.3);
+}
+
+.btn-upgrade:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(255, 87, 34, 0.2);
+}
+
+.view-all-plans {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.view-all-plans svg {
+  transition: transform 0.2s ease;
+}
+
+.view-all-plans:hover {
+  color: var(--color-secondary, #ff5722);
+}
+
+.view-all-plans:hover svg {
+  transform: translateX(4px);
+}
+
+
 
 

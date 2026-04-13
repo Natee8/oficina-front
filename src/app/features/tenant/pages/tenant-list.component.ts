@@ -3,6 +3,7 @@ import { formatCnpj } from '../../../shared/utils/masks/formatCnpj';
 import { onlyNumbers } from '../../../shared/functions/functionRemoveMask';
 import { InputFieldComponent } from './../../../shared/components/inputs/field/inputField.component';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { TenantService } from '../services/tenant.service';
 import { TenantDto } from '../model/tenant.dto';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,19 +12,21 @@ import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../core/config
 @Component({
   selector: 'app-tenant-list',
   standalone: true,
-  imports: [InputFieldComponent, FormsModule],
+  imports: [InputFieldComponent, FormsModule, CommonModule],
   templateUrl: './tenant-list.component.html',
   styleUrls: ['./tenant-list.component.scss'],
   providers: [TenantService],
 })
 export class TenantListComponent implements OnInit {
-  displayTenantName: string = '';
 
+  displayTenantName: string = '';
   editTenantName: string = '';
   editCnpj: string = '';
-
+  currentPlanName: string = '';
+  currentPlanBenefits: string[] = [];
   loading = false;
   error = '';
+  planRenewalDate: string = '';
 
   constructor(
     private tenantService: TenantService,
@@ -33,12 +36,49 @@ export class TenantListComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.tenantService.getTenant().subscribe({
-      next: (tenant: TenantDto) => {
-        this.displayTenantName = tenant.name;
-        this.editTenantName = tenant.name;
-        this.editCnpj = formatCnpj(tenant.cnpj);
-        this.loading = false;
-      },
+        next: (tenant: any) => {
+          this.displayTenantName = tenant.name;
+          this.editTenantName = tenant.name;
+          this.editCnpj = formatCnpj(tenant.cnpj);
+          const planKey = typeof tenant.plan === 'string' ? tenant.plan : tenant.plan?.name || '';
+          switch (planKey?.toLowerCase()) {
+            case 'basico':
+              this.currentPlanName = 'Básico';
+              this.currentPlanBenefits = [
+                '1 loja',
+                'até 3 funcionários',
+                'até 500 clientes',
+                'até 700 veículos',
+                'até 100 orçamentos/mês',
+              ];
+              break;
+            case 'profissional':
+              this.currentPlanName = 'Profissional';
+              this.currentPlanBenefits = [
+                'até 2 lojas',
+                'até 10 funcionários',
+                'até 3.000 clientes',
+                'até 4.000 veículos',
+                'até 400 orçamentos/mês',
+              ];
+              break;
+            case 'premium':
+              this.currentPlanName = 'Premium';
+              this.currentPlanBenefits = [
+                'até 5 lojas',
+                'até 30 funcionários',
+                'até 10.000 clientes',
+                'até 15.000 veículos',
+                'até 1.500 orçamentos/mês',
+              ];
+              break;
+            default:
+              this.currentPlanName = planKey;
+              this.currentPlanBenefits = [];
+          }
+          this.planRenewalDate = this.formatRenewalDate(tenant.planRenewalDate);
+          this.loading = false;
+        },
       error: (err) => {
         this.error = this.getErrorMessage(err, 'Erro ao carregar dados da empresa.');
         this.snackBar.open(this.error, 'Fechar', snackBarErrorConfig);
@@ -47,6 +87,12 @@ export class TenantListComponent implements OnInit {
     });
   }
 
+    private formatRenewalDate(dateStr: string): string {
+      if (!dateStr || dateStr.startsWith('0001-01-01')) return '-';
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) return '-';
+      return date.toLocaleDateString('pt-BR');
+    }
   onSubmit(event: Event) {
     event.preventDefault();
     this.loading = true;

@@ -65,7 +65,11 @@ export class LoginComponent {
         });
         this.errors = fieldErrors;
       } else {
-        this.snackBar.open(err?.error?.message || err?.message || 'Erro ao fazer login', 'Fechar', {
+        let errorMessage = err?.error?.message || err?.message || 'Erro ao fazer login';
+        if (err?.status === 401) {
+          errorMessage = 'Senha inválida';
+        }
+        this.snackBar.open(errorMessage, 'Fechar', {
           duration: 5000,
           horizontalPosition: 'right',
           verticalPosition: 'top',

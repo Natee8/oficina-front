@@ -9,6 +9,7 @@ import { ToggleActionsComponent } from '../../../../shared/components/buttonNext
 import { BackButtonCircleComponent } from '../../../../shared/components/buttonBack/buttonBack.component';
 import { OnboardingService } from '../services/register.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { stepOneSchema } from '../schemas/stepOne.schema';
 import { stepTwoSchema } from '../schemas/stepTwo.schema';
 import { stepThreeSchema } from '../schemas/stepThree.schema';
@@ -38,6 +39,7 @@ export class RegisterComponent {
     public formService: RegisterFormService,
     private onboardingService: OnboardingService,
     private snackBar: MatSnackBar,
+    private router: Router,
   ) {}
 
   nextStep() {
@@ -56,6 +58,9 @@ export class RegisterComponent {
     this.onboardingService.register().subscribe({
       next: (res: any) => {
         this.showSnackbar(res?.message || 'Cadastro realizado com sucesso!', 'success');
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1000);
       },
       error: (err) => {
         const message = err?.error?.message || err?.error?.title || 'Erro ao realizar cadastro!';
