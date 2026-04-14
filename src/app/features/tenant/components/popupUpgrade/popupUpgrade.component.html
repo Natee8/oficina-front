@@ -1,0 +1,50 @@
+<app-modal (close)="close()" [minWidth]="'800px'" [minHeight]="'480px'">
+  <div class="plans-modal-wrapper">
+    <div class="plans-modal-header" style="display: flex; justify-content: space-between; align-items: center">
+      <div>
+        <h2>Escolha seu plano</h2>
+        <p>Selecione o plano ideal para o seu negócio</p>
+      </div>
+      <span class="close" (click)="close()" style="cursor: pointer; font-size: 24px; color: #999; margin-left: 16px; transition: 0.2s">×</span>
+    </div>
+    <div class="plans-modal-body">
+      <div class="plan-card" [ngClass]="{ 'active': currentPlan === 'Básico' }">
+        <div class="plan-icon basic"><i class="fa-solid fa-bolt"></i></div>
+        <h3>Básico</h3>
+        <ul>
+          <li>1 loja</li>
+          <li>até 3 funcionários</li>
+          <li>até 500 clientes</li>
+          <li>até 700 veículos</li>
+          <li>até 100 orçamentos/mês</li>
+        </ul>
+        <button class="plan-btn" [disabled]="currentPlan === 'Básico'">Plano atual</button>
+      </div>
+      <div class="plan-card recomendado" [ngClass]="{ 'active': currentPlan === 'Profissional' }">
+        <div class="plan-icon profissional"><i class="fa-solid fa-shield"></i></div>
+        <div class="plan-recommended">Recomendado</div>
+        <h3>Profissional</h3>
+        <ul>
+          <li>até 2 lojas</li>
+          <li>até 10 funcionários</li>
+          <li>até 3.000 clientes</li>
+          <li>até 4.000 veículos</li>
+          <li>até 400 orçamentos/mês</li>
+        </ul>
+        <button class="plan-btn upgrade">Fazer Upgrade</button>
+      </div>
+      <div class="plan-card" [ngClass]="{ 'active': currentPlan === 'Premium' }">
+        <div class="plan-icon premium"><i class="fa-solid fa-crown"></i></div>
+        <h3>Premium</h3>
+        <ul>
+          <li>até 5 lojas</li>
+          <li>até 30 funcionários</li>
+          <li>até 10.000 clientes</li>
+          <li>até 15.000 veículos</li>
+          <li>até 1.500 orçamentos/mês</li>
+        </ul>
+        <button class="plan-btn upgrade">Fazer Upgrade</button>
+      </div>
+    </div>
+  </div>
+</app-modal>

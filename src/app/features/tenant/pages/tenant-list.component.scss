@@ -98,7 +98,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--color-secondary, #ff5722), #ff8a65);
+  background: linear-gradient(90deg, var(--color-secondary));
 }
 
 .plan-card-premium:hover {
@@ -119,9 +119,18 @@
   justify-content: center;
   width: 48px;
   height: 48px;
-  background-color: rgba(255, 87, 34, 0.1);
-  color: var(--color-secondary, #ff5722);
+  background: #fff4e5;
+  color: var(--color-secondary);
   border-radius: 12px;
+}
+.plan-icon-wrapper .basic {
+  color: var(--color-secondary);
+}
+.plan-icon-wrapper .profissional {
+  color: var(--color-secondary);
+}
+.plan-icon-wrapper .premium {
+  color: var(--color-secondary);
 }
 
 .plan-status {
@@ -178,7 +187,7 @@
 }
 
 .feature-item svg {
-  color: var(--color-secondary, #ff5722);
+  color: var(--color-secondary);
   flex-shrink: 0;
 }
 
@@ -218,7 +227,7 @@
   width: 100%;
   padding: 0.875rem;
   border-radius: 8px;
-  background-color: var(--color-secondary, #ff5722);
+  background-color: var(--color-secondary);
   color: white;
   font-weight: 600;
   font-size: 1rem;
@@ -256,7 +265,7 @@
 }
 
 .view-all-plans:hover {
-  color: var(--color-secondary, #ff5722);
+  color: var(--color-secondary);
 }
 
 .view-all-plans:hover svg {

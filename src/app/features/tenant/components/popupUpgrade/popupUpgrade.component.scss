@@ -1,0 +1,125 @@
+.plan-card ul li {
+  margin-bottom: 10px;
+}
+.plans-modal-wrapper {
+  padding: 32px 24px;
+  background: #fff;
+  border-radius: 16px;
+  min-width: 800px;
+  min-height: 480px;
+}
+.plans-modal-header {
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.plans-modal-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--color-primary);
+}
+
+.plans-modal-header p {
+  color: var(--color-default);
+  font-size: 14px;
+  margin-top: 4px;
+  margin-bottom: 2rem;
+}
+
+.plans-modal-body {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+.plan-card {
+  background: #f8f9fb;
+  border-radius: 12px;
+  padding: 28px 20px 20px 20px;
+  min-width: 240px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.plan-card.recomendado {
+  border-color: var(--color-secondary);
+}
+.plan-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 2rem;
+}
+.plan-icon.basic {
+  background: #f3f4f6;
+  color: var(--color-secondary);
+}
+.plan-icon.profissional {
+  background: #fff4e5;
+  color: var(--color-secondary);
+}
+.plan-icon.premium {
+  background: #fff4e5;
+  color: var(--color-secondary);
+}
+.plan-recommended {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-secondary);
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 2px 16px;
+  border-radius: 12px 12px 0 0;
+  font-weight: 600;
+}
+.plan-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 8px 0 1rem 0;
+}
+.plan-desc {
+  color: #7d8597;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.plan-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px 0;
+  color: #7d8597;
+  font-size: 0.98rem;
+}
+.plan-card ul li {
+  margin-bottom: 4px;
+}
+.plan-btn {
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  background: #e4e7ec;
+  color: #7d8597;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.plan-btn.upgrade {
+  background: var(--color-secondary);
+  color: #fff;
+}
+.plan-btn[disabled] {
+  background: #e4e7ec;
+  color: #b0b8c1;
+  cursor: not-allowed;
+}

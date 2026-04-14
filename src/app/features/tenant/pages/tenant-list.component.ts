@@ -8,11 +8,12 @@ import { TenantService } from '../services/tenant.service';
 import { TenantDto } from '../model/tenant.dto';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { snackBarErrorConfig, snackBarSuccessConfig } from '../../../core/config/snackbar.config';
+import { PopupUpgradeComponent } from '../components/popupUpgrade/popupUpgradecomponent';
 
 @Component({
   selector: 'app-tenant-list',
   standalone: true,
-  imports: [InputFieldComponent, FormsModule, CommonModule],
+  imports: [InputFieldComponent, FormsModule, CommonModule, PopupUpgradeComponent],
   templateUrl: './tenant-list.component.html',
   styleUrls: ['./tenant-list.component.scss'],
   providers: [TenantService],
@@ -27,6 +28,7 @@ export class TenantListComponent implements OnInit {
   loading = false;
   error = '';
   planRenewalDate: string = '';
+  showUpgradeModal = false;
 
   constructor(
     private tenantService: TenantService,
@@ -150,5 +152,13 @@ export class TenantListComponent implements OnInit {
     }
 
     return fallbackMessage;
+  }
+
+  openUpgradeModal() {
+    this.showUpgradeModal = true;
+  }
+
+  closeUpgradeModal() {
+    this.showUpgradeModal = false;
   }
 }
