@@ -1,6 +1,6 @@
-# MOTORCORE CRM - Frontend
+# MOTORCORE ERP - Frontend
 
-Este projeto é uma ferramenta CRM desenvolvida para oficinas mecânicas e funilarias, com o objetivo de organizar processos internos de forma eficiente e automática.
+Este projeto é uma ferramenta ERP desenvolvida para oficinas mecânicas e funilarias, com o objetivo de organizar processos internos de forma eficiente e automática.
 
 ![Tela do sistema](public/assets/images/telareadme.png)
 
