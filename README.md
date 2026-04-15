@@ -1,4 +1,4 @@
-# Oficina CRM
+# MOTORCORE CRM
 
 Este projeto é uma ferramenta CRM desenvolvida para oficinas mecânicas e funilarias, com o objetivo de organizar processos internos de forma eficiente e automática.
 
